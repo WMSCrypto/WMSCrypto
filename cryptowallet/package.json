@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bip39": "^2.5.0",
+    "bootstrap": "^4.0.0",
     "keymirror": "^0.1.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
