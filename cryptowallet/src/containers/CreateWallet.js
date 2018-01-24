@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import PasswordInput from '../components/PasswordInput';
+import { PasswordInput, NextButton, MnemonicsView } from '../components';
 import zxcvbn from 'zxcvbn';
+import bip39 from 'bip39';
+
+const MNEMONICS_BITS = 256;
 
 const validatePassword = (password) => {
     const { warning, suggestions } = zxcvbn(password).feedback;
@@ -15,8 +18,14 @@ class CreateWallet extends Component {
         this.state = {
             password: '',
             passwordRepeat: '',
-            mnemonics: []
+            mnemonics: null
         };
+    }
+
+    generateMnemonics() {
+        this.setState({
+            mnemonics: bip39.generateMnemonic(MNEMONICS_BITS)
+        })
     }
 
     render() {
@@ -41,6 +50,11 @@ class CreateWallet extends Component {
                                invalid={notMatch}
                                valid={passwordStepApprove}
                                id="repeatPasswordInput"/>
+                <NextButton title="Generate mnemonics"
+                            disabled={!passwordStepApprove}
+                            onClick={() => this.generateMnemonics()}/>
+                <MnemonicsView mnemonics={passwordStepApprove && mnemonics}
+                               bits={MNEMONICS_BITS}/>
             </div>
         )
 
