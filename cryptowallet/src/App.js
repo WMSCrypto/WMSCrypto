@@ -7,9 +7,7 @@ class App extends Component {
     render() {
         return (
             <div className="App container">
-                <nav className="navbar navbar-light bg-light">
-                    <span className="navbar-brand mb-0 h1">CryptoWallet</span>
-                </nav>
+                <h1>CryptoWallet</h1>
                 <CreateWallet/>
             </div>
         );
