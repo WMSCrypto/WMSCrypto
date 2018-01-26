@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import bitcoin from 'bitcoinjs-lib';
+import { HDNode } from 'bitcoinjs-lib';
 import zxcvbn from 'zxcvbn';
 import bip39 from 'bip39';
 import { PasswordInput, NextButton, MnemonicsView, AddressCard } from '../components';
@@ -21,24 +21,23 @@ class CreateWallet extends Component {
             password: '',
             passwordRepeat: '',
             mnemonics: null,
-            xpub: null,
             addresses: null
         };
     }
 
     generateAddresses() {
         const seed = bip39.mnemonicToSeed(this.state.mnemonics);
-        const node = bitcoin.HDNode.fromSeedBuffer(seed);
-        const xpub = node.neutered().toBase58();
+        const node = HDNode.fromSeedBuffer(seed);
         const addresses = Object.keys(coins).map(
-            (e) => (
-                {
-                    node: node.derivePath(`m/44'/${coins[e]}'/0'/0/0`),
+            (e) => {
+                const accountNode = node.derivePath(`m/44'/${coins[e]}'/0'/0/0`);
+                return {
+                    node: accountNode,
                     path: `m/44'/${coins[e]}'/0'/0/0`,
                     coin: e
                 }
-            ));
-        this.setState({ xpub, addresses })
+            });
+        this.setState({ addresses })
 
     }
 
@@ -49,7 +48,7 @@ class CreateWallet extends Component {
     }
 
     render() {
-        const { password, passwordRepeat, mnemonics, addresses, xpub } = this.state;
+        const { password, passwordRepeat, mnemonics, addresses } = this.state;
         const validateMessages = password && validatePassword(password);
         const notMatch = passwordRepeat && password !== passwordRepeat;
         const passwordStepApprove = password && passwordRepeat && password === passwordRepeat;
@@ -79,7 +78,6 @@ class CreateWallet extends Component {
                             disabled={!mnemonics}
                             onClick={() => this.generateAddresses()}/>
                 <div style={{margin: '16px 0'}}>
-                    <p>{ xpub && `xpub: ${xpub}` }</p>
                     { addresses && addresses.map(e => <AddressCard key={`address-${e.coin}`} {...e}/>)}
                 </div>
             </div>
