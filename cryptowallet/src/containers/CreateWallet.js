@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { PasswordInput, NextButton, MnemonicsView } from '../components';
+import bitcoin from 'bitcoinjs-lib';
 import zxcvbn from 'zxcvbn';
 import bip39 from 'bip39';
+import { PasswordInput, NextButton, MnemonicsView, AddressCard } from '../components';
+import { coins } from '../assets';
 
 const MNEMONICS_BITS = 256;
 
@@ -18,8 +20,26 @@ class CreateWallet extends Component {
         this.state = {
             password: '',
             passwordRepeat: '',
-            mnemonics: null
+            mnemonics: null,
+            xpub: null,
+            addresses: null
         };
+    }
+
+    generateAddresses() {
+        const seed = bip39.mnemonicToSeed(this.state.mnemonics);
+        const node = bitcoin.HDNode.fromSeedBuffer(seed);
+        const xpub = node.neutered().toBase58();
+        const addresses = Object.keys(coins).map(
+            (e) => (
+                {
+                    node: node.derivePath(`m/44'/${coins[e]}'/0'/0/0`),
+                    path: `m/44'/${coins[e]}'/0'/0/0`,
+                    coin: e
+                }
+            ));
+        this.setState({ xpub, addresses })
+
     }
 
     generateMnemonics() {
@@ -29,7 +49,7 @@ class CreateWallet extends Component {
     }
 
     render() {
-        const { password, passwordRepeat, mnemonics } = this.state;
+        const { password, passwordRepeat, mnemonics, addresses, xpub } = this.state;
         const validateMessages = password && validatePassword(password);
         const notMatch = passwordRepeat && password !== passwordRepeat;
         const passwordStepApprove = password && passwordRepeat && password === passwordRepeat;
@@ -55,6 +75,13 @@ class CreateWallet extends Component {
                             onClick={() => this.generateMnemonics()}/>
                 <MnemonicsView mnemonics={passwordStepApprove && mnemonics}
                                bits={MNEMONICS_BITS}/>
+                <NextButton title="Generate wallets"
+                            disabled={!mnemonics}
+                            onClick={() => this.generateAddresses()}/>
+                <div style={{margin: '16px 0'}}>
+                    <p>{ xpub && `xpub: ${xpub}` }</p>
+                    { addresses && addresses.map(e => <AddressCard key={`address-${e.coin}`} {...e}/>)}
+                </div>
             </div>
         )
 
