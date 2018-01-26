@@ -1,3 +1,13 @@
 .App nav {
+    background: #ffffff;
     margin: 0 0 20px 0;
+}
+
+.App h1 {
+    margin: 16px 0;
+    text-align: center;
+}
+
+.hashString {
+    word-break: break-all;
 }

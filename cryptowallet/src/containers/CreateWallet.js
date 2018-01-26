@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { HDNode } from 'bitcoinjs-lib';
 import zxcvbn from 'zxcvbn';
 import bip39 from 'bip39';
+import aes from 'crypto-js/aes';
 import { PasswordInput, NextButton, MnemonicsView, AddressCard } from '../components';
 import { coins } from '../assets';
 
@@ -12,6 +13,10 @@ const validatePassword = (password) => {
     return [warning, ...suggestions];
 };
 
+const getAnchor = () => {
+    const { hash } = window.location;
+    return hash && hash.slice(1);
+};
 
 class CreateWallet extends Component {
 
@@ -21,7 +26,14 @@ class CreateWallet extends Component {
             password: '',
             passwordRepeat: '',
             mnemonics: null,
-            addresses: null
+            encryptedMnemonics: null,
+            addresses: null,
+            steps: {
+                createPassword: false,
+                generateMnemonics: false,
+                generateWallets: false,
+                encryptMnemonics: false,
+            }
         };
     }
 
@@ -30,10 +42,9 @@ class CreateWallet extends Component {
         const node = HDNode.fromSeedBuffer(seed);
         const addresses = Object.keys(coins).map(
             (e) => {
-                const accountNode = node.derivePath(`m/44'/${coins[e]}'/0'/0/0`);
+                const accountNode = node.derivePath(`m/44'/${coins[e]}'/0'`);
                 return {
                     node: accountNode,
-                    path: `m/44'/${coins[e]}'/0'/0/0`,
                     coin: e
                 }
             });
@@ -47,8 +58,14 @@ class CreateWallet extends Component {
         })
     }
 
+    encryptMnemonics() {
+        const { password, mnemonics } = this.state;
+        const encryptedMnemonics = aes.encrypt(mnemonics, `${password}${getAnchor()}`);
+        this.setState({ encryptedMnemonics })
+    }
+
     render() {
-        const { password, passwordRepeat, mnemonics, addresses } = this.state;
+        const { password, passwordRepeat, encryptedMnemonics, mnemonics, addresses } = this.state;
         const validateMessages = password && validatePassword(password);
         const notMatch = passwordRepeat && password !== passwordRepeat;
         const passwordStepApprove = password && passwordRepeat && password === passwordRepeat;
@@ -74,6 +91,17 @@ class CreateWallet extends Component {
                             onClick={() => this.generateMnemonics()}/>
                 <MnemonicsView mnemonics={passwordStepApprove && mnemonics}
                                bits={MNEMONICS_BITS}/>
+                <NextButton title="Encrypt mnemonics"
+                            disabled={!(passwordStepApprove && mnemonics)}
+                            onClick={() => this.encryptMnemonics()}/>
+                <div>
+                    {encryptedMnemonics ? <br/> : null}
+                    <small className="text-muted">
+                        {`Using anchor: ${getAnchor()}`}
+                    </small>
+                    <p className="hashString">{encryptedMnemonics && encryptedMnemonics.toString()}</p>
+                </div>
+                <br/>
                 <NextButton title="Generate wallets"
                             disabled={!mnemonics}
                             onClick={() => this.generateAddresses()}/>

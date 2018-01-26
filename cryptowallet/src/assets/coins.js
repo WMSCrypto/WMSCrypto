@@ -9,5 +9,6 @@ export default {
     'ZCash': 113,
     'Expanse': 40,
     'NEM': 43,
-    'Monero': 128
+    'Monero': 128,
+    'Ripple': 144
 }

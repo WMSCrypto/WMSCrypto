@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 class App extends Component {
     render() {
         return (
-            <div className="App container">
+            <div className="container App" style={{maxWidth: 800}}>
                 <h1>CryptoWallet</h1>
                 <CreateWallet/>
             </div>
