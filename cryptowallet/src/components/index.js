@@ -2,7 +2,7 @@ import NextButton from './NextButton';
 import PasswordInput from './PasswordInput';
 import MnemonicsView from './MnemonicsView';
 import CoinsList from './CoinsList';
-import AddressCard from './AddressCard';
+import Account from './Account';
 import Card from './Card';
 
 export {
@@ -10,6 +10,6 @@ export {
     PasswordInput,
     MnemonicsView,
     CoinsList,
-    AddressCard,
+    Account,
     Card
 }

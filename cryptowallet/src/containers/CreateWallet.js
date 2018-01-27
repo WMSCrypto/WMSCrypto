@@ -3,7 +3,7 @@ import { HDNode } from 'bitcoinjs-lib';
 import zxcvbn from 'zxcvbn';
 import bip39 from 'bip39';
 import aes from 'crypto-js/aes';
-import { PasswordInput, NextButton, MnemonicsView, AddressCard, Card } from '../components';
+import { PasswordInput, NextButton, MnemonicsView, Account, Card } from '../components';
 import { coins } from '../assets';
 
 const MNEMONICS_BITS = 256;
@@ -17,6 +17,15 @@ const validatePassword = (password) => {
 const getAnchor = () => {
     const { hash } = window.location;
     return hash && hash.slice(1);
+};
+
+const setProgess = (l1, l2, message, visible=false) => {
+    const percents = ((l1 / (l2 - 1)) * 100).toFixed(2);
+    const progress = document.getElementById('generateProgress');
+    progress.style.setProperty('width', `${percents}%`);
+    progress.parentElement.style.setProperty('visibility', visible ? 'visible' : 'hidden');
+    const generatedCoin = document.getElementById('generatedCoin');
+    generatedCoin.innerText = message;
 };
 
 class CreateWallet extends Component {
@@ -38,19 +47,22 @@ class CreateWallet extends Component {
         };
     }
 
-    generateAddresses() {
+    generateAddresses(index, addresses) {
         const seed = bip39.mnemonicToSeed(this.state.mnemonics);
         const node = HDNode.fromSeedBuffer(seed);
-        const addresses = Object.keys(coins).map(
-            (e) => {
-                const accountNode = node.derivePath(`m/44'/${coins[e]}'/0'`);
-                return {
-                    node: accountNode,
-                    coin: e
-                }
+        const e = coins[index];
+        if (index < coins.length) {
+            setProgess(addresses.length, coins.length, `Generated wallet for ${e.name}`, true);
+            const accountNode = node.derivePath(`m/44'/${e.id}'/0'`);
+            addresses.push({
+                node: accountNode,
+                coin: e
             });
-        this.setState({ addresses })
-
+            setTimeout(() => this.generateAddresses(index + 1, addresses), 100)
+        } else {
+            setProgess(0, coins.length, 'All wallets was generated successful', false);
+            this.setState({ addresses })
+        }
     }
 
     generateMnemonics() {
@@ -91,7 +103,12 @@ class CreateWallet extends Component {
                 <br/>
                 <NextButton title="Generate mnemonics"
                             disabled={!passwordStepApprove}
-                            onClick={() => this.generateMnemonics()}/>
+                            onClick={() => this.setState(
+                                {addresses: null}, () => {
+                                    setProgess(0, coins.length, '');
+                                    this.generateMnemonics()
+                                })
+                            }/>
                 <br/>
                 <Card hide={!(passwordStepApprove && mnemonics)}>
                     <MnemonicsView mnemonics={passwordStepApprove && mnemonics}
@@ -100,10 +117,17 @@ class CreateWallet extends Component {
                                    bits={MNEMONICS_BITS}/>
                 </Card>
                 <br/>
-                <NextButton title="Generate wallets"
-                            disabled={!mnemonics}
-                            onClick={() => this.generateAddresses()}/>
-                { addresses && addresses.map(e => <AddressCard key={`address-${e.coin}`} {...e}/>)}
+                {mnemonics && <NextButton title="Generate wallets"
+                                          disabled={!mnemonics || addresses}
+                                          onClick={() => this.generateAddresses(0, [])}/>
+                }
+                <br/>
+                <small id="generatedCoin" className="text-light"/>
+                <div className="progress" style={{visibility: 'hidden'}}>
+                    <div id="generateProgress" className="progress-bar" style={{width: '0%'}}/>
+                </div>
+                { addresses && addresses.map(e => <Account key={`address-${e.coin.id}`} {...e}/>)}
+                <br/>
             </div>
         )
 
