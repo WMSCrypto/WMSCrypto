@@ -2,12 +2,14 @@ import React from 'react';
 
 
 const PasswordInput = (props) => {
-    const { value, placeholder, label, onChange, messages, id, invalid, valid } = props;
-    const classNames = ["form-control", valid && 'is-valid', invalid && 'is-invalid'].join(' ');
+    const { value, placeholder, label, onChange, messages, id, invalid, valid, validMessage } = props;
+    const classNames = ["form-control", invalid && 'is-invalid'].join(' ');
     return (
         <div>
             <div className="form-group">
-                <label htmlFor={id}>{label}</label>
+                <label htmlFor={id}>
+                    {label}.
+                </label>
                 <input className={classNames}
                        id={id}
                        type="password"
@@ -16,8 +18,9 @@ const PasswordInput = (props) => {
                        value={value}/>
                 { messages && messages.map(
                     (e, i) =>
-                        <small key={`key-${id}-${i}`} className="form-text text-muted">{e}</small>
+                        <small key={`key-${id}-${i}`} className="form-text text-danger">{e}</small>
                 )}
+                {valid && validMessage ? <small className="text-primary">{validMessage}</small> : null}
             </div>
         </div>
     )

@@ -7,6 +7,7 @@ class App extends Component {
     render() {
         return (
             <div className="container App" style={{maxWidth: 800}}>
+                <div className="backGroundImage"/>
                 <h1>CryptoWallet</h1>
                 <CreateWallet/>
             </div>

@@ -1,15 +1,21 @@
 import React from 'react';
 
 const MnemonicsView = (props) => {
+    const { mnemonics, bits, anchor, encryptedMnemonics } = props;
     return (
         <div>
-            <br/>
-            {props.mnemonics &&
+            {mnemonics &&
                 <small className="text-muted">
-                    {`Generated mnemonics to ${props.bits}-bits entropy`}
+                    {`Generated mnemonics to ${bits}-bits entropy`}
                 </small>
             }
-            <p className="lead">{props.mnemonics}</p>
+            <p className="lead">{mnemonics}</p>
+            <small className="text-muted">
+                {`Encrypted using anchor: ${anchor}`}
+            </small>
+            <p className="hashString">
+                {encryptedMnemonics && encryptedMnemonics.toString()}
+            </p>
         </div>
     )
 };

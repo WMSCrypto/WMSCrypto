@@ -4,10 +4,21 @@
 }
 
 .App h1 {
+    color: #ffffff;
     margin: 16px 0;
     text-align: center;
 }
 
+.backGroundImage {
+    background-image: url("/images/main_bg.svg");
+    background-size: cover;
+    bottom: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: -1;
+}
 .hashString {
     word-break: break-all;
 }
