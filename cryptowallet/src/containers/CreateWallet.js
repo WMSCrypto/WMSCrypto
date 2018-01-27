@@ -52,15 +52,15 @@ class CreateWallet extends Component {
         const node = HDNode.fromSeedBuffer(seed);
         const e = coins[index];
         if (index < coins.length) {
-            setProgess(addresses.length, coins.length, `Generated wallet for ${e.name}`, true);
-            const accountNode = node.derivePath(`m/44'/${e.id}'/0'`);
+            setProgess(addresses.length, coins.length, `Generated pubkey for ${e.name}`, true);
+            const accountNode = node.derivePath(`m/${e.purpose || '44'}'/${e.id}'/0'`);
             addresses.push({
                 node: accountNode,
                 coin: e
             });
             setTimeout(() => this.generateAddresses(index + 1, addresses), 100)
         } else {
-            setProgess(0, coins.length, 'All wallets was generated successful', false);
+            setProgess(0, coins.length, 'All pubkeys was generated successful', false);
             this.setState({ addresses })
         }
     }

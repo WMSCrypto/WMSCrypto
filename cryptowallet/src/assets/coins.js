@@ -10,5 +10,6 @@ export default [
     {name: 'Expanse', id : 40},
     {name: 'NEM', id : 43},
     {name: 'Monero', id : 128},
-    {name: 'Ripple', id : 144}
+    {name: 'Ripple', id : 144},
+    {name: 'Bitcoin SegWit', id: 0, purpose: 49}
 ]
