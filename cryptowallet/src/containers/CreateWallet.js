@@ -103,9 +103,7 @@ class CreateWallet extends Component {
                 <NextButton title="Generate wallets"
                             disabled={!mnemonics}
                             onClick={() => this.generateAddresses()}/>
-                <div style={{margin: '16px 0'}}>
-                    { addresses && addresses.map(e => <AddressCard key={`address-${e.coin}`} {...e}/>)}
-                </div>
+                { addresses && addresses.map(e => <AddressCard key={`address-${e.coin}`} {...e}/>)}
             </div>
         )
 
