@@ -4,7 +4,7 @@ import zxcvbn from 'zxcvbn';
 import bip39 from 'bip39';
 import aes from 'crypto-js/aes';
 import { PasswordInput, NextButton, MnemonicsView, Account, Card } from '../components';
-import { coins } from '../assets';
+import { coins, messages } from '../assets';
 
 const MNEMONICS_BITS = 256;
 const VALID_PASSWORD_MESSAGE = 'Passwords match and have strong security.';
@@ -43,7 +43,8 @@ class CreateWallet extends Component {
                 generateMnemonics: false,
                 generateWallets: false,
                 encryptMnemonics: false,
-            }
+            },
+            checkImportant: false
         };
     }
 
@@ -54,6 +55,7 @@ class CreateWallet extends Component {
         if (index < coins.length) {
             setProgess(addresses.length, coins.length, `Generated pubkey for ${e.name}`, true);
             const accountNode = node.derivePath(`m/${e.purpose || '44'}'/${e.id}'/0'`);
+            console.log(`Generated pub key for ${e.name}: ${accountNode.neutered().toBase58()}`);
             addresses.push({
                 node: accountNode,
                 coin: e
@@ -76,7 +78,7 @@ class CreateWallet extends Component {
     }
 
     render() {
-        const { password, passwordRepeat, encryptedMnemonics, mnemonics, addresses } = this.state;
+        const { password, passwordRepeat, encryptedMnemonics, mnemonics, addresses, checkImportant } = this.state;
         const validateMessages = password && validatePassword(password);
         const notMatch = passwordRepeat && password !== passwordRepeat;
         const passwordStepApprove = password && passwordRepeat && password === passwordRepeat;
@@ -99,6 +101,7 @@ class CreateWallet extends Component {
                                    valid={passwordStepApprove}
                                    validMessage={VALID_PASSWORD_MESSAGE}
                                    id="repeatPasswordInput"/>
+                    <p className="text-muted">{messages.SAVE_MNEMONICS}</p>
                 </Card>
                 <br/>
                 <NextButton title="Generate mnemonics"
@@ -117,7 +120,7 @@ class CreateWallet extends Component {
                                    bits={MNEMONICS_BITS}/>
                 </Card>
                 <br/>
-                {mnemonics && <NextButton title="Generate wallets"
+                {mnemonics && <NextButton title="Generate pubkeys"
                                           disabled={!mnemonics || addresses}
                                           onClick={() => this.generateAddresses(0, [])}/>
                 }
@@ -126,7 +129,23 @@ class CreateWallet extends Component {
                 <div className="progress" style={{visibility: 'hidden'}}>
                     <div id="generateProgress" className="progress-bar" style={{width: '0%'}}/>
                 </div>
-                { addresses && addresses.map(e => <Account key={`address-${e.coin.id}`} {...e}/>)}
+                <Card hide={!addresses}>
+                    <h3 className="text-danger">IMPORTANT!</h3>
+                    <p className="text-muted">{messages.SAVE_WALLETS}</p>
+                    <div className="form-check">
+                        <input className="form-check-input"
+                               type="checkbox"
+                               id="checkImportant"
+                               checked={checkImportant}
+                               onChange={() => this.setState({checkImportant: !checkImportant})}/>
+                        <label className="form-check-label" htmlFor="checkImportant">I understand</label>
+                    </div>
+                    <br/>
+                    {checkImportant
+                        ? <button type="button" className="btn btn-danger">Create wallets</button>
+                        : <button type="button" className="btn btn-outline-danger" disabled>Create wallets</button>
+                    }
+                </Card>
                 <br/>
             </div>
         )
