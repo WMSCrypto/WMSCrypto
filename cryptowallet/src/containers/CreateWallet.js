@@ -116,7 +116,6 @@ class CreateWallet extends Component {
                 <Card hide={!(passwordStepApprove && mnemonics)}>
                     <MnemonicsView mnemonics={passwordStepApprove && mnemonics}
                                    encryptedMnemonics={encryptedMnemonics}
-                                   anchor={getAnchor()}
                                    bits={MNEMONICS_BITS}/>
                 </Card>
                 <br/>

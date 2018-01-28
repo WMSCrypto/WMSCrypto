@@ -4,10 +4,14 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
 class App extends Component {
+
+    componentDidMount() {
+        document.getElementById('appLoader').style.setProperty('display', 'none');
+    }
+
     render() {
         return (
             <div className="container App" style={{maxWidth: 800}}>
-                <div className="backGroundImage"/>
                 <h1>CryptoWallet</h1>
                 <CreateWallet/>
             </div>

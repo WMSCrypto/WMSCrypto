@@ -9,7 +9,7 @@ const saveMnemonics = (obj) => {
 };
 
 const MnemonicsView = (props) => {
-    const { mnemonics, bits, anchor, encryptedMnemonics } = props;
+    const { mnemonics, bits, encryptedMnemonics } = props;
     return (
         <div>
             {mnemonics &&
@@ -18,13 +18,6 @@ const MnemonicsView = (props) => {
                 </small>
             }
             <p className="lead">{mnemonics}</p>
-            <small className="text-muted">
-                {`Encrypted using anchor: ${anchor}`}
-            </small>
-            <p className="hashString">
-                {encryptedMnemonics && encryptedMnemonics.toString()}
-            </p>
-
             <a href="javascript:void(0)" id="saveMnemonics">
             <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => saveMnemonics({
                 encryptedMnemonics: encryptedMnemonics.toString(), version: '0.1'
