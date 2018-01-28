@@ -78,6 +78,7 @@ class CreateWallet extends Component {
     }
 
     render() {
+        // TODO: блокировать кнопки во время генерации xpub
         const { password, passwordRepeat, encryptedMnemonics, mnemonics, addresses, checkImportant } = this.state;
         const validateMessages = password && validatePassword(password);
         const notMatch = passwordRepeat && password !== passwordRepeat;
