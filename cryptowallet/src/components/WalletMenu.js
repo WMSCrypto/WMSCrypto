@@ -7,7 +7,7 @@ const WalletMenu = (props) => {
     return (
         <Menu>
             <button type="button"
-                    className="btn btn-primary btn-lg"
+                    className="btn btn-light btn-lg"
                     onClick={() => {
                         onClick(() => <ChangeWalletPassword/>)
                     }}>

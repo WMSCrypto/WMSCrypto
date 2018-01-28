@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import zxcvbn from 'zxcvbn';
 import Card from "./Card";
 import PasswordInput from "./PasswordInput";
-import { messages } from "../assets";
 
 const VALID_PASSWORD_MESSAGE = 'Passwords match and have strong security.';
 
@@ -42,14 +41,14 @@ class CreatePassword extends Component {
         const passwordStepApprove = password && passwordRepeat && password === passwordRepeat;
         return (
             <Card>
-                <PasswordInput label="Password"
+                <PasswordInput label="New password"
                                placeholder="Enter password"
                                onChange={(e) => this.onChange({password: e.target.value})}
                                value={password}
                                messages={validateMessages}
                                valid={passwordStepApprove}
                                id="inputPassword"/>
-                <PasswordInput label="Repeat password"
+                <PasswordInput label="Repeat new password"
                                placeholder="Repeat password"
                                value={passwordRepeat}
                                onChange={(e) => this.onChange({passwordRepeat: e.target.value})}
@@ -58,7 +57,6 @@ class CreatePassword extends Component {
                                valid={passwordStepApprove}
                                validMessage={VALID_PASSWORD_MESSAGE}
                                id="repeatPasswordInput"/>
-                <p className="text-muted">{messages.SAVE_MNEMONICS}</p>
             </Card>
         )
     }

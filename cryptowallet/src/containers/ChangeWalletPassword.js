@@ -10,6 +10,8 @@ import { messages } from '../assets';
 import DownloadButton from "../components/DownloadButton";
 import Icon from "../components/Icon";
 
+const HIDDEN_MNEMONICS = Array(24*5).fill('\u2022').join('');
+
 const decryptMnemonics = (text, password) => {
     try {
         const bytes = aes.decrypt(text, password);
@@ -60,7 +62,7 @@ class ChangeWalletPassword extends Component {
         } = this.state;
         let showedMnemonics = null;
         if (mnemonics) {
-            showedMnemonics = visibleMnemonics ? mnemonics : 'Mnemonics decrypted'
+            showedMnemonics = visibleMnemonics ? mnemonics : HIDDEN_MNEMONICS;
         }
         const inputAttrs = mnemonics ? {disabled: true} : {};
         return (
@@ -83,7 +85,7 @@ class ChangeWalletPassword extends Component {
                                   rows="4"
                                   {...inputAttrs}/>
                     </div>
-                    <PasswordInput label="Password"
+                    <PasswordInput label="Old password"
                                    placeholder="Input your password"
                                    value={password}
                                    invalid={passwordInvalid}
