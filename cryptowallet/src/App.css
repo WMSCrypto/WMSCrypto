@@ -5,10 +5,24 @@
 
 .App h1 {
     color: #ffffff;
-    margin: 16px 0;
-    text-align: center;
 }
 
 .hashString {
     word-break: break-all;
+}
+
+.MenuWrapper {
+    flex-direction: column;
+    display: flex;
+}
+
+.MenuWrapper button {
+    margin: 16px 0;
+}
+
+.AppHeader {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 0;
 }
