@@ -71,7 +71,6 @@ class CreateWallet extends Component {
         const mnemonics = bip39.generateMnemonic(MNEMONICS_BITS);
         const { password } = this.state;
         const encryptedMnemonics = aes.encrypt(mnemonics, password);
-        console.log(encryptedMnemonics.toString());
         this.setState({
             mnemonics,
             encryptedMnemonics
