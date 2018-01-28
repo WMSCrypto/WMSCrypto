@@ -19,9 +19,11 @@ const MnemonicsView = (props) => {
             }
             <p className="lead">{mnemonics}</p>
             <a href="javascript:void(0)" id="saveMnemonics">
-            <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => saveMnemonics({
-                encryptedMnemonics: encryptedMnemonics.toString(), version: '0.1'
-            })}>Download encrypted mnemonics</button>
+            <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => {
+                saveMnemonics({
+                    encryptedMnemonics: encryptedMnemonics.toString(), version: '0.1'
+                })
+            }}>Download encrypted mnemonics</button>
             </a>
         </div>
     )
