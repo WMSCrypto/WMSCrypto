@@ -8,6 +8,7 @@ import CreatePassword from "../components/CreatePassword";
 import LastStep from "../components/LastStep";
 import { messages } from '../assets';
 import DownloadButton from "../components/DownloadButton";
+import Icon from "../components/Icon";
 
 const decryptMnemonics = (text, password) => {
     try {
@@ -28,7 +29,8 @@ class ChangeWalletPassword extends Component {
             mnemonics: null,
             password: '',
             newPassword: null,
-            passwordInvalid: false
+            passwordInvalid: false,
+            visibleMnemonics: false
         }
     }
 
@@ -53,17 +55,30 @@ class ChangeWalletPassword extends Component {
     render() {
         const {
             encryptedMnemonics, newEncryptedMnemonics,
-            mnemonics, password, passwordInvalid, newPassword
+            mnemonics, password, passwordInvalid, newPassword,
+            visibleMnemonics
         } = this.state;
+        let showedMnemonics = null;
+        if (mnemonics) {
+            showedMnemonics = visibleMnemonics ? mnemonics : 'Mnemonics decrypted'
+        }
         const inputAttrs = mnemonics ? {disabled: true} : {};
         return (
             <div>
                 <Card>
                     <div className="form-group">
-                        <label htmlFor="mnemonicsInput">Encrypted mnemonics.</label>
+                        <div className="MnemonicsCardHeader">
+                            <label htmlFor="mnemonicsInput">Encrypted mnemonics.</label>
+                            {mnemonics
+                                ? <Icon size="24px"
+                                        icon={visibleMnemonics ?  'visibility off' :'visibility'}
+                                        onClick={() => this.setState({visibleMnemonics: !visibleMnemonics})}/>
+                                : null
+                            }
+                        </div>
                         <textarea className="form-control"
                                   id="mnemonicsInput"
-                                  value={mnemonics || encryptedMnemonics}
+                                  value={showedMnemonics || encryptedMnemonics}
                                   onChange={(e) => this.setState({encryptedMnemonics: e.target.value})}
                                   rows="4"
                                   {...inputAttrs}/>

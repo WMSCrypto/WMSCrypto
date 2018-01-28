@@ -4,11 +4,11 @@ import Card from "./Card";
 
 const Menu = (props) => {
     return (
-        <Card>
-            <div className="MenuWrapper">
+        <div className="MenuWrapper">
+            <div>
                 {props.children}
             </div>
-        </Card>
+        </div>
     )
 };
 

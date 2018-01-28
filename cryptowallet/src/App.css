@@ -12,12 +12,20 @@
 }
 
 .MenuWrapper {
+}
+
+.MenuWrapper > div {
+    align-items: center;
     flex-direction: column;
     display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 400px;
 }
 
 .MenuWrapper button {
     margin: 16px 0;
+    width: 100%;
 }
 
 .AppHeader {
@@ -25,4 +33,10 @@
     display: flex;
     justify-content: space-between;
     margin: 16px 0;
+}
+
+.MnemonicsCardHeader {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
 }

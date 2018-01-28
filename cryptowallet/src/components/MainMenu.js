@@ -15,7 +15,7 @@ const MainMenu = (props) => {
                 Create wallet
             </button>
             <button type="button"
-                    className="btn btn-outline-secondary btn-lg"
+                    className="btn btn-light btn-lg"
                     onClick={() => {
                         onClick(() => <WalletMenu onClick={onClick}/>)
                     }}>
