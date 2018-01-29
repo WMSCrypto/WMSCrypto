@@ -36,10 +36,11 @@ class CreatePassword extends Component {
 
     render() {
         const { password, passwordRepeat } = this.state;
-        const { children } = this.props;
+        const { children, disabled } = this.props;
         const validateMessages = password && validatePassword(password);
         const notMatch = passwordRepeat && password !== passwordRepeat;
         const passwordStepApprove = password && passwordRepeat && password === passwordRepeat;
+        const inputAttrs = disabled ? {disabled: true} : {};
         return (
             <Card>
                 <PasswordInput label="New password"
@@ -48,7 +49,8 @@ class CreatePassword extends Component {
                                value={password}
                                messages={validateMessages}
                                valid={passwordStepApprove}
-                               id="inputPassword"/>
+                               id="inputPassword"
+                               inputAttrs={inputAttrs}/>
                 <PasswordInput label="Repeat new password"
                                placeholder="Repeat password"
                                value={passwordRepeat}
@@ -57,7 +59,8 @@ class CreatePassword extends Component {
                                invalid={notMatch}
                                valid={passwordStepApprove}
                                validMessage={VALID_PASSWORD_MESSAGE}
-                               id="repeatPasswordInput"/>
+                               id="repeatPasswordInput"
+                               inputAttrs={inputAttrs}/>
                 {children || null}
             </Card>
         )

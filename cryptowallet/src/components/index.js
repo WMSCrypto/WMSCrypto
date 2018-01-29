@@ -5,6 +5,10 @@ import CoinsList from './CoinsList';
 import Account from './Account';
 import Card from './Card';
 import LastStep from './LastStep';
+import MnemonicsInput from "./MnemonicsInput";
+import CreatePassword from "./CreatePassword";
+import DownloadButton from "./DownloadButton";
+import AccountsGenerator from "./AccountsGenerator";
 
 export {
     NextButton,
@@ -13,5 +17,9 @@ export {
     CoinsList,
     Account,
     Card,
-    LastStep
+    LastStep,
+    MnemonicsInput,
+    CreatePassword,
+    DownloadButton,
+    AccountsGenerator
 }

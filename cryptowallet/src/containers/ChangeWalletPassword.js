@@ -65,6 +65,7 @@ class ChangeWalletPassword extends Component {
             showedMnemonics = visibleMnemonics ? mnemonics : HIDDEN_MNEMONICS;
         }
         const inputAttrs = mnemonics ? {disabled: true} : {};
+        // TODO: перенести из MnemonicInput
         return (
             <div>
                 <Card>
