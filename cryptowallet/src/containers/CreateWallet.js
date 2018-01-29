@@ -1,23 +1,12 @@
 import React, { Component } from 'react';
 import { HDNode } from 'bitcoinjs-lib';
-import zxcvbn from 'zxcvbn';
 import bip39 from 'bip39';
 import aes from 'crypto-js/aes';
-import { PasswordInput, NextButton, MnemonicsView, Account, Card } from '../components';
+import { NextButton, MnemonicsView, Card, LastStep } from '../components';
+import CreatePassword from "../components/CreatePassword";
 import { coins, messages } from '../assets';
 
 const MNEMONICS_BITS = 256;
-const VALID_PASSWORD_MESSAGE = 'Passwords match and have strong security.';
-
-const validatePassword = (password) => {
-    const { warning, suggestions } = zxcvbn(password).feedback;
-    return [warning, ...suggestions];
-};
-
-const getAnchor = () => {
-    const { hash } = window.location;
-    return hash && hash.slice(1);
-};
 
 const setProgess = (l1, l2, message, visible=false) => {
     const percents = ((l1 / (l2 - 1)) * 100).toFixed(2);
@@ -33,17 +22,10 @@ class CreateWallet extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            password: '',
-            passwordRepeat: '',
+            password: null,
             mnemonics: null,
             encryptedMnemonics: null,
             addresses: null,
-            steps: {
-                createPassword: false,
-                generateMnemonics: false,
-                generateWallets: false,
-                encryptMnemonics: false,
-            },
             checkImportant: false
         };
     }
@@ -79,34 +61,15 @@ class CreateWallet extends Component {
 
     render() {
         // TODO: блокировать кнопки во время генерации xpub
-        const { password, passwordRepeat, encryptedMnemonics, mnemonics, addresses, checkImportant } = this.state;
-        const validateMessages = password && validatePassword(password);
-        const notMatch = passwordRepeat && password !== passwordRepeat;
-        const passwordStepApprove = password && passwordRepeat && password === passwordRepeat;
+        const { password, encryptedMnemonics, mnemonics, addresses } = this.state;
         return (
             <div>
-                <Card>
-                    <PasswordInput label="Password"
-                                   placeholder="Enter password"
-                                   onChange={(e) => this.setState({password: e.target.value})}
-                                   value={password}
-                                   messages={validateMessages}
-                                   valid={passwordStepApprove}
-                                   id="inputPassword"/>
-                    <PasswordInput label="Repeat password"
-                                   placeholder="Repeat password"
-                                   value={passwordRepeat}
-                                   onChange={(e) => this.setState({passwordRepeat: e.target.value})}
-                                   messages={notMatch && ['Passwords not matched']}
-                                   invalid={notMatch}
-                                   valid={passwordStepApprove}
-                                   validMessage={VALID_PASSWORD_MESSAGE}
-                                   id="repeatPasswordInput"/>
+                <CreatePassword setPassword={(p) => {this.setState({password: p})}}>
                     <p className="text-muted">{messages.SAVE_MNEMONICS}</p>
-                </Card>
+                </CreatePassword>
                 <br/>
                 <NextButton title="Generate mnemonics"
-                            disabled={!passwordStepApprove}
+                            disabled={!password}
                             onClick={() => this.setState(
                                 {addresses: null}, () => {
                                     setProgess(0, coins.length, '');
@@ -114,8 +77,8 @@ class CreateWallet extends Component {
                                 })
                             }/>
                 <br/>
-                <Card hide={!(passwordStepApprove && mnemonics)}>
-                    <MnemonicsView mnemonics={passwordStepApprove && mnemonics}
+                <Card hide={!(password && mnemonics)}>
+                    <MnemonicsView mnemonics={password && mnemonics}
                                    encryptedMnemonics={encryptedMnemonics}
                                    bits={MNEMONICS_BITS}/>
                 </Card>
@@ -129,23 +92,14 @@ class CreateWallet extends Component {
                 <div className="progress" style={{visibility: 'hidden'}}>
                     <div id="generateProgress" className="progress-bar" style={{width: '0%'}}/>
                 </div>
-                <Card hide={!addresses}>
-                    <h3 className="text-danger">IMPORTANT!</h3>
-                    <p className="text-muted">{messages.SAVE_WALLETS}</p>
-                    <div className="form-check">
-                        <input className="form-check-input"
-                               type="checkbox"
-                               id="checkImportant"
-                               checked={checkImportant}
-                               onChange={() => this.setState({checkImportant: !checkImportant})}/>
-                        <label className="form-check-label" htmlFor="checkImportant">I understand</label>
-                    </div>
-                    <br/>
-                    {checkImportant
-                        ? <button type="button" className="btn btn-danger">Create wallets</button>
-                        : <button type="button" className="btn btn-outline-danger" disabled>Create wallets</button>
-                    }
-                </Card>
+                {addresses
+                    ? <LastStep title="Save mnemonics"
+                                hide={false}
+                                important={true}
+                                message={messages.SAVE_WALLETS}
+                                onClick={() =>{console.log(encryptedMnemonics.toString())}}/>
+                    : null
+                }
                 <br/>
             </div>
         )

@@ -13,7 +13,7 @@ const DownloadButton = (props) => {
     const { title, obj, id } = props;
     return (
         <div>
-            <a href="javascript:void(0)" id={id}>
+            <a id={id}>
             <button type="button"
                     className="btn btn-outline-secondary btn-sm"
                     onClick={() => {save(obj, id)}}>

@@ -36,6 +36,7 @@ class CreatePassword extends Component {
 
     render() {
         const { password, passwordRepeat } = this.state;
+        const { children } = this.props;
         const validateMessages = password && validatePassword(password);
         const notMatch = passwordRepeat && password !== passwordRepeat;
         const passwordStepApprove = password && passwordRepeat && password === passwordRepeat;
@@ -57,6 +58,7 @@ class CreatePassword extends Component {
                                valid={passwordStepApprove}
                                validMessage={VALID_PASSWORD_MESSAGE}
                                id="repeatPasswordInput"/>
+                {children || null}
             </Card>
         )
     }

@@ -1,6 +1,4 @@
 import React from 'react';
-import Card from "./Card";
-
 
 const Menu = (props) => {
     return (

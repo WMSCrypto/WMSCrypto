@@ -4,6 +4,7 @@ import MnemonicsView from './MnemonicsView';
 import CoinsList from './CoinsList';
 import Account from './Account';
 import Card from './Card';
+import LastStep from './LastStep';
 
 export {
     NextButton,
@@ -11,5 +12,6 @@ export {
     MnemonicsView,
     CoinsList,
     Account,
-    Card
+    Card,
+    LastStep
 }
