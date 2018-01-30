@@ -84,7 +84,7 @@ class MnemonicsInput extends Component {
 
     render() {
         const { password, mnemonics, encryptedMnemonics, visibleMnemonics, passwordInvalid } = this.state;
-        const { passwordLabel, mnemonicsLabel, buttonLabel, disabled  } =  this.props;
+        const { passwordLabel, mnemonicsLabel, buttonLabel, disabled, encrypted  } =  this.props;
         let showedMnemonics = null;
         if (mnemonics) {
             showedMnemonics = visibleMnemonics ? mnemonics : Array(mnemonics.length).fill('\u2022').join('');;
@@ -112,7 +112,7 @@ class MnemonicsInput extends Component {
                         {this.validatedMnemonics()}
                     </div>
                     <PasswordInput label={passwordLabel}
-                                   placeholder="Input your password"
+                                   placeholder={`Input your ${passwordLabel}`}
                                    value={password}
                                    invalid={passwordInvalid}
                                    messages={passwordInvalid && ["Invalid password or encrypted mnemonic"]}

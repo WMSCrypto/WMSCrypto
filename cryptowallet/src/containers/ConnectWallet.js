@@ -28,14 +28,13 @@ class ConnectWallet extends Component {
         })
     }
 
-
     render() {
         const { aesPassword, mnemonicsData, encryptedMnemonics, accounts } = this.state;
         return(
             <div>
                 <MnemonicsInput encrypted={false}
                                 mnemonicsLabel="Mnemonics"
-                                passwordLabel="Password"
+                                passwordLabel="Passphrase"
                                 buttonLabel="Create mnemonics seed"
                                 disabled={!!mnemonicsData}
                                 onValidate={(data) => this.setState({mnemonicsData: data})}/>
