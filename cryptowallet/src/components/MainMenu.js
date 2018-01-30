@@ -10,7 +10,7 @@ const MainMenu = (props) => {
             <button type="button"
                     className="btn btn-primary btn-lg"
                     onClick={() => {
-                        onClick(() => <CreateWallet/>)
+                        onClick(() => <CreateWallet/>, true)
                     }}>
                 Create wallet
             </button>

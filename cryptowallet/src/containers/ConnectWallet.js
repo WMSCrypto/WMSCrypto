@@ -21,7 +21,7 @@ class ConnectWallet extends Component {
         const { aesPassword, mnemonicsData } = this.state;
         const encryptedMnemonics = aes.encrypt(JSON.stringify({
             mnemonics: mnemonicsData.mnemonics,
-            password: mnemonicsData.password
+            salt: mnemonicsData.password
         }), aesPassword);
         this.setState({
             encryptedMnemonics

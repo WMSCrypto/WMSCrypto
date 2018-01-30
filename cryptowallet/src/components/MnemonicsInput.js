@@ -27,7 +27,7 @@ class MnemonicsInput extends Component {
             encryptedMnemonics: '',
             mnemonics: '',
             password: '',
-            visibleMnemonics: false,
+            visibleMnemonics: !props.encrypted,
             passwordInvalid: false,
             block: props.block || false
         }
@@ -61,10 +61,15 @@ class MnemonicsInput extends Component {
 
     onChangeMnemonics(e) {
         const { encrypted } = this.props;
+        const { visibleMnemonics, mnemonics } = this.state;
         if (encrypted) {
             this.setState({encryptedMnemonics: e.target.value})
         } else {
-            this.setState({mnemonics: e.target.value})
+            let newValue = e.target.value;
+            if (!visibleMnemonics) {
+                newValue = mnemonics + newValue.slice(mnemonics.length);
+            }
+            this.setState({mnemonics: newValue})
         }
     }
 
@@ -82,7 +87,7 @@ class MnemonicsInput extends Component {
         const { passwordLabel, mnemonicsLabel, buttonLabel, disabled  } =  this.props;
         let showedMnemonics = null;
         if (mnemonics) {
-            showedMnemonics = visibleMnemonics ? mnemonics : HIDDEN_MNEMONICS;
+            showedMnemonics = visibleMnemonics ? mnemonics : Array(mnemonics.length).fill('\u2022').join('');;
         }
         const inputAttrs = disabled ? {disabled: true} : {};
         return(

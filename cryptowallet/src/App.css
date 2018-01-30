@@ -5,6 +5,7 @@
 
 .App h1 {
     color: #ffffff;
+    margin: 0;
 }
 
 .hashString {
@@ -32,6 +33,7 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
+    height: 48px;
     margin: 16px 0;
 }
 
@@ -39,4 +41,14 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
+}
+
+.HeaderMenu button:first-child {
+    margin: 0 8px 0 0;
+}
+
+@media (max-width: 500px) {
+    .App h1 {
+        font-size: 24px;
+    }
 }

@@ -9,6 +9,7 @@ import MnemonicsInput from "./MnemonicsInput";
 import CreatePassword from "./CreatePassword";
 import DownloadButton from "./DownloadButton";
 import AccountsGenerator from "./AccountsGenerator";
+import Header from "./Header";
 
 export {
     NextButton,
@@ -21,5 +22,6 @@ export {
     MnemonicsInput,
     CreatePassword,
     DownloadButton,
-    AccountsGenerator
+    AccountsGenerator,
+    Header
 }

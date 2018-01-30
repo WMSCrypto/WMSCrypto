@@ -103,6 +103,7 @@ class ChangeWalletPassword extends Component {
                 <br/>
                 {newPassword
                     ? <NextButton title="Encrypt mnemonics"
+                                  disabled={!!newEncryptedMnemonics}
                                   onClick={() => this.generateMnemonics()}/>
                     : null
                 }

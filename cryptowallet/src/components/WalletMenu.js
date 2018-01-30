@@ -10,14 +10,14 @@ const WalletMenu = (props) => {
             <button type="button"
                     className="btn btn-light btn-lg"
                     onClick={() => {
-                        onClick(() => <ChangeWalletPassword/>)
+                        onClick(() => <ChangeWalletPassword/>, true)
                     }}>
                 Change wallet password
             </button>
             <button type="button"
                     className="btn btn-light btn-lg"
                     onClick={() => {
-                        onClick(() => <ConnectWallet/>)
+                        onClick(() => <ConnectWallet/>, true)
                     }}>
                 Connect wallet
             </button>
