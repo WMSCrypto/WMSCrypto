@@ -32,7 +32,7 @@ const WalletMenu = (props) => {
                 Attach ETC/ETC wallet
             </button>
             <button type="button"
-                    className="btn btn-light btn-lg"
+                    className="btn btn-primary btn-lg"
                     onClick={() => {
                         onClick(() => <MakeTransaction/>, true)
                     }}>

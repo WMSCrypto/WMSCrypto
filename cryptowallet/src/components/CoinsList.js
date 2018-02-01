@@ -4,11 +4,14 @@ import { coins } from '../assets';
 const CoinsList = (props) => {
     const { onChange, value } = props;
     return (
-        <select class="form-control" id="coinsList" onChange={onChange} value={value || coins['Bitcoin']}>
-            {Object.keys(coins).map((e, i) => (
-                <option value={coins[e]} key={`coin-id-${coins[e]}`}>{e}</option>
-            ))}
-        </select>
+        <div className="form-group">
+            <label>Choice coin</label>
+            <select className="form-control" id="coinsList" onChange={onChange} value={value || coins[0]}>
+                {coins.map((e) => (
+                    <option value={e.id} key={`coin-name-${e.name}`}>{e.name}</option>
+                ))}
+            </select>
+        </div>
     )
 };
 
