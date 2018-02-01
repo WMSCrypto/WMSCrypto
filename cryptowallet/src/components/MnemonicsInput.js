@@ -7,8 +7,6 @@ import bip39 from 'bip39';
 import Icon from "./Icon";
 import NextButton from "./NextButton";
 
-const HIDDEN_MNEMONICS = Array(24*5).fill('\u2022').join('');
-
 const decryptMnemonics = (text, password) => {
     try {
         const bytes = aes.decrypt(text, password);
@@ -84,7 +82,7 @@ class MnemonicsInput extends Component {
 
     render() {
         const { password, mnemonics, encryptedMnemonics, visibleMnemonics, passwordInvalid } = this.state;
-        const { passwordLabel, mnemonicsLabel, buttonLabel, disabled, encrypted  } =  this.props;
+        const { passwordLabel, mnemonicsLabel, buttonLabel, disabled } =  this.props;
         let showedMnemonics = null;
         if (mnemonics) {
             showedMnemonics = visibleMnemonics ? mnemonics : Array(mnemonics.length).fill('\u2022').join('');;
