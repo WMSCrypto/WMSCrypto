@@ -10,6 +10,7 @@ import CreatePassword from "./CreatePassword";
 import DownloadButton from "./DownloadButton";
 import AccountsGenerator from "./AccountsGenerator";
 import Header from "./Header";
+import TransactionAddress from "./TransactionAddress";
 
 export {
     NextButton,
@@ -23,5 +24,6 @@ export {
     CreatePassword,
     DownloadButton,
     AccountsGenerator,
-    Header
+    Header,
+    TransactionAddress
 }

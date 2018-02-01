@@ -1,7 +1,7 @@
 export default [
     {name: 'Bitcoin', id : 0},
     {name: 'Litecoin', id : 2},
-    {name: 'Ethereum', id : 60},
+    {name: 'Ethereum', id : 60, enable: true},
     {name: 'Dash', id : 5},
     {name: 'Ethereum Classic', id : 61},
     {name: 'Bitcoin Cash', id : 145},
