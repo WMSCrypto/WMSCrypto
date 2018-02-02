@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Card from "../Card";
 import NextButton from "../NextButton";
+import { hexView, getETXTxData } from "../../utils";
 
 const intTest = (v) => v ? /^\d+$/.test(v) : true;
 const addressTest = (v) => v ? /^[\da-fA-F]{40}$/.test(v) : false;
 const hexTest = (v) => v ? /^[\da-fA-F]*$/.test(v) : true;
-const hexView = (v) => `0x${v !== '' ? parseInt(v).toString(16) : ''}`;
+const valueTest = (v) => v ? /^\d+\.?\d{0,18}$/.test(v) : true;
 
 class EthereumTransactionFrom extends Component {
 
@@ -37,6 +38,13 @@ class EthereumTransactionFrom extends Component {
             },
             disabled: !state.edit
         };
+    }
+    save() {
+        const { onSave } = this.props;
+        const { nonce, value, gasPrice, gasLimit, to, data } = this.state;
+        this.setState({edit: false}, () => onSave(getETXTxData(
+            nonce, value, gasPrice, gasLimit, to, data
+        )))
     }
 
     render() {
@@ -98,14 +106,14 @@ class EthereumTransactionFrom extends Component {
                                className="form-control"
                                id="inputValue"
                                required={true}
-                               {...this.getInputProps('value', intTest)}/>
-                        <small className="form-text text-muted">{hexView(value)}</small>
+                               {...this.getInputProps('value', valueTest)}/>
+                        <small className="form-text text-muted">{hexView(Math.pow(10, 18) * value)}</small>
                     </div>
                     <div className="form-group">
                         <label htmlFor="inputData">Data, 0x</label>
                         <textarea className="form-control"
                                   id="inputData"
-                                  rows={4}
+                                  rows={2}
                                   {...this.getInputProps('data')}/>
                         {validatedData
                             ? null
@@ -117,7 +125,7 @@ class EthereumTransactionFrom extends Component {
                 <div className="save-edit-btns">
                     <NextButton title="Save transaction"
                                 disabled={!validatedTo || !validatedData || !edit}
-                                onClick={() => this.setState({edit: false})}/>
+                                onClick={() => this.save()}/>
                     <button type="button" className="btn btn-secondary" disabled={edit}
                             onClick={() => this.setState({edit: true})}>
                         Edit transaction

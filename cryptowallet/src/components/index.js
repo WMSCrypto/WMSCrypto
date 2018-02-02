@@ -11,6 +11,7 @@ import DownloadButton from "./DownloadButton";
 import AccountsGenerator from "./AccountsGenerator";
 import Header from "./Header";
 import TransactionAddress from "./TransactionAddress";
+import TxSigner from "./TxSigner";
 
 export {
     NextButton,
@@ -25,5 +26,6 @@ export {
     DownloadButton,
     AccountsGenerator,
     Header,
-    TransactionAddress
+    TransactionAddress,
+    TxSigner
 }
