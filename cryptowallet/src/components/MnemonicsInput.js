@@ -37,7 +37,7 @@ class MnemonicsInput extends Component {
         if (decrypted) {
             this.setState({
                 mnemonics: decrypted, passwordInvalid: false, block: true
-            })
+            }, this.props.onValidate(decrypted))
         } else {
             this.setState({passwordInvalid: true})
         }

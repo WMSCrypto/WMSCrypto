@@ -47,6 +47,16 @@
     margin: 0 8px 0 0;
 }
 
+.save-edit-btns {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.save-edit-btns > button {
+    margin: 0 0 0 16px;
+}
+
 @media (max-width: 500px) {
     .App h1 {
         font-size: 24px;

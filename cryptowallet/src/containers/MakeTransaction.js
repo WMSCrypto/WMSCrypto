@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TransactionAddress } from "../components";
+import { TransactionAddress, MnemonicsInput } from "../components";
 import { EthereumTransactionFrom } from '../components/TransactionForms';
 
 
@@ -9,16 +9,23 @@ class MakeTransaction extends Component {
         super(props);
         this.state = {
             fromData: {coin: "0"},
+            decryptedMnemonics: null
         }
     }
 
     render() {
-        const { fromData } = this.state;
-        console.log(this.state)
+        const { fromData, decryptedMnemonics } = this.state;
         return (
             <div>
                 <TransactionAddress coin={fromData.coin} onSet={(obj) => this.setState({fromData: obj})}/>
                 <EthereumTransactionFrom coin={fromData.coin}/>
+                <MnemonicsInput encrypted={true}
+                                buttonLabel="Decrypt mnemonics"
+                                passwordLabel="Password"
+                                mnemonicsLabel="Mnemonics"
+                                onValidate={(d) => this.setState({decryptedMnemonics: d})}
+                                disabled={!!decryptedMnemonics}/>
+                <br/>
             </div>
         )
     }

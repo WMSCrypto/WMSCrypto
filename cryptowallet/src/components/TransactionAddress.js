@@ -6,14 +6,14 @@ const intTest = (v) => v ? /^\d+$/.test(v) : true;
 
 const getFullAdrress = (obj) => {
     return `m/44'/${obj.coin}'/${obj.account}'/${obj.change}/${obj.address}`
-}
+};
 
 class TransactionAddress extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            coin: props.coin ? parseInt(props.coin) : 0,
+            coin: props.coin ? parseInt(props.coin, 10) : 0,
             account: 0,
             change: 0,
             address: 0
@@ -39,8 +39,8 @@ class TransactionAddress extends Component {
                 }))
             }
         }
-
     }
+
     render() {
         return (
             <div>

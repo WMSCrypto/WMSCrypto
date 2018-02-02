@@ -5,7 +5,7 @@ const NextButton = (props) => {
     const btnAttrs = disabled ? {disabled: true}: {};
     return (
         <div>
-            <button type="button" className="btn btn-primary" {...btnAttrs} onClick={onClick}>
+            <button type="button" className="btn btn-primary" {...btnAttrs} onClick={onClick} disabled={disabled}>
                 {title}
             </button>
         </div>
