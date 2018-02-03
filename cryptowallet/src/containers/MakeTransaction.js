@@ -18,7 +18,8 @@ class MakeTransaction extends Component {
         const { fromData, decryptedMnemonics, txData } = this.state;
         return (
             <div>
-                <TransactionAddress coin={fromData.coin} onSet={(obj) => this.setState({fromData: obj})}/>
+                <TransactionAddress coin={fromData.coin}
+                                    onSet={(obj) => this.setState({fromData: obj, txData: null})}/>
                 <EthereumTransactionFrom coin={fromData.coin}
                                          onSave={(d) => this.setState({txData: d})}/>
                 <MnemonicsInput encrypted={true}

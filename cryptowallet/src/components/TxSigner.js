@@ -13,8 +13,18 @@ class TxSigner extends Component {
         const signed = signers[coin](mnemonics, address, txData);
         return(
             <Card>
-                <div>{JSON.stringify(txData)}</div>
-                <div>{signed}</div>
+                <div>
+                    <p>
+                    <small className="text-muted">Raw transaction data</small><br/>
+                        {JSON.stringify(txData)}
+                    </p>
+                </div>
+                <div>
+                    <p>
+                    <small className="text-muted">Transaction signature</small><br/>
+                        0x{signed}
+                    </p>
+                </div>
             </Card>
         )
     }
