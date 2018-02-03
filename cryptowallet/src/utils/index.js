@@ -3,7 +3,13 @@ import EthereumTx from 'ethereumjs-tx';
 import { HDNode } from "bitcoinjs-lib";
 
 const getPrivKey = (mnemonics, address) => {
-    const seed = bip39.mnemonicToSeed(mnemonics);
+    let seed;
+    try {
+        const obj = JSON.parse(mnemonics);
+        seed = bip39.mnemonicToSeed(obj.mnemonics, obj.salt);
+    } catch (e) {
+        seed = bip39.mnemonicToSeed(mnemonics);
+    }
     const node = HDNode.fromSeedBuffer(seed);
     const addressNode = node.derivePath(address);
     return addressNode.keyPair.d.toBuffer(32).toString('hex')

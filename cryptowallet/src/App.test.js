@@ -18,18 +18,24 @@ describe('CryptoWallet', function () {
             data: '',
             chainId: 1
         };
-        const tx = getETXTxData(0, 1, 0, 21000, '0xAB1182654936eaf254915bC6aF2C1460b26A658a', '');
+        const tx = getETXTxData(0, 1, 0, 21000, 'AB1182654936eaf254915bC6aF2C1460b26A658a', '');
         Object.keys(tx).forEach(k => {
             assert.equal(tx[k], requiredTx[k])
         })
     });
 
-    it('can get private keyfrom mnemonics', function () {
+    it('can get private key from mnemonics', function () {
         const mnemonics = (
             'truck unfair vote open sting airport speak ' +
             'awesome recall end symbol chef siren zoo session ' +
             'claw anchor text chimney mandate lottery turn admit ankle'
         );
+        const privKey = getPrivKey(mnemonics, "m/44'/60'/0'/0/1");
+        assert.equal( privKey, '78bd734be30ddcf45b14d07684743fdb391ec5efbe24e83996f2cc46aad9a17e');
+    });
+
+    it('can get private key from salted mnemonics', function () {
+        const mnemonics = '{"mnemonics": "truck unfair vote open sting airport speak awesome recall end symbol chef siren zoo session claw anchor text chimney mandate lottery turn admit ankle", "salt": ""}';
         const privKey = getPrivKey(mnemonics, "m/44'/60'/0'/0/1");
         assert.equal( privKey, '78bd734be30ddcf45b14d07684743fdb391ec5efbe24e83996f2cc46aad9a17e');
     });
