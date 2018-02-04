@@ -6,6 +6,7 @@ import aes from "crypto-js/aes";
 import bip39 from 'bip39';
 import Icon from "./Icon";
 import NextButton from "./NextButton";
+import JSONUploader from "./JSONUploader";
 
 const decryptMnemonics = (text, password) => {
     try {
@@ -85,7 +86,7 @@ class MnemonicsInput extends Component {
         const { passwordLabel, mnemonicsLabel, buttonLabel, disabled } =  this.props;
         let showedMnemonics = null;
         if (mnemonics) {
-            showedMnemonics = visibleMnemonics ? mnemonics : Array(mnemonics.length).fill('\u2022').join('');;
+            showedMnemonics = visibleMnemonics ? mnemonics : Array(mnemonics.length).fill('\u2022').join('');
         }
         const inputAttrs = disabled ? {disabled: true} : {};
         return(
@@ -116,6 +117,10 @@ class MnemonicsInput extends Component {
                                    messages={passwordInvalid && ["Invalid password or encrypted mnemonic"]}
                                    onChange={(e) => this.setState({password: e.target.value})}
                                    inputAttrs={inputAttrs}/>
+                    <JSONUploader onValid={(d) => this.setState({encryptedMnemonics: d.encryptedMnemonics})}
+                                  disabled={!!mnemonics}
+                                  title="Upload encrypted mnemonics"
+                                  requiredKeys={['encryptedMnemonics']}/>
                 </Card>
                 <br/>
                 <NextButton title={buttonLabel}

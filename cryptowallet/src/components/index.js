@@ -12,6 +12,8 @@ import AccountsGenerator from "./AccountsGenerator";
 import Header from "./Header";
 import TransactionAddress from "./TransactionAddress";
 import TxSigner from "./TxSigner";
+import JSONUploader from "./JSONUploader";
+import Icon from "./Icon";
 
 export {
     NextButton,
@@ -27,5 +29,7 @@ export {
     AccountsGenerator,
     Header,
     TransactionAddress,
-    TxSigner
+    TxSigner,
+    JSONUploader,
+    Icon
 }

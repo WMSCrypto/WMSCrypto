@@ -12,9 +12,7 @@ const getPrivKey = (mnemonics, address) => {
     }
     const node = HDNode.fromSeedBuffer(seed);
     const addressNode = node.derivePath(address);
-    const privKey = addressNode.keyPair.d.toBuffer(32).toString('hex');
-    console.log(`Get private key for address ${address}: ${privKey}`);
-    return privKey;
+    return addressNode.keyPair.d.toBuffer(32).toString('hex');
 };
 
 const signEthereumTransaction = (hex, txParams) => {
@@ -28,7 +26,7 @@ const hexView = (v) => {
     if (v === '') {
         return '0x'
     } else {
-        const intValue = Number.isInteger(v) ? v : parseInt(v);
+        const intValue = Number.isInteger(v) ? v : parseInt(v, 10);
         return `0x${intValue.toString(16)}`
     }
 };
