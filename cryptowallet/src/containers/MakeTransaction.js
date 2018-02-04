@@ -8,7 +8,7 @@ class MakeTransaction extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fromData: {coin: "0", fullAddress: null},
+            fromData: {coin: "60", fullAddress: null},
             decryptedMnemonics: null,
             txData: null,
         }

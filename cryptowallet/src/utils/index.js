@@ -39,8 +39,8 @@ const getETXTxData = (nonce, value, gasPrice, gasLimit, to, data, chainId=1) => 
         value: hexView(Math.pow(10, 18) * value),
         gasPrice: hexView(gasPrice),
         gasLimit: hexView(gasLimit),
-        to: `0x${to}`,
-        data: data && `0x${data}`,
+        to: to,
+        data: data,
         chainId
     }
 };

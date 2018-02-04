@@ -4,8 +4,8 @@ import NextButton from "../NextButton";
 import { hexView, getETXTxData } from "../../utils";
 
 const intTest = (v) => v ? /^\d+$/.test(v) : true;
-const addressTest = (v) => v ? /^[\da-fA-F]{40}$/.test(v) : false;
-const hexTest = (v) => v ? /^[\da-fA-F]*$/.test(v) : true;
+const addressTest = (v) => v ? /^0x[\da-fA-F]{40}$/.test(v) : false;
+const hexTest = (v) => v ? /^0x[\da-fA-F]*$/.test(v) : true;
 const valueTest = (v) => v ? /^\d+\.?\d{0,18}$/.test(v) : true;
 
 class EthereumTransactionFrom extends Component {
@@ -55,8 +55,8 @@ class EthereumTransactionFrom extends Component {
         const { nonce, gasPrice, gasLimit, to, value, data, edit } = this.state;
         const validatedTo = addressTest(to);
         const validatedData = hexTest(data);
-        const toErrorMessage = !validatedTo ? 'Address must be 0-9, a-f, A-F and len 40' : null;
-        const dataErrorMessage = !validatedData ? 'Data must be 0-9, a-f, A-F' : null;
+        const toErrorMessage = !validatedTo ? 'Address must start with 0x, be 0-9, a-f, A-F and len 40' : null;
+        const dataErrorMessage = !validatedData ? 'Data must start with 0x, be 0-9, a-f, A-F' : null;
         return(
             <div>
                 <Card>

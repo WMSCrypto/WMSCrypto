@@ -45,7 +45,7 @@ class TransactionAddress extends Component {
         return (
             <div>
                 <Card>
-                    <CoinsList {...this.getInputProps('coin')}/>
+                    <CoinsList {...this.getInputProps('coin')} filterKey="txEnable"/>
                         <div className="form-row">
                             <div className="form-group col-md-2">
                                 <label htmlFor="inputAccount">Account</label>

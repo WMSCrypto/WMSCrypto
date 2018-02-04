@@ -18,7 +18,7 @@ describe('CryptoWallet', function () {
             data: '',
             chainId: 1
         };
-        const tx = getETXTxData(0, 1, 0, 21000, 'AB1182654936eaf254915bC6aF2C1460b26A658a', '');
+        const tx = getETXTxData(0, 1, 0, 21000, '0xAB1182654936eaf254915bC6aF2C1460b26A658a', '');
         Object.keys(tx).forEach(k => {
             assert.equal(tx[k], requiredTx[k])
         })

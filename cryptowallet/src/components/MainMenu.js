@@ -1,7 +1,9 @@
 import React from 'react';
 import Menu from "./Menu";
 import CreateWallet from "../containers/CreateWallet";
-import WalletMenu from "./WalletMenu";
+import ChangeWalletPassword from "../containers/ChangeWalletPassword";
+import ConnectWallet from "../containers/ConnectWallet";
+import MakeTransaction from "../containers/MakeTransaction";
 
 const MainMenu = (props) => {
     const { onClick } = props;
@@ -17,9 +19,23 @@ const MainMenu = (props) => {
             <button type="button"
                     className="btn btn-light btn-lg"
                     onClick={() => {
-                        onClick(() => <WalletMenu onClick={onClick}/>)
+                        onClick(() => <ChangeWalletPassword/>, true)
                     }}>
-                I have wallet
+                Change wallet password
+            </button>
+            <button type="button"
+                    className="btn btn-light btn-lg"
+                    onClick={() => {
+                        onClick(() => <ConnectWallet/>, true)
+                    }}>
+                Connect wallet
+            </button>
+            <button type="button"
+                    className="btn btn-light btn-lg"
+                    onClick={() => {
+                        onClick(() => <MakeTransaction/>, true)
+                    }}>
+                Make transaction
             </button>
         </Menu>
     )

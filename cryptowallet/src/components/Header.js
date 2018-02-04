@@ -3,7 +3,7 @@ import React from 'react';
 const Header = ({ showMenu, showReload, goToMainMenu, reloadApplication }) => {
     return (
         <div className="AppHeader">
-            <h1>CryptoWallet</h1>
+            <h1>WMSCrypto</h1>
             <div className="HeaderMenu">
                 {showReload
                     ?   <button type="button"
