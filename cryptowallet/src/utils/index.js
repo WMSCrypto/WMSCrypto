@@ -12,7 +12,9 @@ const getPrivKey = (mnemonics, address) => {
     }
     const node = HDNode.fromSeedBuffer(seed);
     const addressNode = node.derivePath(address);
-    return addressNode.keyPair.d.toBuffer(32).toString('hex')
+    const privKey = addressNode.keyPair.d.toBuffer(32).toString('hex');
+    console.log(`Get private key for address ${address}: ${privKey}`);
+    return privKey;
 };
 
 const signEthereumTransaction = (hex, txParams) => {
@@ -22,7 +24,14 @@ const signEthereumTransaction = (hex, txParams) => {
     return tx.serialize();
 };
 
-const hexView = (v) => `0x${v !== '' ? parseInt(v).toString(16) : ''}`;
+const hexView = (v) => {
+    if (v === '') {
+        return '0x'
+    } else {
+        const intValue = Number.isInteger(v) ? v : parseInt(v);
+        return `0x${intValue.toString(16)}`
+    }
+};
 
 const getETXTxData = (nonce, value, gasPrice, gasLimit, to, data, chainId=1) => {
     return {
