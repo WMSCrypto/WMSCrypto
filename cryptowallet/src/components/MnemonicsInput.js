@@ -83,7 +83,7 @@ class MnemonicsInput extends Component {
 
     render() {
         const { password, mnemonics, encryptedMnemonics, visibleMnemonics, passwordInvalid } = this.state;
-        const { passwordLabel, mnemonicsLabel, buttonLabel, disabled } =  this.props;
+        const { passwordLabel, mnemonicsLabel, buttonLabel, disabled, encrypted } =  this.props;
         let showedMnemonics = null;
         if (mnemonics) {
             showedMnemonics = visibleMnemonics ? mnemonics : Array(mnemonics.length).fill('\u2022').join('');
@@ -117,10 +117,13 @@ class MnemonicsInput extends Component {
                                    messages={passwordInvalid && ["Invalid password or encrypted mnemonic"]}
                                    onChange={(e) => this.setState({password: e.target.value})}
                                    inputAttrs={inputAttrs}/>
-                    <JSONUploader onValid={(d) => this.setState({encryptedMnemonics: d.encryptedMnemonics})}
-                                  disabled={!!mnemonics}
-                                  title="Upload encrypted mnemonics"
-                                  requiredKeys={['encryptedMnemonics']}/>
+                    {encrypted
+                        ? <JSONUploader onValid={(d) => this.setState({encryptedMnemonics: d.encryptedMnemonics})}
+                                        disabled={!!mnemonics}
+                                        title="Upload encrypted mnemonics"
+                                        requiredKeys={['encryptedMnemonics']}/>
+                        : null
+                    }
                 </Card>
                 <br/>
                 <NextButton title={buttonLabel}
