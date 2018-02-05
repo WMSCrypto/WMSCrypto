@@ -57,6 +57,18 @@
     margin: 0 0 0 16px;
 }
 
+.LanguageMenu {
+    align-items: center;
+    color: #ffffff;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.LangLabel {
+    margin: 0 0 0 16px;
+}
+
 @media (max-width: 500px) {
     .App h1 {
         font-size: 24px;

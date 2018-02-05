@@ -4,9 +4,11 @@ import CreateWallet from "../containers/CreateWallet";
 import ChangeWalletPassword from "../containers/ChangeWalletPassword";
 import ConnectWallet from "../containers/ConnectWallet";
 import MakeTransaction from "../containers/MakeTransaction";
+import LanguageMenu from "./LanguageMenu";
+import { t } from '../utils/translate';
 
 const MainMenu = (props) => {
-    const { onClick } = props;
+    const { onClick, onChangeLang, lang } = props;
     return (
         <Menu>
             <button type="button"
@@ -14,29 +16,31 @@ const MainMenu = (props) => {
                     onClick={() => {
                         onClick(() => <CreateWallet/>, true)
                     }}>
-                Create wallet
+                {t('Create wallet')}
             </button>
             <button type="button"
                     className="btn btn-light btn-lg"
                     onClick={() => {
                         onClick(() => <ChangeWalletPassword/>, true)
                     }}>
-                Change wallet password
+                {t('Change wallet password')}
             </button>
             <button type="button"
                     className="btn btn-light btn-lg"
                     onClick={() => {
                         onClick(() => <ConnectWallet/>, true)
                     }}>
-                Connect wallet
+                {t('Connect wallet')}
             </button>
             <button type="button"
                     className="btn btn-light btn-lg"
                     onClick={() => {
                         onClick(() => <MakeTransaction/>, true)
                     }}>
-                Make transaction
+                {t('Make transaction')}
             </button>
+            <LanguageMenu lang={lang}
+                          onClick={onChangeLang}/>
         </Menu>
     )
 };

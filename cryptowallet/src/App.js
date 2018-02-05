@@ -3,6 +3,7 @@ import MainMenu from "./components/MainMenu";
 import { Header } from './components';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import { t, setLang } from './utils/translate';
 
 class App extends Component {
 
@@ -10,7 +11,8 @@ class App extends Component {
         super(props);
         this.state = {
             application: null,
-            showReload: false
+            showReload: false,
+            lang: 'en'
         }
     }
 
@@ -24,9 +26,17 @@ class App extends Component {
     }
 
     renderBaseMenu() {
+        const { lang } = this.state;
         return (
-            <MainMenu onClick={(f, r=false) => {this.setState({application: f, showReload: r})}}/>
+            <MainMenu onClick={(f, r=false) => {this.setState({application: f, showReload: r})}}
+                      onChangeLang={() => this.setLang(lang === 'en' ? 'ru' : 'en')}
+                      lang={lang}/>
         )
+    }
+
+    setLang(lang) {
+        setLang(lang);
+        this.setState({lang})
     }
 
     render() {
