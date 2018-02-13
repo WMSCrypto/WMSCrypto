@@ -89,7 +89,7 @@ class EthereumTransactionFrom extends Component {
                         <small className="form-text text-muted">{hexView(gasLimit)}</small>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="inputTo">To, 0x</label>
+                        <label htmlFor="inputTo">To</label>
                         <input type="text"
                                className="form-control"
                                id="inputTo"
@@ -110,7 +110,7 @@ class EthereumTransactionFrom extends Component {
                         <small className="form-text text-muted">{hexView(Math.pow(10, 18) * value)}</small>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="inputData">Data, 0x</label>
+                        <label htmlFor="inputData">Data</label>
                         <textarea className="form-control"
                                   id="inputData"
                                   rows={2}

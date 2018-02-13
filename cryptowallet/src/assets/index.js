@@ -1,5 +1,6 @@
 import coins from './coins';
 import { SAVE_WALLETS, SAVE_MNEMONICS } from './messages'
+import actionToApp from "./actionToApp";
 
 const messages = {
     SAVE_WALLETS,
@@ -8,5 +9,6 @@ const messages = {
 
 export {
     coins,
-    messages
+    messages,
+    actionToApp
 }
