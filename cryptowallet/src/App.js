@@ -4,6 +4,12 @@ import { Header } from './components';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { t, setLang } from './utils/translate';
+import { actionToApp } from './assets';
+
+const dropLocation = () => {
+    window.location.hash = '';
+    window.location.pathname = '';
+};
 
 class App extends Component {
 
@@ -12,7 +18,31 @@ class App extends Component {
         this.state = {
             application: null,
             showReload: false,
+            uuid: null,
             lang: 'en'
+        }
+    }
+
+
+    componentWillMount() {
+        const pathArray = window.location.pathname.split('/');
+        const uuid = pathArray.length === 2 && pathArray[1].length ? pathArray[1] : null;
+
+        if (uuid) {
+            this.setState({uuid});
+            fetch(`/api/operations/${uuid}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.action) {
+                        this.setState({application: actionToApp[data.action]});
+                    } else {
+                        dropLocation();
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    dropLocation();
+                })
         }
     }
 
@@ -26,12 +56,16 @@ class App extends Component {
     }
 
     renderBaseMenu() {
-        const { lang } = this.state;
-        return (
-            <MainMenu onClick={(f, r=false) => {this.setState({application: f, showReload: r})}}
-                      onChangeLang={() => this.setLang(lang === 'en' ? 'ru' : 'en')}
-                      lang={lang}/>
-        )
+        const { lang, uuid } = this.state;
+        if (uuid) {
+            return <p style={{color: '#ffffff'}}>Data loading...</p>
+        } else {
+            return (
+                <MainMenu onClick={(f, r=false) => {this.setState({application: f, showReload: r})}}
+                          onChangeLang={() => this.setLang(lang === 'en' ? 'ru' : 'en')}
+                          lang={lang}/>
+            )
+        }
     }
 
     setLang(lang) {
@@ -40,10 +74,10 @@ class App extends Component {
     }
 
     render() {
-        const { application, showReload } = this.state;
+        const { application, showReload, uuid } = this.state;
         return (
             <div className="container App" style={{maxWidth: 800}}>
-                <Header showMenu={!!application}
+                <Header showMenu={!uuid && !!application}
                         showReload={showReload}
                         goToMainMenu={() => this.setState({application: null, showReload: false})}
                         reloadApplication={() => this.reloadApplication()}/>
