@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import aes from 'crypto-js/aes';
 import { messages } from '../assets';
+import { sendPut } from '../utils';
 import {
     Card,
     NextButton,
@@ -34,12 +35,15 @@ class ChangeWalletPassword extends Component {
 
     render() {
         const { newEncryptedMnemonics, mnemonics, newPassword } = this.state;
+        const { uuid, encryptedMnemonics } = this.props;
         return (
             <div>
                 <MnemonicsInput encrypted={true}
                                 buttonLabel="Decrypt mnemonics"
                                 passwordLabel="Password"
                                 mnemonicsLabel="Mnemonics"
+                                uuid={uuid}
+                                encryptedMnemonics={encryptedMnemonics}
                                 onValidate={(d) => this.setState({mnemonics: d})}
                                 disabled={!!mnemonics}/>
 
@@ -68,7 +72,11 @@ class ChangeWalletPassword extends Component {
                                 hide={false}
                                 important={true}
                                 message={messages.SAVE_WALLETS}
-                                onClick={() =>{console.log(newEncryptedMnemonics.toString())}}/>
+                                onClick={() =>{sendPut(
+                                    uuid,
+                                    {encryptedMnemonics: newEncryptedMnemonics.toString()},
+                                    console.log
+                                )}}/>
                     : null
                 }
                 <br/>

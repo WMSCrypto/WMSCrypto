@@ -43,9 +43,24 @@ const getETXTxData = (nonce, value, gasPrice, gasLimit, to, data, chainId=1) => 
     }
 };
 
+const sendPut = (uuid, data, callback) => {
+    fetch(`/api/operations/${uuid}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({data})})
+        .then((res) => res.status)
+        .then((status) => {
+            callback(status, data, uuid)
+        })
+        .catch(() => {
+            callback(null, data, uuid)
+        })
+};
+
 export {
     getPrivKey,
     hexView,
     signEthereumTransaction,
-    getETXTxData
+    getETXTxData,
+    sendPut
 }

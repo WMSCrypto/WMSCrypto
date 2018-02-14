@@ -4,6 +4,7 @@ import aes from 'crypto-js/aes';
 import { NextButton, MnemonicsView, Card, LastStep , AccountsGenerator } from '../components';
 import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
+import { sendPut } from '../utils';
 
 const MNEMONICS_BITS = 256;
 
@@ -31,6 +32,7 @@ class CreateWallet extends Component {
 
     render() {
         const { password, encryptedMnemonics, mnemonics, accounts } = this.state;
+        const { uuid } = this.props;
         return (
             <div>
                 <CreatePassword setPassword={(p) => {this.setState({password: p})}}
@@ -48,16 +50,23 @@ class CreateWallet extends Component {
                                    bits={MNEMONICS_BITS}/>
                 </Card>
                 <br/>
-                {mnemonics && <AccountsGenerator disabled={!mnemonics || accounts}
+                {(mnemonics && uuid) && <AccountsGenerator disabled={!mnemonics || accounts}
                                                  mnemonics={mnemonics}
                                                  onGenerate={(accounts) => this.setState({accounts})}/>
                 }
-                {accounts
+                {accounts && uuid
                     ? <LastStep title="Save mnemonics"
                                 hide={false}
                                 important={true}
                                 message={messages.SAVE_WALLETS}
-                                onClick={() =>{console.log(encryptedMnemonics.toString())}}/>
+                                onClick={() =>{sendPut(
+                                    uuid,
+                                    {
+                                        accounts: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()]),
+                                        encryptedMnemonics: encryptedMnemonics.toString()
+                                    },
+                                    console.log
+                                )}}/>
                     : null
                 }
                 <br/>

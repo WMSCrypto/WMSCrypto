@@ -5,8 +5,8 @@ import ConnectWallet from "../containers/ConnectWallet";
 import MakeTransaction from "../containers/MakeTransaction";
 
 export default {
-    'CW': () => <CreateWallet/>,
-    'AW': () => <ConnectWallet/>,
-    'CWP': () => <ChangeWalletPassword/>,
-    'MT': () => <MakeTransaction/>
+    'CW': (props) => <CreateWallet {...props}/>,
+    'AW': (props) => <ConnectWallet  {...props}/>,
+    'CWP': (props) => <ChangeWalletPassword {...props}/>,
+    'MT': (props) => <MakeTransaction {...props}/>
 }

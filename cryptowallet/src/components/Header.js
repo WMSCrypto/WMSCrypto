@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Header = ({ showMenu, showReload, goToMainMenu, reloadApplication }) => {
+const Header = ({ showMenu, showReload, goToMainMenu, reloadApplication, uuid }) => {
     return (
         <div className="AppHeader">
             <h1>WMSCrypto</h1>
             <div className="HeaderMenu">
-                {showReload
+                {showReload && !uuid
                     ?   <button type="button"
                                 className="btn btn-danger"
                                 onClick={reloadApplication}>

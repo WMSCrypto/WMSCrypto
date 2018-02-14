@@ -19,7 +19,8 @@ class App extends Component {
             application: null,
             showReload: false,
             uuid: null,
-            lang: 'en'
+            data: null,
+            lang: 'en',
         }
     }
 
@@ -34,7 +35,11 @@ class App extends Component {
                 .then(response => response.json())
                 .then(data => {
                     if (data.action) {
-                        this.setState({application: actionToApp[data.action]});
+                        console.log(data);
+                        this.setState({
+                            application: actionToApp[data.action],
+                            data: data.data,
+                            encryptedMnemonics: data.encryptedMnemonics});
                     } else {
                         dropLocation();
                     }
@@ -74,14 +79,15 @@ class App extends Component {
     }
 
     render() {
-        const { application, showReload, uuid } = this.state;
+        const { application, showReload, uuid, data, encryptedMnemonics } = this.state;
         return (
             <div className="container App" style={{maxWidth: 800}}>
                 <Header showMenu={!uuid && !!application}
                         showReload={showReload}
+                        uuid={uuid}
                         goToMainMenu={() => this.setState({application: null, showReload: false})}
                         reloadApplication={() => this.reloadApplication()}/>
-                { application ? application() : this.renderBaseMenu()}
+                { application ? application({uuid, data, encryptedMnemonics}) : this.renderBaseMenu()}
             </div>
         );
     }
