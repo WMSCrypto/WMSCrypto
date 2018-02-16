@@ -25,16 +25,18 @@ class App extends Component {
     componentWillMount() {
         const pathArray = window.location.pathname.split('/');
         const uuid = pathArray.length === 2 && pathArray[1].length ? pathArray[1] : null;
-
         if (uuid) {
             this.setState({uuid});
             fetch(`/api/operations/${uuid}`)
                 .then(response => response.json())
                 .then(data => {
+                    const jData = data.data ? JSON.parse(data.data) : null;
+                    const { lang } = this.state;
                     if (data.action) {
                         this.setState({
                             application: actionToApp[data.action],
-                            data: data.data,
+                            data: jData,
+                            lang: jData ? (jData.lang || lang) : lang,
                             encryptedMnemonics: data.encryptedMnemonics});
                     } else {
                         this.setState({application: () => <StatusCard status={404}/>});
@@ -61,14 +63,12 @@ class App extends Component {
     }
 
     renderBaseMenu() {
-        const { lang, uuid } = this.state;
+        const { uuid } = this.state;
         if (uuid) {
             return <p style={{color: '#ffffff'}}>Data loading...</p>
         } else {
             return (
-                <MainMenu onClick={(f, r=false) => {this.setState({application: f, showReload: r})}}
-                          onChangeLang={() => this.setLang(lang === 'en' ? 'ru' : 'en')}
-                          lang={lang}/>
+                <MainMenu onClick={(f, r=false) => {this.setState({application: f, showReload: r})}}/>
             )
         }
     }
@@ -79,14 +79,16 @@ class App extends Component {
     }
 
     render() {
-        const { application, showReload, uuid, data, encryptedMnemonics } = this.state;
+        const { application, showReload, uuid, data, encryptedMnemonics, lang } = this.state;
         return (
             <div className="container App" style={{maxWidth: 800}}>
-                <Header showMenu={!uuid && !!application}
+                <Header showMenu={!!application}
                         showReload={showReload}
                         uuid={uuid}
                         goToMainMenu={() => this.setState({application: null, showReload: false})}
-                        reloadApplication={() => this.reloadApplication()}/>
+                        reloadApplication={() => this.reloadApplication()}
+                        onChangeLang={() => this.setLang(lang === 'en' ? 'ru' : 'en')}
+                        lang={lang}/>
                 { application ? application({
                     uuid,
                     data,

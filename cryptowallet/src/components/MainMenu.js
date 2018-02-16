@@ -4,11 +4,10 @@ import CreateWallet from "../containers/CreateWallet";
 import ChangeWalletPassword from "../containers/ChangeWalletPassword";
 import ConnectWallet from "../containers/ConnectWallet";
 import MakeTransaction from "../containers/MakeTransaction";
-import LanguageMenu from "./LanguageMenu";
 import { t } from '../utils/translate';
 
 const MainMenu = (props) => {
-    const { onClick, onChangeLang, lang } = props;
+    const { onClick } = props;
     return (
         <Menu>
             <button type="button"
@@ -39,8 +38,6 @@ const MainMenu = (props) => {
                     }}>
                 {t('Make transaction')}
             </button>
-            <LanguageMenu lang={lang}
-                          onClick={onChangeLang}/>
         </Menu>
     )
 };

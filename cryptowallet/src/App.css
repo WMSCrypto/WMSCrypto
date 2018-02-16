@@ -43,8 +43,12 @@
     justify-content: space-between;
 }
 
-.HeaderMenu button:first-child {
+.HeaderMenu button {
     margin: 0 8px 0 0;
+}
+
+.HeaderMenu button:last-child {
+    margin: 0;
 }
 
 .save-edit-btns {
