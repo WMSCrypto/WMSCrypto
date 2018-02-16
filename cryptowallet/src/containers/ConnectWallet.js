@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { MnemonicsInput, CreatePassword, NextButton, Card, DownloadButton, LastStep } from '../components/index';
 import aes from "crypto-js/aes";
 import AccountsGenerator from "../components/AccountsGenerator";
-import {messages} from "../assets";
+import { messages } from "../assets";
+import { sendPut } from "../utils";
 
 class ConnectWallet extends Component {
 
@@ -30,6 +31,7 @@ class ConnectWallet extends Component {
 
     render() {
         const { aesPassword, mnemonicsData, encryptedMnemonics, accounts } = this.state;
+        const { uuid, onOperationResult } = this.props;
         return(
             <div>
                 <MnemonicsInput encrypted={false}
@@ -71,7 +73,14 @@ class ConnectWallet extends Component {
                                 hide={false}
                                 important={true}
                                 message={messages.SAVE_WALLETS}
-                                onClick={() =>{console.log(encryptedMnemonics.toString())}}/>
+                                onClick={() =>{sendPut(
+                                    uuid,
+                                    {
+                                        accounts: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()]),
+                                        encryptedMnemonics: encryptedMnemonics.toString()
+                                    },
+                                    (status, data, uuid) => onOperationResult(status)
+                                )}}/>
                     : null
                 }
                 <br/>

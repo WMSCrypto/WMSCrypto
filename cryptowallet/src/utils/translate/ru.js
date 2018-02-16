@@ -28,7 +28,9 @@ const translates = {
     "INVALID_UUID": "Данный идентификатор не существует или просрочен",
     "Reload in offline mode": "Перезагрузить в оффлайн режиме",
     "Go to telegram": "Перейти в телеграмм",
-    "SORRY": "Извините, что-то пошло не так, попробуйте позже"
+    "SORRY": "Извините, что-то пошло не так, попробуйте позже",
+    "IMPORTANT!": "ВАЖНО!",
+    "I understand": "Я понимаю"
 };
 
 export default translates;

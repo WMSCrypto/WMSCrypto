@@ -93,7 +93,7 @@ class App extends Component {
                     uuid,
                     data,
                     encryptedMnemonics,
-                    onOperationResult: () => this.onOperationResult()
+                    onOperationResult: this.onOperationResult.bind(this)
                 }) : this.renderBaseMenu()}
             </div>
         );

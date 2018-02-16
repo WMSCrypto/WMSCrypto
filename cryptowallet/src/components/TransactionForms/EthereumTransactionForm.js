@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Card from "../Cards/Card";
 import NextButton from "../NextButton";
 import { hexView, getETXTxData } from "../../utils";
+import { t } from '../../utils/translate';
 
 const intTest = (v) => v ? /^\d+$/.test(v) : true;
 const addressTest = (v) => v ? /^0x[\da-fA-F]{40}$/.test(v) : false;
@@ -62,7 +63,7 @@ class EthereumTransactionFrom extends Component {
                 <Card>
                     <p>Ethereum transaction form</p>
                     <div className="form-group">
-                        <label htmlFor="inputNonce">Nonce</label>
+                        <label htmlFor="inputNonce">{t("Nonce")}</label>
                         <input type="text"
                                className="form-control"
                                id="inputNonce"
@@ -71,7 +72,7 @@ class EthereumTransactionFrom extends Component {
                         <small className="form-text text-muted">{hexView(nonce)}</small>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="inputGasPrice">Gas price</label>
+                        <label htmlFor="inputGasPrice">{t("Gas price")}</label>
                         <input type="text"
                                className="form-control"
                                id="inputGasPrice"
@@ -80,7 +81,7 @@ class EthereumTransactionFrom extends Component {
                         <small className="form-text text-muted">{hexView(gasPrice)}</small>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="inputGasLimit">Gas limit</label>
+                        <label htmlFor="inputGasLimit">{t("Gas limit")}</label>
                         <input type="text"
                                className="form-control"
                                id="inputGasLimit"
@@ -89,7 +90,7 @@ class EthereumTransactionFrom extends Component {
                         <small className="form-text text-muted">{hexView(gasLimit)}</small>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="inputTo">To</label>
+                        <label htmlFor="inputTo">{t("To")}</label>
                         <input type="text"
                                className="form-control"
                                id="inputTo"
@@ -101,7 +102,7 @@ class EthereumTransactionFrom extends Component {
                         }
                     </div>
                     <div className="form-group">
-                        <label htmlFor="inputValue">Value</label>
+                        <label htmlFor="inputValue">{t("Value")}</label>
                         <input type="text"
                                className="form-control"
                                id="inputValue"
@@ -110,7 +111,7 @@ class EthereumTransactionFrom extends Component {
                         <small className="form-text text-muted">{hexView(Math.pow(10, 18) * value)}</small>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="inputData">Data</label>
+                        <label htmlFor="inputData">{t("Data")}</label>
                         <textarea className="form-control"
                                   id="inputData"
                                   rows={2}
@@ -123,12 +124,12 @@ class EthereumTransactionFrom extends Component {
                 </Card>
                 <br/>
                 <div className="save-edit-btns">
-                    <NextButton title="Save transaction"
+                    <NextButton title={t("Save transaction")}
                                 disabled={!validatedTo || !validatedData || !edit}
                                 onClick={() => this.save()}/>
                     <button type="button" className="btn btn-secondary" disabled={edit}
                             onClick={() => this.setState({edit: true})}>
-                        Edit transaction
+                        {t("Edit transaction")}
                     </button>
                 </div>
                 <br/>

@@ -10,6 +10,7 @@ import {
     DownloadButton,
     MnemonicsInput
 } from '../components';
+import { t } from '../utils/translate';
 
 
 class ChangeWalletPassword extends Component {
@@ -39,7 +40,7 @@ class ChangeWalletPassword extends Component {
         return (
             <div>
                 <MnemonicsInput encrypted={true}
-                                buttonLabel="Decrypt mnemonics"
+                                buttonLabel={t("Decrypt mnemonics")}
                                 passwordLabel="Password"
                                 mnemonicsLabel="Mnemonics"
                                 uuid={uuid}
@@ -51,14 +52,14 @@ class ChangeWalletPassword extends Component {
                 {mnemonics ? <CreatePassword setPassword={(p) => {this.setState({newPassword: p})}}/> : null}
                 <br/>
                 {newPassword
-                    ? <NextButton title="Encrypt mnemonics"
+                    ? <NextButton title={t("Encrypt mnemonics")}
                                   disabled={!!newEncryptedMnemonics}
                                   onClick={() => this.generateMnemonics()}/>
                     : null
                 }
                 <br/>
                 {newEncryptedMnemonics
-                    ? <Card><DownloadButton title="Download encrypted mnemonics"
+                    ? <Card><DownloadButton title={t("Download encrypted mnemonics")}
                                             id="newEncryptedMnemonics"
                                             obj={{
                                                 encryptedMnemonics: newEncryptedMnemonics.toString(),
@@ -68,7 +69,7 @@ class ChangeWalletPassword extends Component {
                 }
                 <br/>
                 {newEncryptedMnemonics
-                    ? <LastStep title="Save mnemonics"
+                    ? <LastStep title={t("Save mnemonics")}
                                 hide={false}
                                 important={true}
                                 message={messages.SAVE_WALLETS}

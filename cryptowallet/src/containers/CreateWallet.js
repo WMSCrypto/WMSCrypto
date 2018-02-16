@@ -4,6 +4,7 @@ import aes from 'crypto-js/aes';
 import { NextButton, MnemonicsView, Card, LastStep , AccountsGenerator } from '../components';
 import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
+import { t } from '../utils/translate';
 import { sendPut } from '../utils';
 
 const MNEMONICS_BITS = 256;
@@ -40,7 +41,7 @@ class CreateWallet extends Component {
                     <p className="text-muted">{messages.SAVE_MNEMONICS}</p>
                 </CreatePassword>
                 <br/>
-                <NextButton title="Generate mnemonics"
+                <NextButton title={t("Generate mnemonics")}
                             disabled={!password || mnemonics}
                             onClick={() => this.generateMnemonics()}/>
                 <br/>
@@ -55,7 +56,7 @@ class CreateWallet extends Component {
                                                  onGenerate={(accounts) => this.setState({accounts})}/>
                 }
                 {accounts && uuid
-                    ? <LastStep title="Save mnemonics"
+                    ? <LastStep title={t("Save mnemonics")}
                                 hide={false}
                                 important={true}
                                 message={messages.SAVE_WALLETS}
@@ -65,7 +66,7 @@ class CreateWallet extends Component {
                                         accounts: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()]),
                                         encryptedMnemonics: encryptedMnemonics.toString()
                                     },
-                                    (status, data, uuid) => onOperationResult(status)
+                                    onOperationResult
                                 )}}/>
                     : null
                 }
