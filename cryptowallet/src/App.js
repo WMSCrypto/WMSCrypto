@@ -3,11 +3,9 @@ import MainMenu from "./components/MainMenu";
 import { Header } from './components';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { t, setLang } from './utils/translate';
+import { setLang } from './utils/translate';
 import { actionToApp } from './assets';
-import InvalidUUIDResult from "./components/Cards/InvalidUUIDResult";
-import { dropLocation } from './utils';
-import SuccessResult from "./components/Cards/SuccesResult";
+import StatusCard from "./components/Cards/StatusCard";
 
 
 class App extends Component {
@@ -39,18 +37,18 @@ class App extends Component {
                             data: data.data,
                             encryptedMnemonics: data.encryptedMnemonics});
                     } else {
-                        this.setState({application: () => <InvalidUUIDResult/>});
+                        this.setState({application: () => <StatusCard status={404}/>});
                     }
                 })
                 .catch(err => {
                     console.log(err);
-                    dropLocation();
+                    this.setState({application: () => <StatusCard status={null}/>});
                 })
         }
     }
 
-    onSuccessOperation() {
-        this.setState({application: () => <SuccessResult/>})
+    onOperationResult(status, data, uuid) {
+        this.setState({application: () => <StatusCard status={status}/>})
     }
 
     componentDidMount() {
@@ -93,7 +91,7 @@ class App extends Component {
                     uuid,
                     data,
                     encryptedMnemonics,
-                    onSuccessOperation: () => this.onSuccessOperation()
+                    onOperationResult: () => this.onOperationResult()
                 }) : this.renderBaseMenu()}
             </div>
         );

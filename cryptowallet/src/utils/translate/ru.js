@@ -27,7 +27,8 @@ const translates = {
     "Edit transaction": "Изменить транзакцию",
     "INVALID_UUID": "Данный идентификатор не существует или просрочен",
     "Reload in offline mode": "Перезагрузить в оффлайн режиме",
-    "Go to telegram": "Перейти в телеграмм"
+    "Go to telegram": "Перейти в телеграмм",
+    "SORRY": "Извините, что-то пошло не так, попробуйте позже"
 };
 
 export default translates;
