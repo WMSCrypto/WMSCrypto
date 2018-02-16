@@ -36,8 +36,10 @@ class App extends Component {
                         this.setState({
                             application: actionToApp[data.action],
                             data: jData,
-                            lang: jData ? (jData.lang || lang) : lang,
                             encryptedMnemonics: data.encryptedMnemonics});
+                        if (jData && jData.lang) {
+                            this.setLang(jData.lang)
+                        }
                     } else {
                         this.setState({application: () => <StatusCard status={404}/>});
                     }
