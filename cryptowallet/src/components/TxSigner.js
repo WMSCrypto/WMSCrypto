@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import signers from '../utils/signers';
-import Card from "./Card";
+import Card from "./Cards/Card";
 
 class TxSigner extends Component {
 

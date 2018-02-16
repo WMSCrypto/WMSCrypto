@@ -35,7 +35,7 @@ class ChangeWalletPassword extends Component {
 
     render() {
         const { newEncryptedMnemonics, mnemonics, newPassword } = this.state;
-        const { uuid, encryptedMnemonics } = this.props;
+        const { uuid, encryptedMnemonics, onSuccessOperation } = this.props;
         return (
             <div>
                 <MnemonicsInput encrypted={true}
@@ -75,7 +75,7 @@ class ChangeWalletPassword extends Component {
                                 onClick={() =>{sendPut(
                                     uuid,
                                     {encryptedMnemonics: newEncryptedMnemonics.toString()},
-                                    console.log
+                                    () => onSuccessOperation()
                                 )}}/>
                     : null
                 }

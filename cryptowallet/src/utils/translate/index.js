@@ -1,8 +1,9 @@
 import ru from './ru';
+import en from './en'
 
 const { t, setLang }= (() => {
     let current = 'en';
-    const langs = {ru};
+    const langs = {en, ru};
     return {
         setLang: (lang) => { current = lang },
         t: (s) => {

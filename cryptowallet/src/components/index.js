@@ -3,7 +3,7 @@ import PasswordInput from './PasswordInput';
 import MnemonicsView from './MnemonicsView';
 import CoinsList from './CoinsList';
 import Account from './Account';
-import Card from './Card';
+import Card from './Cards/Card';
 import LastStep from './LastStep';
 import MnemonicsInput from "./MnemonicsInput";
 import CreatePassword from "./CreatePassword";
@@ -31,5 +31,5 @@ export {
     TransactionAddress,
     TxSigner,
     JSONUploader,
-    Icon
+    Icon,
 }

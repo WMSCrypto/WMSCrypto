@@ -5,11 +5,10 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { t, setLang } from './utils/translate';
 import { actionToApp } from './assets';
+import InvalidUUIDResult from "./components/Cards/InvalidUUIDResult";
+import { dropLocation } from './utils';
+import SuccessResult from "./components/Cards/SuccesResult";
 
-const dropLocation = () => {
-    window.location.hash = '';
-    window.location.pathname = '';
-};
 
 class App extends Component {
 
@@ -35,13 +34,12 @@ class App extends Component {
                 .then(response => response.json())
                 .then(data => {
                     if (data.action) {
-                        console.log(data);
                         this.setState({
                             application: actionToApp[data.action],
                             data: data.data,
                             encryptedMnemonics: data.encryptedMnemonics});
                     } else {
-                        dropLocation();
+                        this.setState({application: () => <InvalidUUIDResult/>});
                     }
                 })
                 .catch(err => {
@@ -49,6 +47,10 @@ class App extends Component {
                     dropLocation();
                 })
         }
+    }
+
+    onSuccessOperation() {
+        this.setState({application: () => <SuccessResult/>})
     }
 
     componentDidMount() {
@@ -87,7 +89,12 @@ class App extends Component {
                         uuid={uuid}
                         goToMainMenu={() => this.setState({application: null, showReload: false})}
                         reloadApplication={() => this.reloadApplication()}/>
-                { application ? application({uuid, data, encryptedMnemonics}) : this.renderBaseMenu()}
+                { application ? application({
+                    uuid,
+                    data,
+                    encryptedMnemonics,
+                    onSuccessOperation: () => this.onSuccessOperation()
+                }) : this.renderBaseMenu()}
             </div>
         );
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Card from "../Card";
+import Card from "../Cards/Card";
 import NextButton from "../NextButton";
 import { hexView, getETXTxData } from "../../utils";
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import zxcvbn from 'zxcvbn';
-import Card from "./Card";
+import Card from "./Cards/Card";
 import PasswordInput from "./PasswordInput";
 
 const VALID_PASSWORD_MESSAGE = 'Passwords match and have strong security.';

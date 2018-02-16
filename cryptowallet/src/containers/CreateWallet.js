@@ -32,7 +32,7 @@ class CreateWallet extends Component {
 
     render() {
         const { password, encryptedMnemonics, mnemonics, accounts } = this.state;
-        const { uuid } = this.props;
+        const { uuid, onSuccessOperation } = this.props;
         return (
             <div>
                 <CreatePassword setPassword={(p) => {this.setState({password: p})}}
@@ -65,7 +65,7 @@ class CreateWallet extends Component {
                                         accounts: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()]),
                                         encryptedMnemonics: encryptedMnemonics.toString()
                                     },
-                                    console.log
+                                    () => onSuccessOperation()
                                 )}}/>
                     : null
                 }

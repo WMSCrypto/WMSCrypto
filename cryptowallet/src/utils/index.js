@@ -57,10 +57,16 @@ const sendPut = (uuid, data, callback) => {
         })
 };
 
+const dropLocation = () => {
+    window.location.hash = '';
+    window.location.pathname = '';
+};
+
 export {
     getPrivKey,
     hexView,
     signEthereumTransaction,
     getETXTxData,
-    sendPut
+    sendPut,
+    dropLocation
 }

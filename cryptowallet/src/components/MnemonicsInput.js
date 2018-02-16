@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Card from './Card';
+import Card from './Cards/Card';
 import PasswordInput from "./PasswordInput";
 import UTF8 from "crypto-js/enc-utf8";
 import aes from "crypto-js/aes";

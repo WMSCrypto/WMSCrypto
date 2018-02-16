@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CoinsList from "./CoinsList";
-import Card from "./Card";
+import Card from "./Cards/Card";
 
 const intTest = (v) => v ? /^\d+$/.test(v) : true;
 
@@ -46,33 +46,33 @@ class TransactionAddress extends Component {
             <div>
                 <Card>
                     <CoinsList {...this.getInputProps('coin')} filterKey="txEnable"/>
-                        <div className="form-row">
-                            <div className="form-group col-md-2">
-                                <label htmlFor="inputAccount">Account</label>
-                                <input type="text"
-                                       className="form-control"
-                                       id="inputAccount"
-                                       required={true}
-                                       {...this.getInputProps('account', intTest)}/>
-                            </div>
-                            <div className="form-group col-md-2">
-                                <label htmlFor="inputChange">Change</label>
-                                <select id="inputChange"
-                                        className="form-control"
-                                        {...this.getInputProps('change')}>
-                                    <option value={0}>0</option>
-                                    <option value={1}>1</option>
-                                </select>
-                            </div>
-                            <div className="form-group col-md-2">
-                                <label htmlFor="inputAddress">Address</label>
-                                <input type="text"
-                                       className="form-control"
-                                       id="inputAddress"
-                                       required={true}
-                                       {...this.getInputProps('address', intTest)}/>
-                            </div>
+                    <div className="form-row">
+                        <div className="form-group col-md-2">
+                            <label htmlFor="inputAccount">Account</label>
+                            <input type="text"
+                                   className="form-control"
+                                   id="inputAccount"
+                                   required={true}
+                                   {...this.getInputProps('account', intTest)}/>
                         </div>
+                        <div className="form-group col-md-2">
+                            <label htmlFor="inputChange">Change</label>
+                            <select id="inputChange"
+                                    className="form-control"
+                                    {...this.getInputProps('change')}>
+                                <option value={0}>0</option>
+                                <option value={1}>1</option>
+                            </select>
+                        </div>
+                        <div className="form-group col-md-2">
+                            <label htmlFor="inputAddress">Address</label>
+                            <input type="text"
+                                   className="form-control"
+                                   id="inputAddress"
+                                   required={true}
+                                   {...this.getInputProps('address', intTest)}/>
+                        </div>
+                    </div>
                     <p>{getFullAdrress(this.state)}</p>
                 </Card>
                 <br/>
