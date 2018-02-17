@@ -30,8 +30,12 @@ class App extends Component {
             fetch(`/api/operations/${uuid}`)
                 .then(response => response.json())
                 .then(data => {
-                    const jData = data.data ? JSON.parse(data.data) : null;
-                    const { lang } = this.state;
+                    let jData = {};
+                    if (typeof data.data === 'string') {
+                        jData = data.data ? JSON.parse(data.data) : null;
+                    } else if (typeof data.data === 'object') {
+                        jData = data.data
+                    }
                     if (data.action) {
                         this.setState({
                             application: actionToApp[data.action],
