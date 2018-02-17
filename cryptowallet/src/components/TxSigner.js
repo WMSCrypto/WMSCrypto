@@ -42,7 +42,6 @@ class TxSigner extends Component {
                         )}} disabled={!uuid}>
                     Send transaction
                 </button>
-                <br/>
             </Card>
         )
     }

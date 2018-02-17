@@ -49,6 +49,7 @@ class MakeTransaction extends Component {
                           uuid={uuid}
                           txData={txData}
                           onOperationResult={onOperationResult}/>
+                <br/>
             </div>
         )
     }
