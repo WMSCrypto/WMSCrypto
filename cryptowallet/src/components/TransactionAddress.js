@@ -14,9 +14,9 @@ class TransactionAddress extends Component {
         super(props);
         this.state = {
             coin: props.coin ? parseInt(props.coin, 10) : 0,
-            account: 0,
-            change: 0,
-            address: 0
+            account: props.account || 0,
+            change: props.change || 0,
+            address: props.address || 0
         }
     }
 

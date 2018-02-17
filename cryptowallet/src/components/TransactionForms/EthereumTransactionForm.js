@@ -14,12 +14,12 @@ class EthereumTransactionFrom extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nonce: 0,
-            gasPrice: 0,
-            gasLimit: 0,
-            to: '',
-            value: 0,
-            data: '',
+            nonce: props.nonce || 0,
+            gasPrice: props.gasPrice || 0,
+            gasLimit: props.gasLimit || 0,
+            to: props.to || '',
+            value: props.value || 0,
+            data: props.data || '',
             edit: true
         }
     }
