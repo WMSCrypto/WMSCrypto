@@ -20,6 +20,13 @@ class TransactionAddress extends Component {
         }
     }
 
+    componentWillMount() {
+        this.props.onSet({
+            coin: this.state.coin,
+            fullAddress: getFullAdrress(this.state)
+        })
+    }
+
     getInputProps(name, validator) {
         const { state } = this;
         const { onSet } = this.props;
