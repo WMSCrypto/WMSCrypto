@@ -3,7 +3,7 @@ import { MnemonicsInput, CreatePassword, NextButton, Card, DownloadButton, LastS
 import aes from "crypto-js/aes";
 import AccountsGenerator from "../components/AccountsGenerator";
 import { messages } from "../assets";
-import { sendPut } from "../utils";
+import { sendPut, encryptMnemonicsByAnchor } from "../utils";
 
 class ConnectWallet extends Component {
 
@@ -77,7 +77,7 @@ class ConnectWallet extends Component {
                                     uuid,
                                     {
                                         accounts: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()]),
-                                        encryptedMnemonics: encryptedMnemonics.toString()
+                                        encryptedMnemonics: encryptMnemonicsByAnchor(encryptedMnemonics)
                                     },
                                     (status, data, uuid) => onOperationResult(status)
                                 )}}/>

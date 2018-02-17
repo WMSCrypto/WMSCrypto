@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import aes from 'crypto-js/aes';
 import { messages } from '../assets';
-import { sendPut } from '../utils';
+import { sendPut, encryptMnemonicsByAnchor } from '../utils';
 import {
     Card,
     NextButton,
@@ -75,7 +75,7 @@ class ChangeWalletPassword extends Component {
                                 message={messages.SAVE_WALLETS}
                                 onClick={() =>{sendPut(
                                     uuid,
-                                    {encryptedMnemonics: newEncryptedMnemonics.toString()},
+                                    {encryptedMnemonics: encryptMnemonicsByAnchor(newEncryptedMnemonics)},
                                     (status, data, uuid) => onOperationResult(status)
                                 )}}/>
                     : null

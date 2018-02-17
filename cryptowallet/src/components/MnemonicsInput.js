@@ -7,6 +7,8 @@ import bip39 from 'bip39';
 import Icon from "./Icon";
 import NextButton from "./NextButton";
 import JSONUploader from "./JSONUploader";
+import { callbackByAnchor } from '../utils';
+
 
 const decryptMnemonics = (text, password) => {
     try {
@@ -34,8 +36,9 @@ class MnemonicsInput extends Component {
 
     decryptMnemonics() {
         const { password, encryptedMnemonics } = this.state;
-        const decrypted = decryptMnemonics(encryptedMnemonics, password);
-        if (decrypted) {
+        const decryptedByAnchor = callbackByAnchor(encryptedMnemonics, decryptMnemonics);
+        const decrypted = decryptMnemonics(decryptedByAnchor, password);
+        if (decrypted && decryptedByAnchor) {
             this.setState({
                 mnemonics: decrypted, passwordInvalid: false, block: true
             }, this.props.onValidate(decrypted))

@@ -5,7 +5,7 @@ import { NextButton, MnemonicsView, Card, LastStep , AccountsGenerator } from '.
 import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
 import { t } from '../utils/translate';
-import { sendPut } from '../utils';
+import { sendPut, encryptMnemonicsByAnchor } from '../utils';
 
 const MNEMONICS_BITS = 256;
 
@@ -64,7 +64,7 @@ class CreateWallet extends Component {
                                     uuid,
                                     {
                                         accounts: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()]),
-                                        encryptedMnemonics: encryptedMnemonics.toString()
+                                        encryptedMnemonics: encryptMnemonicsByAnchor(encryptedMnemonics)
                                     },
                                     onOperationResult
                                 )}}/>

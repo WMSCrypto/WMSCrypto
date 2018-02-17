@@ -1,6 +1,21 @@
+import aes from 'crypto-js/aes';
 import bip39 from 'bip39';
 import EthereumTx from 'ethereumjs-tx';
 import { HDNode } from "bitcoinjs-lib";
+
+const callbackByAnchor = (data, func) => {
+    const anchor = window.location.hash.substr(1);
+    if (anchor.length) {
+        return func(data, anchor);
+    } else {
+        return data
+    }
+};
+
+const encryptMnemonicsByAnchor = (encryptedMnemonics) => {
+    const s = encryptedMnemonics.toString();
+    return callbackByAnchor(s, aes.encrypt).toString()
+};
 
 const getPrivKey = (mnemonics, address) => {
     let seed;
@@ -68,5 +83,7 @@ export {
     signEthereumTransaction,
     getETXTxData,
     sendPut,
-    dropLocation
+    dropLocation,
+    callbackByAnchor,
+    encryptMnemonicsByAnchor
 }
