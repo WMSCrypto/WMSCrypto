@@ -23,7 +23,8 @@ class TransactionAddress extends Component {
     componentWillMount() {
         this.props.onSet({
             coin: this.state.coin,
-            fullAddress: getFullAdrress(this.state)
+            fullAddress: getFullAdrress(this.state),
+            addressData: this.state
         })
     }
 
@@ -42,7 +43,8 @@ class TransactionAddress extends Component {
                 state[name] = value;
                 this.setState(obj, onSet({
                     coin: state.coin,
-                    fullAddress: getFullAdrress(state)
+                    fullAddress: getFullAdrress(state),
+                    addressData: state
                 }))
             }
         }
@@ -88,4 +90,4 @@ class TransactionAddress extends Component {
     }
 }
 
-export default TransactionAddress
+export default TransactionAddress;

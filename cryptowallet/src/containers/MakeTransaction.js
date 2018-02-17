@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { TransactionAddress, MnemonicsInput, TxSigner } from "../components";
 import { EthereumTransactionFrom } from '../components/TransactionForms';
+import Card from "../components/Cards/Card";
+import DownloadButton from "../components/DownloadButton";
+import {t} from "../utils/translate";
 
 
 class MakeTransaction extends Component {
@@ -8,7 +11,11 @@ class MakeTransaction extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fromData: {coin: "60", fullAddress: null},
+            fromData: {
+                coin: "60",
+                fullAddress: null,
+                addressData: null
+            },
             decryptedMnemonics: null,
             txData: null,
         }
@@ -38,9 +45,10 @@ class MakeTransaction extends Component {
                 <br/>
                 <TxSigner mnemonics={decryptedMnemonics}
                           address={fromData.fullAddress}
-                          coin={fromData.coin}
-                          txData={txData}/>
-                <br/>
+                          addressData={fromData.addressData}
+                          uuid={uuid}
+                          txData={txData}
+                          onOperationResult={onOperationResult}/>
             </div>
         )
     }
