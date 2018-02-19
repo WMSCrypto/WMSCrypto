@@ -77,6 +77,12 @@ const dropLocation = () => {
     window.location.pathname = '';
 };
 
+const intTest = (v) => v ? /^\d+$/.test(v) : true;
+
+const getFullAdrress = ({ purpose=44, coin, account, change, address }) => {
+    return `m/${purpose}'/${coin}'/${account}'/${change}/${address}`
+};
+
 export {
     getPrivKey,
     hexView,
@@ -85,5 +91,7 @@ export {
     sendPut,
     dropLocation,
     callbackByAnchor,
-    encryptMnemonicsByAnchor
+    encryptMnemonicsByAnchor,
+    intTest,
+    getFullAdrress
 }
