@@ -1,99 +1,94 @@
 import React from 'react';
 import HidingCard from "../../HidingCard";
 import {t} from "../../../utils/translate";
+import { setState } from '../../../utils';
 import NextButton from "../../NextButton";
+import IntegerInput from "../../Inputs/IntegerInput";
+import HexInput from "../../Inputs/HexInput";
 
 const RBF = '0xfffffffd';
 const NOT_RBF = '0xfffffffe';
-
-const intTest = (v) => v ? /^\d+$/.test(v) : true;
-const addressTest = (v) => v ? /^0x[\da-fA-F]{40}$/.test(v) : false;
-const hexTest = (v) => v ? /^0x[\da-fA-F]*$/.test(v) : true;
-const valueTest = (v) => v ? /^\d+\.?\d{0,18}$/.test(v) : true;
 
 class InputBlock extends React.Component {
 
     constructor(props) {
         super(props);
-        const { nSequence } = props;
+        const { sequence } = props;
         this.state = {
-            ...props,
+            prevout_n: '',
+            prevout_hash: '',
+            account: '',
+            address: '',
+            value: 0,
+            change: 0,
             edit: false,
-            initNSequence: nSequence || NOT_RBF
+            initSequence: sequence || NOT_RBF,
+            sequence: sequence || NOT_RBF
         }
-    }
-
-    onChange(e, key) {
-        let obj = {};
-        obj[key] = e.target.value;
-        this.setState(obj)
     }
 
     setRBF(useRBF) {
-        const { initNSequence } = this.state;
+        const { initSequence } = this.state;
         if (useRBF) {
-            this.setState({nSequence: RBF})
+            this.setState({sequence: RBF})
         } else {
-            this.setState({nSequence: initNSequence === RBF ? NOT_RBF : initNSequence })
+            this.setState({sequence: initSequence === RBF ? NOT_RBF : initSequence })
         }
     }
 
-    render() {
-        const { hash, id, value, address, account, change, nSequence, edit } =  this.state;
-        const { index, onDelete, onSave } = this.props;
-        const useRBF = nSequence === RBF;
+    getInputProps(label, valueName) {
+        const { edit } = this.state;
+        const value = this.state[valueName];
+        return {
+            label: t(label),
+            required: true,
+            disabled: !edit,
+            onSet: (v) => {setState(this, valueName, v)},
+            value,
+        }
+    }
+
+    getTitle(index) {
+        const invalidFields = ['prevout_n', 'prevout_hash', 'account', 'address', 'value', 'change'].filter(
+            (v) => this.state[v] === ''
+        );
+        const invalidElem = invalidFields.length
+            ? <span className="badge badge-danger">invalid</span>
+            : null;
         return (
-            <HidingCard title={`Input ${index}`} onDelete={onDelete}>
-                <div className="form-group">
-                    <label>Previous transaction hash</label>
-                    <input type="text"
-                           className="form-control"
-                           disabled={!edit}
-                           value={hash} onChange={(e) => {this.onChange(e, 'hash')}}/>
-                </div>
-                <div className="form-group">
-                    <label>Output id</label>
-                    <input type="text"
-                           className="form-control"
-                           disabled={!edit}
-                           placeholder="0"
-                           value={id} onChange={(e) => {this.onChange(e, 'id')}}/>
-                </div>
+            <span>{`Input ${index}`} {invalidElem}</span>
+        )
+    }
+
+    render() {
+        const { value, change, sequence, edit } =  this.state;
+        const { index, onDelete, onSave } = this.props;
+        const useRBF = sequence === RBF;
+        return (
+            <HidingCard title={this.getTitle(index)} onDelete={onDelete}>
+                <HexInput {...this.getInputProps("Previous transaction hash", "prevout_hash")}/>
+                <IntegerInput {...this.getInputProps("Output Id", "prevout_n")}/>
                 <div className="form-row">
                     <div className="col-md-4 mb-3">
-                        <label>Account</label>
-                        <input type="text"
-                               className="form-control"
-                               disabled={!edit}
-                               placeholder="0"
-                               value={account} onChange={(e) => {this.onChange(e, 'account')}}/>
+                        <IntegerInput {...this.getInputProps("Account", "account")}/>
                     </div>
                     <div className="col-md-4 mb-3">
                         <label>Change</label>
                         <select className="form-control"
                                 disabled={!edit}
-                                value={change} onChange={(e) => {this.onChange(e, 'change')}}>
+                                value={change}
+                                onChange={(e) => {this.setState({change: parseInt(e.target.value, 10)})}}>
                             <option value={0}>0</option>
                             <option value={1}>1</option>
                         </select>
                     </div>
                     <div className="col-md-4 mb-3">
-                        <label>Address</label>
-                        <input type="text"
-                               className="form-control"
-                               disabled={!edit}
-                               placeholder="0"
-                               value={address} onChange={(e) => {this.onChange(e, 'address')}}/>
+                        <IntegerInput {...this.getInputProps("Address", "address")}/>
                     </div>
                 </div>
-                <div className="form-group">
-                    <label>Value</label>
-                    <input type="text"
-                           className="form-control"
-                           disabled={!edit}
-                           placeholder="0.00"
-                           value={value} onChange={(e) => {this.onChange(e, 'value')}}/>
-                </div>
+                <IntegerInput {...this.getInputProps("Value, Satoshi", "value")}>
+                    <small className="text-muted">{value ? (Math.pow(10, -8) * value).toFixed(8) : 0.00} BTC</small>
+                </IntegerInput>
                <div className="form-check">
                     <input type="checkbox"
                            className="form-check-input"
@@ -105,10 +100,7 @@ class InputBlock extends React.Component {
                 <div className="save-edit-btns">
                     <NextButton title={t("Save input")}
                                 disabled={!edit}
-                                onClick={() => this.setState(
-                                    {edit: false},
-                                    onSave(index, this.state))
-                                }/>
+                                onClick={() => this.setState({edit: false}, onSave(index, this.state))}/>
                     <button type="button" className="btn btn-secondary" disabled={edit}
                             onClick={() => this.setState({edit: true})}>
                         {t("Edit input")}

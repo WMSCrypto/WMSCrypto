@@ -1,5 +1,5 @@
 export default [
-    {name: 'Bitcoin', id : 0},
+    {name: 'Bitcoin', id : 0, txEnable: true},
     {name: 'Litecoin', id : 2},
     {name: 'Ethereum', id : 60, txEnable: true},
     {name: 'Dash', id : 5},

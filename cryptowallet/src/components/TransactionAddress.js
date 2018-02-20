@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
-import CoinsList from "./CoinsList";
-import Card from "./Cards/Card";
+import { getFullAdrress } from '../utils'
 
 const intTest = (v) => v ? /^\d+$/.test(v) : true;
 
-const getFullAdrress = (obj) => {
-    return `m/44'/${obj.coin}'/${obj.account}'/${obj.change}/${obj.address}`
-};
 
 class TransactionAddress extends Component {
 
     constructor(props) {
         super(props);
+        const { coin, purpose, account, change, address } = props;
         this.state = {
-            coin: props.coin ? parseInt(props.coin, 10) : 0,
-            account: props.account || 0,
-            change: props.change || 0,
-            address: props.address || 0
+            purpose: purpose || "44",
+            coin: coin || "0",
+            account: account || "0",
+            change: change || "0",
+            address: address || "0"
         }
     }
 
@@ -53,38 +51,34 @@ class TransactionAddress extends Component {
     render() {
         return (
             <div>
-                <Card>
-                    <CoinsList {...this.getInputProps('coin')} filterKey="txEnable"/>
-                    <div className="form-row">
-                        <div className="form-group col-md-2">
-                            <label htmlFor="inputAccount">Account</label>
-                            <input type="text"
-                                   className="form-control"
-                                   id="inputAccount"
-                                   required={true}
-                                   {...this.getInputProps('account', intTest)}/>
-                        </div>
-                        <div className="form-group col-md-2">
-                            <label htmlFor="inputChange">Change</label>
-                            <select id="inputChange"
-                                    className="form-control"
-                                    {...this.getInputProps('change')}>
-                                <option value={0}>0</option>
-                                <option value={1}>1</option>
-                            </select>
-                        </div>
-                        <div className="form-group col-md-2">
-                            <label htmlFor="inputAddress">Address</label>
-                            <input type="text"
-                                   className="form-control"
-                                   id="inputAddress"
-                                   required={true}
-                                   {...this.getInputProps('address', intTest)}/>
-                        </div>
+                <div className="form-row">
+                    <div className="form-group col-md-4">
+                        <label htmlFor="inputAccount">Account</label>
+                        <input type="text"
+                               className="form-control"
+                               id="inputAccount"
+                               required={true}
+                               {...this.getInputProps('account', intTest)}/>
                     </div>
-                    <p>{getFullAdrress(this.state)}</p>
-                </Card>
-                <br/>
+                    <div className="form-group col-md-4">
+                        <label htmlFor="inputChange">Change</label>
+                        <select id="inputChange"
+                                className="form-control"
+                                {...this.getInputProps('change')}>
+                            <option value={0}>0</option>
+                            <option value={1}>1</option>
+                        </select>
+                    </div>
+                    <div className="form-group col-md-4">
+                        <label htmlFor="inputAddress">Address</label>
+                        <input type="text"
+                               className="form-control"
+                               id="inputAddress"
+                               required={true}
+                               {...this.getInputProps('address', intTest)}/>
+                    </div>
+                </div>
+                <p>{getFullAdrress(this.state)}</p>
             </div>
         )
     }

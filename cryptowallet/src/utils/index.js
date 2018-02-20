@@ -83,6 +83,12 @@ const getFullAdrress = ({ purpose=44, coin, account, change, address }) => {
     return `m/${purpose}'/${coin}'/${account}'/${change}/${address}`
 };
 
+const setState = (instance, name, value, callback) => {
+    let obj = {};
+    obj[name] = value;
+    instance.setState(obj, callback);
+};
+
 export {
     getPrivKey,
     hexView,
@@ -93,5 +99,6 @@ export {
     callbackByAnchor,
     encryptMnemonicsByAnchor,
     intTest,
-    getFullAdrress
+    getFullAdrress,
+    setState
 }

@@ -5,7 +5,13 @@ class BitcoinTransactionForm extends React.Component {
 
     constructor(props) {
         super(props);
-        const { inputs, output_info, outputs, locktime, version } = this.props;
+        const {
+            inputs,
+            output_info,
+            outputs,
+            locktime,
+            version,
+        } = this.props;
         this.state = {
             txData: { inputs, output_info, outputs, locktime, version },
             inputsKeys: [...Array(inputs.length).keys()],
@@ -34,6 +40,23 @@ class BitcoinTransactionForm extends React.Component {
         this.setState({ inputs })
     }
 
+    renderControls() {
+        const { allowChange } = this.props;
+        if (allowChange) {
+            return (
+                <div>
+                    <button className="btn btn-primary"
+                            onClick={() => this.addInput()}>
+                        Add input
+                    </button>
+                </div>
+            )
+
+        } else {
+            return null
+        }
+    }
+
     render() {
         if (parseInt(this.props.coin, 10) !== 0) {
             return null
@@ -45,16 +68,11 @@ class BitcoinTransactionForm extends React.Component {
                 {inputs.map((e, i) =>
                     <InputBlock {...e}
                                 index={i}
-                                onDelete={inputs.length === 1 ? null : () => this.deleteInput(i)}
+                                onDelete={() => this.deleteInput(i)}
                                 onSave={(i, d) => this.updateInput(i, d)}
                                 key={`inputBitcoin-${inputsKeys[i]}`}/>
                 )}
-                <div>
-                <button className="btn btn-primary"
-                        onClick={() => this.addInput()}>
-                    Add input
-                </button>
-                </div>
+                {this.renderControls()}
                 <br/>
             </React.Fragment>
         )
@@ -62,9 +80,9 @@ class BitcoinTransactionForm extends React.Component {
 }
 
 BitcoinTransactionForm.defaultProps = {
-    inputs: [{}],
+    inputs: [],
     output_info: {},
-    outputs: [[]],
+    outputs: [],
     locktime: `0x00000000`,
     version: 1
 };
