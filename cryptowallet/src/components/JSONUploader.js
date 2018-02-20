@@ -35,7 +35,7 @@ class JSONUploader extends Component {
         const { title, disabled=false } = this.props;
         const { invalidMessage } = this.state;
         return (
-            <div className="form-group">
+            <div className="form-group" style={{overflow: 'hidden'}}>
                 <label htmlFor="mnemonicsInput">{title}</label>
                 <input type="file"
                        className="form-control-file"
