@@ -1,4 +1,4 @@
-import { getPrivKey, signEthereumTransaction } from './index';
+import { getETXTxData, getPrivKey, signEthereumTransaction } from './index';
 import bip39 from "bip39";
 import { TransactionBuilder, HDNode } from "bitcoinjs-lib";
 
@@ -9,8 +9,12 @@ const getNode = (mnemonics, account, change, address) => {
     return node.derivePath(`m/44'/0'/${account}/${change}/${address}`);
 };
 
-const ethSign = (mnemonics, address, txData) => {
-    const privKey = getPrivKey(mnemonics, address);
+const ethSign = (mnemonics, transaction) => {
+    const { account, change, address } = transaction;
+    const privKey = getPrivKey(mnemonics, `m/44'/0'/${account}/${change}/${address}`);
+
+    const { nonce, value, gasPrice, gasLimit, to, data } = transaction;
+    const txData = getETXTxData(nonce, value, gasPrice, gasLimit, to, data);
     const tx = signEthereumTransaction(privKey, txData);
     return tx.toString('hex');
 };
@@ -29,7 +33,6 @@ const bitcoinSign = (mnemonics, transaction) => {
     if (transaction.useChange) {
         const secondValue = transaction.inputs.reduce((p, i) => i.value + p, 0) - transaction.value;
         const node = getNode(mnemonics, transaction.account, 1, transaction.address);
-        console.log(node.getAddress(), secondValue)
         txb.addOutput(node.getAddress(), secondValue);
     }
 

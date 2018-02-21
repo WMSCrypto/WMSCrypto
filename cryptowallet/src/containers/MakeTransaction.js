@@ -4,6 +4,7 @@ import {
     CommonBitcoinTransactionForm
 } from "../components/TransactionForms/BitcoinTransactionForm";
 import {t} from "../utils/translate";
+import EthereumTransactionFrom from "../components/TransactionForms/EthereumTransactionForm";
 
 
 class MakeTransaction extends Component {
@@ -26,18 +27,26 @@ class MakeTransaction extends Component {
     }
     updateTransaction(key, value) {
         let { transaction } = this.state;
-        transaction[key] = value;
-        this.setState({transaction})
+        if (!key) {
+            this.setState({transaction: {...transaction, ...value}})
+        } else {
+            transaction[key] = value;
+            this.setState({transaction})
+        }
     }
 
     renderAdditional(coin) {
+        const { transaction, isFile, isOnline, transactionSaved } = this.state;
         switch (coin) {
             case 0:
-                const { transaction, isFile, isOnline, transactionSaved } = this.state;
                 return <CommonBitcoinTransactionForm transaction={transaction}
                                                      external={isOnline || isFile}
                                                      block={transactionSaved || isFile}
                                                      onSet={(k, v) => this.updateTransaction(k, v)}/>;
+            case 60:
+                return <EthereumTransactionFrom transaction={transaction}
+                                                block={transactionSaved || isFile}
+                                                onSet={(k, v) => this.updateTransaction(k, v)}/>
             default:
                 return null
         }
