@@ -55,7 +55,12 @@ class MakeTransaction extends Component {
                         <JSONUploader title={t('Upload file with transaction data')}
                                       disabled={!!isFile}
                                       onValid={(data) => {
-                                          this.setState({transaction: data, isFile: true, transactionSaved: true})
+                                          this.setState({
+                                              transaction: data,
+                                              isFile: true,
+                                              transactionSaved: true,
+                                              coin: data.coin
+                                          })
                                       }}/>
                         {!isFile
                             ? <CoinsList onChange={(d) => this.setState(d)}
@@ -90,7 +95,7 @@ class MakeTransaction extends Component {
 
     }
     render() {
-        const { coin, decryptedMnemonics, txData, isFile, isManual, isOnline, transactionSaved, transaction } = this.state;
+        const { coin, decryptedMnemonics, isFile, isManual, isOnline, transactionSaved, transaction } = this.state;
         const { uuid, encryptedMnemonics, onOperationResult } = this.props;
         const setType = isFile || isManual || isOnline;
         const topQuestionComponent = this.getTopQuestion();
