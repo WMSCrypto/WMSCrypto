@@ -1,6 +1,15 @@
 import React from 'react';
 import InputBlock from "./InputBlock";
 
+const DEFAULT_INPUT = {
+    prevout_n: '',
+    prevout_hash: '',
+    account: 0,
+    address: 0,
+    change: 0,
+    value: 0,
+};
+
 class InputsBitcoinForm extends React.Component {
 
     constructor(props) {
@@ -12,10 +21,16 @@ class InputsBitcoinForm extends React.Component {
         }
     }
 
+    componentWillMount() {
+        if (!this.props.block) {
+            this.props.onUpdate(this.state.inputs)
+        }
+    }
+
     addInput(props) {
         const { inputs, inputsKeys } = this.state;
         inputsKeys.push(inputsKeys.length ? (inputsKeys[inputsKeys.length-1] + 1) : 0);
-        inputs.push(props || {});
+        inputs.push(props || {...DEFAULT_INPUT});
         this.setState({inputs, inputsKeys}, this.props.onUpdate(inputs))
     }
 
@@ -34,20 +49,23 @@ class InputsBitcoinForm extends React.Component {
 
     render() {
         const { inputs, inputsKeys } = this.state;
+        const block = !!this.props.block;
         return(
             <React.Fragment>
                 {inputs.map((e, i) =>
-                    <InputBlock {...e}
+                    <InputBlock input={e}
                                 index={i}
+                                block={block}
                                 onDelete={() => this.deleteInput(i)}
                                 onSave={(i, d) => this.updateInput(i, d)}
                                 key={`inputBitcoin-${inputsKeys[i]}`}/>
                 )}
                 <div>
-                    <button className="btn btn-primary"
-                            onClick={() => this.addInput()}>
-                        Add input
-                    </button>
+                    {!this.props.external
+                        ? <button className="btn btn-primary" onClick={() => this.addInput()}
+                            disabled={block}>Add input
+                          </button>
+                        : null}
                 </div>
                 <br/>
             </React.Fragment>
@@ -56,7 +74,8 @@ class InputsBitcoinForm extends React.Component {
 }
 
 InputsBitcoinForm.defaultProps = {
-    inputs: [],
+    inputs: [{...DEFAULT_INPUT}],
+    block: false
 };
 
 export default InputsBitcoinForm;

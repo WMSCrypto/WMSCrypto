@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CoinsList, JSONUploader, MnemonicsInput, TxSigner }from "../components";
 import {
-    InputsBitcoinForm,
     CommonBitcoinTransactionForm
 } from "../components/TransactionForms/BitcoinTransactionForm";
 import {t} from "../utils/translate";
@@ -16,10 +15,11 @@ class MakeTransaction extends Component {
             data = props.data
         }
         this.state = {
-            coin: data.coin ? data.coin.toString() : "0",
+            coin: data.coin || 0,
             isFile: false,
             isManual: false,
             isOnline: !!props.uuid,
+            transactionSaved: !!props.uuid,
             decryptedMnemonics: null,
             transaction: data || {},
         }
@@ -32,9 +32,11 @@ class MakeTransaction extends Component {
 
     renderAdditional(coin) {
         switch (coin) {
-            case "0":
-                const { transaction } = this.state;
+            case 0:
+                const { transaction, isFile, isOnline, transactionSaved } = this.state;
                 return <CommonBitcoinTransactionForm transaction={transaction}
+                                                     external={isOnline || isFile}
+                                                     block={transactionSaved || isFile}
                                                      onSet={(k, v) => this.updateTransaction(k, v)}/>;
             default:
                 return null
@@ -42,7 +44,7 @@ class MakeTransaction extends Component {
     }
 
     getTopQuestion() {
-        const { isManual, isFile } = this.state;
+        const { isManual, isFile, coin } = this.state;
         const { uuid } = this.props;
         if (isManual || uuid) {
             return null
@@ -53,11 +55,13 @@ class MakeTransaction extends Component {
                         <JSONUploader title={t('Upload file with transaction data')}
                                       disabled={!!isFile}
                                       onValid={(data) => {
-                                          this.setState({transaction: data, isFile: true})
+                                          this.setState({transaction: data, isFile: true, transactionSaved: true})
                                       }}/>
                         {!isFile
-                            ? <button onClick={() => this.setState({isManual: true})}
-                                      className="btn btn-primary">{t('Manual creation')}</button>
+                            ? <CoinsList onChange={(d) => this.setState(d)}
+                                         onSave={() => this.setState({isManual: true})}
+                                         value={coin}
+                                         filterKey="txEnable"/>
                             : null
                         }
                     </Card>
@@ -68,40 +72,58 @@ class MakeTransaction extends Component {
         }
     }
 
+    renderTransactionControls() {
+        const { transactionSaved } = this.state;
+        const toggle = () => this.setState({transactionSaved: !transactionSaved});
+        return (
+            <React.Fragment>
+                <br/>
+                <button className="btn btn-primary" disabled={transactionSaved} onClick={toggle}>
+                    Save
+                </button>
+                <span> </span>
+                <button className="btn btn-secondary" disabled={!transactionSaved} onClick={toggle}>
+                    Edit
+                </button>
+            </React.Fragment>
+        )
+
+    }
     render() {
-        const { coin, fromData, decryptedMnemonics, txData, isManual } = this.state;
-        const { data, uuid, encryptedMnemonics, onOperationResult } = this.props;
-        const txParams = (data && data.txParams) ? data.txParams : {};
+        const { coin, decryptedMnemonics, txData, isFile, isManual, isOnline, transactionSaved, transaction } = this.state;
+        const { uuid, encryptedMnemonics, onOperationResult } = this.props;
+        const setType = isFile || isManual || isOnline;
         const topQuestionComponent = this.getTopQuestion();
+        const transactionForm = setType ? this.renderAdditional(coin) : null;
+        const transactionControls = !(isFile || isOnline) ? this.renderTransactionControls() : null;
         return (
             <div>
                 {topQuestionComponent}
-                <Card>
-                    <CoinsList onChange={(e) => this.setState({coin: e.target.value})}
-                               value={coin}
-                               filterKey="txEnable"
-                               disabled={!!uuid}/>
-                    {this.renderAdditional(coin)}
-                </Card>
+                {transactionForm
+                    ? <Card>
+                        {transactionForm}
+                        {transactionControls}
+                      </Card>
+                    : null
+                }
                 <br/>
-                <InputsBitcoinForm coin={coin}
-                                        {...txParams}
-                                        onUpdate={(d) => {this.updateTransaction('inputs', d)}}/>
-                <MnemonicsInput encrypted={true}
-                                buttonLabel="Decrypt mnemonics"
-                                passwordLabel="Password"
-                                mnemonicsLabel="Mnemonics"
-                                uuid={uuid}
-                                encryptedMnemonics={encryptedMnemonics}
-                                onValidate={(d) => this.setState({decryptedMnemonics: d})}
-                                disabled={!!decryptedMnemonics}/>
+                <div style={{display: transactionSaved ? 'block' : 'none'}}>
+                    <MnemonicsInput encrypted={true}
+                                    buttonLabel="Decrypt mnemonics"
+                                    passwordLabel="Password"
+                                    mnemonicsLabel="Mnemonics"
+                                    uuid={uuid}
+                                    encryptedMnemonics={encryptedMnemonics}
+                                    onValidate={(d) => this.setState({decryptedMnemonics: d})}
+                                    disabled={!!decryptedMnemonics}/>
+                </div>
 
                 <br/>
                 <TxSigner mnemonics={decryptedMnemonics}
-                          address={null}
-                          addressData={null}
+                          transaction={transaction}
+                          transactionSaved={transactionSaved}
+                          coin={coin}
                           uuid={uuid}
-                          txData={txData}
                           onOperationResult={onOperationResult}/>
                 <br/>
             </div>

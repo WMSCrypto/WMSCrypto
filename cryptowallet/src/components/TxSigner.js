@@ -8,20 +8,19 @@ import {sendPut} from "../utils";
 class TxSigner extends Component {
 
     render() {
-        const { address, mnemonics, txData, addressData, uuid, onOperationResult } = this.props;
-        if (!(mnemonics && txData && address)) {
+        const { mnemonics, transaction, transactionSaved, coin, uuid, onOperationResult } = this.props;
+        if (!(mnemonics && transaction &&transactionSaved)) {
             return null
         }
 
-        const signed = signers[addressData.coin](mnemonics, address, txData);
-        const raw = {txParams: txData, ...addressData};
-        const data = {raw: raw, signed: `0x${signed}`};
+        const signed = signers[coin](mnemonics, transaction);
+        const data = {raw: transaction, signed: `0x${signed}`};
         return(
             <Card>
                 <div>
                     <p>
                     <small className="text-muted">Raw transaction data</small><br/>
-                        {JSON.stringify(raw)}
+                        {JSON.stringify(transaction)}
                     </p>
                 </div>
                 <div>
@@ -34,17 +33,20 @@ class TxSigner extends Component {
                                 obj={data}
                                 id="downloadTransaction"/>
                 <br/>
-                <button className="btn btn-danger"
+                {uuid
+                    ? <button className="btn btn-danger"
                         onClick={() => {sendPut(
                             uuid,
                             data,
                             onOperationResult
-                        )}} disabled={!uuid}>
+                        )}}>
                     Send transaction
-                </button>
+                    </button>
+                    : null
+                }
             </Card>
         )
     }
-};
+}
 
 export default TxSigner

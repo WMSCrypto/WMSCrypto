@@ -4,11 +4,12 @@ import Base58Input from "../../Inputs/Base58Input";
 import WalletAddressInput from "../../Inputs/WalletAddressInput";
 import { t } from '../../../utils/translate';
 import SatoshiInput from "../../Inputs/SatoshInput";
+import InputsBitcoinForm from "./InputsBitcoinForm";
 
 class CommonBitcoinTransactionForm extends React.Component {
 
     render() {
-        const { transaction, onSet } = this.props;
+        const { transaction, onSet, external } = this.props;
         const {
             receiver, inputs,
             value, useChange, account,
@@ -16,23 +17,27 @@ class CommonBitcoinTransactionForm extends React.Component {
         } = transaction;
         const amount = inputs ? inputs.reduce((p, i) => p + (i.value || 0), 0) : 0;
         const block = !!this.props.block;
-        console.log(this.props.transaction);
         return (
             <React.Fragment>
-                    <div className="form-row">
-                        <div className="col-md-6 mb-2">
-                            <SatoshiInput disabled={true}
-                                          required={true}
-                                          value={amount}
-                                          label={t('Amount')}/>
-                        </div>
-                        <div className="col-md-6 mb-2">
-                            <SatoshiInput disabled={true}
-                                          required={true}
-                                          value={amount - value}
-                                          label={t('Fee')}/>
-                        </div>
+                <p>Bitcoin</p>
+                <InputsBitcoinForm onUpdate={(d) => {onSet('inputs', d)}}
+                                   block={block}
+                                   inputs={inputs}
+                                   external={external}/>
+                <div className="form-row">
+                    <div className="col-md-6">
+                        <SatoshiInput disabled={true}
+                                      required={true}
+                                      value={amount}
+                                      label={t('Amount')}/>
                     </div>
+                    <div className="col-md-6">
+                        <SatoshiInput disabled={true}
+                                      required={true}
+                                      value={amount - value}
+                                      label={t('Fee')}/>
+                    </div>
+                </div>
                 <Base58Input label={t('Receiver')}
                              disabled={block}
                              value={receiver}
@@ -84,7 +89,6 @@ class CommonBitcoinTransactionForm extends React.Component {
 
 CommonBitcoinTransactionForm.defaultProps = {
     transaction: {
-        inputs: [],
         receiver: '',
         locktime: '',
         value: 0,

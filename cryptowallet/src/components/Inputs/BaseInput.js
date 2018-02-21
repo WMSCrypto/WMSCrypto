@@ -11,7 +11,8 @@ const BaseInput = ({ value, label, onSet, testFunc, children, disabled, required
                 {label}
                 {!required ? <small className="text-muted"> ({t('optional')})</small> : ''}
             </label>
-            <input className={["form-control", invalid ? 'is-invalid' : ''].join(' ')}
+            <input type="text"
+                   className={["form-control", invalid ? 'is-invalid' : ''].join(' ')}
                    value={value}
                    onChange={(e) => {
                         let inputValue = e.target.value;
