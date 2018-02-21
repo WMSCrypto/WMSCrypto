@@ -17,7 +17,7 @@ class Base58Input extends React.Component {
             this.props.onSet(v);
             this.setState({errorMessage: ''})
         } catch (e) {
-            this.props.onSet('');
+            this.props.onSet(v);
             this.setState({errorMessage: e.message})
         }
     }

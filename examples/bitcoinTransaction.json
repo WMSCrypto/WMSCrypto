@@ -2,7 +2,7 @@
   "inputs": [
     {
       "prevout_n": 6,
-      "prevout_hash": "0xb5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c",
+      "prevout_hash": "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c",
       "account": 0,
       "change": 0,
       "address": 10,
@@ -10,7 +10,7 @@
     },
     {
       "prevout_n": 0,
-      "prevout_hash": "0x7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730",
+      "prevout_hash": "7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730",
       "account": 0,
       "change": 0,
       "address": 0,
