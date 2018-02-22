@@ -1,0 +1,80 @@
+.App nav {
+    background: #ffffff;
+    margin: 0 0 20px 0;
+}
+
+.App h1 {
+    color: #ffffff;
+    margin: 0;
+}
+
+.hashString {
+    word-break: break-all;
+}
+
+.MenuWrapper {
+}
+
+.MenuWrapper > div {
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+.MenuWrapper button {
+    margin: 16px 0;
+    width: 100%;
+}
+
+.AppHeader {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+    margin: 16px 0;
+}
+
+.MnemonicsCardHeader {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.HeaderMenu button {
+    margin: 0 8px 0 0;
+}
+
+.HeaderMenu button:last-child {
+    margin: 0;
+}
+
+.save-edit-btns {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.save-edit-btns > button {
+    margin: 0 0 0 16px;
+}
+
+.LanguageMenu {
+    align-items: center;
+    color: #ffffff;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.LangLabel {
+    margin: 0 0 0 16px;
+}
+
+@media (max-width: 500px) {
+    .App h1 {
+        font-size: 24px;
+    }
+}
