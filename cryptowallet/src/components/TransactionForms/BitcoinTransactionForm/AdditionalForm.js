@@ -6,8 +6,15 @@ import WalletAddressInput from "../../Inputs/WalletAddressInput";
 import SatoshiInput from "../../Inputs/SatoshInput";
 
 const AdditionalForm = ({ onSet, useRBF, locktime, block, account, address, change }) => {
+    const titleName = t('Additional');
+    let title;
+    if (change) {
+        title = <span>{titleName}<small className="text-muted">{`, ${t('change value is')} ${change}.`}</small></span>;
+    } else {
+        title = <span>{titleName}<small className="text-muted">{`, ${t('change to used')}.`}</small></span>;
+    }
     return (
-        <HidingCard title={t('Additional')}>
+        <HidingCard title={title}>
             <SatoshiInput label={t('Change')}
                           disabled={block}
                           value={change}

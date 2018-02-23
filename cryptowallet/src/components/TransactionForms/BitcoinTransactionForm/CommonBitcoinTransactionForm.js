@@ -14,6 +14,10 @@ const SummaryElement = ({ name, value }) => {
     )
 };
 
+const BTC = (v) => {
+    return `${v.toFixed(8)} BTC`;
+};
+
 class CommonBitcoinTransactionForm extends React.Component {
 
     constructor(props) {
@@ -27,10 +31,10 @@ class CommonBitcoinTransactionForm extends React.Component {
         return (
             <div>
                 <SummaryElement name="Receiver" value={receiver}/>
-                <SummaryElement name="Value" value={`${value} BTC`}/>
-                <SummaryElement name="Change" value={`${change} BTC`}/>
-                <SummaryElement name="Amount" value={`${amount} BTC`}/>
-                <SummaryElement name="Fee" value={`${fee} BTC`}/>
+                <SummaryElement name="Value" value={BTC(value)}/>
+                <SummaryElement name="Change" value={BTC(change)}/>
+                <SummaryElement name="Amount" value={BTC(amount)}/>
+                <SummaryElement name="Fee" value={BTC(fee)}/>
                 <SummaryElement name="Use RBF" value={useRBF ? 'Using' : 'Not using'}/>
                 <SummaryElement name="Locktime" value={locktime || 'Not using'}/>
             </div>
