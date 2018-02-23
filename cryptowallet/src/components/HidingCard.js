@@ -23,11 +23,14 @@ class HidingCard extends React.Component {
                                 {show ? 'Hide' : 'Show'}
                             </button>
                             <span> </span>
-                            <button className='btn btn-danger btn-sm'
+                            {onDelete
+                                ? <button className='btn btn-danger btn-sm'
                                     onClick={() => {onDelete()}}
                                     disabled={!onDelete}>
-                                Delete
-                            </button>
+                                    Delete
+                                </button>
+                                : null
+                            }
                         </div>
                     </div>
                     {show ? this.props.children : null}

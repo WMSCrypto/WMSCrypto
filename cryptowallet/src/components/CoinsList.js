@@ -10,7 +10,7 @@ const CoinsList = (props) => {
                 <select className="form-control"
                         id="coinsList"
                         onChange={(e) => {
-                            onChange({coin: parseInt(e.target.value)})
+                            onChange({coin: parseInt(e.target.value, 10)})
                         }}
                         value={value || coins[0]}
                         disabled={disabled}>

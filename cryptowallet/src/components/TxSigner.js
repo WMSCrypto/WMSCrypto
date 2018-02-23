@@ -5,6 +5,22 @@ import DownloadButton from "./DownloadButton";
 import {t} from "../utils/translate";
 import {sendPut} from "../utils";
 
+const WITH_PREFIX = [60];
+const WITH_RAW = [60];
+
+const Raw = ({ raw }) => {
+    if (!raw) {
+        return null
+    }
+    return (
+        <div>
+            <p><small className="text-muted">Raw transaction data</small><br/>
+                {JSON.stringify(raw)}
+            </p>
+        </div>
+    )
+};
+
 class TxSigner extends Component {
 
     render() {
@@ -12,17 +28,19 @@ class TxSigner extends Component {
         if (!(mnemonics && transaction &&transactionSaved)) {
             return null
         }
-
         const signed = signers[coin](mnemonics, transaction);
-        const data = {raw: transaction, signed: `0x${signed}`};
+        let data = {};
+        if (WITH_PREFIX.indexOf(coin) === -1) {
+            data.signed = `${signed}`
+        } else {
+            data.signed = `0x${signed}`
+        }
+        if (WITH_RAW.indexOf(coin) !== -1) {
+            data.raw= transaction
+        }
         return(
             <Card>
-                <div>
-                    <p>
-                    <small className="text-muted">Raw transaction data</small><br/>
-                        {JSON.stringify(transaction)}
-                    </p>
-                </div>
+                <Raw raw={data.raw}/>
                 <div>
                     <p>
                     <small className="text-muted">Transaction signature</small><br/>

@@ -1,5 +1,7 @@
 import React from 'react';
 import InputBlock from "./InputBlock";
+import { t } from '../../../utils/translate';
+
 
 const DEFAULT_INPUT = {
     prevout_n: '',
@@ -50,6 +52,7 @@ class InputsBitcoinForm extends React.Component {
     render() {
         const { inputs, inputsKeys } = this.state;
         const block = !!this.props.block;
+        const amount = inputs ? inputs.reduce((p, i) => p + (i.value || 0), 0) : 0;
         return(
             <React.Fragment>
                 {inputs.map((e, i) =>
@@ -60,12 +63,13 @@ class InputsBitcoinForm extends React.Component {
                                 onSave={(i, d) => this.updateInput(i, d)}
                                 key={`inputBitcoin-${inputsKeys[i]}`}/>
                 )}
-                <div>
+                <div className="BitcoinInputsFooter">
                     {!this.props.external
                         ? <button className="btn btn-primary" onClick={() => this.addInput()}
                             disabled={block}>Add input
                           </button>
                         : null}
+                    <span>{t('Total amount')}: <strong>{(amount * Math.pow(10, -8)).toFixed(8)} BTC</strong></span>
                 </div>
                 <br/>
             </React.Fragment>
