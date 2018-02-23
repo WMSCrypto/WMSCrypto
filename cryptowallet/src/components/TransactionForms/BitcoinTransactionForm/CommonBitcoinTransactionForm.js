@@ -27,13 +27,11 @@ class CommonBitcoinTransactionForm extends React.Component {
         }
     }
 
-    renderSummary(amount, fee, change, value, receiver, useRBF, locktime) {
+    renderSummary(fee, value, receiver, useRBF, locktime) {
         return (
             <div>
                 <SummaryElement name="Receiver" value={receiver}/>
                 <SummaryElement name="Value" value={BTC(value)}/>
-                <SummaryElement name="Change" value={BTC(change)}/>
-                <SummaryElement name="Amount" value={BTC(amount)}/>
                 <SummaryElement name="Fee" value={BTC(fee)}/>
                 <SummaryElement name="Use RBF" value={useRBF ? 'Using' : 'Not using'}/>
                 <SummaryElement name="Locktime" value={locktime || 'Not using'}/>
@@ -101,7 +99,7 @@ class CommonBitcoinTransactionForm extends React.Component {
                 </div>
                 {fullView
                     ? this.renderInformation(amount, fee, change, address, account, value, receiver, useRBF, locktime, inputs, external)
-                    : this.renderSummary(amount, fee, change, value, receiver, useRBF, locktime)
+                    : this.renderSummary(fee, value, receiver, useRBF, locktime)
                 }
             </React.Fragment>
         )
