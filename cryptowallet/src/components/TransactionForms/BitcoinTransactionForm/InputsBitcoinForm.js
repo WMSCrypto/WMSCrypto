@@ -64,12 +64,16 @@ class InputsBitcoinForm extends React.Component {
                                 key={`inputBitcoin-${inputsKeys[i]}`}/>
                 )}
                 <div className="BitcoinInputsFooter">
+                    <div>
                     {!this.props.external
                         ? <button className="btn btn-primary" onClick={() => this.addInput()}
                             disabled={block}>Add input
                           </button>
                         : null}
-                    <span>{t('Total amount')}: <strong>{(amount * Math.pow(10, -8)).toFixed(8)} BTC</strong></span>
+                    </div>
+                    <div style={{textAlign: 'right'}}>
+                        <span>{t('Total amount')}: <strong>{(amount * Math.pow(10, -8)).toFixed(8)} BTC</strong></span>
+                    </div>
                 </div>
                 <br/>
             </React.Fragment>

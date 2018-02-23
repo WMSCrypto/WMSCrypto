@@ -80,6 +80,10 @@
     justify-content: space-between;
 }
 
+.BitcoinInputsFooter div {
+    flex: 1
+}
+
 @media (max-width: 500px) {
     .App h1 {
         font-size: 24px;

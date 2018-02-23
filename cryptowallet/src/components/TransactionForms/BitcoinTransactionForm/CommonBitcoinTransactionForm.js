@@ -30,18 +30,18 @@ class CommonBitcoinTransactionForm extends React.Component {
                              onSet={(v) => onSet('receiver', v)}
                              required={true}/>
                 <div className="form-row">
-                    <div className="col-md-6">
+                    <div className="col-md-9">
                         <SatoshiInput label={t('Value')}
                                       disabled={block}
                                       value={value}
                                       onSet={(v) => onSet('value', v)}
                                       required={true}/>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-3">
                         <div className="d-none d-sm-block">
                             <p className="invisible">Empty</p>
                         </div>
-                        <p>
+                        <p style={{textAlign: 'right'}}>
                             {t('Fee')}:
                             <strong className={fee < 0 ? 'text-danger' : ''}> {(fee * Math.pow(10, -8)).toFixed(8)} BTC</strong>
                         </p>
