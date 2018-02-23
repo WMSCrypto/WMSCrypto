@@ -5,21 +5,43 @@ import SatoshiInput from "../../Inputs/SatoshInput";
 import InputsBitcoinForm from "./InputsBitcoinForm";
 import AdditionalForm from "./AdditionalForm";
 
+
+const SummaryElement = ({ name, value }) => {
+    return (
+        <div>
+            <p>{t(name)}: <strong>{value}</strong></p>
+        </div>
+    )
+};
+
 class CommonBitcoinTransactionForm extends React.Component {
 
-    render() {
-        const { transaction, onSet, external } = this.props;
-        const {
-            receiver, inputs,
-            value=0, change=0, account,
-            address, useRBF, locktime
-        } = transaction;
-        const amount = inputs ? inputs.reduce((p, i) => p + (i.value || 0), 0) : 0;
-        const fee = (amount - (value + change )) || 0;
+    constructor(props) {
+        super(props);
+        this.state = {
+            fullView: !props.external,
+        }
+    }
+
+    renderSummary(amount, fee, change, value, receiver, useRBF, locktime) {
+        return (
+            <div>
+                <SummaryElement name="Receiver" value={receiver}/>
+                <SummaryElement name="Value" value={`${value} BTC`}/>
+                <SummaryElement name="Change" value={`${change} BTC`}/>
+                <SummaryElement name="Amount" value={`${amount} BTC`}/>
+                <SummaryElement name="Fee" value={`${fee} BTC`}/>
+                <SummaryElement name="Use RBF" value={useRBF ? 'Using' : 'Not using'}/>
+                <SummaryElement name="Locktime" value={locktime || 'Not using'}/>
+            </div>
+        )
+    }
+
+    renderInformation(amount, fee, change, address, account, value, receiver, useRBF, locktime, inputs, external) {
+        const { onSet } = this.props;
         const block = !!this.props.block;
         return (
             <React.Fragment>
-                <p>Bitcoin</p>
                 <InputsBitcoinForm onUpdate={(d) => {onSet('inputs', d)}}
                                    block={block}
                                    inputs={inputs}
@@ -48,6 +70,35 @@ class CommonBitcoinTransactionForm extends React.Component {
                     </div>
                 </div>
                 <AdditionalForm {...{ onSet, locktime, useRBF, block, address, account, change }}/>
+            </React.Fragment>
+        )
+    }
+
+    render() {
+        const { transaction, external } = this.props;
+        const {
+            receiver, inputs,
+            value=0, change=0, account,
+            address, useRBF, locktime
+        } = transaction;
+        const { fullView } = this.state;
+        const amount = inputs ? inputs.reduce((p, i) => p + (i.value || 0), 0) : 0;
+        const fee = (amount - (value + change )) || 0;
+        return (
+            <React.Fragment>
+                <div className="BitcoinHeader">
+                    <p>Bitcoin</p>
+                    <div className="btn-group">
+                        <button className={`btn btn-${fullView ? 'outline-' : ''}secondary btn-sm`}
+                                onClick={() => this.setState({fullView: false})}>{t('Summary')}</button>
+                        <button className={`btn btn-${!fullView ? 'outline-' : ''}secondary btn-sm`}
+                                onClick={() => this.setState({fullView: true})}>{t('Information')}</button>
+                    </div>
+                </div>
+                {fullView
+                    ? this.renderInformation(amount, fee, change, address, account, value, receiver, useRBF, locktime, inputs, external)
+                    : this.renderSummary(amount, fee, change, value, receiver, useRBF, locktime)
+                }
             </React.Fragment>
         )
     }
