@@ -9,7 +9,7 @@ const AdditionalForm = ({ onSet, useRBF, locktime, block, account, address, chan
     const titleName = t('Additional');
     let title;
     if (change) {
-        title = <span>{titleName}<small className="text-muted">{`, ${t('change value is')} ${change}.`}</small></span>;
+        title = <span>{titleName}<small className="text-muted">{`, ${t('change value is')} ${(Math.pow(10, -8) * change).toFixed(8)} BTC.`}</small></span>;
     } else {
         title = <span>{titleName}<small className="text-muted">{`, ${t('change to used')}.`}</small></span>;
     }
