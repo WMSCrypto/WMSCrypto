@@ -29,7 +29,7 @@ class TxSigner extends Component {
             return null
         }
         const signed = signers[coin](mnemonics, transaction);
-        const data = {...transaction, signed};
+        const data = {...transaction, coin, signed};
         return(
             <Card>
                 <Raw raw={WITH_RAW.indexOf(coin) !== -1 ? data.raw : null}/>
