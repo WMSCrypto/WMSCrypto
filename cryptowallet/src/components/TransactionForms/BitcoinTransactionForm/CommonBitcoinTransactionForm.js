@@ -15,7 +15,7 @@ const SummaryElement = ({ name, value }) => {
 };
 
 const BTC = (v) => {
-    return `${v.toFixed(8)} BTC`;
+    return `${(Math.pow(10, -8) * v).toFixed(8)} BTC`;
 };
 
 class CommonBitcoinTransactionForm extends React.Component {
