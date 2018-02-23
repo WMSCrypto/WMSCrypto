@@ -96,7 +96,7 @@ class MakeTransaction extends Component {
                     Save
                 </button>
                 <span> </span>
-                <button className="btn btn-secondary" disabled={!transactionSaved} onClick={toggle}>
+                <button className="btn btn-primary" disabled={!transactionSaved} onClick={toggle}>
                     Edit
                 </button>
             </React.Fragment>
