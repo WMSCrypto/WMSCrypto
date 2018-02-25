@@ -4,6 +4,8 @@ import { t } from '../../../utils/translate';
 import SatoshiInput from "../../Inputs/SatoshInput";
 import InputsBitcoinForm from "./InputsBitcoinForm";
 import AdditionalForm from "./AdditionalForm";
+import HidingCard from "../../HidingCard";
+import IntegerInput from "../../Inputs/IntegerInput";
 
 
 const SummaryElement = ({ name, value }) => {
@@ -27,19 +29,17 @@ class CommonBitcoinTransactionForm extends React.Component {
         }
     }
 
-    renderSummary(fee, value, receiver, useRBF, locktime) {
+    renderSummary(fee, value, receiver) {
         return (
             <div>
-                <SummaryElement name="Receiver" value={receiver}/>
+                <SummaryElement name="Receiver" value={receiver || '???'}/>
                 <SummaryElement name="Value" value={BTC(value)}/>
                 <SummaryElement name="Fee" value={BTC(fee)}/>
-                <SummaryElement name="Use RBF" value={useRBF ? 'Using' : 'Not using'}/>
-                <SummaryElement name="Locktime" value={locktime || 'Not using'}/>
             </div>
         )
     }
 
-    renderInformation(amount, fee, change, address, account, value, receiver, useRBF, locktime, inputs, external) {
+    renderDetail(amount, fee, change, address, account, value, receiver, useRBF, locktime, inputs, external, useChange) {
         const { onSet } = this.props;
         const block = !!this.props.block;
         return (
@@ -48,30 +48,51 @@ class CommonBitcoinTransactionForm extends React.Component {
                                    block={block}
                                    inputs={inputs}
                                    external={external}/>
-                <Base58Input label={t('Receiver')}
-                             disabled={block}
-                             value={receiver}
-                             onSet={(v) => onSet('receiver', v)}
-                             required={true}/>
-                <div className="form-row">
-                    <div className="col-md-9">
-                        <SatoshiInput label={t('Value')}
-                                      disabled={block}
-                                      value={value}
-                                      onSet={(v) => onSet('value', v)}
-                                      required={true}/>
-                    </div>
-                    <div className="col-md-3">
-                        <div className="d-none d-sm-block">
-                            <p className="invisible">Empty</p>
+                <HidingCard title={`${t('Output')} 0`}>
+                    <Base58Input label={t('Receiver')}
+                                 disabled={block}
+                                 value={receiver}
+                                 onSet={(v) => onSet('receiver', v)}
+                                 required={true}/>
+                    <div className="form-row">
+                        <div className="col-md-9">
+                            <SatoshiInput label={t('Value')}
+                                          disabled={block}
+                                          value={value}
+                                          onSet={(v) => onSet('value', v)}
+                                          required={true}/>
                         </div>
-                        <p style={{textAlign: 'right'}}>
-                            {t('Fee')}:
-                            <strong className={fee < 0 ? 'text-danger' : ''}> {(fee * Math.pow(10, -8)).toFixed(8)} BTC</strong>
-                        </p>
+                        <div className="col-md-3">
+                            <div className="d-none d-sm-block">
+                                <p className="invisible">Empty</p>
+                            </div>
+                            <p style={{textAlign: 'right'}}>
+                                {t('Fee')}:
+                                <strong className={fee < 0 ? 'text-danger' : ''}> {(fee * Math.pow(10, -8)).toFixed(8)} BTC</strong>
+                            </p>
+                        </div>
                     </div>
+                </HidingCard>
+                {useChange
+                    ? <AdditionalForm {...{onSet, block, address, account, change}}/>
+                    : <button className="btn btn-outline-primary" onClick={() => onSet('useChange', true)} style={{marginBottom: 16}}>
+                        {t('Add change')}
+                      </button>
+                }
+                <IntegerInput required={false}
+                          disabled={block}
+                          label={t('Locktime')}
+                          value={locktime}
+                          onSet={(v) => onSet('locktime', v)}/>
+                <div className="form-check">
+                    <input type="checkbox"
+                           disabled={block}
+                           className="form-check-input"
+                           checked={useRBF}
+                           onChange={() => onSet('useRBF', !useRBF)}/>
+                    <lable className="form-check-label">{t('Use RBF')}</lable>
                 </div>
-                <AdditionalForm {...{ onSet, locktime, useRBF, block, address, account, change }}/>
+                <br/>
             </React.Fragment>
         )
     }
@@ -81,6 +102,7 @@ class CommonBitcoinTransactionForm extends React.Component {
         const {
             receiver, inputs,
             value=0, change=0, account,
+            useChange=false,
             address, useRBF, locktime
         } = transaction;
         const { fullView } = this.state;
@@ -94,12 +116,16 @@ class CommonBitcoinTransactionForm extends React.Component {
                         <button className={`btn btn-${fullView ? 'outline-' : ''}secondary btn-sm`}
                                 onClick={() => this.setState({fullView: false})}>{t('Summary')}</button>
                         <button className={`btn btn-${!fullView ? 'outline-' : ''}secondary btn-sm`}
-                                onClick={() => this.setState({fullView: true})}>{t('Information')}</button>
+                                onClick={() => this.setState({fullView: true})}>{t('Detail')}</button>
                     </div>
                 </div>
                 {fullView
-                    ? this.renderInformation(amount, fee, change, address, account, value, receiver, useRBF, locktime, inputs, external)
-                    : this.renderSummary(fee, value, receiver, useRBF, locktime)
+                    ? this.renderDetail(
+                        amount, fee, change,
+                        address, account, value,
+                        receiver, useRBF, locktime,
+                        inputs, external, useChange)
+                    : this.renderSummary(fee, value, receiver)
                 }
             </React.Fragment>
         )

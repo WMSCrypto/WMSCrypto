@@ -91,7 +91,6 @@ class MakeTransaction extends Component {
         const toggle = () => this.setState({transactionSaved: !transactionSaved});
         return (
             <React.Fragment>
-                <br/>
                 <button className="btn btn-primary" onClick={toggle}>
                     {transactionSaved ? 'Edit' : 'Save'}
                 </button>

@@ -66,7 +66,7 @@ class InputsBitcoinForm extends React.Component {
                 <div className="BitcoinInputsFooter">
                     <div>
                     {!this.props.external
-                        ? <button className="btn btn-primary" onClick={() => this.addInput()}
+                        ? <button className="btn btn-outline-primary" onClick={() => this.addInput()}
                             disabled={block}>Add input
                           </button>
                         : null}

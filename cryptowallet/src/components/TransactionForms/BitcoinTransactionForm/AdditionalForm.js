@@ -5,16 +5,16 @@ import IntegerInput from "../../Inputs/IntegerInput";
 import WalletAddressInput from "../../Inputs/WalletAddressInput";
 import SatoshiInput from "../../Inputs/SatoshInput";
 
-const AdditionalForm = ({ onSet, useRBF, locktime, block, account, address, change }) => {
-    const titleName = t('Additional');
+const AdditionalForm = ({ onSet, block, account, address, change }) => {
+    const titleName = `${t('Output')} 1`;
     let title;
     if (change) {
         title = <span>{titleName}<small className="text-muted">{`, ${t('change value is')} ${(Math.pow(10, -8) * change).toFixed(8)} BTC.`}</small></span>;
     } else {
-        title = <span>{titleName}<small className="text-muted">{`, ${t('change to used')}.`}</small></span>;
+        title = <span>{titleName}<small className="text-muted">{`, ${t('change not used')}.`}</small></span>;
     }
     return (
-        <HidingCard title={title}>
+        <HidingCard title={title} onDelete={!block ? () => onSet('useChange', false) : null}>
             <SatoshiInput label={t('Change')}
                           disabled={block}
                           value={change}
@@ -31,19 +31,6 @@ const AdditionalForm = ({ onSet, useRBF, locktime, block, account, address, chan
                                               onSet('account', obj.account);
                                           }}
                                           title="Full change address: "/>
-            <IntegerInput required={false}
-                          disabled={block}
-                          label={t('Locktime')}
-                          value={locktime}
-                          onSet={(v) => onSet('locktime', v)}/>
-            <div className="form-check">
-                <input type="checkbox"
-                       disabled={block}
-                       className="form-check-input"
-                       checked={useRBF}
-                       onChange={() => onSet('useRBF', !useRBF)}/>
-                <lable className="form-check-label">{t('Use RBF')}</lable>
-            </div>
         </HidingCard>
     )
 };
