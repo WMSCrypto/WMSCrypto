@@ -12,6 +12,11 @@ const DEFAULT_INPUT = {
     value: 0,
 };
 
+
+const calcValidation = (arr) => {
+    return Object.values(arr).reduce((i,p) => i && p, true)
+};
+
 class InputsBitcoinForm extends React.Component {
 
     constructor(props) {
@@ -20,33 +25,39 @@ class InputsBitcoinForm extends React.Component {
         this.state = {
             inputs,
             inputsKeys: [...Array(inputs.length).keys()],
+            validInputs: {}
         }
     }
 
     componentWillMount() {
         if (!this.props.block) {
-            this.props.onUpdate(this.state.inputs)
+            this.props.onUpdate(this.state.inputs, false)
         }
     }
 
     addInput(props) {
-        const { inputs, inputsKeys } = this.state;
+        const { inputs, inputsKeys, validInputs } = this.state;
         inputsKeys.push(inputsKeys.length ? (inputsKeys[inputsKeys.length-1] + 1) : 0);
+        const newKey = inputsKeys.slice(-1)[0];
+        validInputs[newKey] = false;
         inputs.push(props || {...DEFAULT_INPUT});
-        this.setState({inputs, inputsKeys}, this.props.onUpdate(inputs))
+        this.setState({inputs, inputsKeys, validInputs}, this.props.onUpdate(inputs, false))
     }
 
     deleteInput(index) {
-        const { inputs, inputsKeys } = this.state;
+        const { inputs, inputsKeys, validInputs } = this.state;
         inputs.splice(index, 1);
-        inputsKeys.splice(index, 1);
-        this.setState({ inputs, inputsKeys }, this.props.onUpdate(inputs))
+        const key = inputsKeys.splice(index, 1);
+        delete validInputs[key];
+        this.setState({ inputs, inputsKeys, validInputs }, this.props.onUpdate(inputs, calcValidation(validInputs)))
     }
 
-    updateInput(index, data) {
-        const { inputs } = this.state;
+    updateInput(index, data, valid) {
+        const { inputs, validInputs, inputsKeys } = this.state;
         inputs[index] = data;
-        this.setState({ inputs }, this.props.onUpdate(inputs))
+        const key = inputsKeys[index];
+        validInputs[key] = valid;
+        this.setState({ inputs, validInputs }, this.props.onUpdate(inputs, calcValidation(validInputs)))
     }
 
     render() {
@@ -60,16 +71,20 @@ class InputsBitcoinForm extends React.Component {
                                 index={i}
                                 block={block}
                                 onDelete={() => this.deleteInput(i)}
-                                onSave={(i, d) => this.updateInput(i, d)}
+                                onSave={(i, d, v) => this.updateInput(i, d, v)}
                                 key={`inputBitcoin-${inputsKeys[i]}`}/>
                 )}
                 <div className="BitcoinInputsFooter">
+                    <div>
                     {!this.props.external
-                        ? <button className="btn btn-primary" onClick={() => this.addInput()}
+                        ? <button className="btn btn-outline-primary" onClick={() => this.addInput()}
                             disabled={block}>Add input
                           </button>
                         : null}
-                    <span>{t('Total amount')}: <strong>{(amount * Math.pow(10, -8)).toFixed(8)} BTC</strong></span>
+                    </div>
+                    <div style={{textAlign: 'right'}}>
+                        <span>{t('Total amount')}: <strong>{(amount * Math.pow(10, -8)).toFixed(8)} BTC</strong></span>
+                    </div>
                 </div>
                 <br/>
             </React.Fragment>

@@ -67,7 +67,16 @@ class CreateWallet extends Component {
                                         encryptedMnemonics: encryptMnemonicsByAnchor(encryptedMnemonics)
                                     },
                                     onOperationResult
-                                )}}/>
+                                )}}>
+                        <span> </span><button className="btn btn-primary" onClick={() =>{sendPut(
+                                    uuid,
+                                    {
+                                        accounts: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()]),
+                                        encryptedMnemonics: ''
+                                    },
+                                    onOperationResult
+                                )}}>Save only public keys</button>
+                      </LastStep>
                     : null
                 }
                 <br/>

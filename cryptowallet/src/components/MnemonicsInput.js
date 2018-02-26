@@ -110,7 +110,7 @@ class MnemonicsInput extends Component {
                                   value={showedMnemonics || encryptedMnemonics}
                                   onChange={(e) => this.onChangeMnemonics(e)}
                                   rows="4"
-                                  disabled={!!uuid || disabled}/>
+                                  disabled={(encryptedMnemonics !== '' && !!uuid) || disabled}/>
                         {this.validatedMnemonics()}
                     </div>
                     <PasswordInput label={passwordLabel}
@@ -122,7 +122,7 @@ class MnemonicsInput extends Component {
                                    inputAttrs={inputAttrs}/>
                     {encrypted
                         ? <JSONUploader onValid={(d) => this.setState({encryptedMnemonics: d.encryptedMnemonics})}
-                                        disabled={!!mnemonics || !!uuid}
+                                        disabled={!!mnemonics || (encryptedMnemonics !== '' && !!uuid)}
                                         title="Upload encrypted mnemonics"
                                         requiredKeys={['encryptedMnemonics']}/>
                         : null

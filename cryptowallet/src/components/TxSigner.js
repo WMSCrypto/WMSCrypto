@@ -29,22 +29,14 @@ class TxSigner extends Component {
             return null
         }
         const signed = signers[coin](mnemonics, transaction);
-        let data = {};
-        if (WITH_PREFIX.indexOf(coin) === -1) {
-            data.signed = `${signed}`
-        } else {
-            data.signed = `0x${signed}`
-        }
-        if (WITH_RAW.indexOf(coin) !== -1) {
-            data.raw= transaction
-        }
+        const data = {...transaction, coin, signed};
         return(
             <Card>
-                <Raw raw={data.raw}/>
+                <Raw raw={WITH_RAW.indexOf(coin) !== -1 ? data.raw : null}/>
                 <div>
                     <p>
                     <small className="text-muted">Transaction signature</small><br/>
-                        {data.signed}
+                        {WITH_PREFIX.indexOf(coin) !== -1 ? '0x' : ''}{data.signed}
                     </p>
                 </div>
                 <DownloadButton title={t("Download transaction data")}

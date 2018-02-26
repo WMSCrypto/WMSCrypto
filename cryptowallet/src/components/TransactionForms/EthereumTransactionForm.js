@@ -8,6 +8,28 @@ const addressTest = (v) => v ? /^0x[\da-fA-F]{40}$/.test(v) : false;
 const hexTest = (v) => v ? /^0x[\da-fA-F]*$/.test(v) : true;
 const valueTest = (v) => v ? /^\d+\.?\d{0,18}$/.test(v) : true;
 
+const TO_LENGTH = 42;
+
+const checkTransaction = (transaction) => {
+    const invalidFields = ['nonce', 'gasPrice', 'gasLimit', 'to', 'value', 'value'].filter(
+        (v) => transaction[v] === '' || transaction[v] === undefined
+    );
+
+    if (invalidFields.length) {
+        return false
+    }
+
+    const invalidAddressFields = ['address', 'account'].filter(
+        (v) => transaction[v] === ''
+    );
+
+    if (invalidAddressFields.length) {
+        return false
+    }
+
+    return addressTest(transaction['to']) && hexTest(transaction['data'])
+};
+
 class EthereumTransactionFrom extends Component {
 
     getInputProps(name, validator) {
@@ -19,7 +41,9 @@ class EthereumTransactionFrom extends Component {
                 if (validator) {
                     value = validator(value) ? value : transaction[name];
                 }
-                onSet(name, value)
+                const txCopy = {...transaction};
+                txCopy[name] = value;
+                onSet(name, value, checkTransaction(txCopy))
             },
             disabled: block
         };
@@ -58,7 +82,10 @@ class EthereumTransactionFrom extends Component {
                                     account={account}
                                     change={change}
                                     address={address}
-                                    onSet={(obj) => {this.props.onSet(null, obj)}}/>
+                                    onSet={(obj) => {
+                                        const txCopy = {...this.props.transaction, ...obj};
+                                        this.props.onSet(null, obj, checkTransaction(txCopy))
+                                    }}/>
                 <div className="form-group">
                     <label htmlFor="inputNonce">{t("Nonce")}</label>
                     <input type="text"
