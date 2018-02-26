@@ -4,10 +4,15 @@ import Card from "./Cards/Card";
 import PasswordInput from "./PasswordInput";
 
 const VALID_PASSWORD_MESSAGE = 'Passwords match and have strong security.';
+const PASSWORD_LENGTH = 8;
 
 const validatePassword = (password) => {
     const { warning, suggestions } = zxcvbn(password).feedback;
-    return [warning, ...suggestions];
+    return [
+        warning,
+        ...suggestions,
+        ...[password.length <= PASSWORD_LENGTH ? 'Password length must be 8 or more.' : '']
+    ];
 };
 
 class CreatePassword extends Component {
@@ -24,8 +29,9 @@ class CreatePassword extends Component {
         const { setPassword } = this.props;
         this.setState(obj, () => {
             const { password, passwordRepeat } = this.state;
+            const strong = password.length > PASSWORD_LENGTH && !validatePassword(password).join("").length;
             if (password === passwordRepeat) {
-                setPassword(password);
+                setPassword(strong ? password : null);
             }
             if (password && passwordRepeat && password !== passwordRepeat) {
                 setPassword(null);
