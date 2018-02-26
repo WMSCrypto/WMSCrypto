@@ -6,6 +6,24 @@ import HexInput from "../../Inputs/HexInput";
 import WalletAddressInput from "../../Inputs/WalletAddressInput";
 import SatoshiInput from "../../Inputs/SatoshInput";
 
+const HASH_LENGTH = 64;
+
+const checkInput = (input) => {
+    const invalidFields = ['prevout_n', 'prevout_hash', 'account', 'address', 'value', 'change'].filter(
+        (v) => input[v] === ''
+    );
+
+    if (invalidFields.length) {
+        return false
+    }
+
+    if (input['prevout_hash'].length !== HASH_LENGTH) {
+        return false
+    }
+
+    return true
+};
+
 class InputBlock extends React.Component {
 
     getInputProps(label, valueName) {
@@ -18,17 +36,14 @@ class InputBlock extends React.Component {
             onSet: (v) => {
                 const input = {...this.props.input};
                 input[valueName] = v;
-                onSave(index, input)
+                onSave(index, input, checkInput(input))
             },
             value,
         }
     }
 
     getTitle(index) {
-        const invalidFields = ['prevout_n', 'prevout_hash', 'account', 'address', 'value', 'change'].filter(
-            (v) => this.props.input[v] === ''
-        );
-        const invalidElem = invalidFields.length
+        const invalidElem = !(checkInput(this.props.input))
             ? <span className="badge badge-danger">invalid</span>
             : null;
         return (
@@ -41,7 +56,7 @@ class InputBlock extends React.Component {
         return (
             <HidingCard title={this.getTitle(index)} onDelete={!block && index && onDelete}>
                 <HexInput {...this.getInputProps("Previous transaction hash", "prevout_hash")}
-                          usePrefix={false}/>
+                          usePrefix={false} invalid={input.prevout_hash.length !== HASH_LENGTH}/>
                 <IntegerInput {...this.getInputProps("Output Id", "prevout_n")}/>
                 <WalletAddressInput disabled={{all: block}}
                                     purpose={44}
@@ -51,7 +66,7 @@ class InputBlock extends React.Component {
                                     address={input.address}
                                     onSet={(obj) => {
                                         const newInput = {...input, ...obj};
-                                        onSave(index, newInput)
+                                        onSave(index, newInput, checkInput(newInput))
                                     }}/>
                 <SatoshiInput {...this.getInputProps("Value, Satoshi", "value")}/>
             </HidingCard>

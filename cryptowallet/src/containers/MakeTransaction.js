@@ -23,15 +23,16 @@ class MakeTransaction extends Component {
             transactionSaved: !!props.uuid,
             decryptedMnemonics: null,
             transaction: data || {},
+            allowSave: false
         }
     }
-    updateTransaction(key, value) {
+    updateTransaction(key, value, valid) {
         let { transaction } = this.state;
         if (!key) {
-            this.setState({transaction: {...transaction, ...value}})
+            this.setState({transaction: {...transaction, ...value}, allowSave: valid})
         } else {
             transaction[key] = value;
-            this.setState({transaction})
+            this.setState({transaction, allowSave: valid})
         }
     }
 
@@ -42,11 +43,11 @@ class MakeTransaction extends Component {
                 return <CommonBitcoinTransactionForm transaction={transaction}
                                                      external={isOnline || isFile}
                                                      block={transactionSaved || isFile}
-                                                     onSet={(k, v) => this.updateTransaction(k, v)}/>;
+                                                     onSet={(k, v, b) => this.updateTransaction(k, v, b)}/>;
             case 60:
                 return <EthereumTransactionFrom transaction={transaction}
                                                 block={transactionSaved || isFile}
-                                                onSet={(k, v) => this.updateTransaction(k, v)}/>
+                                                onSet={(k, v, b) => this.updateTransaction(k, v, b)}/>
             default:
                 return null
         }
@@ -87,11 +88,11 @@ class MakeTransaction extends Component {
     }
 
     renderTransactionControls() {
-        const { transactionSaved } = this.state;
+        const { transactionSaved, allowSave } = this.state;
         const toggle = () => this.setState({transactionSaved: !transactionSaved});
         return (
             <React.Fragment>
-                <button className="btn btn-primary" onClick={toggle}>
+                <button className="btn btn-primary" onClick={toggle} disabled={!allowSave}>
                     {transactionSaved ? 'Edit' : 'Save'}
                 </button>
             </React.Fragment>

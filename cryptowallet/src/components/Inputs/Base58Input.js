@@ -14,10 +14,10 @@ class Base58Input extends React.Component {
     onSet(v) {
         try {
             bs58check.decode(v);
-            this.props.onSet(v);
+            this.props.onSet(v, true);
             this.setState({errorMessage: ''})
         } catch (e) {
-            this.props.onSet(v);
+            this.props.onSet(v, false);
             this.setState({errorMessage: e.message})
         }
     }

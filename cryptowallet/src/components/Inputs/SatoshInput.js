@@ -13,7 +13,6 @@ class SatoshiInput extends React.Component {
 
     render() {
         const { inValue } = this.state;
-        console.log(this.props.value);
         return (
             <BaseInput {...this.props}
                        placeholder="0.0"

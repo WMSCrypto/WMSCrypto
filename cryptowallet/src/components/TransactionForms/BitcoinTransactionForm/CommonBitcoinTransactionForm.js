@@ -20,18 +20,35 @@ const BTC = (v) => {
     return `${(Math.pow(10, -8) * v).toFixed(8)} BTC`;
 };
 
+const validation = (m, b) => {
+    if (b) {
+        return m
+    } else {
+        return <span>{m} <span className="badge badge-danger">{t('invalid')}</span></span>;
+    }
+};
+
 class CommonBitcoinTransactionForm extends React.Component {
 
     constructor(props) {
         super(props);
+        const { external } = props;
         this.state = {
-            fullView: !props.external,
+            fullView: !external,
+            validated: {
+                inputs: external || false,
+                receiver: external || false,
+                value: external || true,
+                change: external || true,
+                account: external || true,
+                address: external || true
+            }
         }
     }
 
-    renderSummary(fee, value, receiver) {
+    renderSummary(fee, value, receiver, display) {
         return (
-            <div>
+            <div style={{display: display ? 'block' : 'none'}}>
                 <SummaryElement name="Receiver" value={receiver || '???'}/>
                 <SummaryElement name="Value" value={BTC(value)}/>
                 <SummaryElement name="Fee" value={BTC(fee)}/>
@@ -39,27 +56,43 @@ class CommonBitcoinTransactionForm extends React.Component {
         )
     }
 
-    renderDetail(amount, fee, change, address, account, value, receiver, useRBF, locktime, inputs, external, useChange) {
+    validatedSet(key, value, validObject) {
+        const { onSet } = this.props;
+        const { validated } = this.state;
+        const newValidated = {...validated, ...validObject};
+        const formIsValid = Object.keys(newValidated).reduce((p, i) => newValidated[i] && p, true);
+        this.setState({validated: newValidated});
+        onSet(key, value, formIsValid)
+
+    }
+
+    renderDetail(amount, fee, change, address, account, value, receiver, useRBF, locktime, inputs, external, useChange, display) {
+        const { validated } = this.state;
+        const receiverValidation = validation(`${t('Output')} 0`, validated.receiver && validated.value);
         const { onSet } = this.props;
         const block = !!this.props.block;
         return (
-            <React.Fragment>
-                <InputsBitcoinForm onUpdate={(d) => {onSet('inputs', d)}}
+            <div style={{display: display ? 'block' : 'none'}}>
+                <InputsBitcoinForm onUpdate={(d, b) => {this.validatedSet('inputs', d, {inputs: b})}}
                                    block={block}
                                    inputs={inputs}
                                    external={external}/>
-                <HidingCard title={`${t('Output')} 0`}>
+                <HidingCard title={receiverValidation}>
                     <Base58Input label={t('Receiver')}
                                  disabled={block}
                                  value={receiver}
-                                 onSet={(v) => onSet('receiver', v)}
+                                 onSet={(v, valid) => this.validatedSet(
+                                        'receiver', v, {receiver: valid}
+                                      )}
                                  required={true}/>
                     <div className="form-row">
                         <div className="col-md-9">
                             <SatoshiInput label={t('Value')}
                                           disabled={block}
                                           value={value}
-                                          onSet={(v) => onSet('value', v)}
+                                          onSet={(v) => this.validatedSet(
+                                              'value', v, {value: v !== ''}
+                                              )}
                                           required={true}/>
                         </div>
                         <div className="col-md-3">
@@ -74,8 +107,11 @@ class CommonBitcoinTransactionForm extends React.Component {
                     </div>
                 </HidingCard>
                 {useChange
-                    ? <AdditionalForm {...{onSet, block, address, account, change}}/>
-                    : <button className="btn btn-outline-primary" onClick={() => onSet('useChange', true)} style={{marginBottom: 16}}>
+                    ? <AdditionalForm {...{onSet: this.validatedSet.bind(this), block, address, account, change}}/>
+                    : <button className="btn btn-outline-primary" onClick={
+                        () => this.validatedSet(
+                            'useChange', true, {change: change !== '', account: account !== '', address: address !== ''}
+                            )} style={{marginBottom: 16}}>
                         {t('Add change')}
                       </button>
                 }
@@ -83,17 +119,23 @@ class CommonBitcoinTransactionForm extends React.Component {
                           disabled={block}
                           label={t('Locktime')}
                           value={locktime}
-                          onSet={(v) => onSet('locktime', v)}/>
+                          onSet={(v) => {
+                              const l = v.toString().length;
+                              if (l > 8) {
+                                  v = parseInt(v.toString().slice(0, 8), 10)
+                              }
+                              this.validatedSet('locktime', v, {})}
+                          }/>
                 <div className="form-check">
                     <input type="checkbox"
                            disabled={block}
                            className="form-check-input"
                            checked={useRBF}
-                           onChange={() => onSet('useRBF', !useRBF)}/>
+                           onChange={() => this.validatedSet('useRBF', !useRBF, {})}/>
                     <lable className="form-check-label">{t('Use RBF')}</lable>
                 </div>
                 <br/>
-            </React.Fragment>
+            </div>
         )
     }
 
@@ -119,14 +161,12 @@ class CommonBitcoinTransactionForm extends React.Component {
                                 onClick={() => this.setState({fullView: true})}>{t('Detail')}</button>
                     </div>
                 </div>
-                {fullView
-                    ? this.renderDetail(
-                        amount, fee, change,
-                        address, account, value,
-                        receiver, useRBF, locktime,
-                        inputs, external, useChange)
-                    : this.renderSummary(fee, value, receiver)
-                }
+                {this.renderDetail(
+                    amount, fee, change,
+                    address, account, value,
+                    receiver, useRBF, locktime,
+                    inputs, external, useChange, fullView)}
+                {this.renderSummary(fee, value, receiver, !fullView)}
             </React.Fragment>
         )
     }
