@@ -68,7 +68,7 @@ class InputBlock extends React.Component {
                                         const newInput = {...input, ...obj};
                                         onSave(index, newInput, checkInput(newInput))
                                     }}/>
-                <SatoshiInput {...this.getInputProps("Value, Satoshi", "value")}/>
+                <SatoshiInput {...this.getInputProps("Value", "value")}/>
             </HidingCard>
         )
     }

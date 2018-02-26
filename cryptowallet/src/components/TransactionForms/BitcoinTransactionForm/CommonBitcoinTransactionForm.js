@@ -41,7 +41,8 @@ class CommonBitcoinTransactionForm extends React.Component {
                 value: external || true,
                 change: external || true,
                 account: external || true,
-                address: external || true
+                address: external || true,
+                locktime: true
             }
         }
     }
@@ -69,7 +70,6 @@ class CommonBitcoinTransactionForm extends React.Component {
     renderDetail(amount, fee, change, address, account, value, receiver, useRBF, locktime, inputs, external, useChange, display) {
         const { validated } = this.state;
         const receiverValidation = validation(`${t('Output')} 0`, validated.receiver && validated.value);
-        const { onSet } = this.props;
         const block = !!this.props.block;
         return (
             <div style={{display: display ? 'block' : 'none'}}>
@@ -119,12 +119,9 @@ class CommonBitcoinTransactionForm extends React.Component {
                           disabled={block}
                           label={t('Locktime')}
                           value={locktime}
+                          invalid={locktime && locktime > 4294967295}
                           onSet={(v) => {
-                              const l = v.toString().length;
-                              if (l > 8) {
-                                  v = parseInt(v.toString().slice(0, 8), 10)
-                              }
-                              this.validatedSet('locktime', v, {})}
+                              this.validatedSet('locktime', v, {loctime: v <= 4294967295})}
                           }/>
                 <div className="form-check">
                     <input type="checkbox"
