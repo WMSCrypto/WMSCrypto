@@ -30,6 +30,7 @@ class LastStep extends Component {
                     ? <button type="button" className="btn btn-danger" onClick={onClick}>{title}</button>
                     : <button type="button" className="btn btn-outline-danger" disabled>{title}</button>
                 }
+                {this.props.children}
             </Card>
         )
     }
