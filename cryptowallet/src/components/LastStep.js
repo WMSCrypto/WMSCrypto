@@ -11,7 +11,7 @@ class LastStep extends Component {
     }
 
     render() {
-        const { hide, important, title, onClick, message } = this.props;
+        const { hide, important, title, onClick, message, approveCallback } = this.props;
         const { approve } = this.state;
         return (
             <Card hide={hide}>
@@ -22,7 +22,7 @@ class LastStep extends Component {
                            type="checkbox"
                            id="checkImportant"
                            checked={approve}
-                           onChange={() => this.setState({approve: !approve})}/>
+                           onChange={() => this.setState({approve: !approve}, () => approveCallback && approveCallback(!approve))}/>
                     <label className="form-check-label" htmlFor="checkImportant">I understand</label>
                 </div>
                 <br/>

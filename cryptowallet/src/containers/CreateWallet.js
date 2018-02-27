@@ -18,6 +18,7 @@ class CreateWallet extends Component {
             mnemonics: null,
             encryptedMnemonics: null,
             accounts: null,
+            allowSend: false
         };
     }
 
@@ -32,7 +33,7 @@ class CreateWallet extends Component {
     }
 
     render() {
-        const { password, encryptedMnemonics, mnemonics, accounts } = this.state;
+        const { password, encryptedMnemonics, mnemonics, accounts, allowSend } = this.state;
         const { uuid, onOperationResult } = this.props;
         return (
             <div>
@@ -60,6 +61,7 @@ class CreateWallet extends Component {
                                 hide={false}
                                 important={true}
                                 message={messages.SAVE_WALLETS}
+                                approveCallback={(b) => this.setState({allowSend: b})}
                                 onClick={() =>{sendPut(
                                     uuid,
                                     {
@@ -68,7 +70,7 @@ class CreateWallet extends Component {
                                     },
                                     onOperationResult
                                 )}}>
-                        <span> </span><button className="btn btn-primary" onClick={() =>{sendPut(
+                        <span> </span><button className="btn btn-primary" disabled={!allowSend} onClick={() =>{sendPut(
                                     uuid,
                                     {
                                         accounts: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()]),
