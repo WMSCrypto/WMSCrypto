@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import bip39 from 'bip39';
 import aes from 'crypto-js/aes';
-import { NextButton, MnemonicsView, Card, LastStep , AccountsGenerator } from '../components';
+import { NextButton, MnemonicsView, Card, LastStep , AccountsGenerator, SaveOnlyKeys } from '../components';
 import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
 import { t } from '../utils/translate';
@@ -70,14 +70,12 @@ class CreateWallet extends Component {
                                     },
                                     onOperationResult
                                 )}}>
-                        <span> </span><button className="btn btn-primary" disabled={!allowSend} onClick={() =>{sendPut(
-                                    uuid,
-                                    {
-                                        accounts: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()]),
-                                        encryptedMnemonics: ''
-                                    },
-                                    onOperationResult
-                                )}}>Save only public keys</button>
+
+                        <span> </span>
+                        <SaveOnlyKeys accounts={accounts}
+                                      uuid={uuid}
+                                      disabled={!allowSend}
+                                      onOperationResult={onOperationResult}/>
                       </LastStep>
                     : null
                 }
