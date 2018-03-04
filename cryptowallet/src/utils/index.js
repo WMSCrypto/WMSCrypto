@@ -3,6 +3,17 @@ import bip39 from 'bip39';
 import EthereumTx from 'ethereumjs-tx';
 import { HDNode } from "bitcoinjs-lib";
 
+
+const cryptoCheck = () => {
+    try {
+        bip39.generateMnemonic();
+        return true
+    } catch (e) {
+        console.log(e);
+        return false
+    }
+};
+
 const callbackByAnchor = (data, func) => {
     const anchor = window.location.hash.substr(1);
     if (anchor.length) {
@@ -100,5 +111,6 @@ export {
     encryptMnemonicsByAnchor,
     intTest,
     getFullAdrress,
-    setState
+    setState,
+    cryptoCheck
 }

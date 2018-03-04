@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MnemonicsInput, CreatePassword, NextButton, Card, DownloadButton, LastStep } from '../components/index';
+import { MnemonicsInput, CreatePassword, NextButton, Card, DownloadButton, LastStep, SaveOnlyKeys } from '../components/index';
 import aes from "crypto-js/aes";
 import AccountsGenerator from "../components/AccountsGenerator";
 import { messages } from "../assets";
@@ -14,7 +14,8 @@ class ConnectWallet extends Component {
             password: null,
             aesPassword: null,
             encryptedMnemonics: null,
-            accounts: null
+            accounts: null,
+            allowSend: false
         }
     }
 
@@ -30,7 +31,7 @@ class ConnectWallet extends Component {
     }
 
     render() {
-        const { aesPassword, mnemonicsData, encryptedMnemonics, accounts } = this.state;
+        const { aesPassword, mnemonicsData, encryptedMnemonics, accounts, allowSend } = this.state;
         const { uuid, onOperationResult } = this.props;
         return(
             <div>
@@ -64,15 +65,17 @@ class ConnectWallet extends Component {
                 {encryptedMnemonics
                     ? <AccountsGenerator onGenerate={(accounts) => this.setState({accounts})}
                                          disabled={!!accounts}
+                                         uuid={uuid}
                                          hex={mnemonicsData.hex}/>
                     : null
                 }
                 <br/>
-                {accounts
+                {accounts && uuid
                     ? <LastStep title="Save mnemonics"
                                 hide={false}
                                 important={true}
                                 message={messages.SAVE_WALLETS}
+                                approveCallback={(b) => this.setState({allowSend: b})}
                                 onClick={() =>{sendPut(
                                     uuid,
                                     {
@@ -80,7 +83,13 @@ class ConnectWallet extends Component {
                                         encryptedMnemonics: encryptMnemonicsByAnchor(encryptedMnemonics)
                                     },
                                     (status, data, uuid) => onOperationResult(status)
-                                )}}/>
+                                )}}>
+                        <span> </span>
+                        <SaveOnlyKeys accounts={accounts}
+                                      uuid={uuid}
+                                      disabled={!allowSend}
+                                      onOperationResult={onOperationResult}/>
+                    </LastStep>
                     : null
                 }
                 <br/>

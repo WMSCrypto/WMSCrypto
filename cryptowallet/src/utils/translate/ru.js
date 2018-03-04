@@ -30,7 +30,8 @@ const translates = {
     "Go to telegram": "Перейти в телеграмм",
     "SORRY": "Извините, что-то пошло не так, попробуйте позже",
     "IMPORTANT!": "ВАЖНО!",
-    "I understand": "Я понимаю"
+    "I understand": "Я понимаю",
+    "CRYPTO_FALSE": "Ваш браузер не может использовать безопасные крипто функции, используйте последнии версии Chrome, Firefox or Safari"
 };
 
 export default translates;

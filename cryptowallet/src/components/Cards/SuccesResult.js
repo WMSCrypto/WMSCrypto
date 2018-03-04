@@ -7,9 +7,9 @@ import { dropLocation } from '../../utils';
 const SuccessResult = () => {
     return (
         <ResultCard title={t("Operation successful")}>
-            <button className="btn btn-primary" onClick={dropLocation}>
+            <a href="https://t.me/WMSCryptoBot"><button className="btn btn-primary" onClick={dropLocation}>
                     {t('Go to telegram')}
-            </button>
+            </button></a>
         </ResultCard>
     )
 };

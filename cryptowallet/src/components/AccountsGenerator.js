@@ -3,6 +3,9 @@ import { HDNode } from "bitcoinjs-lib";
 import { coins } from "../assets";
 import NextButton from './NextButton';
 import bip39 from "bip39";
+import DownloadButton from "./DownloadButton";
+import Card from "./Cards/Card";
+import { t } from '../utils/translate';
 
 const setProgess = (l1, l2, message, visible=false) => {
     const percents = ((l1 / (l2 - 1)) * 100).toFixed(2);
@@ -24,7 +27,7 @@ class AccountsGenerator extends Component {
 
     generateAccounts(index, accounts) {
         let node = null;
-        const { mnemonics, hex, onGenerate } = this.props;
+        const { mnemonics, hex, onGenerate, uuid } = this.props;
         if (mnemonics) {
             const seed = bip39.mnemonicToSeed(mnemonics);
             node = HDNode.fromSeedBuffer(seed);
@@ -46,12 +49,18 @@ class AccountsGenerator extends Component {
             setTimeout(() => this.generateAccounts(index + 1, accounts), 100)
         } else {
             setProgess(0, coins.length, 'All pubkeys was generated successful', false);
-            onGenerate(accounts)
+            onGenerate(accounts);
+            if (!uuid) {
+                this.setState({accounts: <Card><DownloadButton title={t('Download pubkeys')}
+                                                               id="SavePubKeys"
+                                                               obj={{pubkeys: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()])}}/></Card>})
+            }
         }
     }
 
     render() {
         const { disabled } = this.props;
+        const { accounts } = this.state;
         return(
             <div>
                 <NextButton title="Generate pubkeys"
@@ -62,6 +71,7 @@ class AccountsGenerator extends Component {
                 <div className="progress" style={{visibility: 'hidden'}}>
                     <div id="generateProgress" className="progress-bar" style={{width: '0%'}}/>
                 </div>
+                {accounts}
             </div>
         )
     }

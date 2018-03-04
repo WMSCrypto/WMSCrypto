@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import bip39 from 'bip39';
 import aes from 'crypto-js/aes';
-import { NextButton, MnemonicsView, Card, LastStep , AccountsGenerator } from '../components';
+import { NextButton, MnemonicsView, Card, LastStep , AccountsGenerator, SaveOnlyKeys } from '../components';
 import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
 import { t } from '../utils/translate';
@@ -18,6 +18,7 @@ class CreateWallet extends Component {
             mnemonics: null,
             encryptedMnemonics: null,
             accounts: null,
+            allowSend: false
         };
     }
 
@@ -32,7 +33,7 @@ class CreateWallet extends Component {
     }
 
     render() {
-        const { password, encryptedMnemonics, mnemonics, accounts } = this.state;
+        const { password, encryptedMnemonics, mnemonics, accounts, allowSend } = this.state;
         const { uuid, onOperationResult } = this.props;
         return (
             <div>
@@ -51,8 +52,9 @@ class CreateWallet extends Component {
                                    bits={MNEMONICS_BITS}/>
                 </Card>
                 <br/>
-                {(mnemonics && uuid) && <AccountsGenerator disabled={!mnemonics || accounts}
+                {mnemonics && <AccountsGenerator disabled={!mnemonics || accounts}
                                                  mnemonics={mnemonics}
+                                                 uuid={uuid}
                                                  onGenerate={(accounts) => this.setState({accounts})}/>
                 }
                 {accounts && uuid
@@ -60,6 +62,7 @@ class CreateWallet extends Component {
                                 hide={false}
                                 important={true}
                                 message={messages.SAVE_WALLETS}
+                                approveCallback={(b) => this.setState({allowSend: b})}
                                 onClick={() =>{sendPut(
                                     uuid,
                                     {
@@ -68,14 +71,12 @@ class CreateWallet extends Component {
                                     },
                                     onOperationResult
                                 )}}>
-                        <span> </span><button className="btn btn-primary" onClick={() =>{sendPut(
-                                    uuid,
-                                    {
-                                        accounts: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()]),
-                                        encryptedMnemonics: ''
-                                    },
-                                    onOperationResult
-                                )}}>Save only public keys</button>
+
+                        <span> </span>
+                        <SaveOnlyKeys accounts={accounts}
+                                      uuid={uuid}
+                                      disabled={!allowSend}
+                                      onOperationResult={onOperationResult}/>
                       </LastStep>
                     : null
                 }

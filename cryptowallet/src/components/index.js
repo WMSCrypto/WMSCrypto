@@ -15,6 +15,7 @@ import TxSigner from "./TxSigner";
 import JSONUploader from "./JSONUploader";
 import Icon from "./Icon";
 import StatusCard from "./Cards/StatusCard";
+import SaveOnlyKeys from "./SaveOnlyKeys";
 
 export {
     NextButton,
@@ -33,5 +34,6 @@ export {
     TxSigner,
     JSONUploader,
     Icon,
-    StatusCard
+    StatusCard,
+    SaveOnlyKeys
 }

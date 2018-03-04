@@ -3,9 +3,10 @@ import MainMenu from "./components/MainMenu";
 import { Header } from './components';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { setLang } from './utils/translate';
+import { setLang, t } from './utils/translate';
 import { actionToApp } from './assets';
 import StatusCard from "./components/Cards/StatusCard";
+import { cryptoCheck } from "./utils";
 
 
 class App extends Component {
@@ -18,13 +19,11 @@ class App extends Component {
             uuid: null,
             data: null,
             lang: 'en',
+            check: false
         }
     }
 
-
-    componentWillMount() {
-        const pathArray = window.location.pathname.split('/');
-        const uuid = pathArray.length === 2 && pathArray[1].length ? pathArray[1] : null;
+    getData(uuid) {
         if (uuid) {
             this.setState({uuid});
             fetch(`/api/operations/${uuid}`)
@@ -52,6 +51,14 @@ class App extends Component {
                     console.log(err);
                     this.setState({application: () => <StatusCard status={null}/>});
                 })
+        }
+    }
+
+    componentWillMount() {
+        const pathArray = window.location.pathname.split('/');
+        const uuid = pathArray.length === 2 && pathArray[1].length ? pathArray[1] : null;
+        if (cryptoCheck()) {
+            this.setState({check: true}, this.getData(uuid))
         }
     }
 
@@ -85,7 +92,10 @@ class App extends Component {
     }
 
     render() {
-        const { application, showReload, uuid, data, encryptedMnemonics, lang } = this.state;
+        const { application, showReload, uuid, data, encryptedMnemonics, lang, check } = this.state;
+        if (!check) {
+            return <div className="CenterMessage"><p>{t('CRYPTO_FALSE')}</p></div>
+        }
         return (
             <div className="container App" style={{maxWidth: 800}}>
                 <Header showMenu={!!application}
