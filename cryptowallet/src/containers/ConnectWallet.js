@@ -65,11 +65,12 @@ class ConnectWallet extends Component {
                 {encryptedMnemonics
                     ? <AccountsGenerator onGenerate={(accounts) => this.setState({accounts})}
                                          disabled={!!accounts}
+                                         uuid={uuid}
                                          hex={mnemonicsData.hex}/>
                     : null
                 }
                 <br/>
-                {accounts
+                {accounts && uuid
                     ? <LastStep title="Save mnemonics"
                                 hide={false}
                                 important={true}

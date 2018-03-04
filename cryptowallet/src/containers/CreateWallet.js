@@ -52,8 +52,9 @@ class CreateWallet extends Component {
                                    bits={MNEMONICS_BITS}/>
                 </Card>
                 <br/>
-                {(mnemonics && uuid) && <AccountsGenerator disabled={!mnemonics || accounts}
+                {mnemonics && <AccountsGenerator disabled={!mnemonics || accounts}
                                                  mnemonics={mnemonics}
+                                                 uuid={uuid}
                                                  onGenerate={(accounts) => this.setState({accounts})}/>
                 }
                 {accounts && uuid
