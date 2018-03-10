@@ -7,7 +7,7 @@ class SatoshiInput extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            inValue: props.value !== '' ? (Math.pow(10, -8) * props.value) : ''
+            inValue: props.value !== '' ? (Math.pow(10, -8) * props.value).toFixed(8) : ''
         }
     }
 
