@@ -131,6 +131,7 @@ class MakeTransaction extends Component {
                 <br/>
                 <TxSigner mnemonics={decryptedMnemonics}
                           coin={coin}
+                          uuid={uuid}
                           transaction={transaction}
                           transactionSaved={transactionSaved}
                           onOperationResult={onOperationResult}/>
