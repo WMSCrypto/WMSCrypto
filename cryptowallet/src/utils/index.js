@@ -4,6 +4,41 @@ import EthereumTx from 'ethereumjs-tx';
 import { HDNode } from "bitcoinjs-lib";
 
 
+const MNEMONICS_BITS = 256;
+const WITH_ANCHOR_FLAG = '01';
+const WITHOUT_ANCHOR_FLAG = '00';
+
+
+const generateSeed = ({ password, mnemonics=null, salt=null, anchor=null }) => {
+    if (!mnemonics) {
+        mnemonics = bip39.generateMnemonic(MNEMONICS_BITS);
+    }
+    let seedHex;
+
+    if (salt && salt.length) {
+        seedHex = bip39.mnemonicToSeedHex(mnemonics, salt);
+    } else {
+        seedHex = bip39.mnemonicToSeedHex(mnemonics);
+    }
+
+    let encrypted = aes.encrypt(seedHex, password);
+
+    if (anchor) {
+        encrypted = aes.encrypt(encrypted, anchor) + WITH_ANCHOR_FLAG;
+    } else {
+        encrypted = encrypted + WITHOUT_ANCHOR_FLAG
+    }
+
+    return {
+        hex: seedHex,
+        encrypted
+    }
+};
+
+const decryptSeed = (string, password) => {
+    return aes.decrypt(string, password)
+};
+
 const cryptoCheck = () => {
     try {
         bip39.generateMnemonic();
@@ -110,5 +145,6 @@ export {
     encryptMnemonicsByAnchor,
     getFullAdrress,
     setState,
-    cryptoCheck
+    cryptoCheck,
+    generateSeed
 }

@@ -5,15 +5,10 @@ import { NextButton, MnemonicsView, Card, LastStep , AccountsGenerator, SaveOnly
 import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
 import { t } from '../utils/translate';
-import { sendPut, encryptMnemonicsByAnchor } from '../utils';
+import { sendPut, encryptMnemonicsByAnchor, generateSeed } from '../utils';
 import Identicon from "../elements/IdenticonView";
 import GeneratedImage from "../components/GeneratedImageView";
 
-const MNEMONICS_BITS = 256;
-const generateSeed = () => {
-    const mnemonics = bip39.generateMnemonic(MNEMONICS_BITS);
-    return bip39.mnemonicToSeed(mnemonics);
-};
 
 class CreateWallet extends Component {
 
@@ -29,25 +24,16 @@ class CreateWallet extends Component {
         };
     }
 
-    generateMnemonics() {
-        const mnemonics = bip39.generateMnemonic(MNEMONICS_BITS);
+    generateSeed() {
         const { password } = this.state;
-        const encryptedMnemonics = aes.encrypt(mnemonics, password);
-        this.setState({
-            mnemonics,
-            encryptedMnemonics
-        })
-    }
-
-    generateImage() {
-        this.setState({
-            seed: generateSeed()
-        })
+        const seed = generateSeed({ password });
+        this.setState({ seed })
     }
 
     render() {
         const { password, encryptedMnemonics, mnemonics, accounts, allowSend, seed } = this.state;
         const { uuid, onOperationResult } = this.props;
+        console.log(seed)
         return (
             <div>
                 <CreatePassword setPassword={(p) => {this.setState({password: p})}}
@@ -56,12 +42,9 @@ class CreateWallet extends Component {
                 </CreatePassword>
                 <NextButton title={t("Generate mnemonics")}
                             disabled={!password || seed}
-                            onClick={() => this.generateImage()}/>
+                            onClick={() => this.generateSeed()}/>
                 <br/>
-                <GeneratedImage/>
-                <Card hide={!(password && seed)}>
-                    <Identicon seed={seed ? seed.toString() : null}/>
-                </Card>
+                {seed ? <GeneratedImage seed={seed}/> : null}
                 {mnemonics && <AccountsGenerator disabled={!mnemonics || accounts}
                                                  mnemonics={mnemonics}
                                                  uuid={uuid}
