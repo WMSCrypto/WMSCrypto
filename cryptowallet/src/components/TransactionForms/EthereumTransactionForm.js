@@ -30,6 +30,18 @@ const checkTransaction = (transaction) => {
 
 class EthereumTransactionFrom extends Component {
 
+    componentDidMount() {
+        const names = ['address', 'change', 'account'];
+        const { transaction } = this.props;
+        const walletData = {};
+        names.forEach(n => {
+            if (transaction[n] === undefined) {
+                walletData[n] = 0
+            }
+        });
+        this.props.onSet(null, walletData, false);
+    }
+
     getInputProps(name, validator) {
         const { block, onSet, transaction } = this.props;
         return {
