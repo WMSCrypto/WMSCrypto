@@ -6,8 +6,14 @@ import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
 import { t } from '../utils/translate';
 import { sendPut, encryptMnemonicsByAnchor } from '../utils';
+import Identicon from "../elements/IdenticonView";
+import GeneratedImage from "../components/GeneratedImageView";
 
 const MNEMONICS_BITS = 256;
+const generateSeed = () => {
+    const mnemonics = bip39.generateMnemonic(MNEMONICS_BITS);
+    return bip39.mnemonicToSeed(mnemonics);
+};
 
 class CreateWallet extends Component {
 
@@ -18,7 +24,8 @@ class CreateWallet extends Component {
             mnemonics: null,
             encryptedMnemonics: null,
             accounts: null,
-            allowSend: false
+            allowSend: false,
+            seed: null
         };
     }
 
@@ -32,8 +39,14 @@ class CreateWallet extends Component {
         })
     }
 
+    generateImage() {
+        this.setState({
+            seed: generateSeed()
+        })
+    }
+
     render() {
-        const { password, encryptedMnemonics, mnemonics, accounts, allowSend } = this.state;
+        const { password, encryptedMnemonics, mnemonics, accounts, allowSend, seed } = this.state;
         const { uuid, onOperationResult } = this.props;
         return (
             <div>
@@ -41,17 +54,14 @@ class CreateWallet extends Component {
                                 disabled={!!mnemonics}>
                     <p className="text-muted">{messages.SAVE_MNEMONICS}</p>
                 </CreatePassword>
-                <br/>
                 <NextButton title={t("Generate mnemonics")}
-                            disabled={!password || mnemonics}
-                            onClick={() => this.generateMnemonics()}/>
+                            disabled={!password || seed}
+                            onClick={() => this.generateImage()}/>
                 <br/>
-                <Card hide={!(password && mnemonics)}>
-                    <MnemonicsView mnemonics={password && mnemonics}
-                                   encryptedMnemonics={encryptedMnemonics}
-                                   bits={MNEMONICS_BITS}/>
+                <GeneratedImage/>
+                <Card hide={!(password && seed)}>
+                    <Identicon seed={seed ? seed.toString() : null}/>
                 </Card>
-                <br/>
                 {mnemonics && <AccountsGenerator disabled={!mnemonics || accounts}
                                                  mnemonics={mnemonics}
                                                  uuid={uuid}
