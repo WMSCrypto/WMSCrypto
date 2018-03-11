@@ -1,10 +1,9 @@
-import { getETXTxData, getPrivKey, signEthereumTransaction } from './index';
-import bip39 from "bip39";
+import { getETXTxData, getPrivKey, signEthereumTransaction, getSeed } from './index';
 import { TransactionBuilder, HDNode } from "bitcoinjs-lib";
 
 
 const getNode = (mnemonics, account, change, address) => {
-    const seed = bip39.mnemonicToSeed(mnemonics);
+    const seed = getSeed(mnemonics);
     const node = HDNode.fromSeedBuffer(seed);
     return node.derivePath(`m/44'/0'/${account}'/${change}/${address}`);
 };

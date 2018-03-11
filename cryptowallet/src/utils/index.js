@@ -63,14 +63,17 @@ const encryptMnemonicsByAnchor = (encryptedMnemonics) => {
     return callbackByAnchor(s, aes.encrypt).toString()
 };
 
-const getPrivKey = (mnemonics, address) => {
-    let seed;
+const getSeed = (mnemonics) => {
     try {
         const obj = JSON.parse(mnemonics);
-        seed = bip39.mnemonicToSeed(obj.mnemonics, obj.salt);
+        return bip39.mnemonicToSeed(obj.mnemonics, obj.salt);
     } catch (e) {
-        seed = bip39.mnemonicToSeed(mnemonics);
+        return bip39.mnemonicToSeed(mnemonics);
     }
+};
+
+const getPrivKey = (mnemonics, address) => {
+    const seed = getSeed(mnemonics);
     const node = HDNode.fromSeedBuffer(seed);
     const addressNode = node.derivePath(address);
     return addressNode.keyPair.d.toBuffer(32).toString('hex');
@@ -145,6 +148,7 @@ export {
     encryptMnemonicsByAnchor,
     getFullAdrress,
     setState,
+    generateSeed,
     cryptoCheck,
-    generateSeed
+    getSeed,
 }
