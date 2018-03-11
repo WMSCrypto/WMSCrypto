@@ -6,13 +6,12 @@ import { TransactionBuilder, HDNode } from "bitcoinjs-lib";
 const getNode = (mnemonics, account, change, address) => {
     const seed = bip39.mnemonicToSeed(mnemonics);
     const node = HDNode.fromSeedBuffer(seed);
-    return node.derivePath(`m/44'/0'/${account}/${change}/${address}`);
+    return node.derivePath(`m/44'/0'/${account}'/${change}/${address}`);
 };
 
 const ethSign = (mnemonics, transaction) => {
     const { account, change, address } = transaction;
-    const privKey = getPrivKey(mnemonics, `m/44'/0'/${account}/${change}/${address}`);
-
+    const privKey = getPrivKey(mnemonics, `m/44'/60'/${account}'/${change}/${address}`);
     const { nonce, value, gasPrice, gasLimit, to, data } = transaction;
     const txData = getETXTxData(nonce, value, gasPrice, gasLimit, to, data);
     const tx = signEthereumTransaction(privKey, txData);
