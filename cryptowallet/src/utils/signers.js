@@ -29,9 +29,8 @@ const bitcoinSign = (mnemonics, transaction) => {
     txb.addOutput(transaction.receiver, transaction.value);
 
     if (transaction.useChange) {
-        const secondValue = transaction.inputs.reduce((p, i) => i.value + p, 0) - transaction.value;
         const node = getNode(mnemonics, transaction.account, 1, transaction.address);
-        txb.addOutput(node.getAddress(), secondValue);
+        txb.addOutput(node.getAddress(), transaction.change);
     }
 
     transaction.inputs.forEach((i, index) => {
