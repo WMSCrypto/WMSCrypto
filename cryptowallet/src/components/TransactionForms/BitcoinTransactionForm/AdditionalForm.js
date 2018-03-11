@@ -14,13 +14,14 @@ const validation = (m, b) => {
 
 const AdditionalForm = ({ onSet, block, account, address, change }) => {
     const titleName = `${t('Output')} 1`;
-    const title = validation(titleName, change !== '', address !== '', account !== '');
+    const title = validation(titleName, change !== '' && change !== 0, address !== '', account !== '');
     return (
         <HidingCard title={title} onDelete={!block ? () => onSet('useChange', false, {change: true, address: true, account: true}) : null}>
             <SatoshiInput label={t('Change')}
                           disabled={block}
                           value={change}
-                          onSet={(v) => onSet('change', v, {change: v !== ''})}
+                          invalid={change === 0}
+                          onSet={(v) => onSet('change', v, {change: v !== '' && v !== 0})}
                           required={true}/>
             <WalletAddressInput disabled={{change: true, all: block}}
                                           purpose={44}
