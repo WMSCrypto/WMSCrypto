@@ -60,7 +60,7 @@ const hexView = (v) => {
 const getETXTxData = (nonce, value, gasPrice, gasLimit, to, data, chainId=1) => {
     return {
         nonce: hexView(nonce),
-        value: hexView(Math.pow(10, 18) * value),
+        value: hexView(Math.pow(10, 18) * parseFloat(value)),
         gasPrice: hexView(gasPrice),
         gasLimit: hexView(gasLimit),
         to: to,

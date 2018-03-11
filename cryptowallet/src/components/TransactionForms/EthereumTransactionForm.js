@@ -8,8 +8,6 @@ const addressTest = (v) => v ? /^0x[\da-fA-F]{40}$/.test(v) : false;
 const hexTest = (v) => v ? /^0x[\da-fA-F]*$/.test(v) : true;
 const valueTest = (v) => v ? /^\d+\.?\d{0,18}$/.test(v) : true;
 
-const TO_LENGTH = 42;
-
 const checkTransaction = (transaction) => {
     const invalidFields = ['nonce', 'gasPrice', 'gasLimit', 'to', 'value', 'value'].filter(
         (v) => transaction[v] === '' || transaction[v] === undefined
@@ -32,6 +30,18 @@ const checkTransaction = (transaction) => {
 
 class EthereumTransactionFrom extends Component {
 
+    componentDidMount() {
+        const names = ['address', 'change', 'account'];
+        const { transaction } = this.props;
+        const walletData = {};
+        names.forEach(n => {
+            if (transaction[n] === undefined) {
+                walletData[n] = 0
+            }
+        });
+        this.props.onSet(null, walletData, false);
+    }
+
     getInputProps(name, validator) {
         const { block, onSet, transaction } = this.props;
         return {
@@ -47,14 +57,6 @@ class EthereumTransactionFrom extends Component {
             },
             disabled: block
         };
-    }
-
-    save() {
-        const { onSave } = this.props;
-        const { nonce, value, gasPrice, gasLimit, to, data } = this.state;
-        this.setState({edit: false}, () => onSave(getETXTxData(
-            nonce, value, gasPrice, gasLimit, to, data
-        )))
     }
 
     render() {
