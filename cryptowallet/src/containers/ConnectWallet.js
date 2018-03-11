@@ -5,6 +5,8 @@ import AccountsGenerator from "../components/AccountsGenerator";
 import { messages } from "../assets";
 import { sendPut, encryptMnemonicsByAnchor } from "../utils";
 
+import { t } from '../utils/translate';
+
 class ConnectWallet extends Component {
 
     constructor(props) {
@@ -46,14 +48,14 @@ class ConnectWallet extends Component {
                                                  disabled={!!encryptedMnemonics}/> : null}
                 <br/>
                 {mnemonicsData
-                    ? <NextButton title="Encrypt mnemonics"
+                    ? <NextButton title={t("Encrypt mnemonics")}
                                   disabled={!aesPassword || encryptedMnemonics}
                                   onClick={() => this.generateMnemonics()}/>
                     : null
                 }
                 <br/>
                 {encryptedMnemonics
-                    ? <Card><DownloadButton title="Download encrypted mnemonics"
+                    ? <Card><DownloadButton title={t("Download encrypted mnemonics")}
                                             id="encryptedMnemonics"
                                             obj={{
                                                 encryptedMnemonics: encryptedMnemonics.toString(),
@@ -71,7 +73,7 @@ class ConnectWallet extends Component {
                 }
                 <br/>
                 {accounts && uuid
-                    ? <LastStep title="Save mnemonics"
+                    ? <LastStep title={t("Save mnemonics")}
                                 hide={false}
                                 important={true}
                                 message={messages.SAVE_WALLETS}

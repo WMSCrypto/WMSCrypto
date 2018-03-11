@@ -3,7 +3,9 @@ import zxcvbn from 'zxcvbn';
 import Card from "./Cards/Card";
 import PasswordInput from "./PasswordInput";
 
-const VALID_PASSWORD_MESSAGE = 'Passwords match and have strong security.';
+import { t } from '../utils/translate';
+
+const VALID_PASSWORD_MESSAGE = {t('Passwords match and have strong security.')};
 const PASSWORD_LENGTH = 8;
 
 const validatePassword = (password) => {
@@ -11,7 +13,7 @@ const validatePassword = (password) => {
     return [
         warning,
         ...suggestions,
-        ...[password.length <= PASSWORD_LENGTH ? 'Password length must be 8 or more.' : '']
+        ...[password.length <= PASSWORD_LENGTH ? {t('Password length must be 8 or more.')} : '']
     ];
 };
 
@@ -50,7 +52,7 @@ class CreatePassword extends Component {
         return (
             <Card>
                 <PasswordInput label="New password"
-                               placeholder="Enter password"
+                               placeholder=""
                                onChange={(e) => this.onChange({password: e.target.value})}
                                value={password}
                                messages={validateMessages}
@@ -58,7 +60,7 @@ class CreatePassword extends Component {
                                id="inputPassword"
                                inputAttrs={inputAttrs}/>
                 <PasswordInput label="Repeat new password"
-                               placeholder="Repeat password"
+                               placeholder=""
                                value={passwordRepeat}
                                onChange={(e) => this.onChange({passwordRepeat: e.target.value})}
                                messages={notMatch && ['Passwords not matched']}

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Card from "./Cards/Card";
 
+import { t } from '../utils/translate';
+
 class LastStep extends Component {
 
     constructor(props) {
@@ -23,7 +25,7 @@ class LastStep extends Component {
                            id="checkImportant"
                            checked={approve}
                            onChange={() => this.setState({approve: !approve}, () => approveCallback && approveCallback(!approve))}/>
-                    <label className="form-check-label" htmlFor="checkImportant">I understand</label>
+                    <label className="form-check-label" htmlFor="checkImportant">{t('I understand')}</label>
                 </div>
                 <br/>
                 {approve

@@ -5,6 +5,8 @@ import DownloadButton from "./DownloadButton";
 import {t} from "../utils/translate";
 import {sendPut} from "../utils";
 
+import { t } from '../utils/translate';
+
 const WITH_PREFIX = [60];
 const WITH_RAW = [60];
 
@@ -35,7 +37,7 @@ class TxSigner extends Component {
                 <Raw raw={WITH_RAW.indexOf(coin) !== -1 ? data.raw : null}/>
                 <div>
                     <p>
-                    <small className="text-muted">Transaction signature</small><br/>
+                    <small className="text-muted">{t("Transaction signature")}</small><br/>
                         {WITH_PREFIX.indexOf(coin) !== -1 ? '0x' : ''}{data.signed}
                     </p>
                 </div>
