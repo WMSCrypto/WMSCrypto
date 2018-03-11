@@ -2,12 +2,55 @@ import aes from 'crypto-js/aes';
 import bip39 from 'bip39';
 import EthereumTx from 'ethereumjs-tx';
 import { HDNode } from "bitcoinjs-lib";
-
+import UTF8 from "crypto-js/enc-utf8";
 
 const MNEMONICS_BITS = 256;
-const WITH_ANCHOR_FLAG = '01';
-const WITHOUT_ANCHOR_FLAG = '00';
+const FLAG_SLICE = -2;
+const WITH_ANCHOR_FLAG = '00';
+const WITHOUT_ANCHOR_FLAG = '01';
 
+const tryDecrypt = (text, password) => {
+    try {
+        const bytes = aes.decrypt(text, password);
+        return UTF8.stringify(bytes);
+    } catch (err) {
+        console.log(err);
+        return null
+    }
+};
+
+const encryptSeed = (seedHex, password, anchor) => {
+    let encrypted = aes.encrypt(seedHex, password);
+    if (anchor) {
+        encrypted = aes.encrypt(encrypted.toString(), anchor) + WITH_ANCHOR_FLAG;
+    } else {
+        encrypted = encrypted + WITHOUT_ANCHOR_FLAG
+    }
+
+    return encrypted
+};
+
+const decryptSeed = (text, password, anchor) => {
+    const flag = text.slice(FLAG_SLICE);
+    let encrypted = text.slice(0, FLAG_SLICE);
+    if (!anchor && flag === WITH_ANCHOR_FLAG) {
+        return ['ERROR 1', null]
+    }
+
+    if (anchor) {
+        encrypted = tryDecrypt(encrypted, anchor);
+        if (!encrypted) {
+            return ['ERROR 2', null]
+        }
+    }
+
+    const decrypted = tryDecrypt(encrypted, password);
+    if (decrypted) {
+        return [null, decrypted]
+    } else {
+        return ['ERROR 3', null]
+    }
+};
 
 const generateSeed = ({ password, mnemonics=null, salt=null, anchor=null }) => {
     if (!mnemonics) {
@@ -15,19 +58,9 @@ const generateSeed = ({ password, mnemonics=null, salt=null, anchor=null }) => {
     }
     let seedHex;
 
-    if (salt && salt.length) {
-        seedHex = bip39.mnemonicToSeedHex(mnemonics, salt);
-    } else {
-        seedHex = bip39.mnemonicToSeedHex(mnemonics);
-    }
+    seedHex = bip39.mnemonicToSeedHex(mnemonics, salt);
 
-    let encrypted = aes.encrypt(seedHex, password);
-
-    if (anchor) {
-        encrypted = aes.encrypt(encrypted, anchor) + WITH_ANCHOR_FLAG;
-    } else {
-        encrypted = encrypted + WITHOUT_ANCHOR_FLAG
-    }
+    const encrypted = encryptSeed(seedHex, password, anchor);
 
     return {
         hex: seedHex,
@@ -35,9 +68,6 @@ const generateSeed = ({ password, mnemonics=null, salt=null, anchor=null }) => {
     }
 };
 
-const decryptSeed = (string, password) => {
-    return aes.decrypt(string, password)
-};
 
 const cryptoCheck = () => {
     try {
@@ -149,6 +179,8 @@ export {
     getFullAdrress,
     setState,
     generateSeed,
+    encryptSeed,
+    decryptSeed,
     cryptoCheck,
     getSeed,
 }
