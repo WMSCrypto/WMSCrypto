@@ -17,7 +17,7 @@ class LastStep extends Component {
         const { approve } = this.state;
         return (
             <Card hide={hide}>
-                {important ? <h3 className="text-danger">IMPORTANT!</h3> : null}
+                {important ? <h3 className="text-danger">{t("IMPORTANT!")}</h3> : null}
                 <p className="text-muted">{message}</p>
                 <div className="form-check">
                     <input className="form-check-input"

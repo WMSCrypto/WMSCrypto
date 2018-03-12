@@ -5,7 +5,6 @@ import PasswordInput from "./PasswordInput";
 
 import { t } from '../utils/translate';
 
-const VALID_PASSWORD_MESSAGE = {t('Passwords match and have strong security.')};
 const PASSWORD_LENGTH = 8;
 
 const validatePassword = (password) => {
@@ -13,7 +12,7 @@ const validatePassword = (password) => {
     return [
         warning,
         ...suggestions,
-        ...[password.length <= PASSWORD_LENGTH ? {t('Password length must be 8 or more.')} : '']
+        ...[password.length <= PASSWORD_LENGTH ? t('Password length must be 8 or more.') : '']
     ];
 };
 
@@ -51,7 +50,7 @@ class CreatePassword extends Component {
         const inputAttrs = disabled ? {disabled: true} : {};
         return (
             <Card>
-                <PasswordInput label="New password"
+                <PasswordInput label={t("New password")}
                                placeholder=""
                                onChange={(e) => this.onChange({password: e.target.value})}
                                value={password}
@@ -59,14 +58,14 @@ class CreatePassword extends Component {
                                valid={passwordStepApprove}
                                id="inputPassword"
                                inputAttrs={inputAttrs}/>
-                <PasswordInput label="Repeat new password"
+                <PasswordInput label={t("Repeat new password")}
                                placeholder=""
                                value={passwordRepeat}
                                onChange={(e) => this.onChange({passwordRepeat: e.target.value})}
-                               messages={notMatch && ['Passwords not matched']}
+                               messages={notMatch && [t('Passwords not matched')]}
                                invalid={notMatch}
                                valid={passwordStepApprove}
-                               validMessage={VALID_PASSWORD_MESSAGE}
+                               validMessage={t('Passwords match and have strong security.')}
                                id="repeatPasswordInput"
                                inputAttrs={inputAttrs}/>
                 {children || null}

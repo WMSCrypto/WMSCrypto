@@ -48,7 +48,7 @@ class AccountsGenerator extends Component {
             });
             setTimeout(() => this.generateAccounts(index + 1, accounts), 100)
         } else {
-            setProgess(0, coins.length, {t('All pubkeys was generated successful')}, false);
+            setProgess(0, coins.length, t('All pubkeys was generated successful'), false);
             onGenerate(accounts);
             if (!uuid) {
                 this.setState({accounts: <Card><DownloadButton title={t('Download pubkeys')}

@@ -9,7 +9,7 @@ const MnemonicsView = (props) => {
         <div>
             {mnemonics &&
                 <small className="text-muted">
-                    {`Generated mnemonics to ${bits}-bits entropy`}
+                    {t(`Generated mnemonics to ${bits}-bits entropy`)}
                 </small>
             }
             <p className="lead">{mnemonics}</p>

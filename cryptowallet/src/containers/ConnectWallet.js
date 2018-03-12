@@ -38,9 +38,9 @@ class ConnectWallet extends Component {
         return(
             <div>
                 <MnemonicsInput encrypted={false}
-                                mnemonicsLabel="Mnemonics"
-                                passwordLabel="Passphrase"
-                                buttonLabel="Create mnemonics seed"
+                                mnemonicsLabel={t("Mnemonics")}
+                                passwordLabel={t("Passphrase")}
+                                buttonLabel={t("Create mnemonics seed")}
                                 disabled={!!mnemonicsData}
                                 onValidate={(data) => this.setState({mnemonicsData: data})}/>
                 <br/>
@@ -76,7 +76,7 @@ class ConnectWallet extends Component {
                     ? <LastStep title={t("Save mnemonics")}
                                 hide={false}
                                 important={true}
-                                message={messages.SAVE_WALLETS}
+                                message={t(messages.SAVE_WALLETS)}
                                 approveCallback={(b) => this.setState({allowSend: b})}
                                 onClick={() =>{sendPut(
                                     uuid,

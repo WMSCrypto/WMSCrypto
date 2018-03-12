@@ -5,7 +5,6 @@ import DownloadButton from "./DownloadButton";
 import {t} from "../utils/translate";
 import {sendPut} from "../utils";
 
-import { t } from '../utils/translate';
 
 const WITH_PREFIX = [60];
 const WITH_RAW = [60];

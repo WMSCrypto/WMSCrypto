@@ -1,4 +1,5 @@
 import React from 'react';
+import { t } from '../utils/translate';
 
 const Header = ({ showMenu, showReload, goToMainMenu, reloadApplication, uuid, onChangeLang, lang }) => {
     return (
@@ -14,14 +15,14 @@ const Header = ({ showMenu, showReload, goToMainMenu, reloadApplication, uuid, o
                     ?   <button type="button"
                                 className="btn btn-danger"
                                 onClick={reloadApplication}>
-                            Restart
+                        {t("Restart")}
                         </button>
                     : null}
                 {showMenu && !uuid
                     ?   <button type="button"
                                 className="btn btn-outline-secondary"
                                 onClick={goToMainMenu}>
-                            Menu
+                        {t("Menu")}
                         </button>
                     : null}
             </div>
