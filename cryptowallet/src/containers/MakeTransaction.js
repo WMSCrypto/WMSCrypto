@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Card, CoinsList, JSONUploader, MnemonicsInput, TxSigner }from "../components";
+import { Card, CoinsList, JSONUploader, TxSigner }from "../components";
 import {
     CommonBitcoinTransactionForm
 } from "../components/TransactionForms/BitcoinTransactionForm";
-import {t} from "../utils/translate";
+import { t } from "../utils/translate";
 import EthereumTransactionFrom from "../components/TransactionForms/EthereumTransactionForm";
-
+import WalletImageReader from "../components/WalletImage/WalletImageReader";
 
 class MakeTransaction extends Component {
 
@@ -21,11 +21,12 @@ class MakeTransaction extends Component {
             isManual: false,
             isOnline: !!props.uuid,
             transactionSaved: !!props.uuid,
-            decryptedMnemonics: null,
             transaction: data || {},
-            allowSave: false
+            allowSave: false,
+            seed: null
         }
     }
+
     updateTransaction(key, value, valid) {
         let { transaction } = this.state;
         if (!key) {
@@ -99,9 +100,10 @@ class MakeTransaction extends Component {
         )
 
     }
+
     render() {
-        const { coin, decryptedMnemonics, isFile, isManual, isOnline, transactionSaved, transaction } = this.state;
-        const { uuid, encryptedMnemonics, onOperationResult } = this.props;
+        const { coin, isFile, isManual, isOnline, transactionSaved, transaction, seed } = this.state;
+        const { uuid, onOperationResult } = this.props;
         const setType = isFile || isManual || isOnline;
         const topQuestionComponent = this.getTopQuestion();
         const transactionForm = setType ? this.renderAdditional(coin) : null;
@@ -116,26 +118,15 @@ class MakeTransaction extends Component {
                       </Card>
                     : null
                 }
-                <br/>
                 <div style={{display: transactionSaved ? 'block' : 'none'}}>
-                    <MnemonicsInput encrypted={true}
-                                    buttonLabel="Decrypt mnemonics"
-                                    passwordLabel="Password"
-                                    mnemonicsLabel="Mnemonics"
-                                    uuid={uuid}
-                                    encryptedMnemonics={encryptedMnemonics}
-                                    onValidate={(d) => this.setState({decryptedMnemonics: d})}
-                                    disabled={!!decryptedMnemonics}/>
+                    <WalletImageReader onUnlock={(seed) => this.setState({ seed })} seed={ seed }/>
                 </div>
-
-                <br/>
-                <TxSigner mnemonics={decryptedMnemonics}
+                <TxSigner seed={seed}
                           coin={coin}
                           uuid={uuid}
                           transaction={transaction}
                           transactionSaved={transactionSaved}
                           onOperationResult={onOperationResult}/>
-                <br/>
             </div>
         )
     }

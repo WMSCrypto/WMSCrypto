@@ -28,6 +28,7 @@ class ChangeWalletPassword extends Component {
         const { newEncryptedSeed, newPassword, seed } = this.state;
         return (
             <div>
+                <p className="text-light">{t("Change wallet password")}</p>
                 <WalletImageReader seed={seed}
                                    onUnlock={(seed) => this.setState({seed})}/>
                 {seed && !newEncryptedSeed

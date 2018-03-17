@@ -42,7 +42,6 @@ class WalletImageReader extends Component {
         const { onUnlock, seed } = this.props;
         return (
             <React.Fragment>
-                <p className="text-light">{t("Change wallet password")}</p>
                 <Card>
                     <WalletImageLocker rawImage={rawImage}
                                        encryptedString={encryptedString}

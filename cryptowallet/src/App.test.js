@@ -1,4 +1,5 @@
 import assert from 'assert';
+import bip39 from 'bip39';
 import {
     getPrivKey,
     hexView,
@@ -44,20 +45,15 @@ describe('CryptoWallet', function () {
         })
     });
 
-    it('can get private key from mnemonics', function () {
-        const privKey = getPrivKey(TEST_MNEMONICS, "m/44'/60'/0'/0/1");
-        assert.equal( privKey, '78bd734be30ddcf45b14d07684743fdb391ec5efbe24e83996f2cc46aad9a17e');
-    });
-
-    it('can get private key from salted mnemonics', function () {
-        const mnemonics = `{"mnemonics": "${TEST_MNEMONICS}", "salt": ""}`;
-        const privKey = getPrivKey(mnemonics, "m/44'/60'/0'/0/1");
+    it('can get private key from seed', function () {
+        const seed = bip39.mnemonicToSeed(TEST_MNEMONICS);
+        const privKey = getPrivKey(seed, "m/44'/60'/0'/0/1");
         assert.equal( privKey, '78bd734be30ddcf45b14d07684743fdb391ec5efbe24e83996f2cc46aad9a17e');
     });
 
     it('sign transaction', function () {
-
-        const privKey = getPrivKey(TEST_MNEMONICS, "m/44'/60'/0'/0/1");
+        const seed = bip39.mnemonicToSeed(TEST_MNEMONICS);
+        const privKey = getPrivKey(seed, "m/44'/60'/0'/0/1");
         const txData = {
             nonce: '0x00',
             value: '0x0de0b6b3a7640000',

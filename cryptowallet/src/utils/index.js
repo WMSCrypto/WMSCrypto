@@ -105,23 +105,8 @@ const callbackByAnchor = (data, func) => {
     }
 };
 
-const encryptMnemonicsByAnchor = (encryptedMnemonics) => {
-    const s = encryptedMnemonics.toString();
-    return callbackByAnchor(s, aes.encrypt).toString()
-};
-
-const getSeed = (mnemonics) => {
-    try {
-        const obj = JSON.parse(mnemonics);
-        return bip39.mnemonicToSeed(obj.mnemonics, obj.salt);
-    } catch (e) {
-        return bip39.mnemonicToSeed(mnemonics);
-    }
-};
-
-const getPrivKey = (mnemonics, address) => {
-    const seed = getSeed(mnemonics);
-    const node = HDNode.fromSeedBuffer(seed);
+const getPrivKey = (seed, address) => {
+    const node = HDNode.fromSeedHex(seed);
     const addressNode = node.derivePath(address);
     return addressNode.keyPair.d.toBuffer(32).toString('hex');
 };
@@ -192,14 +177,12 @@ export {
     sendPut,
     dropLocation,
     callbackByAnchor,
-    encryptMnemonicsByAnchor,
     getFullAdrress,
     setState,
     generateSeed,
     encryptSeed,
     decryptSeed,
     cryptoCheck,
-    getSeed,
     decryptSeedWithCheckAnchor,
     enctryptSeedWithCheckAnchor,
     generateSeedWithCheckAnchor
