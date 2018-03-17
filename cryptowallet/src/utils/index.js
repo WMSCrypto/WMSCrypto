@@ -63,8 +63,9 @@ const generateSeed = ({ password, mnemonics=null, salt=null, anchor=null }) => {
     const encrypted = encryptSeed(seedHex, password, anchor);
 
     return {
+        mnemonics: mnemonics,
         hex: seedHex,
-        encrypted
+        encrypted,
     }
 };
 
@@ -94,15 +95,6 @@ const enctryptSeedWithCheckAnchor = (text, password) => {
 
 const decryptSeedWithCheckAnchor = (text, password) => {
     return decryptSeed(text, password, getAnchor())
-};
-
-const callbackByAnchor = (data, func) => {
-    const anchor = window.location.hash.substr(1);
-    if (anchor.length) {
-        return func(data, anchor);
-    } else {
-        return data
-    }
 };
 
 const getPrivKey = (seed, address) => {
@@ -176,7 +168,6 @@ export {
     getETXTxData,
     sendPut,
     dropLocation,
-    callbackByAnchor,
     getFullAdrress,
     setState,
     generateSeed,
@@ -185,5 +176,6 @@ export {
     cryptoCheck,
     decryptSeedWithCheckAnchor,
     enctryptSeedWithCheckAnchor,
-    generateSeedWithCheckAnchor
+    generateSeedWithCheckAnchor,
+    MNEMONICS_BITS,
 }

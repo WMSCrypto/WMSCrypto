@@ -81,9 +81,7 @@ class MakeTransaction extends Component {
                             : null
                         }
                     </Card>
-                    <br/>
                 </React.Fragment>
-
             )
         }
     }

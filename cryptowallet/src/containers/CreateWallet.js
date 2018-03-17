@@ -47,7 +47,7 @@ class CreateWallet extends Component {
     }
 
     render() {
-        const { accounts, seed, generated } = this.state;
+        const { password, accounts, seed, generated } = this.state;
         const { uuid } = this.props;
         return (
             <div>
@@ -56,7 +56,9 @@ class CreateWallet extends Component {
                     <p className="text-muted">{t(messages.SAVE_MNEMONICS)}</p>
                 </CreatePassword>
                 {!generated
-                    ? <NextButton title={t("Create wallet")} onClick={this._generateSeed}/>
+                    ? <NextButton title={t("Create wallet")}
+                                  onClick={this._generateSeed}
+                                  disabled={!password}/>
                     : null
                 }
                 {generated ? <WalletImageGenerator seed={seed}/> : null}

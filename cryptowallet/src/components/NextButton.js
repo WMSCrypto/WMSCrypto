@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const NextButton = (props) => {
     const { disabled, title, onClick } = props;
@@ -10,6 +11,12 @@ const NextButton = (props) => {
             </button>
         </div>
     )
+};
+
+NextButton.propTypes = {
+    title: PropTypes.string,
+    disabled: PropTypes.bool,
+    onOperationResult: PropTypes.func
 };
 
 export default NextButton;

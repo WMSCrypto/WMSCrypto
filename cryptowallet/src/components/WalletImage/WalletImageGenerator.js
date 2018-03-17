@@ -4,7 +4,7 @@ import Card from "../Cards/Card";
 import QRCode from 'qrcode-svg';
 import backgroudCanvas from "../../assets/backgroudCanvas";
 import { getIdenticonSVG } from "../../utils/jdenticon";
-
+import MnemonicsView from "../MnemonicsView";
 
 class WalletImageGenerator extends React.Component {
 
@@ -32,6 +32,7 @@ class WalletImageGenerator extends React.Component {
         const qrcode = new QRCode({content: seed.encrypted, width: 400, height: 400, padding: 4}).svg();
         return(
             <Card>
+                { seed.mnemonics ? <MnemonicsView mnemonics={seed.mnemonics}/> : null }
                 <canvas ref="canvas" width={850} height={600} style={{width: '100%'}}/>
                 <img alt="Something wrong" ref="imageBack" src={backgroudCanvas} style={{display: 'none'}} />
                 <img alt="Something wrong" ref="imageIdenticon" src={`data:image/svg+xml;base64,${identicon}`} style={{display: 'none'}} />
@@ -45,6 +46,7 @@ WalletImageGenerator.propTypes = {
     seed: PropTypes.shape({
         hex: PropTypes.string.isRequired,
         encrypted: PropTypes.string.isRequired,
+        mnemonics: PropTypes.string,
     }).isRequired
 };
 
