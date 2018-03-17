@@ -25,11 +25,11 @@ const Raw = ({ raw }) => {
 class TxSigner extends Component {
 
     render() {
-        const { mnemonics, transaction, transactionSaved, coin, uuid, onOperationResult } = this.props;
-        if (!(mnemonics && transaction &&transactionSaved)) {
+        const { seed, transaction, transactionSaved, coin, uuid, onOperationResult } = this.props;
+        if (!(seed && transaction &&transactionSaved)) {
             return null
         }
-        const signed = signers[coin](mnemonics, transaction);
+        const signed = signers[coin](seed, transaction);
         const data = {...transaction, coin, signed};
         return(
             <Card>
