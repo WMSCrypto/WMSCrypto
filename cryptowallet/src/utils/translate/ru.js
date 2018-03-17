@@ -54,7 +54,6 @@ const translates = {
       "Input your Passphrase": "Убрать плейсхолдер",
       "Mnemonics invalid": "Фраза для восстановления некорректна и не рекомендуется к использованию!",
       "Create mnemonics seed": "Продолжить",
-      "Mnemonics": "Фраза для восстановления",
       "Password.": "Введите пароль",
       "No file selected": "Файл не выбран",
       "Browse...": "Загрузить...",

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ecntryptSeedWithCheckAnchor } from '../utils';
+import { enctryptSeedWithCheckAnchor } from '../utils';
 import { NextButton, CreatePassword } from '../components';
 import { t } from '../utils/translate';
 import WalletImageReader from "../components/WalletImage/WalletImageReader";
@@ -20,7 +20,7 @@ class ChangeWalletPassword extends Component {
     _encryptSeed() {
         const { newPassword, seed } = this.state;
         this.setState({
-            newEncryptedSeed: ecntryptSeedWithCheckAnchor(seed, newPassword)
+            newEncryptedSeed: enctryptSeedWithCheckAnchor(seed, newPassword)
         })
     }
 

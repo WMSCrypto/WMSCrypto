@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { MnemonicsInput, CreatePassword, NextButton, Card, DownloadButton, LastStep, SaveOnlyKeys } from '../components/index';
-import aes from "crypto-js/aes";
-import AccountsGenerator from "../components/AccountsGenerator";
-import { messages } from "../assets";
-import { sendPut, encryptMnemonicsByAnchor } from "../utils";
-
+import PropTypes from 'prop-types';
+import bip39 from 'bip39';
+import CreateWallet from "./CreateWallet";
+import { NextButton, Card } from '../components/index';
 import { t } from '../utils/translate';
 
 class ConnectWallet extends Component {
@@ -12,92 +10,61 @@ class ConnectWallet extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mnemonicsData: null,
-            password: null,
-            aesPassword: null,
-            encryptedMnemonics: null,
-            accounts: null,
-            allowSend: false
-        }
+            mnemonics: '',
+            salt: '',
+            seedHex: null
+        };
+        this._getSeed = this._getSeed.bind(this)
     }
-
-    generateMnemonics() {
-        const { aesPassword, mnemonicsData } = this.state;
-        const encryptedMnemonics = aes.encrypt(JSON.stringify({
-            mnemonics: mnemonicsData.mnemonics,
-            salt: mnemonicsData.password
-        }), aesPassword);
-        this.setState({
-            encryptedMnemonics
-        })
+    _getSeed() {
+        const { mnemonics, salt } = this.state;
+        const seedHex = bip39.mnemonicToSeedHex(mnemonics, salt);
+        this.setState({ seedHex })
     }
 
     render() {
-        const { aesPassword, mnemonicsData, encryptedMnemonics, accounts, allowSend } = this.state;
+        const { salt, mnemonics, seedHex } = this.state;
         const { uuid, onOperationResult } = this.props;
         return(
-            <div>
-                <MnemonicsInput encrypted={false}
-                                mnemonicsLabel={t("Mnemonics")}
-                                passwordLabel={t("Passphrase")}
-                                buttonLabel={t("Create mnemonics seed")}
-                                disabled={!!mnemonicsData}
-                                onValidate={(data) => this.setState({mnemonicsData: data})}/>
-                <br/>
-                {mnemonicsData ? <CreatePassword setPassword={(p) => {this.setState({aesPassword: p})}}
-                                                 disabled={!!encryptedMnemonics}/> : null}
-                <br/>
-                {mnemonicsData
-                    ? <NextButton title={t("Encrypt mnemonics")}
-                                  disabled={!aesPassword || encryptedMnemonics}
-                                  onClick={() => this.generateMnemonics()}/>
+            <React.Fragment>
+                <Card>
+                    <div className="form-group">
+                        <label>{t("Mnemonics")}</label>
+                        <textarea className="form-control"
+                                  id="mnemonicsInput"
+                                  value={mnemonics}
+                                  onChange={(e) => this.setState({mnemonics: e.target.value})}
+                                  rows="4"
+                                  disabled={seedHex}/>
+                    </div>
+                    <div className="form-group">
+                        <label>{t("Passphrase")}</label>
+                        <input className="form-control"
+                               type="password"
+                               value={salt}
+                               onChange={(e) => this.setState({salt: e.target.value})}
+                               disabled={seedHex}/>
+                    </div>
+                </Card>
+                {!seedHex
+                    ?   <NextButton title={t("Connect wallet")}
+                                    onClick={this._getSeed}/>
                     : null
                 }
-                <br/>
-                {encryptedMnemonics
-                    ? <Card><DownloadButton title={t("Download encrypted mnemonics")}
-                                            id="encryptedMnemonics"
-                                            obj={{
-                                                encryptedMnemonics: encryptedMnemonics.toString(),
-                                                version: '0.1'
-                                            }}/></Card>
+                {seedHex
+                    ? <CreateWallet seed={seedHex}
+                                    uuid={uuid}
+                                    onOperationResult={onOperationResult}/>
                     : null
                 }
-                <br/>
-                {encryptedMnemonics
-                    ? <AccountsGenerator onGenerate={(accounts) => this.setState({accounts})}
-                                         disabled={!!accounts}
-                                         uuid={uuid}
-                                         hex={mnemonicsData.hex}/>
-                    : null
-                }
-                <br/>
-                {accounts && uuid
-                    ? <LastStep title={t("Save mnemonics")}
-                                hide={false}
-                                important={true}
-                                message={t(messages.SAVE_WALLETS)}
-                                approveCallback={(b) => this.setState({allowSend: b})}
-                                onClick={() =>{sendPut(
-                                    uuid,
-                                    {
-                                        accounts: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()]),
-                                        encryptedMnemonics: encryptMnemonicsByAnchor(encryptedMnemonics)
-                                    },
-                                    (status, data, uuid) => onOperationResult(status)
-                                )}}>
-                        <span> </span>
-                        <SaveOnlyKeys accounts={accounts}
-                                      uuid={uuid}
-                                      disabled={!allowSend}
-                                      onOperationResult={onOperationResult}/>
-                    </LastStep>
-                    : null
-                }
-                <br/>
-            </div>
+            </React.Fragment>
         )
     }
 }
+
+ConnectWallet.propTypes = {
+    uuid: PropTypes.string,
+    onOperationResult: PropTypes.func
+};
 
 export default ConnectWallet;

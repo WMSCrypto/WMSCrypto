@@ -1,5 +1,4 @@
 import React from 'react';
-import IntegerInput from "./IntegerInput";
 import BaseInput from "./BaseInput";
 
 class SatoshiInput extends React.Component {

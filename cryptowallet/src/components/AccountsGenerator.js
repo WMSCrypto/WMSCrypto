@@ -63,10 +63,12 @@ class AccountsGenerator extends Component {
         const { accounts } = this.state;
         return(
             <div>
-                <NextButton title={t("Generate pubkeys")}
-                            disabled={this.state.block || disabled}
-                            onClick={() => this.setState({block :true},this.generateAccounts(0, []))}/>
-                <br/>
+                {!accounts
+                    ? <NextButton title={t("Generate pubkeys")}
+                                  disabled={this.state.block || disabled}
+                                  onClick={() => this.setState({block: true}, this.generateAccounts(0, []))}/>
+                    : null
+                }
                 <small id="generatedCoin" className="text-light"/>
                 <div className="progress" style={{visibility: 'hidden'}}>
                     <div id="generateProgress" className="progress-bar" style={{width: '0%'}}/>

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { NextButton, LastStep , AccountsGenerator } from '../components';
 import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
 import { t } from '../utils/translate';
-import { sendPut, generateSeedWithCheckAnchor } from '../utils';
+import { sendPut, generateSeedWithCheckAnchor, enctryptSeedWithCheckAnchor } from '../utils';
 import WalletImageGenerator from "../components/WalletImage/WalletImageGenerator";
 
 class CreateWallet extends Component {
@@ -13,14 +14,27 @@ class CreateWallet extends Component {
         this.state = {
             password: null,
             accounts: null,
-            seed: null
+            seed: null,
+            generated: false
         };
+        this._generateSeed = this._generateSeed.bind(this);
+        this._onSave = this._onSave.bind(this);
     }
 
     _generateSeed() {
         const { password } = this.state;
-        const seed = generateSeedWithCheckAnchor(password);
-        this.setState({ seed })
+        const { seed } = this.props;
+        let seedObj;
+        if (seed) {
+            seedObj = {
+                hex: seed,
+                encrypted: enctryptSeedWithCheckAnchor(seed, password)
+            }
+        } else {
+            seedObj = generateSeedWithCheckAnchor(password);
+
+        }
+        this.setState({ seed: seedObj, generated: true })
     }
 
     _onSave() {
@@ -33,20 +47,20 @@ class CreateWallet extends Component {
     }
 
     render() {
-        const { password, accounts, seed } = this.state;
+        const { accounts, seed, generated } = this.state;
         const { uuid } = this.props;
         return (
             <div>
                 <CreatePassword setPassword={(p) => {this.setState({password: p})}}
-                                disabled={!!seed}>
+                                disabled={generated}>
                     <p className="text-muted">{t(messages.SAVE_MNEMONICS)}</p>
                 </CreatePassword>
-                <NextButton title={t("Generate mnemonics")}
-                            disabled={!password || seed}
-                            onClick={() => this._generateSeed()}/>
-                <br/>
-                {seed ? <WalletImageGenerator seed={seed}/> : null}
-                {seed && <AccountsGenerator disabled={!seed || accounts}
+                {!generated
+                    ? <NextButton title={t("Create wallet")} onClick={this._generateSeed}/>
+                    : null
+                }
+                {generated ? <WalletImageGenerator seed={seed}/> : null}
+                {generated && <AccountsGenerator disabled={!seed || accounts}
                                             hex={seed.hex}
                                             uuid={uuid}
                                             onGenerate={(accounts) => this.setState({accounts})}/>
@@ -56,7 +70,7 @@ class CreateWallet extends Component {
                                 hide={false}
                                 important={true}
                                 message={t(messages.SAVE_WALLETS)}
-                                onClick={() =>{this._onSave()}}/>
+                                onClick={this._onSave}/>
                     : null
                 }
                 <br/>
@@ -64,5 +78,11 @@ class CreateWallet extends Component {
         )
     }
 }
+
+CreateWallet.propTypes = {
+    seed: PropTypes.string,
+    uuid: PropTypes.string,
+    onOperationResult: PropTypes.func
+};
 
 export default CreateWallet;

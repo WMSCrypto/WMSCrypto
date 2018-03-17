@@ -14,7 +14,7 @@ const tryDecrypt = (text, password) => {
         const bytes = aes.decrypt(text, password);
         return UTF8.stringify(bytes);
     } catch (err) {
-        console.log(err);
+        console.log("Cannot decrypt text");
         return null
     }
 };
@@ -74,7 +74,7 @@ const cryptoCheck = () => {
         bip39.generateMnemonic();
         return true
     } catch (e) {
-        console.log(e);
+        console.log('Cannot generate mnemonics');
         return false
     }
 };
@@ -88,7 +88,7 @@ const generateSeedWithCheckAnchor = (password) => {
     return generateSeed({ password, anchor: getAnchor() })
 };
 
-const ecntryptSeedWithCheckAnchor = (text, password) => {
+const enctryptSeedWithCheckAnchor = (text, password) => {
     return encryptSeed(text, password, getAnchor())
 };
 
@@ -201,6 +201,6 @@ export {
     cryptoCheck,
     getSeed,
     decryptSeedWithCheckAnchor,
-    ecntryptSeedWithCheckAnchor,
+    enctryptSeedWithCheckAnchor,
     generateSeedWithCheckAnchor
 }

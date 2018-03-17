@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { hexView, getETXTxData } from "../../utils";
+import { hexView } from "../../utils";
 import { t } from '../../utils/translate';
 import WalletAddressInput from "../Inputs/WalletAddressInput";
 
