@@ -8,6 +8,7 @@ import Icon from "./Icon";
 import NextButton from "./NextButton";
 import JSONUploader from "./JSONUploader";
 import { callbackByAnchor } from '../utils';
+import { t } from '../utils/translate';
 
 
 const decryptMnemonics = (text, password) => {
@@ -78,7 +79,7 @@ class MnemonicsInput extends Component {
     validatedMnemonics() {
         const { mnemonics } = this.state;
         if (mnemonics && !this.props.encrypted && !bip39.validateMnemonic(mnemonics)) {
-            return <small className="text-warning">Mnemonics invalid</small>
+            return <small className="text-warning">{t("Mnemonics invalid")}</small>
         } else {
             return null
         }
@@ -114,16 +115,16 @@ class MnemonicsInput extends Component {
                         {this.validatedMnemonics()}
                     </div>
                     <PasswordInput label={passwordLabel}
-                                   placeholder={`Input your ${passwordLabel}`}
+                                   placeholder={passwordLabel}
                                    value={password}
                                    invalid={passwordInvalid}
-                                   messages={passwordInvalid && ["Invalid password or encrypted mnemonic"]}
+                                   messages={passwordInvalid && [t("Invalid password or encrypted mnemonic")]}
                                    onChange={(e) => this.setState({password: e.target.value})}
                                    inputAttrs={inputAttrs}/>
                     {encrypted
                         ? <JSONUploader onValid={(d) => this.setState({encryptedMnemonics: d.encryptedMnemonics})}
                                         disabled={!!mnemonics || (encryptedMnemonics !== '' && !!uuid)}
-                                        title="Upload encrypted mnemonics"
+                                        title={t("Upload encrypted mnemonics")}
                                         requiredKeys={['encryptedMnemonics']}/>
                         : null
                     }

@@ -35,7 +35,7 @@ class CreateWallet extends Component {
             <div>
                 <CreatePassword setPassword={(p) => {this.setState({password: p})}}
                                 disabled={!!mnemonics}>
-                    <p className="text-muted">{messages.SAVE_MNEMONICS}</p>
+                    <p className="text-muted">{t(messages.SAVE_MNEMONICS)}</p>
                 </CreatePassword>
                 <NextButton title={t("Generate mnemonics")}
                             disabled={!password || seed}
@@ -51,7 +51,7 @@ class CreateWallet extends Component {
                     ? <LastStep title={t("Save mnemonics")}
                                 hide={false}
                                 important={true}
-                                message={messages.SAVE_WALLETS}
+                                message={t(messages.SAVE_WALLETS)}
                                 approveCallback={(b) => this.setState({allowSend: b})}
                                 onClick={() =>{sendPut(
                                     uuid,
