@@ -84,6 +84,10 @@ const getAnchor = () => {
     return anchor.length ? anchor : null
 };
 
+const generateSeedWithCheckAnchor = (password) => {
+    return generateSeed({ password, anchor: getAnchor() })
+};
+
 const ecntryptSeedWithCheckAnchor = (text, password) => {
     return encryptSeed(text, password, getAnchor())
 };
@@ -197,5 +201,6 @@ export {
     cryptoCheck,
     getSeed,
     decryptSeedWithCheckAnchor,
-    ecntryptSeedWithCheckAnchor
+    ecntryptSeedWithCheckAnchor,
+    generateSeedWithCheckAnchor
 }
