@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Card from "../Cards/Card";
 import QrReader from 'react-qr-reader';
 import WalletImageLocker from "./WalletImageLocker";
@@ -27,7 +28,7 @@ class WalletImageReader extends Component {
             this.setState({
                 encryptedString: null,
                 rawImage: null,
-                error: t("QR code cannot be readied")
+                error: true
             })
         }
     }
@@ -40,24 +41,32 @@ class WalletImageReader extends Component {
         const { rawImage, encryptedString, error } = this.state;
         const { onUnlock, seed } = this.props;
         return (
-            <Card>
-                <WalletImageLocker rawImage={rawImage}
-                                   encryptedString={encryptedString}
-                                   onUnlock={onUnlock}/>
-                <QrReader ref={REF_QR}
-                          legacyMode={true}
-                          onScan={this.handleScan}
-                          onError={(error) => {}}
-                          style={{ display: 'none', width: '100%' }}/>
-                {!seed 
-                    ? <button className="btn btn-outline-primary"
-                              onClick={this.openImageDialog}>{t("Upload image")}</button>
-                    : null
-                }
-                {error ? <span className="text-danger"> {error}</span> : null}
-            </Card>
+            <React.Fragment>
+                <p className="text-light">{t("Change wallet password")}</p>
+                <Card>
+                    <WalletImageLocker rawImage={rawImage}
+                                       encryptedString={encryptedString}
+                                       onUnlock={onUnlock}/>
+                    <QrReader ref={REF_QR}
+                              legacyMode={true}
+                              onScan={this.handleScan}
+                              onError={(error) => {}}
+                              style={{ display: 'none', width: '100%' }}/>
+                    {!seed
+                        ? <button className="btn btn-outline-primary"
+                                  onClick={this.openImageDialog}>{t("Upload image")}</button>
+                        : null
+                    }
+                    {error ? <span className="text-danger"> {t("QR code cannot be readied")}</span> : null}
+                </Card>
+            </React.Fragment>
         )
     }
 }
+
+WalletImageReader.propTypes = {
+    onUnlock: PropTypes.func.isRequired,
+    seed: PropTypes.string.isRequired
+};
 
 export default WalletImageReader

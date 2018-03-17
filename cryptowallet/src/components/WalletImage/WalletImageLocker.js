@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './styles/WalletImageLocker.css';
 import { decryptSeedWithCheckAnchor } from "../../utils";
 import { t } from "../../utils/translate";
@@ -41,7 +42,11 @@ class WalletImageLocker extends Component {
                        placeholder={t('Input password')}
                        onChange={(e) => this.setState({password: e.target.value})}/>
                 <p>{error ? <small className="text-danger">{t(error)}</small> : ' '}</p>
-                <div><button className="btn btn-primary" onClick={this._unlock} disabled={!password}>Unlock</button></div>
+                <div>
+                    <button className="btn btn-primary" onClick={this._unlock} disabled={!password}>
+                        {t("Unlock")}
+                    </button>
+                </div>
             </div>
         )
     }
@@ -57,12 +62,17 @@ class WalletImageLocker extends Component {
             <div>
                 <div className="IdenticonImageWrapper">
                     <div className="IdenticonImage" style={{backgroundImage: `url(${rawImage})`}}/>
-                    <p className={`text-${unlock ? 'primary' : 'danger'}`}>{unlock ? 'Unlocked' : 'Locked'}</p>
+                    <p className={`text-${unlock ? 'primary' : 'danger'}`}>{t(unlock ? 'Unlocked' : 'Locked')}</p>
                 </div>
                 {!unlock ? this._renderPassworInput() : null}
             </div>
         )
     }
 }
+
+WalletImageLocker.propTypes = {
+    onUnlock: PropTypes.func.isRequired,
+    rawImage: PropTypes.string.isRequired
+};
 
 export default WalletImageLocker;

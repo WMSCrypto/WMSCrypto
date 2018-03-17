@@ -60,10 +60,11 @@ const translates = {
       "Browse...": "Загрузить...",
       "Send transaction": "Отправить транзакцию в сеть",
 
-
-
-
-
+      "Unlock": "Разблокировать",
+      "Locked": "Заблокировано",
+      "Unlocked": "Разблокировано",
+      "QR code cannot be readied": "QR код не читается или отсутсвует",
+      "Upload image": "Загрузите изображение",
       "Switch language to": "Переключить язык на",
       "Invalid password or encrypted mnemonic": "Неправильный пароль или зашифрованные мнемоники",
       "Save transaction": "Сохранить транзакцию",
