@@ -34,13 +34,13 @@ const decryptSeed = (text, password, anchor) => {
     const flag = text.slice(FLAG_SLICE);
     let encrypted = text.slice(0, FLAG_SLICE);
     if (!anchor && flag === WITH_ANCHOR_FLAG) {
-        return ['ERROR 1', null]
+        return ["ENCRYPTED_BY_ANCHOR", null]
     }
 
     if (anchor) {
         encrypted = tryDecrypt(encrypted, anchor);
         if (!encrypted) {
-            return ['ERROR 2', null]
+            return ["Invalid anchor", null]
         }
     }
 
@@ -48,7 +48,7 @@ const decryptSeed = (text, password, anchor) => {
     if (decrypted) {
         return [null, decrypted]
     } else {
-        return ['ERROR 3', null]
+        return ["Invalid password", null]
     }
 };
 

@@ -16,10 +16,12 @@ class WalletImageLocker extends Component {
         this._unlock = this._unlock.bind(this);
     }
 
-    componentWillReceiveProps() {
-        this.setState({
-            error: false
-        })
+    componentWillReceiveProps(newProps) {
+        if (newProps.rawImage !== this.props.rawImage) {
+            this.setState({
+                error: false
+            })
+        }
     }
 
     _unlock() {
@@ -72,7 +74,7 @@ class WalletImageLocker extends Component {
 
 WalletImageLocker.propTypes = {
     onUnlock: PropTypes.func.isRequired,
-    rawImage: PropTypes.string.isRequired
+    rawImage: PropTypes.string
 };
 
 export default WalletImageLocker;

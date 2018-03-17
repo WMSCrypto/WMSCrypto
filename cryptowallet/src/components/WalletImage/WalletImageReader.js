@@ -65,7 +65,7 @@ class WalletImageReader extends Component {
 
 WalletImageReader.propTypes = {
     onUnlock: PropTypes.func.isRequired,
-    seed: PropTypes.string.isRequired
+    seed: PropTypes.string
 };
 
 export default WalletImageReader
