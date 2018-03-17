@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from "./Cards/Card";
+import Card from "../Cards/Card";
 import QRCode from 'qrcode-svg';
-import backgroudCanvas from "../assets/backgroudCanvas";
-import { getIdenticonSVG } from "../utils/jdenticon";
+import backgroudCanvas from "../../assets/backgroudCanvas";
+import { getIdenticonSVG } from "../../utils/jdenticon";
 
 
-class GeneratedImage extends React.Component {
+class WalletImageGenerator extends React.Component {
 
     componentDidMount() {
         const canvas = this.refs.canvas;
@@ -41,11 +41,11 @@ class GeneratedImage extends React.Component {
     }
 }
 
-GeneratedImage.propTypes = {
+WalletImageGenerator.propTypes = {
     seed: PropTypes.shape({
         hex: PropTypes.string.isRequired,
         encrypted: PropTypes.string.isRequired,
     }).isRequired
 };
 
-export default GeneratedImage;
+export default WalletImageGenerator;

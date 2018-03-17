@@ -79,6 +79,19 @@ const cryptoCheck = () => {
     }
 };
 
+const getAnchor = () => {
+    const anchor = window.location.hash.substr(1);
+    return anchor.length ? anchor : null
+};
+
+const ecntryptSeedWithCheckAnchor = (text, password) => {
+    return encryptSeed(text, password, getAnchor())
+};
+
+const decryptSeedWithCheckAnchor = (text, password) => {
+    return decryptSeed(text, password, getAnchor())
+};
+
 const callbackByAnchor = (data, func) => {
     const anchor = window.location.hash.substr(1);
     if (anchor.length) {
@@ -183,4 +196,6 @@ export {
     decryptSeed,
     cryptoCheck,
     getSeed,
+    decryptSeedWithCheckAnchor,
+    ecntryptSeedWithCheckAnchor
 }

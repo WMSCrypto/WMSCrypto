@@ -6,9 +6,7 @@ import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
 import { t } from '../utils/translate';
 import { sendPut, encryptMnemonicsByAnchor, generateSeed } from '../utils';
-import Identicon from "../elements/IdenticonView";
-import GeneratedImage from "../components/GeneratedImageView";
-
+import WalletImageGenerator from "../components/WalletImage/WalletImageGenerator";
 
 class CreateWallet extends Component {
 
@@ -33,7 +31,6 @@ class CreateWallet extends Component {
     render() {
         const { password, encryptedMnemonics, mnemonics, accounts, allowSend, seed } = this.state;
         const { uuid, onOperationResult } = this.props;
-        console.log(seed)
         return (
             <div>
                 <CreatePassword setPassword={(p) => {this.setState({password: p})}}
@@ -44,7 +41,7 @@ class CreateWallet extends Component {
                             disabled={!password || seed}
                             onClick={() => this.generateSeed()}/>
                 <br/>
-                {seed ? <GeneratedImage seed={seed}/> : null}
+                {seed ? <WalletImageGenerator seed={seed}/> : null}
                 {mnemonics && <AccountsGenerator disabled={!mnemonics || accounts}
                                                  mnemonics={mnemonics}
                                                  uuid={uuid}
