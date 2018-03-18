@@ -3,7 +3,27 @@ import PropTypes from 'prop-types';
 import './styles/WalletImageLocker.css';
 import { decryptSeedWithCheckAnchor } from "../../utils";
 import { t } from "../../utils/translate";
-import {getIdenticonSVG} from "../../utils/jdenticon";
+import { getIdenticonSVG } from "../../utils/jdenticon";
+import { ENCRYPTED_BY_ANCHOR, ENCRYPTED_WITHOUT_ANCHOR} from "../../assets/messages";
+
+const Error = ({ error }) => {
+    switch (error) {
+        case ENCRYPTED_BY_ANCHOR:
+            return (
+                <small className="text-danger">
+                    {t(`${ENCRYPTED_BY_ANCHOR}_1`)} <a href="https://t.me/WMSCryptoBot">@WMSCrypto</a> {t(`${ENCRYPTED_BY_ANCHOR}_2`)}
+                </small>
+            );
+        case ENCRYPTED_WITHOUT_ANCHOR:
+            return (
+                <small className="text-danger">
+                    {t(`${ENCRYPTED_WITHOUT_ANCHOR}_1`)} <a href="https://t.me/WMSCryptoBot">@WMSCrypto</a> {t(`${ENCRYPTED_WITHOUT_ANCHOR}_2`)}
+                </small>
+            );
+        default:
+            return <small className="text-danger">{t(error)}</small>
+    }
+};
 
 class WalletImageLocker extends Component {
 
@@ -44,7 +64,7 @@ class WalletImageLocker extends Component {
                        value={password}
                        placeholder={t('Input password')}
                        onChange={(e) => this.setState({password: e.target.value})}/>
-                <p>{error ? <small className="text-danger">{t(error)}</small> : ' '}</p>
+                <p>{error ? <Error error={error}/> : ' '}</p>
                 <div>
                     <button className="btn btn-primary" onClick={this._unlock} disabled={!password}>
                         {t("Unlock")}

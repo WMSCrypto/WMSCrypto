@@ -4,6 +4,7 @@ import bip39 from 'bip39';
 import CreateWallet from "./CreateWallet";
 import { NextButton, Card } from '../components/index';
 import { t } from '../utils/translate';
+import VisibilityIcon from "../components/VisibilityIcon";
 
 class ConnectWallet extends Component {
 
@@ -12,10 +13,32 @@ class ConnectWallet extends Component {
         this.state = {
             mnemonics: '',
             salt: '',
-            seedHex: null
+            seedHex: null,
+            validMnemonics: false,
+            visible: false
         };
-        this._getSeed = this._getSeed.bind(this)
+        this._getSeed = this._getSeed.bind(this);
+        this._changeMnemonic = this._changeMnemonic.bind(this);
+        this._toggleVisible = this._toggleVisible.bind(this);
     }
+
+    _toggleVisible() {
+        const { visible } = this.state;
+        this.setState({ visible: !visible })
+    }
+
+    _changeMnemonic({ target }) {
+        let { mnemonics } = this.state;
+        const addedMnemonics = target.value.slice(mnemonics.length);
+        if (mnemonics.length < target.value.length) {
+            mnemonics = mnemonics + addedMnemonics;
+        } else {
+            mnemonics = mnemonics.slice(0, target.value.length)
+        }
+        const validMnemonics = bip39.validateMnemonic(mnemonics);
+        this.setState({ validMnemonics, mnemonics})
+    }
+
     _getSeed() {
         const { mnemonics, salt } = this.state;
         const seedHex = bip39.mnemonicToSeedHex(mnemonics, salt);
@@ -23,19 +46,26 @@ class ConnectWallet extends Component {
     }
 
     render() {
-        const { salt, mnemonics, seedHex } = this.state;
+        const { salt, mnemonics, seedHex, validMnemonics, visible } = this.state;
         const { uuid, onOperationResult } = this.props;
         return(
             <React.Fragment>
                 <Card>
                     <div className="form-group">
-                        <label>{t("Mnemonics")}</label>
+                        <div className="MnemonicsCardHeader">
+                            <label>{t("Mnemonics")}</label>
+                            <VisibilityIcon size={24} onClick={this._toggleVisible} visible={visible}/>
+                        </div>
                         <textarea className="form-control"
                                   id="mnemonicsInput"
-                                  value={mnemonics}
-                                  onChange={(e) => this.setState({mnemonics: e.target.value})}
+                                  value={visible ? mnemonics : Array(mnemonics.length).fill('\u2022').join('')}
+                                  onChange={this._changeMnemonic}
                                   rows="4"
                                   disabled={seedHex}/>
+                        {mnemonics && !validMnemonics
+                            ? <small className="text-danger">{t("Invalid mnemonics")}</small>
+                            : null
+                        }
                     </div>
                     <div className="form-group">
                         <label>{t("Passphrase")}</label>
@@ -47,7 +77,8 @@ class ConnectWallet extends Component {
                     </div>
                 </Card>
                 {!seedHex
-                    ?   <NextButton title={t("Connect wallet")}
+                    ?   <NextButton disabled={!(mnemonics && validMnemonics)}
+                                    title={t("Connect wallet")}
                                     onClick={this._getSeed}/>
                     : null
                 }

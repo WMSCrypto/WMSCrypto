@@ -3,6 +3,7 @@ import bip39 from 'bip39';
 import EthereumTx from 'ethereumjs-tx';
 import { HDNode } from "bitcoinjs-lib";
 import UTF8 from "crypto-js/enc-utf8";
+import { ENCRYPTED_BY_ANCHOR, ENCRYPTED_WITHOUT_ANCHOR} from "../assets/messages";
 
 const MNEMONICS_BITS = 256;
 const FLAG_SLICE = -2;
@@ -34,7 +35,11 @@ const decryptSeed = (text, password, anchor) => {
     const flag = text.slice(FLAG_SLICE);
     let encrypted = text.slice(0, FLAG_SLICE);
     if (!anchor && flag === WITH_ANCHOR_FLAG) {
-        return ["ENCRYPTED_BY_ANCHOR", null]
+        return [ENCRYPTED_BY_ANCHOR, null]
+    }
+
+    if (anchor && flag === WITHOUT_ANCHOR_FLAG) {
+        return [ENCRYPTED_WITHOUT_ANCHOR, null]
     }
 
     if (anchor) {

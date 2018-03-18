@@ -67,10 +67,15 @@ const translates = {
     "Upload image": "Загрузите изображение",
     "Switch language to": "Переключить язык на",
     "Invalid password": "Неправильный пароль",
-    "Invalid anchor": "Неправильный серверный пароль",
+    "Invalid anchor": "Используется неправильный QR-ключ",
     "Save transaction": "Сохранить транзакцию",
     "Edit transaction": "Изменить транзакцию",
-    "ENCRYPTED_BY_ANCHOR": "Кошелек зашифрован с помощью пароля WMS Crypto, используйте бота @WMSCryptoBot или создайте новый кошелек из мнемоника через форму прикрепления кошелька"
+    "ENCRYPTED_BY_ANCHOR_1": "Кошелек зашифрован с помощью пароля WMS Crypto, используйте бота",
+    "ENCRYPTED_BY_ANCHOR_2": "или создайте новый кошелек из мнемоника через форму прикрепления кошелька",
+    "ENCRYPTED_WITHOUT_ANCHOR_1": "Ваш QR-ключ не защищен паролем",
+    "ENCRYPTED_WITHOUT_ANCHOR_2": "и не может использоваться в онлайн режиме",
+    "Invalid mnemonics": "Неправильные мнемоники",
+    "Save accounts": "Сохранить аккаунты"
 };
 
 export default translates;

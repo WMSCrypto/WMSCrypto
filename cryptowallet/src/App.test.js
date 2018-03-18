@@ -138,13 +138,21 @@ describe('CryptoWallet', function () {
         assert.equal(!!error, true);
     });
 
-    it('decrypt seed ecrypted with anchor but decrypt without', function () {
+    it('decrypt seed encrypted with anchor but decrypt without', function () {
         const seed = generateSeed({password: TEST_PASSWORD, mnemonics: TEST_MNEMONICS, anchor: TEST_ANCHOR});
 
         assert.equal(seed.hex, TEST_SEED);
 
         const [error, _] = decryptSeed(seed.encrypted, TEST_PASSWORD);
         assert.equal(!!error, true);
-    })
+    });
 
+    it('decrypt seed encrypted without anchor but decrypt with', function () {
+        const seed = generateSeed({password: TEST_PASSWORD, mnemonics: TEST_MNEMONICS});
+
+        assert.equal(seed.hex, TEST_SEED);
+
+        const [error, _] = decryptSeed(seed.encrypted, TEST_PASSWORD, TEST_ANCHOR);
+        assert.equal(!!error, true);
+    })
 });
