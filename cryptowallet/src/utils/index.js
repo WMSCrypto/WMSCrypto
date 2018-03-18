@@ -2,6 +2,77 @@ import aes from 'crypto-js/aes';
 import bip39 from 'bip39';
 import EthereumTx from 'ethereumjs-tx';
 import { HDNode } from "bitcoinjs-lib";
+import UTF8 from "crypto-js/enc-utf8";
+import { ENCRYPTED_BY_ANCHOR, ENCRYPTED_WITHOUT_ANCHOR} from "../assets/messages";
+
+const MNEMONICS_BITS = 256;
+const FLAG_SLICE = -2;
+const WITH_ANCHOR_FLAG = '00';
+const WITHOUT_ANCHOR_FLAG = '01';
+
+const tryDecrypt = (text, password) => {
+    try {
+        const bytes = aes.decrypt(text, password);
+        return UTF8.stringify(bytes);
+    } catch (err) {
+        console.log("Cannot decrypt text");
+        return null
+    }
+};
+
+const encryptSeed = (seedHex, password, anchor) => {
+    let encrypted = aes.encrypt(seedHex, password);
+    if (anchor) {
+        encrypted = aes.encrypt(encrypted.toString(), anchor) + WITH_ANCHOR_FLAG;
+    } else {
+        encrypted = encrypted + WITHOUT_ANCHOR_FLAG
+    }
+
+    return encrypted
+};
+
+const decryptSeed = (text, password, anchor) => {
+    const flag = text.slice(FLAG_SLICE);
+    let encrypted = text.slice(0, FLAG_SLICE);
+    if (!anchor && flag === WITH_ANCHOR_FLAG) {
+        return [ENCRYPTED_BY_ANCHOR, null]
+    }
+
+    if (anchor && flag === WITHOUT_ANCHOR_FLAG) {
+        return [ENCRYPTED_WITHOUT_ANCHOR, null]
+    }
+
+    if (anchor) {
+        encrypted = tryDecrypt(encrypted, anchor);
+        if (!encrypted) {
+            return ["Invalid anchor", null]
+        }
+    }
+
+    const decrypted = tryDecrypt(encrypted, password);
+    if (decrypted) {
+        return [null, decrypted]
+    } else {
+        return ["Invalid password", null]
+    }
+};
+
+const generateSeed = ({ password, mnemonics=null, salt=null, anchor=null }) => {
+    if (!mnemonics) {
+        mnemonics = bip39.generateMnemonic(MNEMONICS_BITS);
+    }
+    let seedHex;
+
+    seedHex = bip39.mnemonicToSeedHex(mnemonics, salt);
+
+    const encrypted = encryptSeed(seedHex, password, anchor);
+
+    return {
+        mnemonics: mnemonics,
+        hex: seedHex,
+        encrypted,
+    }
+};
 
 
 const cryptoCheck = () => {
@@ -9,34 +80,30 @@ const cryptoCheck = () => {
         bip39.generateMnemonic();
         return true
     } catch (e) {
-        console.log(e);
+        console.log('Cannot generate mnemonics');
         return false
     }
 };
 
-const callbackByAnchor = (data, func) => {
+const getAnchor = () => {
     const anchor = window.location.hash.substr(1);
-    if (anchor.length) {
-        return func(data, anchor);
-    } else {
-        return data
-    }
+    return anchor.length ? anchor : null
 };
 
-const encryptMnemonicsByAnchor = (encryptedMnemonics) => {
-    const s = encryptedMnemonics.toString();
-    return callbackByAnchor(s, aes.encrypt).toString()
+const generateSeedWithCheckAnchor = (password) => {
+    return generateSeed({ password, anchor: getAnchor() })
 };
 
-const getPrivKey = (mnemonics, address) => {
-    let seed;
-    try {
-        const obj = JSON.parse(mnemonics);
-        seed = bip39.mnemonicToSeed(obj.mnemonics, obj.salt);
-    } catch (e) {
-        seed = bip39.mnemonicToSeed(mnemonics);
-    }
-    const node = HDNode.fromSeedBuffer(seed);
+const enctryptSeedWithCheckAnchor = (text, password) => {
+    return encryptSeed(text, password, getAnchor())
+};
+
+const decryptSeedWithCheckAnchor = (text, password) => {
+    return decryptSeed(text, password, getAnchor())
+};
+
+const getPrivKey = (seed, address) => {
+    const node = HDNode.fromSeedHex(seed);
     const addressNode = node.derivePath(address);
     return addressNode.keyPair.d.toBuffer(32).toString('hex');
 };
@@ -60,7 +127,7 @@ const hexView = (v) => {
 const getETXTxData = (nonce, value, gasPrice, gasLimit, to, data, chainId=1) => {
     return {
         nonce: hexView(nonce),
-        value: hexView(Math.pow(10, 18) * value),
+        value: hexView(Math.pow(10, 18) * parseFloat(value)),
         gasPrice: hexView(gasPrice),
         gasLimit: hexView(gasLimit),
         to: to,
@@ -88,7 +155,6 @@ const dropLocation = () => {
     window.location.pathname = '';
 };
 
-const intTest = (v) => v ? /^\d+$/.test(v) : true;
 
 const getFullAdrress = ({ purpose=44, coin, account, change, address }) => {
     return `m/${purpose}'/${coin}'/${account}'/${change}/${address}`
@@ -107,10 +173,14 @@ export {
     getETXTxData,
     sendPut,
     dropLocation,
-    callbackByAnchor,
-    encryptMnemonicsByAnchor,
-    intTest,
     getFullAdrress,
     setState,
-    cryptoCheck
+    generateSeed,
+    encryptSeed,
+    decryptSeed,
+    cryptoCheck,
+    decryptSeedWithCheckAnchor,
+    enctryptSeedWithCheckAnchor,
+    generateSeedWithCheckAnchor,
+    MNEMONICS_BITS,
 }

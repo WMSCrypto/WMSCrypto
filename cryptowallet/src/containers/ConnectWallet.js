@@ -1,101 +1,101 @@
 import React, { Component } from 'react';
-import { MnemonicsInput, CreatePassword, NextButton, Card, DownloadButton, LastStep, SaveOnlyKeys } from '../components/index';
-import aes from "crypto-js/aes";
-import AccountsGenerator from "../components/AccountsGenerator";
-import { messages } from "../assets";
-import { sendPut, encryptMnemonicsByAnchor } from "../utils";
+import PropTypes from 'prop-types';
+import bip39 from 'bip39';
+import CreateWallet from "./CreateWallet";
+import { NextButton, Card } from '../components/index';
+import { t } from '../utils/translate';
+import VisibilityIcon from "../components/VisibilityIcon";
 
 class ConnectWallet extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            mnemonicsData: null,
-            password: null,
-            aesPassword: null,
-            encryptedMnemonics: null,
-            accounts: null,
-            allowSend: false
-        }
+            mnemonics: '',
+            salt: '',
+            seedHex: null,
+            validMnemonics: false,
+            visible: false
+        };
+        this._getSeed = this._getSeed.bind(this);
+        this._changeMnemonic = this._changeMnemonic.bind(this);
+        this._toggleVisible = this._toggleVisible.bind(this);
     }
 
-    generateMnemonics() {
-        const { aesPassword, mnemonicsData } = this.state;
-        const encryptedMnemonics = aes.encrypt(JSON.stringify({
-            mnemonics: mnemonicsData.mnemonics,
-            salt: mnemonicsData.password
-        }), aesPassword);
-        this.setState({
-            encryptedMnemonics
-        })
+    _toggleVisible() {
+        const { visible } = this.state;
+        this.setState({ visible: !visible })
+    }
+
+    _changeMnemonic({ target }) {
+        let { mnemonics } = this.state;
+        const addedMnemonics = target.value.slice(mnemonics.length);
+        if (mnemonics.length < target.value.length) {
+            mnemonics = mnemonics + addedMnemonics;
+        } else {
+            mnemonics = mnemonics.slice(0, target.value.length)
+        }
+        const validMnemonics = bip39.validateMnemonic(mnemonics);
+        this.setState({ validMnemonics, mnemonics})
+    }
+
+    _getSeed() {
+        const { mnemonics, salt } = this.state;
+        const seedHex = bip39.mnemonicToSeedHex(mnemonics, salt);
+        this.setState({ seedHex })
     }
 
     render() {
-        const { aesPassword, mnemonicsData, encryptedMnemonics, accounts, allowSend } = this.state;
+        const { salt, mnemonics, seedHex, validMnemonics, visible } = this.state;
         const { uuid, onOperationResult } = this.props;
         return(
-            <div>
-                <MnemonicsInput encrypted={false}
-                                mnemonicsLabel="Mnemonics"
-                                passwordLabel="Passphrase"
-                                buttonLabel="Create mnemonics seed"
-                                disabled={!!mnemonicsData}
-                                onValidate={(data) => this.setState({mnemonicsData: data})}/>
-                <br/>
-                {mnemonicsData ? <CreatePassword setPassword={(p) => {this.setState({aesPassword: p})}}
-                                                 disabled={!!encryptedMnemonics}/> : null}
-                <br/>
-                {mnemonicsData
-                    ? <NextButton title="Encrypt mnemonics"
-                                  disabled={!aesPassword || encryptedMnemonics}
-                                  onClick={() => this.generateMnemonics()}/>
+            <React.Fragment>
+                <Card>
+                    <div className="form-group">
+                        <div className="MnemonicsCardHeader">
+                            <label>{t("Mnemonics")}</label>
+                            <VisibilityIcon size={24} onClick={this._toggleVisible} visible={visible}/>
+                        </div>
+                        <textarea className="form-control"
+                                  id="mnemonicsInput"
+                                  value={visible ? mnemonics : Array(mnemonics.length).fill('\u2022').join('')}
+                                  onChange={this._changeMnemonic}
+                                  rows="4"
+                                  disabled={seedHex}/>
+                        {mnemonics && !validMnemonics
+                            ? <small className="text-danger">{t("Invalid mnemonics")}</small>
+                            : null
+                        }
+                    </div>
+                    <div className="form-group">
+                        <label>{t("Passphrase")}</label>
+                        <input className="form-control"
+                               type="password"
+                               value={salt}
+                               onChange={(e) => this.setState({salt: e.target.value})}
+                               disabled={seedHex}/>
+                    </div>
+                </Card>
+                {!seedHex
+                    ?   <NextButton disabled={!(mnemonics && validMnemonics)}
+                                    title={t("Connect wallet")}
+                                    onClick={this._getSeed}/>
                     : null
                 }
-                <br/>
-                {encryptedMnemonics
-                    ? <Card><DownloadButton title="Download encrypted mnemonics"
-                                            id="encryptedMnemonics"
-                                            obj={{
-                                                encryptedMnemonics: encryptedMnemonics.toString(),
-                                                version: '0.1'
-                                            }}/></Card>
+                {seedHex
+                    ? <CreateWallet seed={seedHex}
+                                    uuid={uuid}
+                                    onOperationResult={onOperationResult}/>
                     : null
                 }
-                <br/>
-                {encryptedMnemonics
-                    ? <AccountsGenerator onGenerate={(accounts) => this.setState({accounts})}
-                                         disabled={!!accounts}
-                                         uuid={uuid}
-                                         hex={mnemonicsData.hex}/>
-                    : null
-                }
-                <br/>
-                {accounts && uuid
-                    ? <LastStep title="Save mnemonics"
-                                hide={false}
-                                important={true}
-                                message={messages.SAVE_WALLETS}
-                                approveCallback={(b) => this.setState({allowSend: b})}
-                                onClick={() =>{sendPut(
-                                    uuid,
-                                    {
-                                        accounts: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()]),
-                                        encryptedMnemonics: encryptMnemonicsByAnchor(encryptedMnemonics)
-                                    },
-                                    (status, data, uuid) => onOperationResult(status)
-                                )}}>
-                        <span> </span>
-                        <SaveOnlyKeys accounts={accounts}
-                                      uuid={uuid}
-                                      disabled={!allowSend}
-                                      onOperationResult={onOperationResult}/>
-                    </LastStep>
-                    : null
-                }
-                <br/>
-            </div>
+            </React.Fragment>
         )
     }
 }
+
+ConnectWallet.propTypes = {
+    uuid: PropTypes.string,
+    onOperationResult: PropTypes.func
+};
 
 export default ConnectWallet;

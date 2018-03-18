@@ -1,0 +1,17 @@
+.IdenticonImageWrapper {
+    text-align: center;
+}
+
+.IdenticonImage {
+    align-items: center;
+    background-size: cover;
+    display: flex;
+    justify-content: space-around;
+    height: 80px;
+    margin: 0 auto;
+    width: 80px;
+}
+
+.IdenticonImage div {
+    font-size: 3em;
+}

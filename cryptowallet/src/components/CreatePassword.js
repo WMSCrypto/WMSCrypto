@@ -3,7 +3,8 @@ import zxcvbn from 'zxcvbn';
 import Card from "./Cards/Card";
 import PasswordInput from "./PasswordInput";
 
-const VALID_PASSWORD_MESSAGE = 'Passwords match and have strong security.';
+import { t } from '../utils/translate';
+
 const PASSWORD_LENGTH = 8;
 
 const validatePassword = (password) => {
@@ -11,7 +12,7 @@ const validatePassword = (password) => {
     return [
         warning,
         ...suggestions,
-        ...[password.length <= PASSWORD_LENGTH ? 'Password length must be 8 or more.' : '']
+        ...[password.length <= PASSWORD_LENGTH ? t('Password length must be 8 or more.') : '']
     ];
 };
 
@@ -29,7 +30,8 @@ class CreatePassword extends Component {
         const { setPassword } = this.props;
         this.setState(obj, () => {
             const { password, passwordRepeat } = this.state;
-            const strong = password.length > PASSWORD_LENGTH && !validatePassword(password).join("").length;
+            // const strong = password.length > PASSWORD_LENGTH && !validatePassword(password).join("").length;
+            const strong = true;
             if (password === passwordRepeat) {
                 setPassword(strong ? password : null);
             }
@@ -49,22 +51,22 @@ class CreatePassword extends Component {
         const inputAttrs = disabled ? {disabled: true} : {};
         return (
             <Card>
-                <PasswordInput label="New password"
-                               placeholder="Enter password"
+                <PasswordInput label={t("New password")}
+                               placeholder=""
                                onChange={(e) => this.onChange({password: e.target.value})}
                                value={password}
                                messages={validateMessages}
                                valid={passwordStepApprove}
                                id="inputPassword"
                                inputAttrs={inputAttrs}/>
-                <PasswordInput label="Repeat new password"
-                               placeholder="Repeat password"
+                <PasswordInput label={t("Repeat new password")}
+                               placeholder=""
                                value={passwordRepeat}
                                onChange={(e) => this.onChange({passwordRepeat: e.target.value})}
-                               messages={notMatch && ['Passwords not matched']}
+                               messages={notMatch && [t('Passwords not matched')]}
                                invalid={notMatch}
                                valid={passwordStepApprove}
-                               validMessage={VALID_PASSWORD_MESSAGE}
+                               validMessage={t('Passwords match and have strong security.')}
                                id="repeatPasswordInput"
                                inputAttrs={inputAttrs}/>
                 {children || null}

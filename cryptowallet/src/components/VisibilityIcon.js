@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 
 const ICONS = {
     'visibility': 'data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+DQogICAgPHBhdGggZD0iTTEyIDQuNUM3IDQuNSAyLjczIDcuNjEgMSAxMmMxLjczIDQuMzkgNiA3LjUgMTEgNy41czkuMjctMy4xMSAxMS03LjVjLTEuNzMtNC4zOS02LTcuNS0xMS03LjV6TTEyIDE3Yy0yLjc2IDAtNS0yLjI0LTUtNXMyLjI0LTUgNS01IDUgMi4yNCA1IDUtMi4yNCA1LTUgNXptMC04Yy0xLjY2IDAtMyAxLjM0LTMgM3MxLjM0IDMgMyAzIDMtMS4zNCAzLTMtMS4zNC0zLTMtM3oiLz4NCjwvc3ZnPg==',
@@ -7,8 +7,12 @@ const ICONS = {
 };
 
 
-const Icon = (props) => {
-    const { size, icon, onClick } = props;
+const VisibilityIcon = (props) => {
+    const { size, visible, onClick } = props;
+    let icon = 'visibility';
+    if (visible) {
+        icon = 'visibility off'
+    }
     return (
         <div className="Icon"
              onClick={onClick}
@@ -20,4 +24,10 @@ const Icon = (props) => {
     )
 };
 
-export default Icon;
+VisibilityIcon.propTypes = {
+    onClick: PropTypes.func.isRequired,
+    size: PropTypes.number.isRequired,
+    visible: PropTypes.bool
+};
+
+export default VisibilityIcon;

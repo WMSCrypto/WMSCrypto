@@ -39,7 +39,7 @@ class CommonBitcoinTransactionForm extends React.Component {
                 inputs: external || false,
                 receiver: external || false,
                 value: external || true,
-                change: external || true,
+                change: external || false,
                 account: external || true,
                 address: external || true,
                 locktime: true
@@ -110,7 +110,7 @@ class CommonBitcoinTransactionForm extends React.Component {
                     ? <AdditionalForm {...{onSet: this.validatedSet.bind(this), block, address, account, change}}/>
                     : <button className="btn btn-outline-primary" onClick={
                         () => this.validatedSet(
-                            'useChange', true, {change: change !== '', account: account !== '', address: address !== ''}
+                            'useChange', true, {change: change !== '' && change !== 0, account: account !== '', address: address !== ''}
                             )} style={{marginBottom: 16}}>
                         {t('Add change')}
                       </button>

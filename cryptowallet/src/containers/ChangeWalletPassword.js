@@ -1,86 +1,51 @@
 import React, { Component } from 'react';
-import aes from 'crypto-js/aes';
-import { messages } from '../assets';
-import { sendPut, encryptMnemonicsByAnchor } from '../utils';
-import {
-    Card,
-    NextButton,
-    CreatePassword,
-    LastStep,
-    DownloadButton,
-    MnemonicsInput
-} from '../components';
+import { enctryptSeedWithCheckAnchor } from '../utils';
+import { NextButton, CreatePassword } from '../components';
 import { t } from '../utils/translate';
-
+import WalletImageReader from "../components/WalletImage/WalletImageReader";
+import WalletImageGenerator from "../components/WalletImage/WalletImageGenerator";
 
 class ChangeWalletPassword extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
-            newEncryptedMnemonics: null,
-            mnemonics: null,
-            password: '',
             newPassword: null,
-            passwordInvalid: false,
-            visibleMnemonics: false
-        }
+            newEncryptedSeed: null,
+            seed: null,
+        };
+        this._encryptSeed = this._encryptSeed.bind(this);
     }
 
-    generateMnemonics() {
-        const { newPassword, mnemonics } = this.state;
-        const encryptedMnemonics = aes.encrypt(mnemonics, newPassword);
+    _encryptSeed() {
+        const { newPassword, seed } = this.state;
         this.setState({
-            newEncryptedMnemonics: encryptedMnemonics
+            newEncryptedSeed: enctryptSeedWithCheckAnchor(seed, newPassword)
         })
     }
 
     render() {
-        const { newEncryptedMnemonics, mnemonics, newPassword } = this.state;
-        const { uuid, encryptedMnemonics, onOperationResult } = this.props;
+        const { newEncryptedSeed, newPassword, seed } = this.state;
         return (
             <div>
-                <MnemonicsInput encrypted={true}
-                                buttonLabel={t("Decrypt mnemonics")}
-                                passwordLabel="Password"
-                                mnemonicsLabel="Mnemonics"
-                                uuid={uuid}
-                                encryptedMnemonics={encryptedMnemonics}
-                                onValidate={(d) => this.setState({mnemonics: d})}
-                                disabled={!!mnemonics}/>
+                <p className="text-light">{t("Change wallet password")}</p>
+                <WalletImageReader seed={seed}
+                                   onUnlock={(seed) => this.setState({seed})}/>
+                {seed && !newEncryptedSeed
+                    ? <CreatePassword setPassword={(p) => {this.setState({newPassword: p})}}/>
+                    : null}
 
-                <br/>
-                {mnemonics ? <CreatePassword setPassword={(p) => {this.setState({newPassword: p})}}/> : null}
-                <br/>
-                {newPassword
-                    ? <NextButton title={t("Encrypt mnemonics")}
-                                  disabled={!!newEncryptedMnemonics}
-                                  onClick={() => this.generateMnemonics()}/>
+                {newPassword && !newEncryptedSeed
+                    ? <NextButton title={t("Encrypt seed")}
+                                  disabled={!!newEncryptedSeed}
+                                  onClick={this._encryptSeed}/>
                     : null
                 }
-                <br/>
-                {newEncryptedMnemonics
-                    ? <Card><DownloadButton title={t("Download encrypted mnemonics")}
-                                            id="newEncryptedMnemonics"
-                                            obj={{
-                                                encryptedMnemonics: newEncryptedMnemonics.toString(),
-                                                version: '0.1'
-                                            }}/></Card>
+
+                {newEncryptedSeed
+                    ? <WalletImageGenerator seed={{hex: seed, encrypted: newEncryptedSeed}}/>
                     : null
                 }
-                <br/>
-                {newEncryptedMnemonics
-                    ? <LastStep title={t("Save mnemonics")}
-                                hide={false}
-                                important={true}
-                                message={messages.SAVE_WALLETS}
-                                onClick={() =>{sendPut(
-                                    uuid,
-                                    {encryptedMnemonics: encryptMnemonicsByAnchor(newEncryptedMnemonics)},
-                                    (status, data, uuid) => onOperationResult(status)
-                                )}}/>
-                    : null
-                }
-                <br/>
             </div>
         )
     }

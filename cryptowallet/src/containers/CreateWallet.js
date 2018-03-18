@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import bip39 from 'bip39';
-import aes from 'crypto-js/aes';
-import { NextButton, MnemonicsView, Card, LastStep , AccountsGenerator, SaveOnlyKeys } from '../components';
+import PropTypes from 'prop-types';
+import { NextButton, LastStep , AccountsGenerator } from '../components';
 import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
 import { t } from '../utils/translate';
-import { sendPut, encryptMnemonicsByAnchor } from '../utils';
-
-const MNEMONICS_BITS = 256;
+import { sendPut, generateSeedWithCheckAnchor, enctryptSeedWithCheckAnchor } from '../utils';
+import WalletImageGenerator from "../components/WalletImage/WalletImageGenerator";
 
 class CreateWallet extends Component {
 
@@ -15,76 +13,78 @@ class CreateWallet extends Component {
         super(props);
         this.state = {
             password: null,
-            mnemonics: null,
-            encryptedMnemonics: null,
             accounts: null,
-            allowSend: false
+            seed: null,
+            generated: false
         };
+        this._generateSeed = this._generateSeed.bind(this);
+        this._onSave = this._onSave.bind(this);
     }
 
-    generateMnemonics() {
-        const mnemonics = bip39.generateMnemonic(MNEMONICS_BITS);
+    _generateSeed() {
         const { password } = this.state;
-        const encryptedMnemonics = aes.encrypt(mnemonics, password);
-        this.setState({
-            mnemonics,
-            encryptedMnemonics
-        })
+        const { seed } = this.props;
+        let seedObj;
+        if (seed) {
+            seedObj = {
+                hex: seed,
+                encrypted: enctryptSeedWithCheckAnchor(seed, password)
+            }
+        } else {
+            seedObj = generateSeedWithCheckAnchor(password);
+
+        }
+        this.setState({ seed: seedObj, generated: true })
+    }
+
+    _onSave() {
+        const { accounts } = this.state;
+        const { onOperationResult, uuid } = this.props;
+        sendPut(
+            uuid,
+            {accounts: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()])},
+            onOperationResult)
     }
 
     render() {
-        const { password, encryptedMnemonics, mnemonics, accounts, allowSend } = this.state;
-        const { uuid, onOperationResult } = this.props;
+        const { password, accounts, seed, generated } = this.state;
+        const { uuid } = this.props;
         return (
             <div>
                 <CreatePassword setPassword={(p) => {this.setState({password: p})}}
-                                disabled={!!mnemonics}>
-                    <p className="text-muted">{messages.SAVE_MNEMONICS}</p>
+                                disabled={generated}>
+                    <p className="text-muted">{t(messages.SAVE_MNEMONICS)}</p>
                 </CreatePassword>
-                <br/>
-                <NextButton title={t("Generate mnemonics")}
-                            disabled={!password || mnemonics}
-                            onClick={() => this.generateMnemonics()}/>
-                <br/>
-                <Card hide={!(password && mnemonics)}>
-                    <MnemonicsView mnemonics={password && mnemonics}
-                                   encryptedMnemonics={encryptedMnemonics}
-                                   bits={MNEMONICS_BITS}/>
-                </Card>
-                <br/>
-                {mnemonics && <AccountsGenerator disabled={!mnemonics || accounts}
-                                                 mnemonics={mnemonics}
-                                                 uuid={uuid}
-                                                 onGenerate={(accounts) => this.setState({accounts})}/>
+                {!generated
+                    ? <NextButton title={t("Create wallet")}
+                                  onClick={this._generateSeed}
+                                  disabled={!password}/>
+                    : null
+                }
+                {generated ? <WalletImageGenerator seed={seed}/> : null}
+                {generated && <AccountsGenerator disabled={!seed || accounts}
+                                            hex={seed.hex}
+                                            uuid={uuid}
+                                            onGenerate={(accounts) => this.setState({accounts})}/>
                 }
                 {accounts && uuid
-                    ? <LastStep title={t("Save mnemonics")}
+                    ? <LastStep title={t("Save accounts")}
                                 hide={false}
                                 important={true}
-                                message={messages.SAVE_WALLETS}
-                                approveCallback={(b) => this.setState({allowSend: b})}
-                                onClick={() =>{sendPut(
-                                    uuid,
-                                    {
-                                        accounts: accounts.map(e => [e.coin.id, e.node.neutered().toBase58()]),
-                                        encryptedMnemonics: encryptMnemonicsByAnchor(encryptedMnemonics)
-                                    },
-                                    onOperationResult
-                                )}}>
-
-                        <span> </span>
-                        <SaveOnlyKeys accounts={accounts}
-                                      uuid={uuid}
-                                      disabled={!allowSend}
-                                      onOperationResult={onOperationResult}/>
-                      </LastStep>
+                                message={t(messages.SAVE_WALLETS)}
+                                onClick={this._onSave}/>
                     : null
                 }
                 <br/>
             </div>
         )
-
     }
 }
+
+CreateWallet.propTypes = {
+    seed: PropTypes.string,
+    uuid: PropTypes.string,
+    onOperationResult: PropTypes.func
+};
 
 export default CreateWallet;

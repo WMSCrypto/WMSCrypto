@@ -39,7 +39,7 @@ class AccountsGenerator extends Component {
 
         const e = coins[index];
         if (index < coins.length) {
-            setProgess(accounts.length, coins.length, `Generated pubkey for ${e.name}`, true);
+            setProgess(accounts.length, coins.length, `${t("Generated pubkey for") } ${e.name}`, true);
             const accountNode = node.derivePath(`m/${e.purpose || '44'}'/${e.id}'/0'`);
             console.log(`Generated pub key for ${e.name}: ${accountNode.neutered().toBase58()}`);
             accounts.push({
@@ -48,7 +48,7 @@ class AccountsGenerator extends Component {
             });
             setTimeout(() => this.generateAccounts(index + 1, accounts), 100)
         } else {
-            setProgess(0, coins.length, 'All pubkeys was generated successful', false);
+            setProgess(0, coins.length, t('All pubkeys was generated successful'), false);
             onGenerate(accounts);
             if (!uuid) {
                 this.setState({accounts: <Card><DownloadButton title={t('Download pubkeys')}
@@ -63,10 +63,12 @@ class AccountsGenerator extends Component {
         const { accounts } = this.state;
         return(
             <div>
-                <NextButton title="Generate pubkeys"
-                            disabled={this.state.block || disabled}
-                            onClick={() => this.setState({block :true},this.generateAccounts(0, []))}/>
-                <br/>
+                {!accounts
+                    ? <NextButton title={t("Generate pubkeys")}
+                                  disabled={this.state.block || disabled}
+                                  onClick={() => this.setState({block: true}, this.generateAccounts(0, []))}/>
+                    : null
+                }
                 <small id="generatedCoin" className="text-light"/>
                 <div className="progress" style={{visibility: 'hidden'}}>
                     <div id="generateProgress" className="progress-bar" style={{width: '0%'}}/>

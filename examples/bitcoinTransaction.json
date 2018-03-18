@@ -22,6 +22,7 @@
   "value": 270,
   "locktime": 0,
   "useChange": true,
+  "change": 10,
   "useRBF": true,
   "address": 0,
   "account": 10

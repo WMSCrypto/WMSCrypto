@@ -1,21 +1,14 @@
 import React from 'react';
-import DownloadButton from "./DownloadButton";
+import { t } from '../utils/translate';
+import { MNEMONICS_BITS } from "../utils";
 
-const MnemonicsView = (props) => {
-    const { mnemonics, bits, encryptedMnemonics } = props;
+const MnemonicsView = ({ mnemonics }) => {
     return (
         <div>
-            {mnemonics &&
-                <small className="text-muted">
-                    {`Generated mnemonics to ${bits}-bits entropy`}
-                </small>
-            }
+            <small className="text-muted">
+                {t(`Generated mnemonics to ${MNEMONICS_BITS}-bits entropy`)}
+            </small>
             <p className="lead">{mnemonics}</p>
-            <DownloadButton title="Download encrypted mnemonics"
-                            id="saveMnemonics"
-                            obj={{
-                                encryptedMnemonics: encryptedMnemonics.toString(), version: '0.1'
-                            }}/>
         </div>
     )
 };
