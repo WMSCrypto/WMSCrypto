@@ -59,6 +59,7 @@ const translates = {
     "Browse...": "Загрузить...",
     "Send transaction": "Отправить транзакцию в сеть",
 
+    "Generate QR code": "Генерация QR кода",
     "Unlock": "Разблокировать",
     "Locked": "Заблокировано",
     "Unlocked": "Разблокировано",
