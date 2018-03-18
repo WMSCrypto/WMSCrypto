@@ -13,7 +13,6 @@ class WalletImageReader extends Component {
         super(props);
         this.state = {
             encryptedString: null,
-            rawImage: null,
             error: null
         };
         this.handleScan = this.handleScan.bind(this);
@@ -22,12 +21,10 @@ class WalletImageReader extends Component {
 
     handleScan(result) {
         if (result) {
-            const rawImage = this.refs[REF_QR].reader.result;
-            this.setState({encryptedString: result, rawImage, error: null})
+            this.setState({encryptedString: result, error: null})
         } else {
             this.setState({
                 encryptedString: null,
-                rawImage: null,
                 error: true
             })
         }
@@ -38,12 +35,12 @@ class WalletImageReader extends Component {
     }
 
     render() {
-        const { rawImage, encryptedString, error } = this.state;
+        const { encryptedString, error } = this.state;
         const { onUnlock, seed } = this.props;
         return (
             <React.Fragment>
                 <Card>
-                    <WalletImageLocker rawImage={rawImage}
+                    <WalletImageLocker seed={seed}
                                        encryptedString={encryptedString}
                                        onUnlock={onUnlock}/>
                     <QrReader ref={REF_QR}

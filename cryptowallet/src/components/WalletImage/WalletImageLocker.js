@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './styles/WalletImageLocker.css';
 import { decryptSeedWithCheckAnchor } from "../../utils";
 import { t } from "../../utils/translate";
+import {getIdenticonSVG} from "../../utils/jdenticon";
 
 class WalletImageLocker extends Component {
 
@@ -17,7 +18,7 @@ class WalletImageLocker extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.rawImage !== this.props.rawImage) {
+        if (newProps.encryptedString !== this.props.encryptedString) {
             this.setState({
                 error: false
             })
@@ -28,7 +29,7 @@ class WalletImageLocker extends Component {
         const { password } = this.state;
         const [error, seed] = decryptSeedWithCheckAnchor(this.props.encryptedString, password);
         if (!error) {
-            this.setState({unlock: true}, this.props.onUnlock(seed))
+            this.setState({unlock: true, seed: seed}, this.props.onUnlock(seed))
         } else {
             this.setState({error})
         }
@@ -54,16 +55,22 @@ class WalletImageLocker extends Component {
     }
 
     render() {
-        const { rawImage } = this.props;
-        if (!rawImage) {
+        const { encryptedString, seed } = this.props;
+        if (!encryptedString) {
             return null
         }
 
         const { unlock } = this.state;
+        let image = 'none';
+        if (seed) {
+            image = `url(data:image/svg+xml;base64,${window.btoa(getIdenticonSVG({seed}))})`
+        }
         return (
             <div>
                 <div className="IdenticonImageWrapper">
-                    <div className="IdenticonImage" style={{backgroundImage: `url(${rawImage})`}}/>
+                    <div className="IdenticonImage" style={{backgroundImage: image}}>
+                        {!unlock ? <div><span className="text-danger">?</span></div> : null}
+                    </div>
                     <p className={`text-${unlock ? 'primary' : 'danger'}`}>{t(unlock ? 'Unlocked' : 'Locked')}</p>
                 </div>
                 {!unlock ? this._renderPassworInput() : null}
@@ -74,7 +81,8 @@ class WalletImageLocker extends Component {
 
 WalletImageLocker.propTypes = {
     onUnlock: PropTypes.func.isRequired,
-    rawImage: PropTypes.string
+    encryptedString: PropTypes.string,
+    seed: PropTypes.string
 };
 
 export default WalletImageLocker;

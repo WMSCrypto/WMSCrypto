@@ -3,10 +3,15 @@
 }
 
 .IdenticonImage {
-    /* 20% from real size. All calcs is hardcode. */
-    background-size: 170px 120px;
-    background-position: -10px -40px;
-    height: 70px;
+    align-items: center;
+    background-size: cover;
+    display: flex;
+    justify-content: space-around;
+    height: 80px;
     margin: 0 auto;
-    width: 70px;
+    width: 80px;
+}
+
+.IdenticonImage div {
+    font-size: 3em;
 }
