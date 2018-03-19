@@ -28,12 +28,12 @@ class ConnectWallet extends Component {
     }
 
     _changeMnemonic({ target }) {
+        const indexDot = target.value.lastIndexOf('\u2022');
         let { mnemonics } = this.state;
-        const addedMnemonics = target.value.slice(mnemonics.length);
-        if (mnemonics.length < target.value.length) {
-            mnemonics = mnemonics + addedMnemonics;
+        if (indexDot > -1) {
+            mnemonics = mnemonics.slice(0, indexDot + 1) + target.value.slice(indexDot + 1)
         } else {
-            mnemonics = mnemonics.slice(0, target.value.length)
+            mnemonics = target.value
         }
         const validMnemonics = bip39.validateMnemonic(mnemonics);
         this.setState({ validMnemonics, mnemonics})
@@ -77,7 +77,7 @@ class ConnectWallet extends Component {
                     </div>
                 </Card>
                 {!seedHex
-                    ?   <NextButton disabled={!(mnemonics && validMnemonics)}
+                    ?   <NextButton disabled={!mnemonics}
                                     title={t("Connect wallet")}
                                     onClick={this._getSeed}/>
                     : null
