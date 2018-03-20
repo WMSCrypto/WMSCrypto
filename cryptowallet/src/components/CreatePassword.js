@@ -30,8 +30,9 @@ class CreatePassword extends Component {
         const { setPassword } = this.props;
         this.setState(obj, () => {
             const { password, passwordRepeat } = this.state;
-            // const strong = password.length > PASSWORD_LENGTH && !validatePassword(password).join("").length;
-            const strong = true;
+            const strong = password.length > PASSWORD_LENGTH && !validatePassword(password).join("").length;
+            // Comment up and uncomment down string for faster develop
+            // const strong = true;
             if (password === passwordRepeat) {
                 setPassword(strong ? password : null);
             }

@@ -10,8 +10,8 @@ const MNEMONICS_BITS = 256;
 const FLAG_SLICE = -2;
 const WITH_ANCHOR_FLAG = '00';
 const WITHOUT_ANCHOR_FLAG = '01';
-const LEN_ANCHOR_HASH = sha256('').toString().length;
-const WITH_ANCHOR_LEGTNH = FLAG_SLICE - LEN_ANCHOR_HASH;
+const ANCHOR_SLICE = -8;
+const WITH_ANCHOR_LEGTNH = FLAG_SLICE + ANCHOR_SLICE;
 
 const tryDecrypt = (text, password) => {
     try {
@@ -27,7 +27,7 @@ const encryptSeed = (seedHex, password, anchor) => {
     let encrypted;
     if (anchor) {
         password = password + anchor;
-        encrypted = aes.encrypt(seedHex, password) + sha256(anchor).toString() + WITH_ANCHOR_FLAG;
+        encrypted = aes.encrypt(seedHex, password) + sha256(anchor).toString().slice(ANCHOR_SLICE) + WITH_ANCHOR_FLAG;
     } else {
         encrypted = aes.encrypt(seedHex, password) + WITHOUT_ANCHOR_FLAG
     }
@@ -55,7 +55,7 @@ const decryptSeed = (text, password, anchor) => {
     if (anchor) {
         const decrypted = tryDecrypt(encrypted, password + anchor);
         if (!decrypted) {
-            if (sha256(anchor).toString() !== text.slice(WITH_ANCHOR_LEGTNH, FLAG_SLICE)) {
+            if (sha256(anchor).toString().slice(ANCHOR_SLICE) !== text.slice(WITH_ANCHOR_LEGTNH, FLAG_SLICE)) {
                 return ["Invalid anchor", null]
             } else {
                 return ["Invalid password", null]
@@ -72,13 +72,6 @@ const decryptSeed = (text, password, anchor) => {
         }
 
     }
-
-    // const decrypted = tryDecrypt(encrypted, password);
-    // if (decrypted) {
-    //     return [null, decrypted]
-    // } else {
-    //     return ["Invalid password", null]
-    // }
 };
 
 const generateSeed = ({ password, mnemonics=null, salt=null, anchor=null }) => {
