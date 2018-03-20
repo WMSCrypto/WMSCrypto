@@ -1,4 +1,5 @@
 import aes from 'crypto-js/aes';
+import sha256 from 'crypto-js/sha256';
 import bip39 from 'bip39';
 import EthereumTx from 'ethereumjs-tx';
 import { HDNode } from "bitcoinjs-lib";
@@ -9,6 +10,8 @@ const MNEMONICS_BITS = 256;
 const FLAG_SLICE = -2;
 const WITH_ANCHOR_FLAG = '00';
 const WITHOUT_ANCHOR_FLAG = '01';
+const LEN_ANCHOR_HASH = sha256('').toString().length;
+const WITH_ANCHOR_LEGTNH = FLAG_SLICE - LEN_ANCHOR_HASH;
 
 const tryDecrypt = (text, password) => {
     try {
@@ -21,13 +24,12 @@ const tryDecrypt = (text, password) => {
 };
 
 const encryptSeed = (seedHex, password, anchor) => {
-    let encrypted = aes.encrypt(seedHex, password);
+    let encrypted;
     if (anchor) {
-        encrypted = aes.encrypt(
-            encrypted.toString(), anchor
-        ).toString() + WITH_ANCHOR_FLAG;
+        password = password + anchor;
+        encrypted = aes.encrypt(seedHex, password) + sha256(anchor).toString() + WITH_ANCHOR_FLAG;
     } else {
-        encrypted = encrypted + WITHOUT_ANCHOR_FLAG
+        encrypted = aes.encrypt(seedHex, password) + WITHOUT_ANCHOR_FLAG
     }
 
     return encrypted
@@ -35,7 +37,13 @@ const encryptSeed = (seedHex, password, anchor) => {
 
 const decryptSeed = (text, password, anchor) => {
     const flag = text.slice(FLAG_SLICE);
-    let encrypted = text.slice(0, FLAG_SLICE);
+    let encrypted;
+    if (anchor) {
+        encrypted = text.slice(0, WITH_ANCHOR_LEGTNH);
+    } else {
+        encrypted = text.slice(0, FLAG_SLICE);
+    }
+
     if (!anchor && flag === WITH_ANCHOR_FLAG) {
         return [ENCRYPTED_BY_ANCHOR, null]
     }
@@ -45,18 +53,32 @@ const decryptSeed = (text, password, anchor) => {
     }
 
     if (anchor) {
-        encrypted = tryDecrypt(encrypted, anchor);
-        if (!encrypted) {
-            return ["Invalid anchor", null]
+        const decrypted = tryDecrypt(encrypted, password + anchor);
+        if (!decrypted) {
+            if (sha256(anchor).toString() !== text.slice(WITH_ANCHOR_LEGTNH, FLAG_SLICE)) {
+                return ["Invalid anchor", null]
+            } else {
+                return ["Invalid password", null]
+            }
+        } else {
+            return [null, decrypted]
         }
+    } else {
+        const decrypted = tryDecrypt(encrypted, password);
+        if (!decrypted) {
+            return ["Invalid password", null]
+        } else {
+            return [null, decrypted]
+        }
+
     }
 
-    const decrypted = tryDecrypt(encrypted, password);
-    if (decrypted) {
-        return [null, decrypted]
-    } else {
-        return ["Invalid password", null]
-    }
+    // const decrypted = tryDecrypt(encrypted, password);
+    // if (decrypted) {
+    //     return [null, decrypted]
+    // } else {
+    //     return ["Invalid password", null]
+    // }
 };
 
 const generateSeed = ({ password, mnemonics=null, salt=null, anchor=null }) => {

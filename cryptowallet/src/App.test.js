@@ -117,7 +117,16 @@ describe('CryptoWallet', function () {
         assert.equal(seed.hex, TEST_SEED);
 
         const [error, _] = decryptSeed(seed.encrypted, 'invalidPassword');
-        assert.equal(!!error, true);
+        assert.equal(error, "Invalid password");
+    });
+
+    it('decrypt seed invalid password but valid anchor', function () {
+        const seed = generateSeed({password: TEST_PASSWORD, mnemonics: TEST_MNEMONICS, anchor: TEST_ANCHOR});
+
+        assert.equal(seed.hex, TEST_SEED);
+
+        const [error, _] = decryptSeed(seed.encrypted, 'invalidPassword', TEST_ANCHOR);
+        assert.equal(error, "Invalid password");
     });
 
     it('decrypt seed invalid anchor', function () {
@@ -126,7 +135,7 @@ describe('CryptoWallet', function () {
         assert.equal(seed.hex, TEST_SEED);
 
         const [error, _] = decryptSeed(seed.encrypted, TEST_PASSWORD, 'invalidAnchor');
-        assert.equal(!!error, true);
+        assert.equal(error, "Invalid anchor");
     });
 
     it('decrypt seed invalid password with anchor', function () {
