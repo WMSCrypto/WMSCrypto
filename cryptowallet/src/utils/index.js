@@ -23,7 +23,9 @@ const tryDecrypt = (text, password) => {
 const encryptSeed = (seedHex, password, anchor) => {
     let encrypted = aes.encrypt(seedHex, password);
     if (anchor) {
-        encrypted = aes.encrypt(encrypted.toString(), anchor) + WITH_ANCHOR_FLAG;
+        encrypted = aes.encrypt(
+            encrypted.toString(), anchor
+        ).toString() + WITH_ANCHOR_FLAG;
     } else {
         encrypted = encrypted + WITHOUT_ANCHOR_FLAG
     }
