@@ -50,7 +50,7 @@ class WalletImageReader extends Component {
                               style={{ display: 'none', width: '100%' }}/>
                     {!seed
                         ? <button className="btn btn-outline-primary"
-                                  onClick={this.openImageDialog}>{t("Upload image")}</button>
+                                  onClick={this.openImageDialog}>{t("Upload QR-key")}</button>
                         : null
                     }
                     {error ? <span className="text-danger"> {t("QR code cannot be readied")}</span> : null}
