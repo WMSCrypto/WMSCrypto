@@ -1,0 +1,27 @@
+language: node_js
+node_js:
+  - 8
+cache:
+  yarn: true
+  directories:
+    - cryptowallet/node_modules
+before_script:
+  - cd cryptowallet
+  - yarn install
+script:
+  - yarn build
+  - yarn test
+  - cd offline && node build.js && cd ..
+  - mkdir release
+  - mv cryptowallet/build release/build
+  - mv cryptowallet/offline/offline.html release/offline.html
+
+deploy:
+  provider: releases
+  api_key:
+    secure: $API_KEY_SECURE
+  file_glob: true
+  file: file: release/**/*
+  skip_cleanup: true
+  on:
+    tags: true
