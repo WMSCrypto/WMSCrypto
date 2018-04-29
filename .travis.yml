@@ -17,8 +17,8 @@ script:
   - yarn test
   - cd offline && node build.js && cd ../..
   - mkdir release
-  - mv cryptowallet/build release/build
-  - mv cryptowallet/offline/offline.html release/offline.html
+  - tar -zcf release/wms_online_$(git tag | tail -1).tar.gz cryptowallet/build
+  - mv cryptowallet/offline/offline.html release/wms_offline_$(git tag | tail -1).html
 
 deploy:
   provider: releases
