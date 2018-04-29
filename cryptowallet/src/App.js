@@ -18,7 +18,7 @@ class App extends Component {
             showReload: false,
             uuid: null,
             data: null,
-            lang: 'en',
+            lang: 'ru',
             check: false
         }
     }
