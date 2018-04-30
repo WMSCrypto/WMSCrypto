@@ -13,8 +13,11 @@ before_script:
   - yarn install
 
 script:
-  - yarn build
   - yarn test
+
+before_deploy:
+  - cd cryptowallet
+  - yarn build
   - cd offline && node build.js && cd ../..
   - mkdir release
   - tar -zcf release/wms_online_$(git tag | tail -1).tar.gz cryptowallet/build

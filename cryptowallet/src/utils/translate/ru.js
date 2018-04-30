@@ -23,6 +23,7 @@ const translates = {
     "Save mnemonics": "Завершить создание кошелька",
     'Save only public keys': "Только публ ключи",
     "Go to telegram": "Перейти в Telegram",
+    "Return to telegram": "Вернуться в Telegram",
     "Reload in offline mode": "Перезагрузить в оффлайн режиме",
     "Operation successful": "Все получилось!",
     "Mnemonics": "Введите фразу для восстановления",
