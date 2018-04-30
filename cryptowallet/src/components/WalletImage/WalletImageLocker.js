@@ -11,13 +11,13 @@ const Error = ({ error }) => {
         case ENCRYPTED_BY_ANCHOR:
             return (
                 <small className="text-danger">
-                    {t(`${ENCRYPTED_BY_ANCHOR}_1`)} <a href="https://t.me/WMSCryptoBot">@WMSCrypto</a> {t(`${ENCRYPTED_BY_ANCHOR}_2`)}
+                    {t(`${ENCRYPTED_BY_ANCHOR}_1`)} <a href="tg://resolve?domain=WMSCryptoBot">@WMSCrypto</a> {t(`${ENCRYPTED_BY_ANCHOR}_2`)}
                 </small>
             );
         case ENCRYPTED_WITHOUT_ANCHOR:
             return (
                 <small className="text-danger">
-                    {t(`${ENCRYPTED_WITHOUT_ANCHOR}_1`)} <a href="https://t.me/WMSCryptoBot">@WMSCrypto</a> {t(`${ENCRYPTED_WITHOUT_ANCHOR}_2`)}
+                    {t(`${ENCRYPTED_WITHOUT_ANCHOR}_1`)} <a href="tg://resolve?domain=WMSCryptoBot">@WMSCrypto</a> {t(`${ENCRYPTED_WITHOUT_ANCHOR}_2`)}
                 </small>
             );
         default:

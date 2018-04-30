@@ -3,8 +3,8 @@ import MainMenu from "./components/MainMenu";
 import { Header } from './components';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { setLang, t } from './utils/translate';
-import { actionToApp } from './assets';
+import { setLang } from './utils/translate';
+import { actionToApp, messages } from './assets';
 import StatusCard from "./components/Cards/StatusCard";
 import { cryptoCheck } from "./utils";
 
@@ -94,7 +94,14 @@ class App extends Component {
     render() {
         const { application, showReload, uuid, data, encryptedMnemonics, lang, check } = this.state;
         if (!check) {
-            return <div className="CenterMessage"><p>{t('CRYPTO_FALSE')}</p></div>
+            return (
+                <div className="CenterMessage">
+                    <div>
+                        <p>{messages.CRYPTO_FALSE_EN}</p>
+                        <p>{messages.CRYPTO_FALSE_RU}</p>
+                    </div>
+                </div>
+            )
         }
         return (
             <div className="container App" style={{maxWidth: 800}}>
