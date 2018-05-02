@@ -16,7 +16,6 @@ script:
   - yarn test
 
 before_deploy:
-  - cd cryptowallet
   - yarn build
   - cd offline && node build.js && cd ../..
   - mkdir release
