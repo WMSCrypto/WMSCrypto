@@ -6,8 +6,11 @@ import ConnectWallet from "../containers/ConnectWallet";
 import MakeTransaction from "../containers/MakeTransaction";
 import { t } from '../utils/translate';
 
-const MainMenu = (props) => {
-    const { onClick } = props;
+
+const OFFLINE_MODE = !window.location.hostname;
+
+
+const OfflineMenu = ({ onClick }) => {
     return (
         <Menu>
             <button type="button"
@@ -40,6 +43,28 @@ const MainMenu = (props) => {
             </button>
         </Menu>
     )
+};
+
+const OnlineMenu = (props) => {
+    return (
+        <Menu>
+            <div className="OnlineMenuItem">
+                <a href='tg://resolve?domain=WMSCryptoBot' className="btn btn-primary btn-lg">
+                    {t('Go to telegram')}
+                </a>
+            </div>
+            <div className="OnlineMenuItem">
+                <a href="https://github.com/vasinkd/WMSCrypto/releases/latest" className="btn btn-light btn-lg">
+                    {t('Download offline version')}
+                </a>
+            </div>
+        </Menu>
+    )
+};
+
+
+const MainMenu = (props) => {
+    return OFFLINE_MODE ? <OfflineMenu {...props}/> : <OnlineMenu {...props}/>
 };
 
 export default MainMenu;
