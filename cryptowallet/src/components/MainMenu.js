@@ -64,7 +64,7 @@ const OnlineMenu = (props) => {
 
 
 const MainMenu = (props) => {
-    return OFFLINE_MODE ? <OfflineMenu {...props}/> : <OnlineMenu {...props}/>
+    return OFFLINE_MODE || !process.env.WMS_VERSION ? <OfflineMenu {...props}/> : <OnlineMenu {...props}/>
 };
 
 export default MainMenu;

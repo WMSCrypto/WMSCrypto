@@ -118,6 +118,7 @@ class App extends Component {
                     encryptedMnemonics,
                     onOperationResult: this.onOperationResult.bind(this)
                 }) : this.renderBaseMenu()}
+                <div className="version"><small>{process.env.WMS_VERSION ? `version ${process.env.WMS_VERSION}` : 'development mode'}</small></div>
             </div>
         );
     }
