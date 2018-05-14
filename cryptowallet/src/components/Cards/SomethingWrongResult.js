@@ -8,7 +8,7 @@ const SomethingWrongResult = () => {
     return (
         <ResultCard title={t("SORRY")}>
             <a href="tg://resolve?domain=WMSCryptoBot">
-                <button className="btn btn-danger" onClick={dropLocation}>
+                <button className="btn btn-danger">
                     {t('Return to telegram')}
                 </button>
             </a>

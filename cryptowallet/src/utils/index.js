@@ -183,6 +183,11 @@ const setState = (instance, name, value, callback) => {
     instance.setState(obj, callback);
 };
 
+const getUUID = () => {
+    const pathArray = window.location.pathname.split('/');
+    return pathArray.length === 2 && pathArray[1].length ? pathArray[1] : null;
+};
+
 export {
     getPrivKey,
     hexView,
@@ -200,4 +205,5 @@ export {
     enctryptSeedWithCheckAnchor,
     generateSeedWithCheckAnchor,
     MNEMONICS_BITS,
+    getUUID
 }

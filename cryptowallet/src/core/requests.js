@@ -1,19 +1,25 @@
+import { getOperationDataHandlers } from "./handlers";
+
 const API_ENDPOINT = process.env.API_ENDPOINT || '';
 
 const _prepareResult = response => {
     if (response.status === 200) {
-        return [response.json(), null]
+        return response.json()
     } else {
-        return [null, response.status]
+        return response.status
     }
 };
 
-const getOperation = (uuid, onSuccess, onError) => {
+const getOperation = (uuid, component) => {
+    const [onSuccess, onError] = getOperationDataHandlers(component);
     fetch(`${API_ENDPOINT}/api/operations/${uuid}`)
     .then(_prepareResult)
-    .then((response, error) => {
-        if (error) { onError(error) }
-        else { onSuccess(data) }
+    .then(result => {
+        if (typeof result === 'number') {
+            onError(result)
+        } else {
+            onSuccess(result)
+        }
     })
     .catch(err => {
         console.log(err);
@@ -21,7 +27,7 @@ const getOperation = (uuid, onSuccess, onError) => {
     })
 };
 
-const updateOperation = (uuid, data, onSuccess, onError) => {
+const updateOperation = (uuid, data) => {
 
 };
 

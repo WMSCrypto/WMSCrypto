@@ -4,9 +4,10 @@ import { Header } from './components';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { setLang } from './utils/translate';
-import { actionToApp, messages } from './assets';
+import { messages } from './assets';
 import StatusCard from "./components/Cards/StatusCard";
-import { cryptoCheck } from "./utils";
+import { cryptoCheck, getUUID } from "./utils";
+import { getOperation } from "./core/requests";
 
 
 class App extends Component {
@@ -23,42 +24,15 @@ class App extends Component {
         }
     }
 
-    getData(uuid) {
-        if (uuid) {
-            this.setState({uuid});
-            fetch(`${process.env.API_ENDPOINT}/api/operations/${uuid}`)
-                .then(response => response.json())
-                .then(data => {
-                    let jData = {};
-                    if (typeof data.data === 'string') {
-                        jData = data.data ? JSON.parse(data.data) : null;
-                    } else if (typeof data.data === 'object') {
-                        jData = data.data
-                    }
-                    if (data.action) {
-                        this.setState({
-                            application: actionToApp[data.action],
-                            data: jData,
-                            encryptedMnemonics: data.encryptedMnemonics});
-                        if (jData && jData.lang) {
-                            this.setLang(jData.lang)
-                        }
-                    } else {
-                        this.setState({application: () => <StatusCard status={404}/>});
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                    this.setState({application: () => <StatusCard status={null}/>});
-                })
-        }
-    }
-
     componentWillMount() {
-        const pathArray = window.location.pathname.split('/');
-        const uuid = pathArray.length === 2 && pathArray[1].length ? pathArray[1] : null;
         if (cryptoCheck()) {
-            this.setState({check: true}, this.getData(uuid))
+            this.setState({check: true}, () => {
+                const uuid = getUUID();
+                if (uuid) {
+                    this.setState({ uuid });
+                    getOperation(uuid, this);
+                }
+            })
         }
     }
 

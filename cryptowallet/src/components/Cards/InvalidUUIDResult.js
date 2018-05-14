@@ -7,9 +7,11 @@ import { dropLocation } from '../../utils';
 const InvalidUUIDCard = () => {
     return (
         <ResultCard title={t("INVALID_UUID")}>
-            <button className="btn btn-danger" onClick={dropLocation}>
-                {t('Reload in offline mode')}
-            </button>
+            <a href="tg://resolve?domain=WMSCryptoBot">
+                <button className="btn btn-danger">
+                    {t('Return to telegram')}
+                </button>
+            </a>
         </ResultCard>
     )
 };
