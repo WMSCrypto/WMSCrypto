@@ -26,7 +26,7 @@ class App extends Component {
     getData(uuid) {
         if (uuid) {
             this.setState({uuid});
-            fetch(`/api/operations/${uuid}`)
+            fetch(`${process.env.API_ENDPOINT}/api/operations/${uuid}`)
                 .then(response => response.json())
                 .then(data => {
                     let jData = {};
