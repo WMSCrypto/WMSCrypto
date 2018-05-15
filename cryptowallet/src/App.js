@@ -1,101 +1,67 @@
 import React, { Component } from 'react';
-import MainMenu from "./components/MainMenu";
-import { Header } from './components';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { setLang } from './utils/translate';
-import { messages } from './assets';
-import StatusCard from "./components/Cards/StatusCard";
-import { cryptoCheck, getUUID } from "./utils";
-import { getOperation } from "./core/requests";
+import Header from './components/Header';
+import CryptoFalse from "./components/information/CryptoFalse";
+import AppVersion from "./components/information/AppVersion";
+import AppSwitcher from "./containers/AppSwitcher";
+import { getOperation } from "./core/actions/operationActions";
 
+const mapStateToProps = (state) => {
+    console.log(state);
+    const { check, uuid, application } = state.common;
+    return {
+        check,
+        uuid,
+        application
+    }
+};
+
+const mapStateToDispatch = (dispatch) => {
+    return {
+        onInit: (uuid) => {
+            dispatch(getOperation(uuid))
+        }
+    }
+};
 
 class App extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            application: null,
-            showReload: false,
-            uuid: null,
-            data: null,
-            lang: 'ru',
-            check: false
-        }
-    }
-
     componentWillMount() {
-        if (cryptoCheck()) {
-            this.setState({check: true}, () => {
-                const uuid = getUUID();
-                if (uuid) {
-                    this.setState({ uuid });
-                    getOperation(uuid, this);
-                }
-            })
+        const { check, uuid, onInit } = this.props;
+        if (check && uuid) {
+            onInit(uuid);
         }
-    }
-
-    onOperationResult(status, data, uuid) {
-        this.setState({application: () => <StatusCard status={status}/>})
     }
 
     componentDidMount() {
         document.getElementById('appLoader').style.setProperty('display', 'none');
     }
 
-    reloadApplication() {
-        const application = this.state.application;
-        this.setState({application: () => <div/>}, () => this.setState({ application }))
-    }
-
-    renderBaseMenu() {
-        const { uuid } = this.state;
-        if (uuid) {
-            return <p style={{color: '#ffffff'}}>Data loading...</p>
+    render() {
+        const { check, application } = this.props;
+        if (!check) {
+            return <CryptoFalse/>
         } else {
             return (
-                <MainMenu onClick={(f, r=false) => {this.setState({application: f, showReload: r})}}/>
-            )
-        }
-    }
-
-    setLang(lang) {
-        setLang(lang);
-        this.setState({lang})
-    }
-
-    render() {
-        const { application, showReload, uuid, data, encryptedMnemonics, lang, check } = this.state;
-        if (!check) {
-            return (
-                <div className="CenterMessage">
-                    <div>
-                        <p>{messages.CRYPTO_FALSE_EN}</p>
-                        <p>{messages.CRYPTO_FALSE_RU}</p>
-                    </div>
+                <div className="container App">
+                    <Header/>
+                    <AppSwitcher application={application}/>
+                    <AppVersion/>
                 </div>
-            )
+
+            );
         }
-        return (
-            <div className="container App" style={{maxWidth: 800}}>
-                <Header showMenu={!!application}
-                        showReload={showReload}
-                        uuid={uuid}
-                        goToMainMenu={() => this.setState({application: null, showReload: false})}
-                        reloadApplication={() => this.reloadApplication()}
-                        onChangeLang={() => this.setLang(lang === 'en' ? 'ru' : 'en')}
-                        lang={lang}/>
-                { application ? application({
-                    uuid,
-                    data,
-                    encryptedMnemonics,
-                    onOperationResult: this.onOperationResult.bind(this)
-                }) : this.renderBaseMenu()}
-                <div className="version"><small>{process.env.WMS_VERSION ? `version ${process.env.WMS_VERSION}` : 'development mode'}</small></div>
-            </div>
-        );
     }
 }
 
-export default App;
+App.propTypes = {
+    application: PropTypes.string,
+    uuid: PropTypes.string,
+    check: PropTypes.bool,
+    onInit: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, mapStateToDispatch)(App);

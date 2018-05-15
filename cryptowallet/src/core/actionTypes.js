@@ -1,0 +1,6 @@
+export default {
+    CHANGE_LANGUAGE: 'CHANGE_LANGUAGE',
+    SET_DATA: 'SET_DATA',
+    SET_ERROR: 'SET_ERROR',
+    SET_APP: 'SET_APP'
+}

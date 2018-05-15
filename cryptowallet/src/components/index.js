@@ -7,7 +7,6 @@ import AccountsGenerator from "./AccountsGenerator";
 import Header from "./Header";
 import TxSigner from "./TxSigner";
 import JSONUploader from "./JSONUploader";
-import MnemonicsView from "./MnemonicsView";
 
 export {
     NextButton,
@@ -19,5 +18,4 @@ export {
     Header,
     TxSigner,
     JSONUploader,
-    MnemonicsView
 }

@@ -1,5 +1,6 @@
 .App {
     padding: 0 0 20px 0;
+    max-width: 800px;
 }
 
 .App nav {
