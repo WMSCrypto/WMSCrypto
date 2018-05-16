@@ -4,6 +4,7 @@ import Card from "./Cards/Card";
 import PasswordInput from "./PasswordInput";
 
 const PASSWORD_LENGTH = 8;
+const DEV_MODE = process.env.NODE_ENV === 'development';
 
 const validatePassword = (password) => {
     const { warning, suggestions } = zxcvbn(password).feedback;
@@ -28,9 +29,12 @@ class CreatePassword extends Component {
         const { setPassword } = this.props;
         this.setState(obj, () => {
             const { password, passwordRepeat } = this.state;
-            const strong = password.length > PASSWORD_LENGTH && !validatePassword(password).join("").length;
-            // Comment up and uncomment down string for faster develop
-            // const strong = true;
+            let strong;
+            if (DEV_MODE) {
+                strong = true;
+            } else {
+                strong = password.length > PASSWORD_LENGTH && !validatePassword(password).join("").length;
+            }
             if (password === passwordRepeat) {
                 setPassword(strong ? password : null);
             }
