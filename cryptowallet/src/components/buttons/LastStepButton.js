@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Card from "./Cards/Card";
+import Card from "../Cards/Card";
+import T from "../T";
 
-import { t } from '../utils/translate';
 
-class LastStep extends Component {
+class LastStepButton extends Component {
 
     constructor(props) {
         super(props);
@@ -17,20 +17,20 @@ class LastStep extends Component {
         const { approve } = this.state;
         return (
             <Card hide={hide}>
-                {important ? <h3 className="text-danger">{t("IMPORTANT!")}</h3> : null}
-                <p className="text-muted">{message}</p>
+                {important ? <h3 className="text-danger"><T>IMPORTANT!</T></h3> : null}
+                <p className="text-muted"><T>{message}</T></p>
                 <div className="form-check">
                     <input className="form-check-input"
                            type="checkbox"
                            id="checkImportant"
                            checked={approve}
                            onChange={() => this.setState({approve: !approve}, () => approveCallback && approveCallback(!approve))}/>
-                    <label className="form-check-label" htmlFor="checkImportant">{t('I understand')}</label>
+                    <label className="form-check-label" htmlFor="checkImportant">{<T>I understand</T>}</label>
                 </div>
                 <br/>
                 {approve
-                    ? <button type="button" className="btn btn-danger" onClick={onClick}>{title}</button>
-                    : <button type="button" className="btn btn-outline-danger" disabled>{title}</button>
+                    ? <button type="button" className="btn btn-danger" onClick={onClick}><T>{title}</T></button>
+                    : <button type="button" className="btn btn-outline-danger" disabled><T>{title}</T></button>
                 }
                 {this.props.children}
             </Card>
@@ -38,4 +38,4 @@ class LastStep extends Component {
     }
 }
 
-export default LastStep;
+export default LastStepButton;

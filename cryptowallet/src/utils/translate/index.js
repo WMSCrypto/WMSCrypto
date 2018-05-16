@@ -14,5 +14,7 @@ const { t, setLang }= (() => {
 
 export {
     t,
-    setLang
+    setLang,
+    en,
+    ru
 }

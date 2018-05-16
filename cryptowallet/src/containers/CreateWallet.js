@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NextButton, LastStep , AccountsGenerator } from '../components';
+import { NextButton, LastStepButton , AccountsGenerator } from '../components';
 import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
 import { t } from '../utils/translate';
@@ -56,7 +56,7 @@ class CreateWallet extends Component {
                     <p className="text-muted">{t(messages.SAVE_MNEMONICS)}</p>
                 </CreatePassword>
                 {!generated
-                    ? <NextButton title={t("Create wallet")}
+                    ? <NextButton title="Create wallet"
                                   onClick={this._generateSeed}
                                   disabled={!password}/>
                     : null
@@ -68,11 +68,11 @@ class CreateWallet extends Component {
                                             onGenerate={(accounts) => this.setState({accounts})}/>
                 }
                 {accounts && uuid
-                    ? <LastStep title={t("Save accounts")}
-                                hide={false}
-                                important={true}
-                                message={t(messages.SAVE_WALLETS)}
-                                onClick={this._onSave}/>
+                    ? <LastStepButton title="Save accounts"
+                                      hide={false}
+                                      important={true}
+                                      message={messages.SAVE_WALLETS}
+                                      onClick={this._onSave}/>
                     : null
                 }
                 <br/>

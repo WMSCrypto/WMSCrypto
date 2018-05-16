@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import signers from '../utils/signers';
 import Card from "./Cards/Card";
-import DownloadButton from "./DownloadButton";
+import DownloadButton from "./buttons/DownloadButton";
 import {t} from "../utils/translate";
 import {sendPut} from "../utils";
 

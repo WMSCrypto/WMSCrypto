@@ -1,10 +1,9 @@
-import NextButton from './NextButton';
+import NextButton from './buttons/NextButton';
 import CoinsList from './CoinsList';
 import Card from './Cards/Card';
-import LastStep from './LastStep';
+import LastStepButton from './buttons/LastStepButton';
 import CreatePassword from "./CreatePassword";
 import AccountsGenerator from "./AccountsGenerator";
-import Header from "./Header";
 import TxSigner from "./TxSigner";
 import JSONUploader from "./JSONUploader";
 
@@ -12,10 +11,9 @@ export {
     NextButton,
     CoinsList,
     Card,
-    LastStep,
+    LastStepButton,
     CreatePassword,
     AccountsGenerator,
-    Header,
     TxSigner,
     JSONUploader,
 }

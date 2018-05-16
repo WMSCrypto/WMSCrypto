@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { HDNode } from "bitcoinjs-lib";
 import { coins } from "../assets";
-import NextButton from './NextButton';
+import NextButton from './buttons/NextButton';
 import bip39 from "bip39";
-import DownloadButton from "./DownloadButton";
+import DownloadButton from "./buttons/DownloadButton";
 import Card from "./Cards/Card";
 import { t } from '../utils/translate';
 

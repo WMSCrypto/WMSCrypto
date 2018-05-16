@@ -12,7 +12,6 @@ const mapStateToProps = (state) => {
     return {
         uuid: state.common.uuid
     }
-
 };
 
 const mapPropsToDispatch = (dispatch) => {
