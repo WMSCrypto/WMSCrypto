@@ -3,8 +3,6 @@ import zxcvbn from 'zxcvbn';
 import Card from "./Cards/Card";
 import PasswordInput from "./PasswordInput";
 
-import { t } from '../utils/translate';
-
 const PASSWORD_LENGTH = 8;
 
 const validatePassword = (password) => {

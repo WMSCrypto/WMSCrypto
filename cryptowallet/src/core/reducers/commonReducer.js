@@ -6,7 +6,7 @@ import define from "../define";
 const STATUS = define.apps.ST;
 
 const initialState = {
-    lang: 'en',
+    lang: 'ru',
     application: null,
     data: null,
     uuid: getUUID(),
