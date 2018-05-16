@@ -5,5 +5,6 @@ export default {
     SET_APP: 'SET_APP',
     PREVIOUS_STEP: 'PREVIOUS_STEP',
     NEXT_STEP: 'NEXT_STEP',
+    ADD_STEP: 'ADD_STEP',
     DROP_CURRENT_APP: 'DROP_CURRENT_APP'
 }

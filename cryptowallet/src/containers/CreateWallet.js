@@ -52,7 +52,7 @@ class CreateWallet extends Component {
         return (
             <div>
                 <CreatePassword setPassword={(p) => {this.setState({password: p})}}
-                                disabled={generated}>
+                                disabled={generated} first={true} next={"generateMnemonics"}>
                     <p className="text-muted"><T>{messages.SAVE_MNEMONICS}</T></p>
                 </CreatePassword>
                 {!generated

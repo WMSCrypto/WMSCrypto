@@ -21,24 +21,35 @@ All steps must have next structure:
 import actionTypes from "../actionTypes";
 
 const initialState = {
-    steps: []
+    list: [],
+    current: null
 };
 
 export default (state=initialState, action) => {
     switch (action.type) {
         case actionTypes.PREVIOUS_STEP:
-            return {steps: state.steps.slice(0, -1)};
+            return {list: state.list.slice(0, -1)};
         case actionTypes.NEXT_STEP:
             return {
-                steps: [...state.steps, action.step],
+                ...state,
+                current: action.next
+            };
+        case actionTypes.ADD_STEP:
+            return {
+                list: [...state.list, action.step],
+                current: action.step.name
             };
         case actionTypes.DROP_CURRENT_APP:
-            const step = {...state.slice(0, 1)[0]};
+            const step = {...state.list.slice(0, 1)[0]};
             step.data = {...step.initialData};
             step.next = false;
+            step.result = null;
             return {
-                steps: [step],
+                list: [step],
+                current: step.name
             };
+        case actionTypes.SET_APP:
+            return initialState;
         default:
             return state
     }

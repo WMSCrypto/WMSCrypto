@@ -5,7 +5,6 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Header from './components/Header';
 import CryptoFalse from "./components/information/CryptoFalse";
-import AppVersion from "./components/information/AppVersion";
 import AppSwitcher from "./containers/AppSwitcher";
 import { getOperation } from "./core/actions/operationActions";
 

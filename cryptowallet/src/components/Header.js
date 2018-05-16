@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { changeLanguage, changeApp } from "../core/actions/commonActions";
+import { reloadApplication } from "../core/actions/stepsActions";
 import define from '../core/define';
 import { t } from '../utils/translate';
 import AppVersion from "./information/AppVersion";
@@ -26,6 +27,9 @@ const mapPropsToDispatch = (dispatch) => {
         changeLanguage: (lang) => {
             dispatch(changeLanguage(lang))
         },
+        reloadApplication: () => {
+            dispatch(reloadApplication())
+        },
     }
 };
 
@@ -40,21 +44,21 @@ const Header = ({ application, uuid, lang, goToMainMenu, reloadApplication, chan
             <div className="HeaderMenu">
                 {SHOW_LANG_MENU
                     ?   <button type="button"
-                                className="btn btn-secondary"
+                                className="btn btn-secondary btn-sm"
                                 onClick={() => changeLang(newLang)}>
                                 {lang === EN ? 'RUS' : 'ENG'}
                         </button>
                     : null}
                 {application && !uuid
                     ?   <button type="button"
-                                className="btn btn-danger"
+                                className="btn btn-danger btn-sm"
                                 onClick={reloadApplication}>
                         {t("Restart")}
                         </button>
                     : null}
                 {application && !uuid
                     ?   <button type="button"
-                                className="btn btn-outline-secondary"
+                                className="btn btn-outline-secondary btn-sm"
                                 onClick={goToMainMenu}>
                         {t("Menu")}
                         </button>

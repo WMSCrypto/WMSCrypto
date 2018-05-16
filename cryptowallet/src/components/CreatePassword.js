@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import zxcvbn from 'zxcvbn';
 import Card from "./Cards/Card";
 import PasswordInput from "./PasswordInput";
+import Step from "./Step";
 
 const PASSWORD_LENGTH = 8;
 const DEV_MODE = process.env.NODE_ENV === 'development';
@@ -47,13 +48,13 @@ class CreatePassword extends Component {
 
     render() {
         const { password, passwordRepeat } = this.state;
-        const { children, disabled } = this.props;
+        const { children, disabled, first, next } = this.props;
         const validateMessages = password && validatePassword(password);
         const notMatch = passwordRepeat && password !== passwordRepeat;
         const passwordStepApprove = password && passwordRepeat && password === passwordRepeat;
         const inputAttrs = disabled ? {disabled: true} : {};
         return (
-            <Card>
+            <Step name="createPassword" first={first} next={next} displayName={"Create password"}>
                 <PasswordInput label="New password"
                                placeholder=""
                                onChange={(e) => this.onChange({password: e.target.value})}
@@ -73,7 +74,7 @@ class CreatePassword extends Component {
                                id="repeatPasswordInput"
                                inputAttrs={inputAttrs}/>
                 {children || null}
-            </Card>
+            </Step>
         )
     }
 }
