@@ -12,7 +12,7 @@ const validatePassword = (password) => {
     return [
         warning,
         ...suggestions,
-        ...[password.length <= PASSWORD_LENGTH ? t('Password length must be 8 or more.') : '']
+        ...[password.length <= PASSWORD_LENGTH ? 'Password length must be 8 or more.' : '']
     ];
 };
 
@@ -52,7 +52,7 @@ class CreatePassword extends Component {
         const inputAttrs = disabled ? {disabled: true} : {};
         return (
             <Card>
-                <PasswordInput label={t("New password")}
+                <PasswordInput label="New password"
                                placeholder=""
                                onChange={(e) => this.onChange({password: e.target.value})}
                                value={password}
@@ -60,14 +60,14 @@ class CreatePassword extends Component {
                                valid={passwordStepApprove}
                                id="inputPassword"
                                inputAttrs={inputAttrs}/>
-                <PasswordInput label={t("Repeat new password")}
+                <PasswordInput label="Repeat new password"
                                placeholder=""
                                value={passwordRepeat}
                                onChange={(e) => this.onChange({passwordRepeat: e.target.value})}
-                               messages={notMatch && [t('Passwords not matched')]}
+                               messages={notMatch && ['Passwords not matched']}
                                invalid={notMatch}
                                valid={passwordStepApprove}
-                               validMessage={t('Passwords match and have strong security.')}
+                               validMessage={'Passwords match and have strong security.'}
                                id="repeatPasswordInput"
                                inputAttrs={inputAttrs}/>
                 {children || null}

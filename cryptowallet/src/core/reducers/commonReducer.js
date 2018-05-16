@@ -1,6 +1,9 @@
 import actionTypes from '../actionTypes';
 import { getUUID, cryptoCheck } from "../../utils";
 import { setLang } from "../../utils/translate";
+import define from "../define";
+
+const STATUS = define.apps.ST;
 
 const initialState = {
     lang: 'en',
@@ -27,6 +30,7 @@ export default (state=initialState, action) => {
         case actionTypes.SET_ERROR:
             return {
                 ...state,
+                application: STATUS,
                 error: action.error
             };
         case actionTypes.SET_APP:

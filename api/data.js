@@ -22,9 +22,17 @@ const normalCreateWalletRu = {
     description: 'Normal request for create wallet for russian lang'
 };
 
-const normalCreateWalletEn = Object.assign({}, normalCreateWalletRu);
-normalCreateWalletEn.request.data.lang = 'en';
-normalCreateWalletEn.request.data.description = 'Normal request for create wallet for english lang';
+const normalCreateWalletEn = {
+    request: {
+        action: 'CW',
+        data: {
+            lang: 'en'
+        },
+    },
+    response: {
+    },
+    description: 'Normal request for create wallet for ENGLISH lang'
+};
 
 const totalNotExistsError = {
     error: {

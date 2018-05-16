@@ -1,5 +1,5 @@
 import React from 'react';
-
+import T from "./T";
 
 const PasswordInput = (props) => {
     const {
@@ -12,7 +12,7 @@ const PasswordInput = (props) => {
         <div>
             <div className="form-group">
                 <label htmlFor={id}>
-                    {label}.
+                    <T>{label}</T>.
                 </label>
                 <input className={classNames}
                        id={id}
@@ -23,9 +23,9 @@ const PasswordInput = (props) => {
                        {...attrs}/>
                 { messages && messages.map(
                     (e, i) =>
-                        <small key={`key-${id}-${i}`} className="form-text text-danger">{e}</small>
+                        <small key={`key-${id}-${i}`} className="form-text text-danger"><T>{e}</T></small>
                 )}
-                {valid && validMessage ? <small className="text-primary">{validMessage}</small> : null}
+                {valid && validMessage ? <small className="text-primary"><T>{validMessage}</T></small> : null}
             </div>
         </div>
     )

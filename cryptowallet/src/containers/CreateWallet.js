@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NextButton, LastStepButton , AccountsGenerator } from '../components';
 import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
-import { t } from '../utils/translate';
+import T from "../components/T";
 import { sendPut, generateSeedWithCheckAnchor, enctryptSeedWithCheckAnchor } from '../utils';
 import WalletImageGenerator from "../components/WalletImage/WalletImageGenerator";
 
@@ -53,7 +53,7 @@ class CreateWallet extends Component {
             <div>
                 <CreatePassword setPassword={(p) => {this.setState({password: p})}}
                                 disabled={generated}>
-                    <p className="text-muted">{t(messages.SAVE_MNEMONICS)}</p>
+                    <p className="text-muted"><T>{messages.SAVE_MNEMONICS}</T></p>
                 </CreatePassword>
                 {!generated
                     ? <NextButton title="Create wallet"
