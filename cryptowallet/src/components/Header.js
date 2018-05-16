@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { changeLanguage, changeApp } from "../core/actions/commonActions";
 import define from '../core/define';
 import { t } from '../utils/translate';
+import AppVersion from "./information/AppVersion";
 
 const SHOW_LANG_MENU = false;
 const { EN, RU } = define.languages;
@@ -32,7 +33,10 @@ const Header = ({ application, uuid, lang, goToMainMenu, reloadApplication, chan
     const newLang = lang === EN ? RU : EN;
     return (
         <div className="AppHeader">
-            <h1>WMSCrypto</h1>
+            <div>
+                <h1>wmscrypto</h1>
+                <AppVersion/>
+            </div>
             <div className="HeaderMenu">
                 {SHOW_LANG_MENU
                     ?   <button type="button"

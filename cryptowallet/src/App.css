@@ -40,7 +40,7 @@
     flex-wrap: wrap;
     justify-content: space-between;
     min-height: 48px;
-    margin: 16px 0;
+    margin: 8px 0 16px 0;
 }
 
 .MnemonicsCardHeader {
@@ -120,22 +120,15 @@
 }
 
 .version {
-    bottom: 0;
     color: #ffffff;
-    left: 0;
-    position: absolute;
-    text-align: center;
-    width: 100%;
+    line-height: 0;
 }
 
 @media (max-width: 500px) {
     .App h1 {
         font-size: 24px;
     }
-}
-
-@media (max-height: 500px) {
     .version {
-        position: relative;
+        line-height: 0.5;
     }
 }

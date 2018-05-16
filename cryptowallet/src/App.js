@@ -49,7 +49,6 @@ class App extends Component {
                 <div className="container App">
                     <Header/>
                     <AppSwitcher application={application}/>
-                    <AppVersion/>
                 </div>
 
             );
