@@ -6,6 +6,8 @@ import { messages } from '../assets';
 import T from "../components/T";
 import { sendPut, generateSeedWithCheckAnchor, enctryptSeedWithCheckAnchor } from '../utils';
 import WalletImageGenerator from "../components/WalletImage/WalletImageGenerator";
+import MnemonicsList from "../components/mnemonics/MnemonicsList";
+import define from "../core/define";
 
 class CreateWallet extends Component {
 
@@ -51,10 +53,12 @@ class CreateWallet extends Component {
         const { uuid } = this.props;
         return (
             <div>
-                <CreatePassword setPassword={(p) => {this.setState({password: p})}}
-                                disabled={generated} first={true} next={"generateMnemonics"}>
+                <CreatePassword disabled={generated}
+                                first={true}
+                                next={"generateMnemonics"}>
                     <p className="text-muted"><T>{messages.SAVE_MNEMONICS}</T></p>
                 </CreatePassword>
+                <MnemonicsList next={define.steps.genQR}/>
                 {!generated
                     ? <NextButton title="Create wallet"
                                   onClick={this._generateSeed}

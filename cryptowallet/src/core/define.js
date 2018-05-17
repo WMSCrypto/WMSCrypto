@@ -9,5 +9,10 @@ export default {
     languages: {
         EN: 'en',
         RU: 'ru'
+    },
+    steps: {
+        createPassword: 'crPassword',
+        generateMnemonics: 'genMnemonics',
+        genQR: 'genQR'
     }
 }

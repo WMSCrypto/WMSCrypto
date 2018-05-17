@@ -7,9 +7,6 @@ import T from "./T";
 import NextButton from "./buttons/NextButton";
 import PreviousButton from "./buttons/PreviousButton";
 
-const PREVIOUS_CLASSES = 'btn btn-white';
-const NEXT_CLASSES = 'btn btn-primary';
-
 const mapStateToProps = (state) => {
     return {
         ...state.steps

@@ -36,7 +36,7 @@ class CreatePassword extends Component {
 
     constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             password: '',
             passwordRepeat: '',
         }
@@ -55,7 +55,8 @@ class CreatePassword extends Component {
             if (password === passwordRepeat) {
                 setResult(strong ? password : null);
             }
-            if (password && passwordRepeat && password !== passwordRepeat) {
+            const bothPasswordsExists = password && passwordRepeat;
+            if (bothPasswordsExists && password !== passwordRepeat) {
                 setResult(null);
             }
         })
@@ -64,11 +65,9 @@ class CreatePassword extends Component {
 
     render() {
         const { password, passwordRepeat } = this.state;
-        const { children, disabled, first, next } = this.props;
+        const { children, first, next } = this.props;
         const validateMessages = password && validatePassword(password);
         const notMatch = passwordRepeat && password !== passwordRepeat;
-        const passwordStepApprove = password && passwordRepeat && password === passwordRepeat;
-        const inputAttrs = disabled ? {disabled: true} : {};
         return (
             <Step name="createPassword"
                   first={first}
@@ -79,19 +78,17 @@ class CreatePassword extends Component {
                                onChange={(e) => this.onChange({password: e.target.value})}
                                value={password}
                                messages={validateMessages}
-                               valid={passwordStepApprove}
-                               id="inputPassword"
-                               inputAttrs={inputAttrs}/>
+                               valid={next}
+                               id="inputPassword"/>
                 <PasswordInput label="Repeat new password"
                                placeholder=""
                                value={passwordRepeat}
                                onChange={(e) => this.onChange({passwordRepeat: e.target.value})}
                                messages={notMatch && ['Passwords not matched']}
                                invalid={notMatch}
-                               valid={passwordStepApprove}
+                               valid={next}
                                validMessage={'Passwords match and have strong security.'}
-                               id="repeatPasswordInput"
-                               inputAttrs={inputAttrs}/>
+                               id="repeatPasswordInput"/>
                 {children || null}
             </Step>
         )
