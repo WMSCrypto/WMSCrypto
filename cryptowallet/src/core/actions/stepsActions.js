@@ -24,6 +24,13 @@ const previousStep = () => {
     }
 };
 
+const setCurrentStepResult = (result) => {
+    return {
+        type: actionTypes.SET_STEP_RESULT,
+        result,
+    }
+};
+
 const reloadApplication = () => {
     return {
         type: actionTypes.DROP_CURRENT_APP
@@ -35,5 +42,6 @@ export {
     addStep,
     nextStep,
     previousStep,
-    reloadApplication
+    reloadApplication,
+    setCurrentStepResult
 }

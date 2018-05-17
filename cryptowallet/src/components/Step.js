@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import Card from "./Cards/Card";
 import { nextStep, previousStep, addStep } from "../core/actions/stepsActions";
 import T from "./T";
+import NextButton from "./buttons/NextButton";
+import PreviousButton from "./buttons/PreviousButton";
 
+const PREVIOUS_CLASSES = 'btn btn-white';
+const NEXT_CLASSES = 'btn btn-primary';
 
 const mapStateToProps = (state) => {
     return {
@@ -50,23 +54,37 @@ class Step extends Component {
             nextStep,
             previousStep,
             next,
+            results,
+            previous,
             first,
             last,
-            controls
+            controls,
+            list
         } = this.props;
+
+        console.log(this.props)
+
         if (current === name) {
             return (
-                <Card>
+                <Card title={<T>{displayName}</T>}>
                     {children}
-                    {controls && !first ? <button onClick={() => previousStep()}>Previous</button> : null}
-                    {controls && !last ? <button onClick={() => nextStep(next)}>Next</button> : null}
+                    <div className="Step_controls">
+                    {controls && !first
+                        ? <PreviousButton onClick={() => previousStep()} disabled={!previous}/>
+                        : null
+                    }
+                    {controls && !last
+                        ? <NextButton onClick={() => nextStep(next)} disabled={!results[name]}/>
+                        : null
+                    }
+                    </div>
                 </Card>
             )
         } else {
             return (
-                <p>
-                    <T>Step</T>: <T>{displayName}</T>
-                </p>
+                <h5 className="Step__close">
+                    <T>Step</T> {list.length}: <T>{displayName}</T>
+                </h5>
             )
         }
     }
@@ -80,7 +98,6 @@ Step.defaultProps = {
     controls: true,
     initialData: {},
     data: {},
-    result: null
 };
 
 Step.propTypes = {

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import zxcvbn from 'zxcvbn';
-import Card from "./Cards/Card";
 import PasswordInput from "./PasswordInput";
 import Step from "./Step";
+import { setCurrentStepResult} from "../core/actions/stepsActions";
 
 const PASSWORD_LENGTH = 8;
 const DEV_MODE = process.env.NODE_ENV === 'development';
@@ -16,6 +17,21 @@ const validatePassword = (password) => {
     ];
 };
 
+const mapStateToProps = (state) => {
+    return {
+        result: state.steps.results['createPassword']
+    }
+};
+
+const mapPropsToDispatch = dispatch => {
+    return {
+        setResult: (result) => {
+            dispatch(setCurrentStepResult(result))
+        },
+    }
+};
+
+
 class CreatePassword extends Component {
 
     constructor(props) {
@@ -27,7 +43,7 @@ class CreatePassword extends Component {
     }
 
     onChange(obj) {
-        const { setPassword } = this.props;
+        const { setResult } = this.props;
         this.setState(obj, () => {
             const { password, passwordRepeat } = this.state;
             let strong;
@@ -37,10 +53,10 @@ class CreatePassword extends Component {
                 strong = password.length > PASSWORD_LENGTH && !validatePassword(password).join("").length;
             }
             if (password === passwordRepeat) {
-                setPassword(strong ? password : null);
+                setResult(strong ? password : null);
             }
             if (password && passwordRepeat && password !== passwordRepeat) {
-                setPassword(null);
+                setResult(null);
             }
         })
 
@@ -54,7 +70,10 @@ class CreatePassword extends Component {
         const passwordStepApprove = password && passwordRepeat && password === passwordRepeat;
         const inputAttrs = disabled ? {disabled: true} : {};
         return (
-            <Step name="createPassword" first={first} next={next} displayName={"Create password"}>
+            <Step name="createPassword"
+                  first={first}
+                  next={next}
+                  displayName={"Create password"}>
                 <PasswordInput label="New password"
                                placeholder=""
                                onChange={(e) => this.onChange({password: e.target.value})}
@@ -79,4 +98,4 @@ class CreatePassword extends Component {
     }
 }
 
-export default CreatePassword;
+export default connect(mapStateToProps, mapPropsToDispatch)(CreatePassword);

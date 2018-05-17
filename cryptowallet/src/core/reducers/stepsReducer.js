@@ -14,7 +14,6 @@ All steps must have next structure:
     initialData: object (required),
     data: object (default initialData),
     controls: bool (default true),
-    result: any (default null)
 }
 */
 
@@ -22,13 +21,18 @@ import actionTypes from "../actionTypes";
 
 const initialState = {
     list: [],
+    results: {},
     current: null
 };
 
 export default (state=initialState, action) => {
     switch (action.type) {
         case actionTypes.PREVIOUS_STEP:
-            return {list: state.list.slice(0, -1)};
+            const results = {...state.results};
+            results[state.list[state.list.length - 1]] = null;
+            return {
+                list: state.list.slice(0, -1)
+            };
         case actionTypes.NEXT_STEP:
             return {
                 ...state,
@@ -36,6 +40,7 @@ export default (state=initialState, action) => {
             };
         case actionTypes.ADD_STEP:
             return {
+                ...state,
                 list: [...state.list, action.step],
                 current: action.step.name
             };
@@ -46,7 +51,15 @@ export default (state=initialState, action) => {
             step.result = null;
             return {
                 list: [step],
+                results: {},
                 current: step.name
+            };
+        case actionTypes.SET_STEP_RESULT:
+            const res = {...state.results};
+            res[state.current] = action.result;
+            return {
+                ...state,
+                results: res
             };
         case actionTypes.SET_APP:
             return initialState;

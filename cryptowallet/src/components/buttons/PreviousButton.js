@@ -2,21 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import T from "../T";
 
-const NextButton = (props) => {
+const PreviousButton = (props) => {
     const { disabled, title, onClick } = props;
     return (
         <div>
-            <button type="button" className="btn btn-primary" onClick={onClick} disabled={disabled}>
-                <T>{title || 'Next'}</T>
+            <button type="button" className="btn btn-white" onClick={onClick} disabled={disabled}>
+                <T>{title || 'Previous'}</T>
             </button>
         </div>
     )
 };
 
-NextButton.propTypes = {
+PreviousButton.propTypes = {
     title: PropTypes.string,
     disabled: PropTypes.bool,
     onClick: PropTypes.func
 };
 
-export default NextButton;
+export default PreviousButton;
