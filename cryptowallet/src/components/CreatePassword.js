@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import zxcvbn from 'zxcvbn';
 import PasswordInput from "./PasswordInput";
 import Step from "./Step";
+import define from "../core/define";
 import { setCurrentStepResult} from "../core/actions/stepsActions";
 
 const PASSWORD_LENGTH = 8;
@@ -17,9 +18,11 @@ const validatePassword = (password) => {
     ];
 };
 
+const STEP = define.steps.createPassword;
+
 const mapStateToProps = (state) => {
     return {
-        result: state.steps.results['createPassword']
+        result: state.steps.results[STEP]
     }
 };
 
@@ -78,7 +81,7 @@ class CreatePassword extends Component {
         const validateMessages = password && validatePassword(password);
         const notMatch = passwordRepeat && password !== passwordRepeat;
         return (
-            <Step name="createPassword"
+            <Step name={STEP}
                   first={first}
                   next={next}
                   displayName={"Create password"}>

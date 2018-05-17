@@ -57,14 +57,11 @@ class Step extends Component {
             first,
             last,
             controls,
-            list
         } = this.props;
-
-        console.log(this.props)
 
         if (current === name) {
             return (
-                <Card title={<T>{displayName}</T>}>
+                <Card title={<T>{displayName}</T>} blankString={false}>
                     {children}
                     <div className="Step_controls">
                     {controls && !first

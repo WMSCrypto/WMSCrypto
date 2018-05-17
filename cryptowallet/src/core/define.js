@@ -13,6 +13,6 @@ export default {
     steps: {
         createPassword: 'crPassword',
         generateMnemonics: 'genMnemonics',
-        genQR: 'genQR'
+        image: 'image'
     }
 }

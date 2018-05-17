@@ -205,5 +205,6 @@ export {
     enctryptSeedWithCheckAnchor,
     generateSeedWithCheckAnchor,
     MNEMONICS_BITS,
-    getUUID
+    getUUID,
+    getAnchor
 }

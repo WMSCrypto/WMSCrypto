@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NextButton, LastStepButton , AccountsGenerator } from '../components';
+import { LastStepButton , AccountsGenerator } from '../components';
 import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
 import T from "../components/T";
-import { sendPut, generateSeedWithCheckAnchor, enctryptSeedWithCheckAnchor } from '../utils';
+import { sendPut } from '../utils';
 import WalletImageGenerator from "../components/WalletImage/WalletImageGenerator";
 import MnemonicsList from "../components/mnemonics/MnemonicsList";
 import define from "../core/define";
@@ -14,29 +14,11 @@ class CreateWallet extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            password: null,
             accounts: null,
             seed: null,
             generated: false
         };
-        this._generateSeed = this._generateSeed.bind(this);
         this._onSave = this._onSave.bind(this);
-    }
-
-    _generateSeed() {
-        const { password } = this.state;
-        const { seed } = this.props;
-        let seedObj;
-        if (seed) {
-            seedObj = {
-                hex: seed,
-                encrypted: enctryptSeedWithCheckAnchor(seed, password)
-            }
-        } else {
-            seedObj = generateSeedWithCheckAnchor(password);
-
-        }
-        this.setState({ seed: seedObj, generated: true })
     }
 
     _onSave() {
@@ -49,7 +31,7 @@ class CreateWallet extends Component {
     }
 
     render() {
-        const { password, accounts, seed, generated } = this.state;
+        const { accounts, seed, generated } = this.state;
         const { uuid } = this.props;
         return (
             <div>
@@ -58,13 +40,7 @@ class CreateWallet extends Component {
                                 next={"generateMnemonics"}>
                     <p className="text-muted"><T>{messages.SAVE_MNEMONICS}</T></p>
                 </CreatePassword>
-                <MnemonicsList next={define.steps.genQR}/>
-                {!generated
-                    ? <NextButton title="Create wallet"
-                                  onClick={this._generateSeed}
-                                  disabled={!password}/>
-                    : null
-                }
+                <MnemonicsList next={define.steps.image}/>
                 {generated ? <WalletImageGenerator seed={seed}/> : null}
                 {generated && <AccountsGenerator disabled={!seed || accounts}
                                             hex={seed.hex}

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Step from "../Step";
 import { setCurrentStepResult} from "../../core/actions/stepsActions";
 import define from "../../core/define";
-import { generateMnemonics } from '../../core/crypto';
+import { generateSeed } from '../../core/crypto';
 
 const steps = define.steps;
 
@@ -11,6 +11,7 @@ const steps = define.steps;
 const mapStateToProps = (state) => {
     return {
         result: state.steps.results[steps.generateMnemonics],
+        password: state.steps.results[steps.createPassword],
         current: state.steps.current
     }
 };
@@ -25,14 +26,10 @@ const mapPropsToDispatch = dispatch => {
 
 class MnemonicsList extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     componentDidUpdate(prevProps, prevState) {
-        const { current, result } = this.props;
+        const { current, result, password } = this.props;
         if (current === steps.generateMnemonics && !result) {
-            this.props.setResult(generateMnemonics())
+            this.props.setResult(generateSeed(password))
         }
     }
 
@@ -42,7 +39,7 @@ class MnemonicsList extends Component {
             <Step name={steps.generateMnemonics}
                   next={next}
                   displayName="Generate mnemonics">
-                <p>{ result }</p>
+                <p>{ result && result.mnemonics }</p>
             </Step>
         )
     }
