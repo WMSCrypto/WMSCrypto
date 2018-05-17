@@ -6,7 +6,7 @@ const PreviousButton = (props) => {
     const { disabled, title, onClick } = props;
     return (
         <div>
-            <button type="button" className="btn btn-white" onClick={onClick} disabled={disabled}>
+            <button type="button" className="btn btn-light" onClick={onClick} disabled={disabled}>
                 <T>{title || 'Previous'}</T>
             </button>
         </div>

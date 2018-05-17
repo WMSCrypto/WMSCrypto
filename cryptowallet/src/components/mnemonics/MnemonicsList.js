@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Step from "../Step";
 import { setCurrentStepResult} from "../../core/actions/stepsActions";
 import define from "../../core/define";
+import { generateMnemonics } from '../../core/crypto';
 
 const steps = define.steps;
 
@@ -26,26 +27,22 @@ class MnemonicsList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            mnemonics: 'aaa'
-        }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { current } = this.props;
-        if (current === steps.generateMnemonics) {
-            this.props.setResult(this.state.mnemonics)
-
+        const { current, result } = this.props;
+        if (current === steps.generateMnemonics && !result) {
+            this.props.setResult(generateMnemonics())
         }
     }
 
     render() {
-        const { next } = this.props;
+        const { next, result } = this.props;
         return (
             <Step name={steps.generateMnemonics}
                   next={next}
                   displayName="Generate mnemonics">
-                <p>Mnemonics</p>
+                <p>{ result }</p>
             </Step>
         )
     }

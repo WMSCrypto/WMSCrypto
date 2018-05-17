@@ -129,6 +129,14 @@
     width: 100%;
 }
 
+.Step_controls div {
+    display: inline-block;
+}
+
+.Step_controls div:first-child {
+    margin: 0 8px 0 0;
+}
+
 .Step__close {
     color: #ffffff;
     margin: 8px 0;

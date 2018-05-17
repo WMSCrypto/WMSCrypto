@@ -31,14 +31,23 @@ const mapPropsToDispatch = dispatch => {
     }
 };
 
+const initialState = {
+    password: '',
+    passwordRepeat: '',
+};
 
 class CreatePassword extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            password: '',
-            passwordRepeat: '',
+        this.state = initialState
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { result } = this.props;
+        const { password, passwordRepeat } = this.state;
+        if (password === passwordRepeat && (!result && prevProps.result)) {
+            this.setState(initialState)
         }
     }
 
@@ -56,7 +65,7 @@ class CreatePassword extends Component {
                 setResult(strong ? password : null);
             }
             const bothPasswordsExists = password && passwordRepeat;
-            if (bothPasswordsExists && password !== passwordRepeat) {
+            if (!bothPasswordsExists || (bothPasswordsExists && password !== passwordRepeat)) {
                 setResult(null);
             }
         })
@@ -65,7 +74,7 @@ class CreatePassword extends Component {
 
     render() {
         const { password, passwordRepeat } = this.state;
-        const { children, first, next } = this.props;
+        const { children, first, next, result } = this.props;
         const validateMessages = password && validatePassword(password);
         const notMatch = passwordRepeat && password !== passwordRepeat;
         return (
@@ -86,7 +95,7 @@ class CreatePassword extends Component {
                                onChange={(e) => this.onChange({passwordRepeat: e.target.value})}
                                messages={notMatch && ['Passwords not matched']}
                                invalid={notMatch}
-                               valid={next}
+                               valid={result}
                                validMessage={'Passwords match and have strong security.'}
                                id="repeatPasswordInput"/>
                 {children || null}

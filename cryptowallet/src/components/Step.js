@@ -36,9 +36,10 @@ class Step extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { list, current } = this.props;
-        if (list.length === 0 || list[list.length - 1].next === current) {
-            this.props.addStep(this.props)
+        const { list, current, name, results } = this.props;
+        const lastIndex = list.length - 1;
+        if (lastIndex < 0 || (!results[name] && list[lastIndex].name !== current)) {
+            this.props.addStep({...this.props, previous: list[lastIndex] && list[lastIndex].name})
         }
     }
 
@@ -67,7 +68,7 @@ class Step extends Component {
                     {children}
                     <div className="Step_controls">
                     {controls && !first
-                        ? <PreviousButton onClick={() => previousStep()} disabled={!previous}/>
+                        ? <PreviousButton onClick={() => previousStep()} disabled={previous}/>
                         : null
                     }
                     {controls && !last
@@ -80,7 +81,7 @@ class Step extends Component {
         } else {
             return (
                 <h5 className="Step__close">
-                    <T>Step</T> {list.length}: <T>{displayName}</T>
+                    <T>Step</T>: <T>{displayName}</T>
                 </h5>
             )
         }

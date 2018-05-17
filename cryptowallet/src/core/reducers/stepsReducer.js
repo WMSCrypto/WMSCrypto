@@ -22,6 +22,7 @@ import actionTypes from "../actionTypes";
 const initialState = {
     list: [],
     results: {},
+    indexes: {},
     current: null
 };
 
@@ -29,9 +30,14 @@ export default (state=initialState, action) => {
     switch (action.type) {
         case actionTypes.PREVIOUS_STEP:
             const results = {...state.results};
-            results[state.list[state.list.length - 1]] = null;
+            const lastIndex = state.list.length - 1;
+            const current = state.list[lastIndex - 1].name;
+            results[state.list[lastIndex].name] = null;
             return {
-                list: state.list.slice(0, -1)
+                ...state,
+                list: state.list.slice(0, -1),
+                results: results,
+                current: current
             };
         case actionTypes.NEXT_STEP:
             return {
@@ -39,10 +45,14 @@ export default (state=initialState, action) => {
                 current: action.next
             };
         case actionTypes.ADD_STEP:
+            const { list, indexes }  = state;
+            const { name } = action.step;
+            indexes[name] = list.length;
             return {
                 ...state,
-                list: [...state.list, action.step],
-                current: action.step.name
+                list: [...list, action.step],
+                current: action.step.name,
+                indexes: indexes
             };
         case actionTypes.DROP_CURRENT_APP:
             const step = {...state.list.slice(0, 1)[0]};
@@ -50,6 +60,7 @@ export default (state=initialState, action) => {
             step.next = false;
             step.result = null;
             return {
+                ...state,
                 list: [step],
                 results: {},
                 current: step.name

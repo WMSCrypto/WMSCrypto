@@ -1,4 +1,8 @@
 const translates = {
+    "Next": "Далее",
+    "Previous": "Назад",
+    "Step": "Шаг",
+    "Create password": "Создать пароль",
     "Create wallet": "Создать кошелек",
     "Change wallet password": "Изменить пароль",
     "Connect wallet": "Подключить кошелек",
@@ -10,7 +14,7 @@ const translates = {
     "Passwords match and have strong security.": "Пароли совпадают и не входят в топ-100 популярных паролей",
     'Password length must be 8 or more.': "Пароль не может быть короче 8 символов",
     "SAVE_MNEMONICS": "После нажатия кнопки \"Создать кошелек\" Вы увидите QR-ключ, необходимый для проведения операций с кошельком, полученным из фразы для восстановления. Обязательно сохраните его!",
-    "Generate mnemonics": "Создать кошелек",
+    "Generate mnemonics": "Генерация мнемоников",
     "Generated mnemonics to 256-bits entropy": "Фраза для восстановления",
     "Download encrypted mnemonics": "Скачать хранилище ключей",
     "Generate pubkeys": "Продолжить",
