@@ -6,78 +6,46 @@ we self pop from steps.
 When we drop current application state, for first step we drop data and other steps delete.
 All steps must have next structure:
 {
-    name: string (required),
-    first: bool (default false),
-    last: bool (default false),
-    previous: string (default null),
-    next: string (default null),
-    initialData: object (required),
-    data: object (default initialData),
-    controls: bool (default true),
 }
 */
 
 import actionTypes from "../actionTypes";
 
-const initialState = {
-    list: [],
-    results: {},
-    indexes: {},
-    current: null
+const getInitialState = () => {
+    return {
+        components: {},
+        current: null
+    }
 };
 
-export default (state=initialState, action) => {
+export default (state=getInitialState(), action) => {
     switch (action.type) {
         case actionTypes.PREVIOUS_STEP:
-            const results = {...state.results};
-            const lastIndex = state.list.length - 1;
-            const current = state.list[lastIndex - 1].name;
-            results[state.list[lastIndex].name] = null;
+            const previous = state.components[state.current].previous;
             return {
                 ...state,
-                list: state.list.slice(0, -1),
-                results: results,
-                current: current
+                current: previous
             };
         case actionTypes.NEXT_STEP:
-            const index = state.indexes[state.current];
-            if (index !== undefined) {
-                state.list[index].next = action.next
+            if (!state.components[action.next]) {
+                state.components[action.next] = {
+                    result: null,
+                    previous: state.current
+                };
             }
             return {
                 ...state,
                 current: action.next
             };
-        case actionTypes.ADD_STEP:
-            const { list, indexes }  = state;
-            const { name } = action.step;
-            indexes[name] = list.length;
+        case actionTypes.SET_STEP_RESULT:
+            state.components[state.current].result = action.result;
             return {
                 ...state,
-                list: [...list, action.step],
-                current: action.step.name,
-                indexes: indexes
             };
         case actionTypes.DROP_CURRENT_APP:
-            const step = {...state.list.slice(0, 1)[0]};
-            step.data = {...step.initialData};
-            step.next = false;
-            step.result = null;
-            return {
-                ...state,
-                list: [step],
-                results: {},
-                current: step.name
-            };
-        case actionTypes.SET_STEP_RESULT:
-            const res = {...state.results};
-            res[state.current] = action.result;
-            return {
-                ...state,
-                results: res
-            };
+            return getInitialState();
         case actionTypes.SET_APP:
-            return initialState;
+            return getInitialState();
         default:
             return state
     }

@@ -11,8 +11,14 @@ export default {
         RU: 'ru'
     },
     steps: {
-        createPassword: 'crPassword',
-        generateMnemonics: 'genMnemonics',
+        createPassword: {
+            name: 'crPassword',
+            display: 'Create password'
+        },
+        generateMnemonics: {
+            name: 'genMnemonics',
+            display: 'Generate mnemonics'
+        },
         image: 'image',
         askMnemonic: 'askMnemonic'
     }

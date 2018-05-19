@@ -6,7 +6,7 @@ import { messages } from '../assets';
 import T from "../components/T";
 import { sendPut } from '../utils';
 import WalletImageGenerator from "../components/WalletImage/WalletImageGenerator";
-import MnemonicsList from "../components/mnemonics/MnemonicsList";
+import MnemonicsList from "../components/mnemonics/MnemonicsGenerator";
 import define from "../core/define";
 import CreateImage from "../components/CreateImage";
 
@@ -36,13 +36,13 @@ class CreateWallet extends Component {
         const { uuid } = this.props;
         return (
             <div>
-                <CreatePassword disabled={generated}
-                                first={true}
-                                next={define.steps.generateMnemonics}>
-                    <p className="text-muted"><T>{messages.SAVE_MNEMONICS}</T></p>
+                <CreatePassword first={true} next={define.steps.generateMnemonics}>
+                    <p className="text-muted">
+                        <T>{messages.SAVE_MNEMONICS}</T>
+                    </p>
                 </CreatePassword>
                 <MnemonicsList next={define.steps.image}/>
-                <CreateImage next={define.steps.askMnemonic}/>
+                {/*<CreateImage next={define.steps.askMnemonic}/>*/}
                 {generated ? <WalletImageGenerator seed={seed}/> : null}
                 {generated && <AccountsGenerator disabled={!seed || accounts}
                                             hex={seed.hex}

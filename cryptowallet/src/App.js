@@ -9,7 +9,7 @@ import AppSwitcher from "./containers/AppSwitcher";
 import { getOperation } from "./core/actions/operationActions";
 
 const mapStateToProps = (state) => {
-    console.log(state);
+    console.log(state.steps.current, state.steps.components);
     const { check, uuid, application } = state.common;
     return {
         check,

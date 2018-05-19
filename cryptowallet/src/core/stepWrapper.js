@@ -8,7 +8,7 @@ import Card from "../components/Cards/Card";
 
 const mapStateToProps = (state) => {
     return {
-        ...state.steps
+        steps: state.steps
     }
 };
 
@@ -29,51 +29,48 @@ const mapPropsToDispatch = dispatch => {
     }
 };
 
-export default (WrappedComponent) => {
+
+export default (step) => (WrappedComponent) => {
     return connect(mapStateToProps, mapPropsToDispatch)(class extends React.Component {
 
-        componentWillMount() {
-
+        _checkNeedAddStep() {
+            const { first, steps } = this.props;
+            const { name } = step;
+            if (first && Object.keys(steps.components).length === 0) {
+                this.props.nextStep(name)
+            }
         }
 
-        componentDidUpdate(prevProps, prevState) {
+        componentWillMount() {
+            this._checkNeedAddStep()
+        }
 
+        componentDidUpdate(prevProps, prevState, snapShot) {
+            this._checkNeedAddStep(prevProps.steps.current)
         }
 
         render() {
-            const {
-                current,
-                displayName,
-                name,
-                nextStep,
-                previousStep,
-                next,
-                results,
-                previous,
-                first,
-                last,
-                controls,
-            } = this.props;
-            if (current === name) {
+            const { name, display } = step;
+            const { current, components } = this.props.steps;
+            const { controls=true, next, nextStep, previousStep } = this.props;
+            if (current === name && components[name]) {
+                const { result, previous } = components[name];
+                console.log('AAAA', result, name, components[name]);
                 return (
-                    <Card title={<T>{displayName}</T>} blankString={false}>
-                        <WrappedComponent {...this.props}/>
+                    <Card title={<T>{display}</T>} blankString={false}>
+                        <WrappedComponent {...{...this.props, result}}/>
                         <div className="Step_controls">
-                        {controls && !first
-                            ? <PreviousButton onClick={() => previousStep()} disabled={previous}/>
-                            : null
-                        }
-                        {controls && !last
-                            ? <NextButton onClick={() => nextStep(next)} disabled={!results[name]}/>
-                            : null
-                        }
+                            {controls && previous ? <PreviousButton onClick={() => previousStep()}
+                                                                    disabled={!previous}/> : null}
+                            {controls && next ? <NextButton onClick={() => nextStep(next.name)}
+                                                            disabled={!result}/> : null}
                         </div>
                     </Card>
                 )
             } else {
                 return (
                     <h5 className="Step__close">
-                        <T>Step</T>: <T>{displayName}</T>
+                        <T>Step</T>: <T>{display}</T>
                     </h5>
                 )
             }

@@ -37,6 +37,10 @@ const generateSeedObj = ({ password, mnemonics=null, salt=null, anchor=null }) =
     }
 };
 
+const generateMnemonics = () => {
+    return bip39.generateMnemonic(MNEMONICS_BITS)
+};
+
 const generateSeedWithCheckAnchor = (password) => {
     return generateSeedObj({ password, anchor: getAnchor() })
 };
@@ -62,4 +66,5 @@ const generateSeed = (password, seed) => {
 
 export {
     generateSeed,
+    generateMnemonics
 }
