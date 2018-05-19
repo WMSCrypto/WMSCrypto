@@ -1,44 +1,25 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Step from "./Step";
-import { setCurrentStepResult} from "../core/actions/stepsActions";
 import define from "../core/define";
+import { generateSeedObj } from '../core/crypto';
 import WalletImageGenerator from "./WalletImage/WalletImageGenerator";
-
-const steps = define.steps;
-
-
-const mapStateToProps = (state) => {
-    return {
-        result: state.steps.results[steps.image],
-        seed: state.steps.results[steps.generateMnemonics],
-        current: state.steps.current
-    }
-};
-
-const mapPropsToDispatch = dispatch => {
-    return {
-        setResult: (result) => {
-            dispatch(setCurrentStepResult(result))
-        },
-    }
-};
+import stepWrapper from "../core/stepWrapper";
 
 class CreateImage extends Component {
 
-    componentDidUpdate(prevProps, prevState) {
+    componentWillMount() {
+        const { name, getStepResult, setResult } = this.props;
+        if (!getStepResult(name)) {
+            setResult(generateSeedObj({
+                password: getStepResult(define.steps.createPassword),
+                mnemonics: getStepResult(define.steps.generateMnemonics)
+            }))
+        }
     }
 
     render() {
-        const { next, result, seed } = this.props;
-        return (
-            <Step name={steps.image}
-                  next={next}
-                  displayName="Generate image">
-                { seed ? <WalletImageGenerator seed={seed}/> : null}
-            </Step>
-        )
+        const { result } = this.props;
+        return result ? <WalletImageGenerator seed={result}/> : null
     }
 }
 
-export default connect(mapStateToProps, mapPropsToDispatch)(CreateImage);
+export default stepWrapper(define.steps.generateImage)(CreateImage);

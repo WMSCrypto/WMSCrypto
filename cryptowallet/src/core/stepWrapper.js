@@ -6,6 +6,10 @@ import NextButton from "../components/buttons/NextButton";
 import T from "../components/T";
 import Card from "../components/Cards/Card";
 
+const getStepResultFunc = (components) => {
+    return (step) => components[step.name] ? components[step.name].result : null;
+};
+
 const mapStateToProps = (state) => {
     return {
         steps: state.steps
@@ -55,10 +59,12 @@ export default (step) => (WrappedComponent) => {
             const { controls=true, next, nextStep, previousStep } = this.props;
             if (current === name && components[name]) {
                 const { result, previous } = components[name];
-                console.log('AAAA', result, name, components[name]);
                 return (
                     <Card title={<T>{display}</T>} blankString={false}>
-                        <WrappedComponent {...{...this.props, result}}/>
+                        <WrappedComponent {...this.props}
+                                          getStepResult={getStepResultFunc(components)}
+                                          result={result}
+                                          name={name}/>
                         <div className="Step_controls">
                             {controls && previous ? <PreviousButton onClick={() => previousStep()}
                                                                     disabled={!previous}/> : null}

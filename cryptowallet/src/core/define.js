@@ -12,14 +12,17 @@ export default {
     },
     steps: {
         createPassword: {
-            name: 'crPassword',
+            name: 'createPassword',
             display: 'Create password'
         },
         generateMnemonics: {
-            name: 'genMnemonics',
+            name: 'generateMnemonics',
             display: 'Generate mnemonics'
         },
-        image: 'image',
+        generateImage: {
+            name: 'generateImage',
+            display: 'Generate key'
+        },
         askMnemonic: 'askMnemonic'
     }
 }

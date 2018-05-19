@@ -41,8 +41,8 @@ class CreateWallet extends Component {
                         <T>{messages.SAVE_MNEMONICS}</T>
                     </p>
                 </CreatePassword>
-                <MnemonicsList next={define.steps.image}/>
-                {/*<CreateImage next={define.steps.askMnemonic}/>*/}
+                <MnemonicsList next={define.steps.generateImage}/>
+                <CreateImage next={define.steps.askMnemonic}/>
                 {generated ? <WalletImageGenerator seed={seed}/> : null}
                 {generated && <AccountsGenerator disabled={!seed || accounts}
                                             hex={seed.hex}

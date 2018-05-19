@@ -9,6 +9,7 @@ import AppSwitcher from "./containers/AppSwitcher";
 import { getOperation } from "./core/actions/operationActions";
 
 const mapStateToProps = (state) => {
+    console.log(state.common);
     console.log(state.steps.current, state.steps.components);
     const { check, uuid, application } = state.common;
     return {
@@ -45,7 +46,7 @@ class App extends Component {
             return <CryptoFalse/>
         } else {
             return (
-                <div className="container App">
+                <div className="App container" style={{maxWidth: 800}}>
                     <Header/>
                     <AppSwitcher application={application}/>
                 </div>

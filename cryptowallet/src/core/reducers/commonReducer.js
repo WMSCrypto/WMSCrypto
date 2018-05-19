@@ -1,5 +1,5 @@
 import actionTypes from '../actionTypes';
-import { getUUID, cryptoCheck } from "../../utils";
+import { getUUID, cryptoCheck, getAnchor } from "../../utils";
 import { setLang } from "../../utils/translate";
 import define from "../define";
 
@@ -11,7 +11,9 @@ const initialState = {
     data: null,
     uuid: getUUID(),
     check: cryptoCheck(),
-    error: null
+    error: null,
+    anchor: getAnchor(),
+    seed: null
 };
 
 export default (state=initialState, action) => {

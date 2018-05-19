@@ -7,6 +7,7 @@ const MNEMONICS_BITS = 256;
 const WITH_ANCHOR_FLAG = '00';
 const WITHOUT_ANCHOR_FLAG = '01';
 const ANCHOR_SLICE = -8;
+const ANCHOR = getAnchor();
 
 const encryptSeed = (seedHex, password, anchor) => {
     let encrypted;
@@ -20,12 +21,12 @@ const encryptSeed = (seedHex, password, anchor) => {
     return encrypted
 };
 
-const generateSeedObj = ({ password, mnemonics=null, salt=null, anchor=null }) => {
+const generateSeedObj = ({ password, mnemonics=null, salt=null, anchor=ANCHOR }) => {
+    console.log('C0', mnemonics, password, 'C1');
     if (!mnemonics) {
         mnemonics = bip39.generateMnemonic(MNEMONICS_BITS);
     }
     let seedHex;
-
     seedHex = bip39.mnemonicToSeedHex(mnemonics, salt);
 
     const encrypted = encryptSeed(seedHex, password, anchor);
@@ -65,6 +66,7 @@ const generateSeed = (password, seed) => {
 
 
 export {
-    generateSeed,
+    ANCHOR,
+    generateSeedObj,
     generateMnemonics
 }

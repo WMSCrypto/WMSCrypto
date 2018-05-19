@@ -1,8 +1,9 @@
 const translates = {
+    "Generate key": "Генерация ключа",
     "Next": "Далее",
     "Previous": "Назад",
     "Step": "Шаг",
-    "Create password": "Создание пароль",
+    "Create password": "Создание пароля",
     "Create wallet": "Создать кошелек",
     "Change wallet password": "Изменить пароль",
     "Connect wallet": "Подключить кошелек",
