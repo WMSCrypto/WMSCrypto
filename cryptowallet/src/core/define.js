@@ -29,7 +29,8 @@ export default {
         },
         generateXpub: {
             name: 'generateXpub',
-            display: 'Check save mnemonics'
+            display: 'Generation wallets'
         }
-    }
+    },
+    debug: process.env.NODE_ENV === 'development'
 }

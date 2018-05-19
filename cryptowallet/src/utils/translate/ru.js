@@ -1,4 +1,8 @@
 const translates = {
+    "Please enter mnemonic from previous screen by number": "Введите мнемоник с предыдущего экрана под номером",
+    "Check passed": "Проверка пройдена",
+    "Check save mnemonics": "Проверка записанных мнемоников",
+    "Generation wallets": "Генерация кошельков",
     "Generate key": "Генерация ключа",
     "Next": "Далее",
     "Previous": "Назад",

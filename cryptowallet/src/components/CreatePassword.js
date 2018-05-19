@@ -5,7 +5,6 @@ import define from "../core/define";
 import stepWrapper from '../core/stepWrapper';
 
 const PASSWORD_LENGTH = 8;
-const DEV_MODE = process.env.NODE_ENV === 'development';
 
 const validatePassword = (password) => {
     const { warning, suggestions } = zxcvbn(password).feedback;
@@ -35,7 +34,7 @@ class CreatePassword extends Component {
         this.setState(obj, () => {
             const { password, passwordRepeat } = this.state;
             let strong;
-            if (DEV_MODE) {
+            if (define.debug) {
                 strong = true;
             } else {
                 strong = password.length > PASSWORD_LENGTH && !validatePassword(password).join("").length;
