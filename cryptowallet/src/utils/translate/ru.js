@@ -2,7 +2,7 @@ const translates = {
     "Next": "Далее",
     "Previous": "Назад",
     "Step": "Шаг",
-    "Create password": "Создать пароль",
+    "Create password": "Создание пароль",
     "Create wallet": "Создать кошелек",
     "Change wallet password": "Изменить пароль",
     "Connect wallet": "Подключить кошелек",

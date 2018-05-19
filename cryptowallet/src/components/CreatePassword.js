@@ -16,19 +16,18 @@ const validatePassword = (password) => {
     ];
 };
 
-const initialState = {
-    password: '',
-    passwordRepeat: '',
+const getInitialState = ({ result }) => {
+    return {
+        password: result || '',
+        passwordRepeat: result || '',
+    }
 };
 
 class CreatePassword extends Component {
 
     constructor(props) {
         super(props);
-        this.state = initialState
-    }
-
-    componentDidUpdate(prevProps, prevState) {
+        this.state = getInitialState(props)
     }
 
     onChange(obj) {
@@ -48,7 +47,6 @@ class CreatePassword extends Component {
                 setResult(null)
             }
         })
-
     }
 
     render() {
