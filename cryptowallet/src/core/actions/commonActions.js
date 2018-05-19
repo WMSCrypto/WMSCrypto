@@ -14,8 +14,16 @@ const changeApp = (app) => {
     }
 };
 
+const setGlobalLock = (lock) => {
+    return {
+        type: actionTypes.SET_GLOBAL_LOCK,
+        lock
+    }
+};
+
 export {
     changeLanguage,
-    changeApp
+    changeApp,
+    setGlobalLock
 }
 

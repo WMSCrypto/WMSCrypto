@@ -38,9 +38,9 @@ class CreateWallet extends Component {
         return (
             <div>
                 <CreatePassword first={true} next={define.steps.generateMnemonics}>
-                    <p className="text-muted">
+                    <small className="text-muted">
                         <T>{messages.SAVE_MNEMONICS}</T>
-                    </p>
+                    </small>
                 </CreatePassword>
                 <MnemonicsList next={define.steps.askMnemonic}/>
                 <MnemonicCheck next={define.steps.generateImage}/>

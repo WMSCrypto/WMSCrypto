@@ -13,7 +13,8 @@ const initialState = {
     check: cryptoCheck(),
     error: null,
     anchor: getAnchor(),
-    seed: null
+    seed: null,
+    globalLock: false
 };
 
 export default (state=initialState, action) => {
@@ -39,6 +40,11 @@ export default (state=initialState, action) => {
             return {
                 ...state,
                 application: action.application
+            };
+        case actionTypes.SET_GLOBAL_LOCK:
+            return {
+                ...state,
+                globalLock: action.lock
             };
         default:
             return state
