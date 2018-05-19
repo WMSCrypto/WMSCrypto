@@ -3,6 +3,11 @@ import define from "../../core/define";
 import { generateMnemonics } from '../../core/crypto';
 import stepWrapper from '../../core/stepWrapper';
 import T from "../T";
+import './styles/MnemonicsList.css';
+
+const generateList = (result) => {
+    return result.split(' ').map((word, i) => <div key={`mnemonic-id-${i}`}><span className="text-muted">{i+1}.</span> {word}</div>)
+};
 
 class MnemonicsGenerator extends Component {
 
@@ -16,7 +21,7 @@ class MnemonicsGenerator extends Component {
     render() {
         const { result } = this.props;
         return (
-            <p>{ result || <T>Generation ...</T> }</p>
+            <div className="Mnemonics_list">{ result ? generateList(result) : <T>Generation ...</T> }</div>
         )
     }
 }
