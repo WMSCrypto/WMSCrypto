@@ -49,7 +49,7 @@ const Header = ({ application, uuid, lang, goToMainMenu, reloadApplication, chan
                                 {lang === EN ? 'RUS' : 'ENG'}
                         </button>
                     : null}
-                {application && !uuid
+                {application
                     ?   <button type="button"
                                 className="btn btn-danger btn-sm"
                                 onClick={reloadApplication}>
