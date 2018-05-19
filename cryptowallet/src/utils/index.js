@@ -188,6 +188,11 @@ const getUUID = () => {
     return pathArray.length === 2 && pathArray[1].length ? pathArray[1] : null;
 };
 
+const getRandomMnemonicIndex = () => {
+  return Math.floor(Math.random() * Math.floor(24));
+};
+
+
 export {
     getPrivKey,
     hexView,
@@ -206,5 +211,6 @@ export {
     generateSeedWithCheckAnchor,
     MNEMONICS_BITS,
     getUUID,
-    getAnchor
+    getAnchor,
+    getRandomMnemonicIndex
 }

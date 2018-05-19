@@ -23,6 +23,13 @@ export default {
             name: 'generateImage',
             display: 'Generate key'
         },
-        askMnemonic: 'askMnemonic'
+        askMnemonic: {
+            name: 'askMnemonic',
+            display: 'Check save mnemonics'
+        },
+        generateXpub: {
+            name: 'generateXpub',
+            display: 'Check save mnemonics'
+        }
     }
 }

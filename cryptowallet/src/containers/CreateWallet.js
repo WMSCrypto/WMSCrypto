@@ -9,6 +9,7 @@ import WalletImageGenerator from "../components/WalletImage/WalletImageGenerator
 import MnemonicsList from "../components/mnemonics/MnemonicsGenerator";
 import define from "../core/define";
 import CreateImage from "../components/CreateImage";
+import MnemonicCheck from "../components/mnemonics/styles/MnemonicCheck";
 
 class CreateWallet extends Component {
 
@@ -41,8 +42,9 @@ class CreateWallet extends Component {
                         <T>{messages.SAVE_MNEMONICS}</T>
                     </p>
                 </CreatePassword>
-                <MnemonicsList next={define.steps.generateImage}/>
-                <CreateImage next={define.steps.askMnemonic}/>
+                <MnemonicsList next={define.steps.askMnemonic}/>
+                <MnemonicCheck next={define.steps.generateImage}/>
+                <CreateImage next={define.steps.generateXpub}/>
                 {generated ? <WalletImageGenerator seed={seed}/> : null}
                 {generated && <AccountsGenerator disabled={!seed || accounts}
                                             hex={seed.hex}
