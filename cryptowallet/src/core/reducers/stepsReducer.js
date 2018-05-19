@@ -40,6 +40,10 @@ export default (state=initialState, action) => {
                 current: current
             };
         case actionTypes.NEXT_STEP:
+            const index = state.indexes[state.current];
+            if (index !== undefined) {
+                state.list[index].next = action.next
+            }
             return {
                 ...state,
                 current: action.next

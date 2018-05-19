@@ -8,6 +8,7 @@ import { sendPut } from '../utils';
 import WalletImageGenerator from "../components/WalletImage/WalletImageGenerator";
 import MnemonicsList from "../components/mnemonics/MnemonicsList";
 import define from "../core/define";
+import CreateImage from "../components/CreateImage";
 
 class CreateWallet extends Component {
 
@@ -37,10 +38,11 @@ class CreateWallet extends Component {
             <div>
                 <CreatePassword disabled={generated}
                                 first={true}
-                                next={"generateMnemonics"}>
+                                next={define.steps.generateMnemonics}>
                     <p className="text-muted"><T>{messages.SAVE_MNEMONICS}</T></p>
                 </CreatePassword>
                 <MnemonicsList next={define.steps.image}/>
+                <CreateImage next={define.steps.askMnemonic}/>
                 {generated ? <WalletImageGenerator seed={seed}/> : null}
                 {generated && <AccountsGenerator disabled={!seed || accounts}
                                             hex={seed.hex}

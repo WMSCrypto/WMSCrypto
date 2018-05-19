@@ -22,8 +22,7 @@ const mapPropsToDispatch = (dispatch) => {
     }
 };
 
-const OfflineMenu = connect(mapStateToProps, mapPropsToDispatch)
-    (({ changeApp, uuid }) => {
+const OfflineMenu = connect(mapStateToProps, mapPropsToDispatch)(({ changeApp, uuid }) => {
         if (uuid) {
             return <p style={{color: '#ffffff'}}>Data loading...</p>
         }

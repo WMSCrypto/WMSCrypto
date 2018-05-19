@@ -36,9 +36,13 @@ class Step extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { list, current, name, results } = this.props;
+        const { list, current, name } = this.props;
         const lastIndex = list.length - 1;
-        if (lastIndex < 0 || (!results[name] && list[lastIndex].name !== current)) {
+        /*
+        if we set current element as with component property name, next check if we not added this component to list,
+        next we check if last element next field as current component property name.
+        */
+        if (lastIndex < 0 || (name === current && list[lastIndex].name !== name && list[lastIndex].next === name)) {
             this.props.addStep({...this.props, previous: list[lastIndex] && list[lastIndex].name})
         }
     }

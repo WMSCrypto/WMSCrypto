@@ -1,12 +1,12 @@
 import actionTypes from "../actionTypes";
 
 
-const addStep = ({ name, initialData, first, last, previous, data, controls, result }) => {
+const addStep = ({ name, initialData, first, last, previous, data, controls }) => {
     return {
         type: actionTypes.ADD_STEP,
         step: {
             next: null,
-            name, initialData, first, last, previous, data, controls, result
+            name, initialData, first, last, previous, data, controls
         }
     }
 };
