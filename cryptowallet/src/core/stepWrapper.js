@@ -5,6 +5,7 @@ import PreviousButton from "../components/buttons/PreviousButton";
 import NextButton from "../components/buttons/NextButton";
 import T from "../components/T";
 import Card from "../components/Cards/Card";
+import StepIndicator from "../components/steps/StepIndicator";
 
 const getStepResultFunc = (components) => {
     return (step) => components[step.name] ? components[step.name].result : null;
@@ -57,8 +58,9 @@ export default (step) => (WrappedComponent) => {
             const { name, display } = step;
             const { current, components } = this.props.steps;
             const { controls=true, next, nextStep, previousStep } = this.props;
+            const component = components[name];
             if (current === name && components[name]) {
-                const { result, previous } = components[name];
+                const { result, previous } = component;
                 return (
                     <Card title={<T>{display}</T>} blankString={false}>
                         <WrappedComponent {...this.props}
@@ -75,9 +77,11 @@ export default (step) => (WrappedComponent) => {
                 )
             } else {
                 return (
-                    <h5 className="Step__close">
-                        <T>Step</T>: <T>{display}</T>
-                    </h5>
+                    <StepIndicator result={component && component.result}>
+                        <h5 className="Step__close">
+                            <T>{display}</T>
+                        </h5>
+                    </StepIndicator>
                 )
             }
         }
