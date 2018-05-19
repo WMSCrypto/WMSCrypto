@@ -33,7 +33,7 @@ class CreateWallet extends Component {
     }
 
     render() {
-        const { accounts, seed, generated } = this.state;
+        const { accounts } = this.state;
         const { uuid } = this.props;
         return (
             <div>
@@ -45,12 +45,7 @@ class CreateWallet extends Component {
                 <MnemonicsList next={define.steps.askMnemonic}/>
                 <MnemonicCheck next={define.steps.generateImage}/>
                 <CreateImage next={define.steps.generateXpub}/>
-                {generated ? <WalletImageGenerator seed={seed}/> : null}
-                {generated && <AccountsGenerator disabled={!seed || accounts}
-                                            hex={seed.hex}
-                                            uuid={uuid}
-                                            onGenerate={(accounts) => this.setState({accounts})}/>
-                }
+                <AccountsGenerator next={define.steps.saveWallets}/>
                 {accounts && uuid
                     ? <LastStepButton title="Save accounts"
                                       hide={false}

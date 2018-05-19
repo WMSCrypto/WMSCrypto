@@ -12,6 +12,10 @@
     margin: 0;
 }
 
+.AccountGenerator {
+    margin: 8px 0;
+}
+
 .hashString {
     word-break: break-all;
 }

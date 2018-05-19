@@ -30,7 +30,12 @@ export default {
         generateXpub: {
             name: 'generateXpub',
             display: 'Generation wallets'
+        },
+        saveWallets: {
+            name: 'saveWallets',
+            display: 'Save wallets'
         }
+
     },
     debug: process.env.NODE_ENV === 'development'
 }
