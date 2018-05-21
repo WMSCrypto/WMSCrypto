@@ -13,7 +13,8 @@ const getStepResultFunc = (components) => {
 
 const mapStateToProps = (state) => {
     return {
-        steps: state.steps
+        steps: state.steps,
+        online: state.common.uuid
     }
 };
 
@@ -55,9 +56,13 @@ export default (step) => (WrappedComponent) => {
         }
 
         render() {
+            const { onlyOnline, online } = this.props;
+            if (onlyOnline && !online) {
+                return null
+            }
             const { name, display } = step;
             const { current, components } = this.props.steps;
-            const { controls=true, next, nextStep, previousStep } = this.props;
+            const { controls=true, next, nextStep, previousStep, last=false } = this.props;
             const component = components[name];
             if (current === name && components[name]) {
                 const { result, previous } = component;
@@ -70,8 +75,8 @@ export default (step) => (WrappedComponent) => {
                         <div className="Step_controls">
                             {controls && previous ? <PreviousButton onClick={() => previousStep()}
                                                                     disabled={!previous}/> : null}
-                            {controls && next ? <NextButton onClick={() => nextStep(next.name)}
-                                                            disabled={!result}/> : null}
+                            {controls && next && !last ? <NextButton onClick={() => nextStep(next.name)}
+                                                                     disabled={!result}/> : null}
                         </div>
                     </Card>
                 )

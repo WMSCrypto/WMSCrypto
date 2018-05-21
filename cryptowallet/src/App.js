@@ -41,14 +41,14 @@ class App extends Component {
     }
 
     render() {
-        const { check, application } = this.props;
+        const { check, application, uuid } = this.props;
         if (!check) {
             return <CryptoFalse/>
         } else {
             return (
                 <div className="App container" style={{maxWidth: 800}}>
                     <Header/>
-                    <AppSwitcher application={application}/>
+                    <AppSwitcher application={application} uuid={uuid}/>
                 </div>
 
             );

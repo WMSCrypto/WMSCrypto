@@ -5,7 +5,6 @@ import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
 import T from "../components/T";
 import { sendPut } from '../utils';
-import WalletImageGenerator from "../components/WalletImage/WalletImageGenerator";
 import MnemonicsList from "../components/mnemonics/MnemonicsGenerator";
 import define from "../core/define";
 import CreateImage from "../components/CreateImage";
@@ -34,18 +33,16 @@ class CreateWallet extends Component {
 
     render() {
         const { accounts } = this.state;
-        const { uuid } = this.props;
+        const { uuid } = this.props.common;
         return (
             <div>
                 <CreatePassword first={true} next={define.steps.generateMnemonics}>
-                    <small className="text-muted">
-                        <T>{messages.SAVE_MNEMONICS}</T>
-                    </small>
+                    <small className="text-muted"><T>{messages.SAVE_MNEMONICS}</T></small>
                 </CreatePassword>
                 <MnemonicsList next={define.steps.askMnemonic}/>
                 <MnemonicCheck next={define.steps.generateImage}/>
-                <CreateImage next={define.steps.generateXpub}/>
-                <AccountsGenerator next={define.steps.saveWallets}/>
+                <CreateImage next={define.steps.generateXpub} last={!uuid}/>
+                <AccountsGenerator next={define.steps.saveWallets} onlyOnline={true}/>
                 {accounts && uuid
                     ? <LastStepButton title="Save accounts"
                                       hide={false}
