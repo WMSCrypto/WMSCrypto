@@ -10,7 +10,7 @@ const { CW, AW, CWP, MT } = define.apps;
 
 const mapStateToProps = (state) => {
     return {
-        uuid: state.common.uuid
+        uuid: state.common.uuid,
     }
 };
 

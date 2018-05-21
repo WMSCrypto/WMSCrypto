@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { LastStepButton , AccountsGenerator } from '../components';
+import { AccountsGenerator } from '../components';
 import CreatePassword from "../components/CreatePassword";
 import { messages } from '../assets';
 import T from "../components/T";
@@ -9,6 +9,8 @@ import MnemonicsList from "../components/mnemonics/MnemonicsGenerator";
 import define from "../core/define";
 import CreateImage from "../components/CreateImage";
 import MnemonicCheck from "../components/mnemonics/styles/MnemonicCheck";
+import SaveWallets from "../components/results/SaveWallets"
+
 
 class CreateWallet extends Component {
 
@@ -32,7 +34,6 @@ class CreateWallet extends Component {
     }
 
     render() {
-        const { accounts } = this.state;
         const { uuid } = this.props.common;
         return (
             <div>
@@ -43,15 +44,7 @@ class CreateWallet extends Component {
                 <MnemonicCheck next={define.steps.generateImage}/>
                 <CreateImage next={define.steps.generateXpub} last={!uuid}/>
                 <AccountsGenerator next={define.steps.saveWallets} onlyOnline={true}/>
-                {accounts && uuid
-                    ? <LastStepButton title="Save accounts"
-                                      hide={false}
-                                      important={true}
-                                      message={messages.SAVE_WALLETS}
-                                      onClick={this._onSave}/>
-                    : null
-                }
-                <br/>
+                <SaveWallets onlyOnline={true} controls={false} last={true}/>
             </div>
         )
     }

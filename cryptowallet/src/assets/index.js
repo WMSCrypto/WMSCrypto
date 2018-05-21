@@ -12,5 +12,4 @@ const messages = {
 export {
     coins,
     messages,
-    actionToApp
 }

@@ -7,15 +7,18 @@ import Header from './components/Header';
 import CryptoFalse from "./components/information/CryptoFalse";
 import AppSwitcher from "./containers/AppSwitcher";
 import { getOperation } from "./core/actions/operationActions";
+import RequestResult from "./components/results/RequestResult";
 
 const mapStateToProps = (state) => {
     console.log(state.common);
     console.log(state.steps.current, state.steps.components);
-    const { check, uuid, application } = state.common;
+    const { check, uuid, application, error, result } = state.common;
     return {
         check,
         uuid,
-        application
+        application,
+        error,
+        result
     }
 };
 
@@ -41,7 +44,7 @@ class App extends Component {
     }
 
     render() {
-        const { check, application, uuid } = this.props;
+        const { check, application, uuid, error, result } = this.props;
         if (!check) {
             return <CryptoFalse/>
         } else {
@@ -49,6 +52,7 @@ class App extends Component {
                 <div className="App container" style={{maxWidth: 800}}>
                     <Header/>
                     <AppSwitcher application={application} uuid={uuid}/>
+                    <RequestResult error={error} result={result}/>
                 </div>
 
             );
@@ -61,6 +65,8 @@ App.propTypes = {
     uuid: PropTypes.string,
     check: PropTypes.bool,
     onInit: PropTypes.func.isRequired,
+    error: PropTypes.any,
+    result: PropTypes.any
 };
 
 export default connect(mapStateToProps, mapStateToDispatch)(App);

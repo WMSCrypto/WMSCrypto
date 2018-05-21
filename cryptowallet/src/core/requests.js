@@ -24,6 +24,28 @@ const fetchOperation = (uuid, onSuccess, onError) => {
         })
 };
 
+const updateOperation = (uuid, data, onSuccess, onError) => {
+    fetch(`${API_ENDPOINT}/api/operations/${uuid}`,
+        {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({data})
+        })
+        .then(_prepareResult)
+        .then(result => {
+            if (typeof result === 'number') {
+                onError(result)
+            } else {
+                onSuccess(result)
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            onError(err);
+        })
+};
+
 export {
     fetchOperation,
+    updateOperation
 }

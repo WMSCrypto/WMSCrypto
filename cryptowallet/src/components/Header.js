@@ -11,11 +11,13 @@ const SHOW_LANG_MENU = false;
 const { EN, RU } = define.languages;
 
 const mapStateToProps = (state) => {
-    const { lang, application, uuid } = state.common;
+    const { lang, application, uuid, result, error } = state.common;
     return {
         lang,
         application,
-        uuid
+        uuid,
+        result,
+        error
     }
 };
 
@@ -33,8 +35,9 @@ const mapPropsToDispatch = (dispatch) => {
     }
 };
 
-const Header = ({ application, uuid, lang, goToMainMenu, reloadApplication, changeLang }) => {
+const Header = ({ application, uuid, lang, goToMainMenu, reloadApplication, changeLang, result, error }) => {
     const newLang = lang === EN ? RU : EN;
+    const showRestart = !(result || error) && application;
     return (
         <div className="AppHeader">
             <div>
@@ -49,7 +52,7 @@ const Header = ({ application, uuid, lang, goToMainMenu, reloadApplication, chan
                                 {lang === EN ? 'RUS' : 'ENG'}
                         </button>
                     : null}
-                {application
+                {showRestart
                     ?   <button type="button"
                                 className="btn btn-danger btn-sm"
                                 onClick={reloadApplication}>

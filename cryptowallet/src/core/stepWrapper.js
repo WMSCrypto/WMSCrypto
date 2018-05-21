@@ -6,6 +6,7 @@ import NextButton from "../components/buttons/NextButton";
 import T from "../components/T";
 import Card from "../components/Cards/Card";
 import StepIndicator from "../components/steps/StepIndicator";
+import {saveOperationResult} from "./actions/operationActions";
 
 const getStepResultFunc = (components) => {
     return (step) => components[step.name] ? components[step.name].result : null;
@@ -31,6 +32,9 @@ const mapPropsToDispatch = dispatch => {
         },
         setResult: (result) => {
             dispatch(setCurrentStepResult(result))
+        },
+        saveOperationResult: (uuid, data) => {
+            dispatch(saveOperationResult(uuid, data))
         }
     }
 };
@@ -64,14 +68,15 @@ export default (step) => (WrappedComponent) => {
             const { current, components } = this.props.steps;
             const { controls=true, next, nextStep, previousStep, last=false } = this.props;
             const component = components[name];
-            if (current === name && components[name]) {
+            if (current === name && component && !(last && component.result)) {
                 const { result, previous } = component;
                 return (
                     <Card title={<T>{display}</T>} blankString={false}>
                         <WrappedComponent {...this.props}
                                           getStepResult={getStepResultFunc(components)}
                                           result={result}
-                                          name={name}/>
+                                          name={name}
+                                          uuid={online}/>
                         <div className="Step_controls">
                             {controls && previous ? <PreviousButton onClick={() => previousStep()}
                                                                     disabled={!previous}/> : null}

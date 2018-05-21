@@ -42,8 +42,22 @@ const totalNotExistsError = {
     description: 'Return on GET and PUT 404 errors'
 };
 
+const createWalletAndPutError = {
+    request: {
+        action: 'CW',
+        data: {
+            lang: 'en'
+        },
+    },
+    error: {
+        'PUT': 400
+    },
+    description: 'Create wallet and onSave return error'
+};
+
 module.exports = {
     '0': normalCreateWalletRu,
     '1': normalCreateWalletEn,
-    '2': totalNotExistsError
+    '2': totalNotExistsError,
+    '3': createWalletAndPutError
 };

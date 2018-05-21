@@ -1,5 +1,5 @@
 import actionTypes from "../actionTypes";
-import { fetchOperation } from "../requests";
+import { fetchOperation, updateOperation } from "../requests";
 import { changeLanguage } from "./commonActions";
 
 const _getOperationActions = (dispatch) => {
@@ -22,6 +22,22 @@ const _getOperationActions = (dispatch) => {
     return [onSuccess, onError]
 };
 
+const _saveOperationResultActions = (dispatch) => {
+    const onSuccess = (result) => {
+        dispatch({
+            type: actionTypes.SET_RESULT,
+            result: result
+        });
+    };
+    const onError = (error) => {
+        dispatch({
+            type: actionTypes.SET_ERROR,
+            error
+        })
+    };
+    return [onSuccess, onError]
+};
+
 const getOperation = (uuid) => {
     return dispatch => {
         const [onSuccess, onError] = _getOperationActions(dispatch);
@@ -29,6 +45,14 @@ const getOperation = (uuid) => {
     }
 };
 
+const saveOperationResult = (uuid, data) => {
+    return dispatch => {
+        const [onSuccess, onError] = _saveOperationResultActions(dispatch);
+        updateOperation(uuid, data, onSuccess, onError)
+    }
+};
+
 export {
-    getOperation
+    getOperation,
+    saveOperationResult
 }
