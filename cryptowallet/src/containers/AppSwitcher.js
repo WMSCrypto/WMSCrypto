@@ -6,6 +6,7 @@ import ConnectWallet from "./ConnectWallet";
 import ChangeWalletPassword from "./ChangeWalletPassword";
 import MakeTransaction from "./MakeTransaction";
 import MainMenu from "../components/menus/MainMenu";
+import T from "../components/T";
 
 const { CW, AW, CWP, MT, ST } = define.apps;
 
@@ -28,7 +29,15 @@ const AppSwitcher = ({ application, common }) => {
         case ST:
             return null;
         default:
-            return <MainMenu common={common}/>;
+            if (common.result || common.error) {
+                return null
+            }
+
+            if (common.uuid) {
+                return <p style={{color: '#ffffff'}}><T>Data loading</T>...</p>
+            } else {
+                return <MainMenu/>;
+            }
     }
 };
 

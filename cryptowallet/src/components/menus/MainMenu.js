@@ -9,9 +9,7 @@ const OFFLINE_MODE = !window.location.hostname;
 const { CW, AW, CWP, MT } = define.apps;
 
 const mapStateToProps = (state) => {
-    return {
-        uuid: state.common.uuid,
-    }
+    return {}
 };
 
 const mapPropsToDispatch = (dispatch) => {
@@ -22,36 +20,31 @@ const mapPropsToDispatch = (dispatch) => {
     }
 };
 
-const OfflineMenu = connect(mapStateToProps, mapPropsToDispatch)(({ changeApp, uuid }) => {
-        if (uuid) {
-            return <p style={{color: '#ffffff'}}>Data loading...</p>
-        }
-        else {
-            return (
-                <Menu>
-                    <button type="button"
-                            className="btn btn-primary btn-lg"
-                            onClick={() => changeApp(CW)}>
-                        {t('Create wallet')}
-                    </button>
-                    <button type="button"
-                            className="btn btn-light btn-lg"
-                            onClick={() => changeApp(CWP)}>
-                        {t('Change wallet password')}
-                    </button>
-                    <button type="button"
-                            className="btn btn-light btn-lg"
-                            onClick={() => changeApp(AW)}>
-                        {t('Connect wallet')}
-                    </button>
-                    <button type="button"
-                            className="btn btn-light btn-lg"
-                            onClick={() => changeApp(MT)}>
-                        {t('Make transaction')}
-                    </button>
-                </Menu>
-            )
-        }
+const OfflineMenu = connect(mapStateToProps, mapPropsToDispatch)(({ changeApp }) => {
+    return (
+        <Menu>
+            <button type="button"
+                    className="btn btn-primary btn-lg"
+                    onClick={() => changeApp(CW)}>
+                {t('Create wallet')}
+            </button>
+            <button type="button"
+                    className="btn btn-light btn-lg"
+                    onClick={() => changeApp(CWP)}>
+                {t('Change wallet password')}
+            </button>
+            <button type="button"
+                    className="btn btn-light btn-lg"
+                    onClick={() => changeApp(AW)}>
+                {t('Connect wallet')}
+            </button>
+            <button type="button"
+                    className="btn btn-light btn-lg"
+                    onClick={() => changeApp(MT)}>
+                {t('Make transaction')}
+            </button>
+        </Menu>
+    )
 });
 
 const OnlineMenu = () => {

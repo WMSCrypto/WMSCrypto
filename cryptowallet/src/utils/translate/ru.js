@@ -1,4 +1,5 @@
 const translates = {
+    "Data loading": "Загрузка данных",
     "Save wallets": "Сохранение кошельков",
     "Please enter mnemonic from previous screen by number": "Введите мнемоник с предыдущего экрана под номером",
     "Check passed": "Проверка пройдена",

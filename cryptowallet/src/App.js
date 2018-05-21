@@ -10,8 +10,6 @@ import { getOperation } from "./core/actions/operationActions";
 import RequestResult from "./components/results/RequestResult";
 
 const mapStateToProps = (state) => {
-    console.log(state.common);
-    console.log(state.steps.current, state.steps.components);
     const { check, uuid, application, error, result } = state.common;
     return {
         check,
