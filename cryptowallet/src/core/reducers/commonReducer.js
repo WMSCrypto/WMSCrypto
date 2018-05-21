@@ -14,7 +14,8 @@ const initialState = {
     error: null,
     anchor: getAnchor(),
     seed: null,
-    globalLock: false
+    globalLock: false,
+    result: null
 };
 
 export default (state=initialState, action) => {
