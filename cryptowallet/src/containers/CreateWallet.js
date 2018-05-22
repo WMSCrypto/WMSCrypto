@@ -42,7 +42,7 @@ class CreateWallet extends Component {
                 </CreatePassword>
                 <MnemonicsList next={define.steps.askMnemonic}/>
                 <MnemonicCheck next={define.steps.generateImage}/>
-                <CreateImage next={define.steps.generateXpub} last={!uuid}/>
+                <CreateImage next={!!uuid && define.steps.generateXpub}/>
                 <AccountsGenerator next={define.steps.saveWallets} onlyOnline={true}/>
                 <SaveWallets onlyOnline={true} controls={false} last={true}/>
             </div>

@@ -22,7 +22,6 @@ const encryptSeed = (seedHex, password, anchor) => {
 };
 
 const generateSeedObj = ({ password, mnemonics=null, salt=null, anchor=ANCHOR }) => {
-    console.log('C0', mnemonics, password, 'C1');
     if (!mnemonics) {
         mnemonics = bip39.generateMnemonic(MNEMONICS_BITS);
     }
