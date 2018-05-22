@@ -4,6 +4,7 @@ import Menu from "./Menu";
 import { changeApp } from "../../core/actions/commonActions";
 import define from '../../core/define'
 import { t } from '../../utils/translate/index';
+import T from "../T";
 
 const OFFLINE_MODE = !window.location.hostname;
 const { CW, AW, CWP, MT } = define.apps;
@@ -60,6 +61,7 @@ const OnlineMenu = () => {
                     {t('Download offline version')}
                 </a>
             </div>
+            <small className="text-white"><T>Offline version only for PC</T></small>
         </Menu>
     )
 };

@@ -34,7 +34,7 @@ const AppSwitcher = ({ application, common }) => {
             }
 
             if (common.uuid) {
-                return <p style={{color: '#ffffff'}}><T>Data loading</T>...</p>
+                return <p className="text-white"><T>Data loading</T>...</p>
             } else {
                 return <MainMenu/>;
             }
