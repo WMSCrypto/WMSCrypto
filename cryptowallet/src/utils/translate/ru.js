@@ -1,5 +1,5 @@
 const translates = {
-    "Offline version only for PC": "Онлайн версия только для ПК",
+    "Offline version only for PC": "Офлайн версия только для ПК",
     "ERROR": "ОШИБКА",
     "Data loading": "Загрузка данных",
     "Please enter mnemonic from previous screen by number": "Введите мнемоник с предыдущего экрана под номером",
