@@ -10,6 +10,7 @@ import define from "../core/define";
 import CreateImage from "../components/CreateImage";
 import MnemonicCheck from "../components/mnemonics/styles/MnemonicCheck";
 import SaveWallets from "../components/results/SaveWallets"
+import StepCounter from "../components/steps/StepCounter";
 
 
 class CreateWallet extends Component {
@@ -36,7 +37,7 @@ class CreateWallet extends Component {
     render() {
         const { uuid } = this.props.common;
         return (
-            <div>
+            <StepCounter>
                 <CreatePassword first={true} next={define.steps.generateMnemonics}>
                     <small className="text-muted"><T>{messages.SAVE_MNEMONICS}</T></small>
                 </CreatePassword>
@@ -45,7 +46,7 @@ class CreateWallet extends Component {
                 <CreateImage next={!!uuid && define.steps.generateXpub}/>
                 <AccountsGenerator next={define.steps.saveWallets} onlyOnline={true}/>
                 <SaveWallets onlyOnline={true} controls={false} last={true}/>
-            </div>
+            </StepCounter>
         )
     }
 }

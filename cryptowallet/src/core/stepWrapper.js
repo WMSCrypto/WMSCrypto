@@ -65,13 +65,14 @@ export default (step) => (WrappedComponent) => {
                 return null
             }
             const { name, display } = step;
-            const { current, components } = this.props.steps;
+            const { current, components, count, stepNumber } = this.props.steps;
             const { controls=true, next, nextStep, previousStep, last=false } = this.props;
             const component = components[name];
             if (current === name && component && !(last && component.result)) {
                 const { result, previous } = component;
                 return (
-                    <Card title={<T>{display}</T>} blankString={false}>
+                    <Card title={<StepIndicator display={display} count={count} stepNumber={stepNumber}/>}
+                          blankString={false}>
                         <WrappedComponent {...this.props}
                                           getStepResult={getStepResultFunc(components)}
                                           result={result}
@@ -86,13 +87,7 @@ export default (step) => (WrappedComponent) => {
                     </Card>
                 )
             } else {
-                return (
-                    <StepIndicator result={component && component.result}>
-                        <h5 className="Step__close">
-                            <T>{display}</T>
-                        </h5>
-                    </StepIndicator>
-                )
+                return null
             }
         }
     })

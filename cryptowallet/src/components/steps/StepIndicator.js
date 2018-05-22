@@ -1,13 +1,12 @@
 import React from 'react';
 import './styles/StepIndicator.css';
+import T from "../T";
 
-const StepIndicator = ({ result, children }) => {
+const StepIndicator = ({ display, count, stepNumber }) => {
     return (
-        <div className={`StepIndicator ${result ? ' StepIndicator__success' : ''}`}>
-            <div className="StepIndicator_circle"/>
-            <div className="StepIndicator_display">
-                {children}
-            </div>
+        <div className='StepIndicator'>
+            <span className="text-dark"><T>Step</T>: {stepNumber} / {count}.</span>
+            {display ? <span> <T>{display}</T></span> : ''}
         </div>
     )
 };

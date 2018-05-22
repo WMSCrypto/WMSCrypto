@@ -14,7 +14,9 @@ import actionTypes from "../actionTypes";
 const getInitialState = () => {
     return {
         components: {},
-        current: null
+        current: null,
+        count: 0,
+        stepNumber: 0,
     }
 };
 
@@ -24,7 +26,8 @@ export default (state=getInitialState(), action) => {
             const previous = state.components[state.current].previous;
             return {
                 ...state,
-                current: previous
+                current: previous,
+                stepNumber: state.stepNumber - 1
             };
         case actionTypes.NEXT_STEP:
             if (!state.components[action.next]) {
@@ -35,12 +38,18 @@ export default (state=getInitialState(), action) => {
             }
             return {
                 ...state,
-                current: action.next
+                current: action.next,
+                stepNumber: state.stepNumber + 1
             };
         case actionTypes.SET_STEP_RESULT:
             state.components[state.current].result = action.result;
             return {
                 ...state,
+            };
+        case actionTypes.SET_STEPS_COUNT:
+            return {
+                ...state,
+                count: action.count
             };
         case actionTypes.DROP_CURRENT_APP:
             return getInitialState();
