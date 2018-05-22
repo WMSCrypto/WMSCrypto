@@ -52,7 +52,11 @@ export default (state=getInitialState(), action) => {
                 count: action.count
             };
         case actionTypes.DROP_CURRENT_APP:
-            return getInitialState();
+            const newState = getInitialState();
+            return {
+                ...newState,
+                count: state.count,
+            };
         case actionTypes.SET_APP:
             return getInitialState();
         default:
