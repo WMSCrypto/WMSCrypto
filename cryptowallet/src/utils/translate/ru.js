@@ -70,7 +70,7 @@ const translates = {
     "No file selected": "Файл не выбран",
     "Browse...": "Загрузить...",
     "Send transaction": "Отправить транзакцию в сеть",
-
+    "QR-key": "QR-ключ",
     "Generate QR code": "Генерация QR кода",
     "Unlock": "Разблокировать",
     "Locked": "Заблокировано",

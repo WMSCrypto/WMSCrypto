@@ -21,7 +21,7 @@ export default {
         },
         generateImage: {
             name: 'generateImage',
-            display: 'Generate key'
+            display: 'QR-key'
         },
         askMnemonic: {
             name: 'askMnemonic',
