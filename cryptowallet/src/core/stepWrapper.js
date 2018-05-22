@@ -73,6 +73,7 @@ export default (step) => (WrappedComponent) => {
                 return (
                     <Card title={<StepIndicator display={display} count={count} stepNumber={stepNumber}/>}
                           blankString={false}>
+                        <hr/>
                         <WrappedComponent {...this.props}
                                           getStepResult={getStepResultFunc(components)}
                                           result={result}

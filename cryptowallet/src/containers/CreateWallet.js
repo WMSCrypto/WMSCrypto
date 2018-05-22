@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AccountsGenerator } from '../components';
 import CreatePassword from "../components/CreatePassword";
-import { messages } from '../assets';
-import T from "../components/T";
 import { sendPut } from '../utils';
 import MnemonicsList from "../components/mnemonics/MnemonicsGenerator";
 import define from "../core/define";
 import CreateImage from "../components/CreateImage";
-import MnemonicCheck from "../components/mnemonics/styles/MnemonicCheck";
+import MnemonicCheck from "../components/mnemonics/MnemonicCheck";
 import SaveWallets from "../components/results/SaveWallets"
 import StepCounter from "../components/steps/StepCounter";
 
@@ -38,9 +36,7 @@ class CreateWallet extends Component {
         const { uuid } = this.props.common;
         return (
             <StepCounter>
-                <CreatePassword first={true} next={define.steps.generateMnemonics}>
-                    <small className="text-muted"><T>{messages.SAVE_MNEMONICS}</T></small>
-                </CreatePassword>
+                <CreatePassword first={true} next={define.steps.generateMnemonics}/>
                 <MnemonicsList next={define.steps.askMnemonic}/>
                 <MnemonicCheck next={define.steps.generateImage}/>
                 <CreateImage next={!!uuid && define.steps.generateXpub}/>

@@ -25,15 +25,15 @@ export default {
         },
         askMnemonic: {
             name: 'askMnemonic',
-            display: 'Check save mnemonics'
+            display: null
         },
         generateXpub: {
             name: 'generateXpub',
-            display: 'Generation wallets'
+            display: 'Generation public keys'
         },
         saveWallets: {
             name: 'saveWallets',
-            display: 'Save wallets'
+            display: null
         }
 
     },

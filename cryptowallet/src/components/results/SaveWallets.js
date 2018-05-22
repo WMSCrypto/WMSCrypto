@@ -52,7 +52,7 @@ class SaveWallets extends React.Component {
                             className="btn btn-danger"
                             onClick={this._onSave}
                             disabled={!check}>
-                        <T>Save accounts</T>
+                        <T>Create wallet</T>
                     </button>
                 </div>
             </React.Fragment>

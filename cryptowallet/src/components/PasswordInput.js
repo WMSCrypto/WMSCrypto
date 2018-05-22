@@ -12,7 +12,7 @@ const PasswordInput = (props) => {
         <div>
             <div className="form-group">
                 <label htmlFor={id}>
-                    <T>{label}</T>.
+                    <T>{label}</T>
                 </label>
                 <input className={classNames}
                        id={id}

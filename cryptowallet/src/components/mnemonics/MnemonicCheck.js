@@ -1,8 +1,8 @@
 import React from 'react';
-import stepWrapper from "../../../core/stepWrapper";
-import define from "../../../core/define";
-import { getRandomMnemonicIndex } from "../../../utils";
-import T from "../../T";
+import stepWrapper from "../../core/stepWrapper";
+import define from "../../core/define";
+import { getRandomMnemonicIndex } from "../../utils/index";
+import T from "../T";
 
 const _renderAsk = (index) => {
     return (
@@ -38,7 +38,7 @@ class MnemonicCheck extends React.Component {
     }
 
     _onChange(e) {
-        const { value } = e.target;
+        const value = e.target.value.toLowerCase();
         const { setResult } = this.props;
         this.setState({mnemonic: value}, () => {
             setResult(this.state.validMnemonic === value ? value : null);
