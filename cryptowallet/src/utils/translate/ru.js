@@ -55,8 +55,10 @@ const translates = {
     "Nonce": "Номер транзакции",
     "To": "Адрес",
     "Data": "Данные",
+    "Create from file": "Создать из файла",
     "Upload file with transaction data": "Загрузить неподписанную транзакцию",
     "Manual creation": "Собрать вручную",
+    "File is not json or invalid": "Файл не валидный json",
 
 
     "Download offline version": "Скачать офлайн версию",

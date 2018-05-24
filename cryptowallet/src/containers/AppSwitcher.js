@@ -4,9 +4,9 @@ import define from "../core/define";
 import CreateWallet from "./CreateWallet";
 import ConnectWallet from "./ConnectWallet";
 import ChangeWalletPassword from "./ChangeWalletPassword";
-import MakeTransaction from "./MakeTransaction";
 import MainMenu from "../components/menus/MainMenu";
 import T from "../components/T";
+import CreateTransaction from "./CreateTransaction";
 
 const { CW, AW, CWP, MT, ST } = define.apps;
 
@@ -25,7 +25,7 @@ const AppSwitcher = ({ application, common }) => {
         case CWP:
             return <ChangeWalletPassword common={common}/>;
         case MT:
-            return <MakeTransaction common={common}/>;
+            return <CreateTransaction common={common}/>;
         case ST:
             return null;
         default:

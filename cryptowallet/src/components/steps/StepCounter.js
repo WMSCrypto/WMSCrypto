@@ -22,7 +22,10 @@ class StepCounter extends React.Component {
 
     componentWillMount() {
         // Always add +1 because last element never have next attr.
-        const { children } = this.props;
+        let { children } = this.props;
+        if (!children.length) {
+            children = [children];
+        }
         let index = 0;
         let next = children[index].props.next;
         while (next) {

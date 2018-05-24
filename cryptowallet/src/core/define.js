@@ -34,8 +34,11 @@ export default {
         saveWallets: {
             name: 'saveWallets',
             display: null
+        },
+        choiceTransactionSource: {
+            name: 'choiceTransactionSource',
+            display: 'Choice transaction source'
         }
-
     },
     debug: process.env.NODE_ENV === 'development'
 }
