@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import stepWrapper from "../../core/stepWrapper";
 import define from "../../core/define";
 import {fillForm} from "../../core/actions/transactionFormActions";
+import dataToSequence from "./dataToSequence";
 
 const mapStateToProps = (state) => {
     return {
@@ -21,7 +22,7 @@ const mapPropsToDispatch = dispatch => {
 class TransactionForm extends React.Component {
 
     componentWillMount() {
-        const {online} = this.props;
+        const { online } = this.props;
         if (online) {
             this.props.fillForm(this.props.common.data)
         } else {
@@ -32,10 +33,11 @@ class TransactionForm extends React.Component {
         }
     }
 
-
-
     render() {
-        console.log(this.props.trx);
+        const { trx } = this.props;
+        if (trx.fill) {
+            console.log(dataToSequence(trx))
+        }
         return (
             <React.Fragment>
                 <p>Form</p>

@@ -55,16 +55,6 @@ export default {
         test: fieldTests.integer,
         view: fieldViews.valueView
     },
-    'locktime': {
-        name: 'Locktime',
-        def: 0,
-        test: (v) => fieldTests.integer(v) && v >= 0 && v <= 4294967295
-    },
-    'useRBF': {
-        name: 'Use RBF',
-        def: false,
-        test: fieldTests.bool
-    },
     'change:value': {
         name: 'Change',
         def: 0,
@@ -79,5 +69,15 @@ export default {
         name: 'Address',
         def: 0,
         test: fieldTests.integer
-    }
+    },
+    'locktime': {
+        name: 'Locktime',
+        def: 0,
+        test: (v) => fieldTests.integer(v) && v >= 0 && v <= 4294967295
+    },
+    'useRBF': {
+        name: 'Use RBF',
+        def: false,
+        test: fieldTests.bool
+    },
 }

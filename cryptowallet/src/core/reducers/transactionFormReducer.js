@@ -14,22 +14,34 @@ const createField = (v, field) => {
 };
 
 const getResultStore = (fields) => {
+    const resultSequence = {};
     const result = {};
     return {
         set: ({ n=null, pName=null, name, value }) => {
                 const fieldName = pName ? `${pName}:${name}` : name;
                 if (fields[fieldName]) {
                     const key = n !== null ? `#${n}:${fieldName}` : fieldName;
-                    result[key] = createField(value, fields[fieldName])
+                    result[key] = createField(value, fields[fieldName]);
+                    if (n !== null) {
+                        if (!resultSequence[pName]) {
+                            resultSequence[pName] = []
+                        } else {
+                            resultSequence[pName].push(n)
+                        }
+                    }
                 }
-        },
-        get: () => result
+            },
+        get: () => {
+            Object.keys(resultSequence).forEach(k => {
+                resultSequence[k] = resultSequence[k].filter((v, i, a) => a.indexOf(v) === i).sort()
+            });
+            return [result, resultSequence]
+        }
     }
 };
 
 
-const objectToFlat = (obj, fields) => {
-    const resultStore = getResultStore(fields);
+const objectToFlat = (obj, resultStore) => {
     const keys = Object.keys(obj);
     keys.forEach((k) => {
         const current = obj[k];
@@ -51,6 +63,16 @@ const objectToFlat = (obj, fields) => {
 
 };
 
+const getResult = (obj) => {
+    const fields = coinIdToFields[obj.coin];
+    if (fields) {
+        const resultStore = getResultStore(fields);
+        return objectToFlat(obj, resultStore)
+    } else {
+        return [{}, {}]
+    }
+};
+
 const flatToObject = (obj, fields) => {
 
 };
@@ -58,7 +80,10 @@ const flatToObject = (obj, fields) => {
 const getInitialState = () => {
     return {
         dataForm: {},
-        error: null
+        error: null,
+        sequence: {},
+        coin: null,
+        fill: false
     }
 };
 
@@ -66,16 +91,12 @@ export default (state=getInitialState(), action) => {
     switch (action.type) {
         case actionTypes.FILL_TRANSACTION_FORM:
             const { data } = action;
-            const fields = coinIdToFields[data.coin];
-            let dataForm;
-            if (fields) {
-                dataForm = objectToFlat(data, fields)
-            } else {
-                dataForm = {}
-            }
+            const [ dataForm, sequence ] = getResult(data);
             return {
                 dataForm,
-                coin: data.coin
+                sequence,
+                coin: data.coin,
+                fill: true
             };
         case actionTypes.DROP_CURRENT_APP:
             return getInitialState();
