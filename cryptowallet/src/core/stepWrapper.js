@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import { addStep, nextStep, previousStep, setCurrentStepResult } from "./actions/stepsActions";
 import PreviousButton from "../components/buttons/PreviousButton";
 import NextButton from "../components/buttons/NextButton";
-import T from "../components/T";
 import Card from "../components/Cards/Card";
 import StepIndicator from "../components/steps/StepIndicator";
-import {saveOperationResult} from "./actions/operationActions";
+import { saveOperationResult } from "./actions/operationActions";
 
 const getStepResultFunc = (components) => {
     return (step) => components[step.name] ? components[step.name].result : null;
@@ -15,7 +14,8 @@ const getStepResultFunc = (components) => {
 const mapStateToProps = (state) => {
     return {
         steps: state.steps,
-        online: state.common.uuid
+        online: state.common.uuid,
+        common: state.common
     }
 };
 

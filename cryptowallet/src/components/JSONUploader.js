@@ -25,9 +25,8 @@ class JSONUploader extends Component {
                     }
                 });
                 this.setState({invalidMessage: null}, onValid(data))
-
             } catch (e) {
-                this.setState({invalidMessage: 'File is not json or invalid'})
+                this.setState({invalidMessage: 'File is not json or invalid'}, onValid(null))
             }
         };
         reader.readAsText(file)
@@ -41,7 +40,8 @@ class JSONUploader extends Component {
                 <input type="file"
                        className="form-control-file"
                        onChange={this.onChange}
-                       disabled={disabled}/>
+                       disabled={disabled}
+                       accept="application/json"/>
                 {invalidMessage
                     ? <small className="text-danger"><T>{invalidMessage}</T></small>
                     : null

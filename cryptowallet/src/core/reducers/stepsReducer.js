@@ -4,9 +4,6 @@ All component when update props check if last step have next attr true we update
 state and add self to steps. If when update we find in self step previous attr true
 we self pop from steps.
 When we drop current application state, for first step we drop data and other steps delete.
-All steps must have next structure:
-{
-}
 */
 
 import actionTypes from "../actionTypes";

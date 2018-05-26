@@ -38,7 +38,16 @@ export default {
         choiceTransactionSource: {
             name: 'choiceTransactionSource',
             display: 'Choice transaction source'
+        },
+        checkTransaction: {
+            name: 'checkTransaction',
+            display: 'Check data'
         }
+    },
+    methods: {
+        c: 'coin',
+        f: 'file',
+        r: 'request'
     },
     debug: process.env.NODE_ENV === 'development'
 }

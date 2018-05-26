@@ -1,4 +1,6 @@
 const translates = {
+    "Check data": "Проверьте данные",
+    "Choice transaction source": "Выберите способ формирования",
     "Offline version only for PC": "Офлайн версия только для ПК",
     "ERROR": "ОШИБКА",
     "Data loading": "Загрузка данных",

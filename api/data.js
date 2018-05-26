@@ -55,9 +55,50 @@ const createWalletAndPutError = {
     description: 'Create wallet and onSave return error'
 };
 
+const bitcoinTransactionWithChange = {
+    request: {
+        action: 'MT',
+        data: {
+            lang: 'ru',
+            inputs: [
+                {
+                  "prevout_n": 6,
+                  "prevout_hash": "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c",
+                  "account": 0,
+                  "change": 0,
+                  "address": 10,
+                  "value": 100
+                },
+                {
+                  "prevout_n": 0,
+                  "prevout_hash": "7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730",
+                  "account": 0,
+                  "change": 0,
+                  "address": 0,
+                  "value": 200
+                }
+            ],
+            coin: 0,
+            receiver: {
+                address: "19prTTzaBQuLEBTuwYvp4iuYnKg1FL55XG",
+                value: 270
+            },
+            locktime: 0,
+            useRBF: true,
+            change: {
+                value: 10,
+                account: 10,
+                address: 0
+            }
+        },
+    },
+    description: 'Create transaction with change'
+};
+
 module.exports = {
     '0': normalCreateWalletRu,
     '1': normalCreateWalletEn,
     '2': totalNotExistsError,
-    '3': createWalletAndPutError
+    '3': createWalletAndPutError,
+    '4': bitcoinTransactionWithChange
 };

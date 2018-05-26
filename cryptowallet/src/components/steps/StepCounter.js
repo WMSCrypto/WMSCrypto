@@ -28,6 +28,7 @@ class StepCounter extends React.Component {
         }
         let index = 0;
         let next = children[index].props.next;
+        // TODO: check first
         while (next) {
             index++;
             next = children[index].props.next
