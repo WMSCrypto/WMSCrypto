@@ -15,6 +15,16 @@ const renderElement = ({ key, valid, name, view, value }) => {
     )
 };
 
+const renderError = () => {
+    return (
+        <div className="alert alert-danger">
+            <strong className="text-danger">
+                <T>Present invalid fields</T>. <T>You can create transaction in manual mode</T>.
+            </strong>
+        </div>
+    )
+};
+
 const renderComplexElement = ({ name, items, dataForm, view, num, test }) => {
     const props = {};
     const keys = [];
@@ -50,11 +60,7 @@ class FilledTransactionForm extends React.Component {
         // TODO: delete
         return (
             <React.Fragment>
-                { error || trx.error
-                    ? <strong className="text-danger">
-                        <T>Present invalid fields</T>. <T>You can create transaction in manual mode</T>.
-                      </strong>
-                    : null }
+                { error || trx.error ? renderError() : null }
                 { sequence.map(e =>
                     {
                         if (typeof e === 'string') {
