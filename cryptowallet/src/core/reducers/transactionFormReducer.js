@@ -8,8 +8,9 @@ const coinIdToFields = {
 const createField = (v, field) => {
     return {
         'value': v,
-        'valid': field.test(v),
-        'name': field.name
+        'valid': field.test(v) === true,
+        'name': field.name,
+        'view': field.view ? field.view(v) : null
     }
 };
 

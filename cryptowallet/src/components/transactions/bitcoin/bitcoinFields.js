@@ -14,12 +14,12 @@ export default {
         name: 'Change'
     },
     'inputs:prevout_n': {
-        name: 'Previous transaction hash',
+        name: 'Output ID',
         def: '',
         test: fieldTests.integer
     },
     'inputs:prevout_hash': {
-        name: 'Output ID',
+        name: 'Previous transaction hash',
         def: '',
         test: hexTest
     },
@@ -56,7 +56,7 @@ export default {
         view: fieldViews.valueView
     },
     'change:value': {
-        name: 'Change',
+        name: 'Value',
         def: 0,
         test: fieldTests.integer
     },
@@ -78,6 +78,7 @@ export default {
     'useRBF': {
         name: 'Use RBF',
         def: false,
-        test: fieldTests.bool
+        test: fieldTests.bool,
+        view: fieldViews.yesNoView
     },
 }

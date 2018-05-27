@@ -29,7 +29,7 @@ const satoshi = (v) => /^\d+\.{0,1}\d{0,8}$/.test(v);
 
 const oneOrTwo = (v) => {
     const parsed = parseInt(v, 10);
-    if (parsed) {
+    if (parsed !== null) {
         return [0, 1].indexOf(parsed) !== -1
     } else {
         return false

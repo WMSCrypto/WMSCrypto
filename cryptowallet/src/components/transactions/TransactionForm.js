@@ -2,8 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux';
 import stepWrapper from "../../core/stepWrapper";
 import define from "../../core/define";
-import {fillForm} from "../../core/actions/transactionFormActions";
-import dataToSequence from "./dataToSequence";
+import { fillForm } from "../../core/actions/transactionFormActions";
+import ManualTransactionForm from "./ManualTransactionForm";
+import FilledTransactionForm from "./FilledTransactionForm";
 
 const mapStateToProps = (state) => {
     return {
@@ -22,28 +23,34 @@ const mapPropsToDispatch = dispatch => {
 class TransactionForm extends React.Component {
 
     componentWillMount() {
-        const { online } = this.props;
+        const { online, getStepResult } = this.props;
         if (online) {
             this.props.fillForm(this.props.common.data)
         } else {
-            const result = this.props.getStepResult(define.steps.choiceTransactionSource);
+            const result = getStepResult(define.steps.choiceTransactionSource);
             if (result.method === define.methods.f) {
                 this.props.fillForm(result.data)
-            } else {}
+            } else {
+
+            }
         }
     }
 
     render() {
-        const { trx } = this.props;
-        if (trx.fill) {
-            console.log(dataToSequence(trx))
+        const { getStepResult, trx, online } = this.props;
+        const result = getStepResult(define.steps.choiceTransactionSource);
+        if (trx.fill && (online || result)) {
+            return (
+                <React.Fragment>
+                    {online || result.method === define.methods.f
+                        ? <FilledTransactionForm {...this.props}/>
+                        : <ManualTransactionForm {...this.props}/>
+                    }
+                </React.Fragment>
+            )
+        } else {
+            return null
         }
-        return (
-            <React.Fragment>
-                <p>Form</p>
-            </React.Fragment>
-        )
-
     }
 }
 
