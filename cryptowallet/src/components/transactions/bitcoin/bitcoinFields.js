@@ -4,7 +4,7 @@ import fieldViews from "../../../core/fieldViews";
 const hexTest = (v) => fieldTests.hex(v) && v.length === 64;
 
 export default {
-    'input': {
+    'inputs': {
         name: 'Input'
     },
     'receiver': {
