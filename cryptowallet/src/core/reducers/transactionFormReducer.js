@@ -22,6 +22,8 @@ const getResultStore = (fields) => {
                 if (fields[fieldName]) {
                     const key = n !== null ? `#${n}:${fieldName}` : fieldName;
                     result[key] = createField(value, fields[fieldName]);
+                    // If we have n is index of element in array, we store all indexes in object by parent name
+                    // {"parentKey": [0, 0, 0, 1, 1, 1]. I final just get unique and sort.
                     if (n !== null) {
                         if (!resultSequence[pName]) {
                             resultSequence[pName] = []
@@ -42,20 +44,55 @@ const getResultStore = (fields) => {
 
 
 const objectToFlat = (obj, resultStore) => {
+    /* In this function we can prepare javascript object to flat object and save sequence fo array,
+    if present. Why i need do this? Because in this form more simple using in forms, i can check if total form just using
+    check values and update or get form value, just pass one key. Example:
+    Input:
+    {
+        "key1": {
+            "child1": "value1"
+            "child2": "value2"
+        },
+        "key2": "value3",
+        "key3": [
+            {
+                "child4": "value4"
+                "child5": "value5"
+            },
+            {
+                "child4": "value6"
+                "child5": "value7"
+            }
+        ]
+    }
+    Output:
+    {
+        "key1:child1": "value1",
+        "key1:child2": "value2",
+        "key2": "value3",
+        "#0:key3:child4": "value4",
+        "#0:key3:child5": "value5",
+        "#1:key3:child4": "value6",
+        "#1:key3:child5": "value6",
+    }, {"key3": [0, 1]}
+    */
     const keys = Object.keys(obj);
     keys.forEach((k) => {
         const current = obj[k];
         if (Array.isArray(current)) {
             current.forEach((v, i) => {
+                // If we have array key is #elementIndex:parentName:fieldName
                 Object.keys(v).forEach((ck) => {
                     resultStore.set({n: i, pName: k, name: ck, value: current[i][ck]})
                 })
             })
         } else if (typeof current === 'object' && current !== null) {
+            // Key is "parentName:fieldName"
             Object.keys(current).forEach((ck) => {
                 resultStore.set({pName: k, name: ck, value: current[ck]})
             })
         } else {
+            // Key just name
             resultStore.set({value: current, name: k})
         }
     });
