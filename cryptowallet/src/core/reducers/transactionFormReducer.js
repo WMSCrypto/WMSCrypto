@@ -6,11 +6,22 @@ const coinIdToFields = {
 };
 
 const createField = (v, field) => {
-    return {
-        'value': v,
-        'valid': field.test(v) === true,
-        'name': field.name,
-        'view': field.view ? field.view(v) : null
+    if (field) {
+        return {
+            'value': v,
+            'valid': field.test ? field.test(v) === true : false,
+            'name': field.name || 'Unknown',
+            'view': field.view ? field.view(v) : null,
+            'complex': field.complex || null
+        }
+    } else {
+        return {
+            'value': v,
+            'valid': false,
+            'name': 'Unknown',
+            'view': null,
+            'complex': null
+        }
     }
 };
 

@@ -95,10 +95,46 @@ const bitcoinTransactionWithChange = {
     description: 'Create transaction with change'
 };
 
+const bitcoinTransactionWithOutChangeAndWithError = {
+    request: {
+        action: 'MT',
+        data: {
+            lang: 'ru',
+            inputs: [
+                {
+                  "prevout_n": 6,
+                  "prevout_hash": "Some text",
+                  "account": 0,
+                  "change": 0,
+                  "address": 10,
+                  "value": 100
+                },
+                {
+                  "prevout_n": 0,
+                  "prevout_hash": "7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730",
+                  "account": 0,
+                  "change": 0,
+                  "address": 0,
+                  "value": 200
+                }
+            ],
+            coin: 0,
+            receiver: {
+                address: "19prTTzaBQuLEBTuwYvp4iuYnKg1FL55XG",
+                value: 270
+            },
+            locktime: 0,
+            useRBF: true,
+        },
+    },
+    description: 'Create transaction with out change and with error'
+};
+
 module.exports = {
     '0': normalCreateWalletRu,
     '1': normalCreateWalletEn,
     '2': totalNotExistsError,
     '3': createWalletAndPutError,
-    '4': bitcoinTransactionWithChange
+    '4': bitcoinTransactionWithChange,
+    '5': bitcoinTransactionWithOutChangeAndWithError
 };

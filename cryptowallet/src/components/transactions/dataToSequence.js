@@ -9,6 +9,20 @@ const coinToFields = {
     0: bitcoinFields
 };
 
+const pushToResult = (dataForm, result, key, name, num) => {
+    const complex = dataForm[key] && dataForm[key].complex;
+    if (complex) {
+        const lastResult = result[result.length - 1];
+        if (lastResult && lastResult.name === complex.name) {
+            lastResult.items.push({ key, name })
+        } else {
+            result.push({...complex, num, items: [{ key, name }]})
+        }
+    } else {
+        result.push(key)
+    }
+};
+
 export default ({ dataForm, sequence, coin }) => {
     /* This need for control sequence of elements, we store base sequence for form.
     If element of base is string we just push it to array, else we think is object and get parentName,
@@ -70,7 +84,7 @@ export default ({ dataForm, sequence, coin }) => {
                             result.push({name: parentName.name, num: i})
                         }
                         s[key].forEach(v => {
-                            result.push(`#${i}:${key}:${v}`)
+                            pushToResult(dataForm, result, `#${i}:${key}:${v}`, v, i);
                         })
                     })
                 } else {
@@ -78,7 +92,7 @@ export default ({ dataForm, sequence, coin }) => {
                         result.push({name: parentName.name, num: null})
                     }
                     s[key].forEach(v => {
-                        result.push(`${key}:${v}`)
+                        pushToResult(dataForm, result, `${key}:${v}`, v);
                     })
                 }
             }

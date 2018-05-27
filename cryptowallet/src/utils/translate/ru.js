@@ -1,4 +1,5 @@
 const translates = {
+    "Account for change": "Счёт для сдачи",
     "Yes": "Да",
     "No": "Нет",
     "Previous transaction hash": "Хэш предыдущей транзакции",
