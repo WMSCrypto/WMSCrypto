@@ -12,7 +12,6 @@ const createField = (v, field) => {
             'valid': field.test ? field.test(v) === true : false,
             'name': field.name || 'Unknown',
             'view': field.view ? field.view(v) : null,
-            'complex': field.complex || null
         }
     } else {
         return {
@@ -20,7 +19,6 @@ const createField = (v, field) => {
             'valid': false,
             'name': 'Unknown',
             'view': null,
-            'complex': null
         }
     }
 };

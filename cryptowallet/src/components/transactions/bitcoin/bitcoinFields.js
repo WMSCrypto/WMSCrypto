@@ -2,14 +2,18 @@ import fieldTests from "../../../core/fieldTests";
 import fieldViews from "../../../core/fieldViews";
 
 const hexTest = (v) => fieldTests.hex(v) && v.length === 64;
+
+
 const complexWallet = {
     'name': 'Account',
-    'view': (props) => fieldViews.walletView({coin: 0, ...props})
+    'view': (props) => fieldViews.walletView({coin: 0, ...props}),
+    'test': fieldTests.walletTest
 };
 
 const complexWalletChange = {
     'name': 'Account for change',
-    'view': (props) => fieldViews.walletView({coin: 0, change: 1, ...props})
+    'view': (props) => fieldViews.walletView({coin: 0, change: 1, ...props}),
+    'test': fieldTests.walletTest
 };
 
 export default {
@@ -72,18 +76,21 @@ export default {
         def: 0,
         test: fieldTests.integer,
         view: fieldViews.valueView,
+        notRequired: true
     },
     'change:account': {
         name: 'Account',
         def: 0,
         test: fieldTests.integer,
-        complex: complexWalletChange
+        complex: complexWalletChange,
+        notRequired: true
     },
     'change:address': {
         name: 'Address',
         def: 0,
         test: fieldTests.integer,
-        complex: complexWalletChange
+        complex: complexWalletChange,
+        notRequired: true
     },
     'locktime': {
         name: 'Locktime',

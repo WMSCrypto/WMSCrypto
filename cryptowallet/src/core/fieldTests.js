@@ -38,11 +38,14 @@ const oneOrTwo = (v) => {
 
 const bool = (v) => typeof(v) === "boolean";
 
+const walletTest = (v) => /m\/44'\/(0|60)'\/\d+'\/(0|1)\/\d+/.test(v);
+
 export default {
     integer,
     base58,
     hex,
     satoshi,
     oneOrTwo,
-    bool
+    bool,
+    walletTest
 }

@@ -1,4 +1,6 @@
 const translates = {
+    "Complex required error": "Отсутствует обязательный элемент",
+    "Required field": "Обязательное поле",
     "Account for change": "Счёт для сдачи",
     "Yes": "Да",
     "No": "Нет",

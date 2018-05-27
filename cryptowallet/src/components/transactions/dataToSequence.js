@@ -9,17 +9,23 @@ const coinToFields = {
     0: bitcoinFields
 };
 
-const pushToResult = (dataForm, result, key, name, num) => {
-    const complex = dataForm[key] && dataForm[key].complex;
-    if (complex) {
+const pushToResult = (dataForm, result, key, name, num, field) => {
+    const data = dataForm[key];
+    const required = !data && !field['notRequired'];
+    if (field.complex) {
         const lastResult = result[result.length - 1];
-        if (lastResult && lastResult.name === complex.name) {
-            lastResult.items.push({ key, name })
+        const item = { key, name, required };
+        if (lastResult && lastResult.name === field.complex.name) {
+            lastResult.items.push(item)
         } else {
-            result.push({...complex, num, items: [{ key, name }]})
+            result.push({...field.complex, num, items: [item]})
         }
     } else {
-        result.push(key)
+        if (required) {
+            result.push({name: field.name, err: 'Required field'})
+        } else {
+            result.push(key)
+        }
     }
 };
 
@@ -74,25 +80,25 @@ export default ({ dataForm, sequence, coin }) => {
         const result = [];
         seq.forEach(s => {
             if (typeof s === 'string') {
-                result.push(s)
+                pushToResult(dataForm, result, s, null, '-', fields[s]);
             } else {
                 const key = Object.keys(s)[0];
-                const parentName = fields[key];
+                const parent = fields[key];
                 if (sequence[key]) {
                     sequence[key].forEach(i => {
-                        if (parentName) {
-                            result.push({name: parentName.name, num: i})
+                        if (parent) {
+                            result.push({name: parent.name, num: i})
                         }
                         s[key].forEach(v => {
-                            pushToResult(dataForm, result, `#${i}:${key}:${v}`, v, i);
+                            pushToResult(dataForm, result, `#${i}:${key}:${v}`, v, i, fields[`${key}:${v}`]);
                         })
                     })
                 } else {
-                    if (parentName) {
-                        result.push({name: parentName.name, num: null})
+                    if (parent) {
+                        result.push({name: parent.name, num: null})
                     }
                     s[key].forEach(v => {
-                        pushToResult(dataForm, result, `${key}:${v}`, v);
+                        pushToResult(dataForm, result, `${key}:${v}`, v, '-', fields[`${key}:${v}`]);
                     })
                 }
             }

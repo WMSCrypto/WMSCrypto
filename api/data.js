@@ -106,8 +106,14 @@ const bitcoinTransactionWithOutChangeAndWithError = {
                   "prevout_hash": "Some text",
                   "account": 0,
                   "change": 0,
-                  "address": 10,
-                  "value": 100
+                  "address": 'aaaa',
+                },
+                {
+                  "prevout_n": 0,
+                  "prevout_hash": "7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730",
+                  "account": 0,
+                  "change": 0,
+                  "value": 200
                 },
                 {
                   "prevout_n": 0,
