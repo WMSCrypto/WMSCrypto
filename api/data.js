@@ -136,11 +136,25 @@ const bitcoinTransactionWithOutChangeAndWithError = {
     description: 'Create transaction with out change and with error'
 };
 
+const bitcoinTransactionWithoutInputOutput = {
+    request: {
+        action: 'MT',
+        data: {
+            lang: 'ru',
+            coin: 0,
+            locktime: 0,
+            useRBF: true,
+        },
+    },
+    description: 'Create transaction with out any input and output'
+};
+
 module.exports = {
     '0': normalCreateWalletRu,
     '1': normalCreateWalletEn,
     '2': totalNotExistsError,
     '3': createWalletAndPutError,
     '4': bitcoinTransactionWithChange,
-    '5': bitcoinTransactionWithOutChangeAndWithError
+    '5': bitcoinTransactionWithOutChangeAndWithError,
+    '6': bitcoinTransactionWithoutInputOutput
 };

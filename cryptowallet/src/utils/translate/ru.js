@@ -1,4 +1,6 @@
 const translates = {
+    "You can create transaction in manual mode": "Вы можете создать транзакцию в ручном режиме",
+    "Present invalid fields": "Присутствуют неправильно заполенные поля",
     "Complex required error": "Отсутствует обязательный элемент",
     "Required field": "Обязательное поле",
     "Account for change": "Счёт для сдачи",

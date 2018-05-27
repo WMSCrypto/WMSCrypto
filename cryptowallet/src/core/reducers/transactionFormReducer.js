@@ -134,14 +134,20 @@ const getInitialState = () => {
     }
 };
 
+const getValidationError = (dataForm) => {
+    return !Object.values(dataForm).reduce((p, c) => p && c.valid, true)
+};
+
 export default (state=getInitialState(), action) => {
     switch (action.type) {
         case actionTypes.FILL_TRANSACTION_FORM:
             const { data } = action;
             const [ dataForm, sequence ] = getResult(data);
+            const error = getValidationError(dataForm);
             return {
                 dataForm,
                 sequence,
+                error,
                 coin: data.coin,
                 fill: true
             };

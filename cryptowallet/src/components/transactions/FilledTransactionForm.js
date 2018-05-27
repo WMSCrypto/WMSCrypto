@@ -17,7 +17,9 @@ const renderElement = ({ key, valid, name, view, value }) => {
 
 const renderComplexElement = ({ name, items, dataForm, view, num, test }) => {
     const props = {};
+    const keys = [];
     items.forEach(i => {
+        keys.push(i.key);
         const data = dataForm[i.key];
         if (data) {
             props[i.name] = data.value;
@@ -25,8 +27,7 @@ const renderComplexElement = ({ name, items, dataForm, view, num, test }) => {
             props[i.name] = undefined;
         }
     });
-    const keys = Object.keys(props);
-    if (keys.length) {
+    if (Object.keys(props).length) {
         const value = view(props);
         const cKey = md5(keys.join(''));
         return renderElement({ key: cKey, valid: test(value), value , name})
@@ -36,33 +37,47 @@ const renderComplexElement = ({ name, items, dataForm, view, num, test }) => {
 };
 
 class FilledTransactionForm extends React.Component {
+
+    componentWillMount() {
+        const sequence = dataToSequence(this.props.trx);
+        const error = sequence.reduce((p, c) => p || c.err, false);
+        this.setState({ sequence, error })
+    }
+
     render() {
         const { trx } = this.props;
-        const sequence = dataToSequence(trx);
-        console.log(sequence, trx.dataForm)
+        const { sequence, error } = this.state;
+        // TODO: delete
         return (
             <React.Fragment>
-                {sequence.map(e => {
-                    if (typeof e === 'string') {
-                        const data = trx.dataForm[e];
-                        if (data) {
-                            return renderElement({key: e, ...data})
-                        }
-                    } else {
-                        const { name, num, items, err } = e;
-                        if (err) {
-                            return renderElement({valid: false, name, view: errorView(err)})
-                        }
-                        else {
-                            if (items) {
-                                return renderComplexElement({...e, dataForm: trx.dataForm})
-                            } else {
-                                const key = `${name}#${num ? num : ''}`;
-                                return <h3 key={key}><T>{name}</T> {num !== null ? num : ''}</h3>
+                { error || trx.error
+                    ? <strong className="text-danger">
+                        <T>Present invalid fields</T>. <T>You can create transaction in manual mode</T>.
+                      </strong>
+                    : null }
+                { sequence.map(e =>
+                    {
+                        if (typeof e === 'string') {
+                            const data = trx.dataForm[e];
+                            if (data) {
+                                return renderElement({key: e, ...data})
+                            }
+                        } else {
+                            const { name, num, items, err } = e;
+                            if (err) {
+                                return renderElement({valid: false, view: errorView(err), ...e})
+                            }
+                            else {
+                                if (items) {
+                                    return renderComplexElement({...e, dataForm: trx.dataForm})
+                                } else {
+                                    const key = `${name}#${num ? num : ''}`;
+                                    return <h3 key={key}><T>{name}</T> {num !== null ? num : ''}</h3>
+                                }
                             }
                         }
-                    }
-                })}
+                    })
+                }
             </React.Fragment>
         )
     }

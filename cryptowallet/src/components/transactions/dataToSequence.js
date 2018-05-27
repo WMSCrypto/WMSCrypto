@@ -22,7 +22,7 @@ const pushToResult = (dataForm, result, key, name, num, field) => {
         }
     } else {
         if (required) {
-            result.push({name: field.name, err: 'Required field'})
+            result.push({name: field.name, err: 'Required field', key})
         } else {
             result.push(key)
         }
@@ -30,6 +30,7 @@ const pushToResult = (dataForm, result, key, name, num, field) => {
 };
 
 export default ({ dataForm, sequence, coin }) => {
+    // TODO: Need update for complex and required error;
     /* This need for control sequence of elements, we store base sequence for form.
     If element of base is string we just push it to array, else we think is object and get parentName,
     when check if name in sequence get from reducer we just iterate on this array and push element using
