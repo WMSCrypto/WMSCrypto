@@ -1,0 +1,5 @@
+.TrxViewControl {
+    display: flex;
+    justify-content: right;
+    margin: 0 0 8px 0;
+}
