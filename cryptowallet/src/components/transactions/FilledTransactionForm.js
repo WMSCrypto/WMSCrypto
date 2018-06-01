@@ -67,6 +67,8 @@ class FilledTransactionForm extends React.Component {
                             const data = trx.dataForm[e];
                             if (data) {
                                 return renderElement({key: e, ...data})
+                            } else {
+                                return null
                             }
                         } else {
                             const { name, num, items, err } = e;

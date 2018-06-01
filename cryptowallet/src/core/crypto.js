@@ -41,29 +41,6 @@ const generateMnemonics = () => {
     return bip39.generateMnemonic(MNEMONICS_BITS)
 };
 
-const generateSeedWithCheckAnchor = (password) => {
-    return generateSeedObj({ password, anchor: getAnchor() })
-};
-
-const encryptSeedWithCheckAnchor = (text, password) => {
-    return encryptSeed(text, password, getAnchor())
-};
-
-const generateSeed = (password, seed) => {
-    let seedObj;
-    if (seed) {
-        seedObj = {
-            hex: seed,
-            encrypted: encryptSeedWithCheckAnchor(seed, password)
-        }
-    } else {
-        seedObj = generateSeedWithCheckAnchor(password);
-
-    }
-    return seedObj
-};
-
-
 export {
     ANCHOR,
     generateSeedObj,

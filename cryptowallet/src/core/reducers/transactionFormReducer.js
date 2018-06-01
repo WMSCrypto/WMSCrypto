@@ -120,10 +120,6 @@ const getResult = (obj) => {
     }
 };
 
-const flatToObject = (obj, fields) => {
-
-};
-
 const getInitialState = () => {
     return {
         dataForm: {},
