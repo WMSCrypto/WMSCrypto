@@ -14,8 +14,14 @@ const mapStateToProps = (state) => {
     }
 };
 
-const T = ({ lang, children, className }) => {
-    return <span className={className || ''}>{TRANSLATES[lang][children] || children}</span>;
+const T = ({ lang, children, className, space=false, dot=false }) => {
+    return (
+        <span className={className || ''}>
+            {TRANSLATES[lang][children] || children}
+            {dot ? '. ' : ''}
+            {space ? ' ': ''}
+        </span>
+    );
 };
 
 export default connect(mapStateToProps, {})(T);

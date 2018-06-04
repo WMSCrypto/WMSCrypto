@@ -76,21 +76,18 @@ export default {
         def: 0,
         test: fieldTests.integer,
         view: fieldViews.valueView,
-        notRequired: true
     },
     'change:account': {
         name: 'Account',
         def: 0,
         test: fieldTests.integer,
         complex: complexWalletChange,
-        notRequired: true
     },
     'change:address': {
         name: 'Address',
         def: 0,
         test: fieldTests.integer,
         complex: complexWalletChange,
-        notRequired: true
     },
     'locktime': {
         name: 'Locktime',

@@ -5,6 +5,7 @@ import define from "../../core/define";
 import { fillForm } from "../../core/actions/transactionFormActions";
 import ManualTransactionForm from "./ManualTransactionForm";
 import FilledTransactionForm from "./FilledTransactionForm";
+import TransactionSummary from "./TransactionSummary";
 import T from "../T";
 import './styles/TransactionForm.css';
 
@@ -20,6 +21,22 @@ const mapPropsToDispatch = dispatch => {
             dispatch(fillForm(data))
         },
     }
+};
+
+const renderError = (valid, all) => {
+    if (valid && !all.length) {
+        return null
+    }
+
+    return (
+        <div className="alert alert-danger">
+            <strong className="text-danger">
+                {!valid ? <T dot={true}>Present invalid fields</T> : null}
+                {all.map((e, i) => <T key={`all-error-${i}`} dot={true}>{e}</T>)}
+                <T dot={true}>You can create transaction in manual mode</T>
+            </strong>
+        </div>
+    )
 };
 
 class TransactionForm extends React.Component {
@@ -48,25 +65,24 @@ class TransactionForm extends React.Component {
     render() {
         const { getStepResult, trx, online } = this.props;
         const { fullView } = this.state;
+        const { valid, errors } = trx;
         const result = getStepResult(define.steps.choiceTransactionSource);
         if (trx.fill && (online || result)) {
             return (
                 <React.Fragment>
-                    <div className="TrxViewControl">
-                        <div className="btn-group">
-                            <button type="button"
-                                    className="btn btn-secondary btn-sm"
-                                    onClick={() => this.setState({fullView: false})}
-                                    disabled={!fullView}>
-                                <T>Summary</T>
-                            </button>
-                            <button type="button"
-                                    className="btn btn-secondary btn-sm"
-                                    onClick={() => this.setState({fullView: true})}
-                                    disabled={fullView}>
-                                <T>Detail</T>
-                            </button>
+                    {renderError(valid, errors.ALL)}
+                    <div className="TransactionViewControl">
+                        <div className={fullView ? '' : 'active'}
+                             onClick={() => this.setState({fullView: false})}>
+                            <T>Summary</T>
                         </div>
+                        <div className={fullView ? 'active' : ''}
+                             onClick={() => this.setState({fullView: true})}>
+                            <T>Detail</T>
+                        </div>
+                    </div>
+                    <div style={{display: !fullView ? 'block' : 'none'}}>
+                        <TransactionSummary {...this.props}/>
                     </div>
                     <div style={{display: fullView ? 'block' : 'none'}}>
                         {online || result.method === define.methods.f

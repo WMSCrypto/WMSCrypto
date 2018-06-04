@@ -1,4 +1,8 @@
 const translates = {
+    "All fields must be present": "Все поля должны быть указаны",
+    "Inputs must be present": "Должны быть указаны входы",
+    "Receiver must be present": "Должен быть указан получатель",
+    "Other": "Другое",
     "You can create transaction in manual mode": "Вы можете создать транзакцию в ручном режиме",
     "Present invalid fields": "Присутствуют неправильно заполенные поля",
     "Complex required error": "Отсутствует обязательный элемент",
