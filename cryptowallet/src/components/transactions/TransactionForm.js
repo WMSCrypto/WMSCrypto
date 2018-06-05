@@ -39,6 +39,11 @@ const renderError = (valid, all) => {
     )
 };
 
+const coinToName = {
+    0: 'Bitcoin',
+    60: 'Ethereum'
+};
+
 class TransactionForm extends React.Component {
 
     constructor(props) {
@@ -68,8 +73,18 @@ class TransactionForm extends React.Component {
         const { valid, errors } = trx;
         const result = getStepResult(define.steps.choiceTransactionSource);
         if (trx.fill && (online || result)) {
+            const receiver = trx.rawData.receiver;
+            const isTransfer = receiver && receiver.name;
             return (
                 <React.Fragment>
+                    <h3 className={isTransfer ? 'text-primary' : ''}
+                        style={{textAlign: 'center'}}>
+                        <strong>
+                            {coinToName[trx.coin]}
+                            {' '}
+                            {isTransfer ? <T>transfer</T> : <T>transaction</T>}
+                        </strong>
+                    </h3>
                     {renderError(valid, errors.ALL)}
                     <div className="TransactionViewControl">
                         <div className={fullView ? '' : 'active'}

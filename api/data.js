@@ -81,7 +81,8 @@ const bitcoinTransactionWithChange = {
             coin: 0,
             receiver: {
                 address: "19prTTzaBQuLEBTuwYvp4iuYnKg1FL55XG",
-                value: 270
+                value: 270,
+                name: "Ivan Ivanov"
             },
             locktime: 0,
             useRBF: true,

@@ -13,6 +13,15 @@ export default ({ rawData }) => {
             <TransactionField valid={true}
                               name="Receiver"
                               value={receiver ? receiver.address : '???'}/>
+            {receiver && receiver.name
+                ? <span style={{color: '#007bff'}}>
+                    <TransactionField valid={true}
+                                      name="Receiver name"
+                                      value={<strong>{receiver.name}</strong>}/>
+                  </span>
+
+                : null
+            }
             <TransactionField valid={true}
                               name="Value"
                               value={`${fieldViews.valueView(receiverValue)} BTC`}/>

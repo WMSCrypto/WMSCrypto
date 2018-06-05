@@ -41,7 +41,6 @@ export default {
         },
         checkTransaction: {
             name: 'checkTransaction',
-            display: 'Check data'
         }
     },
     methods: {

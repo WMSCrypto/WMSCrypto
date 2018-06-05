@@ -1,4 +1,7 @@
 const translates = {
+    "Receiver name": "Имя получателя",
+    "transaction": "транзакция",
+    "transfer": "перевод",
     "All fields must be present": "Все поля должны быть указаны",
     "Inputs must be present": "Должны быть указаны входы",
     "Receiver must be present": "Должен быть указан получатель",
