@@ -40,8 +40,8 @@ const renderError = (valid, all) => {
 };
 
 const coinToName = {
-    0: 'Bitcoin',
-    60: 'Ethereum'
+    0: 'Bitcoin ',
+    60: 'Ethereum '
 };
 
 class TransactionForm extends React.Component {
@@ -81,7 +81,6 @@ class TransactionForm extends React.Component {
                         style={{textAlign: 'center'}}>
                         <strong>
                             {coinToName[trx.coin]}
-                            {' '}
                             {isTransfer ? <T>transfer</T> : <T>transaction</T>}
                         </strong>
                     </h3>
