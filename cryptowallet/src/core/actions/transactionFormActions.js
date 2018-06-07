@@ -166,6 +166,7 @@ const setForm = ({ value, flatKey, flatData, rawData, strict, coin }) => {
         const newValue = !empty && field.transform ? field.transform(value) : value;
         let update = true;
         if (strict && (field.test || field.testInput)) {
+            console.log(value, newValue)
             const testFunc = field.testInput || field.test;
             update = empty || testFunc(newValue);
         }

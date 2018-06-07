@@ -1,9 +1,7 @@
-import fieldTests from "../../../core/fieldTests";
-import fieldViews from "../../../core/fieldViews";
+import { fieldTests, fieldViews } from "../../../core/fields";
 
 const hexTest = (v) => fieldTests.hex(v) && v.length === 64;
 const prevoutHashInputTest = (v) => fieldTests.hex(v) && v.length <= 64;
-
 
 const complexWallet = {
     'name': 'Account',
@@ -17,16 +15,10 @@ const complexWalletChange = {
     'test': fieldTests.walletTest
 };
 
+const valueTransform = (v) => parseFloat(v) * Math.pow(10, 8);
+const valueInputTest = (v) => /^\d+\.?\d{0,8}$/.test(v);
+
 export default {
-    'inputs': {
-        name: 'Input'
-    },
-    'receiver': {
-        name: 'Output'
-    },
-    'change': {
-        name: 'Change'
-    },
     'inputs:prevout_n': {
         name: 'Output ID',
         def: '',
@@ -61,7 +53,9 @@ export default {
         name: 'Value',
         def: 0,
         test: fieldTests.integer,
-        view: fieldViews.valueView
+        view: fieldViews.valueView,
+        testInput: valueInputTest,
+        transform: valueTransform
     },
     'receiver:address': {
         name: 'Receiver',

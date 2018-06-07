@@ -1,6 +1,6 @@
 import React from 'react';
 import TransactionField from "../TransactionField";
-import fieldViews from "../../../core/fieldViews";
+import fieldViews from "../../../core/fields/fieldsViews";
 
 export default ({ rawData }) => {
     const { inputs, receiver, change } = rawData;

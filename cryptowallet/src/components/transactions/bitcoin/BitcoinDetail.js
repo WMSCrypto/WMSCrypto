@@ -1,7 +1,7 @@
 import React from 'react';
 import TransactionField from "../TransactionField";
 import TransactionSection from "../TransactionSection";
-import fieldViews from "../../../core/fieldViews";
+import fieldViews from "../../../core/fields/fieldsViews";
 
 const INPUT_FIELDS = ['prevout_n', 'prevout_hash', 'account', 'change', 'address', 'value'];
 
