@@ -16,6 +16,13 @@ export default (state=getInitialState(), action) => {
         case actionTypes.FILL_TRANSACTION_FORM:
             const { flatData, rawData, errors, valid, coin } = action;
             return { flatData, rawData, errors, valid, coin, fill: true };
+        case actionTypes.SET_TRANSACTION_FORM:
+            return {
+                ...state,
+                flatData: {...action.flatData},
+                rawData: {...action.rawData},
+                valid: action.valid,
+            };
         case actionTypes.DROP_CURRENT_APP:
             return getInitialState();
         case actionTypes.SET_APP:

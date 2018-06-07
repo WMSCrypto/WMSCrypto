@@ -192,6 +192,9 @@ const getRandomMnemonicIndex = () => {
   return Math.floor(Math.random() * Math.floor(24));
 };
 
+const inputClasses = (valid) => {
+    return ["form-control", !valid ? 'is-invalid' : ''].join(' ')
+};
 
 export {
     getPrivKey,
@@ -212,5 +215,6 @@ export {
     MNEMONICS_BITS,
     getUUID,
     getAnchor,
-    getRandomMnemonicIndex
+    getRandomMnemonicIndex,
+    inputClasses
 }

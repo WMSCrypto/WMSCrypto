@@ -2,6 +2,7 @@ import fieldTests from "../../../core/fieldTests";
 import fieldViews from "../../../core/fieldViews";
 
 const hexTest = (v) => fieldTests.hex(v) && v.length === 64;
+const prevoutHashInputTest = (v) => fieldTests.hex(v) && v.length <= 64;
 
 
 const complexWallet = {
@@ -29,12 +30,14 @@ export default {
     'inputs:prevout_n': {
         name: 'Output ID',
         def: '',
-        test: fieldTests.integer
+        test: fieldTests.integer,
+        transform: (v) => parseInt(v, 10)
     },
     'inputs:prevout_hash': {
         name: 'Previous transaction hash',
         def: '',
-        test: hexTest
+        test: hexTest,
+        testInput: prevoutHashInputTest
     },
     'inputs:account': {
         name: 'Account',

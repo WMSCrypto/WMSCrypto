@@ -14,7 +14,12 @@ const createField = (v, field) => {
     return {
         'value': v,
         'valid': field.test ? field.test(v) === true : false,
-        'view': field && field.view ? field.view(v) : v
+        'view': field && field.view ? field.view(v) : v,
+        'viewFunc': field.view,
+        'test': field.test,
+        'testInput': field.testInput,
+        'transform': field.transform,
+        'name': field.name
     }
 };
 
@@ -126,6 +131,66 @@ const fillForm = (data) => {
     };
 };
 
+const updateData = (flatKey, flatData, rawData, field, value) => {
+    const f = flatData[flatKey];
+    flatData[flatKey] = {
+        ...f,
+        value: value,
+        valid: f.test ? f.test(value) === true : false,
+        view: f && f.viewFunc ? f.viewFunc(value) : value,
+
+    };
+    if (flatKey[0] === '#') {
+        // Pattern #0:key1:key2
+        const [index, key1, key2] = flatKey.split(':');
+        rawData[key1][index.slice(1)][key2] = value;
+    } else {
+        const keys = flatKey.split(':');
+        if (keys.length === 1) {
+            // Pattern key1
+            rawData[flatKey] = value;
+        }
+
+        if (keys.length === 2) {
+            // Pattern key1:key2
+            rawData[keys[0]][keys[1]] = value
+        }
+    }
+    return [flatData, rawData]
+};
+
+const setForm = ({ value, flatKey, flatData, rawData, strict, coin }) => {
+    return dispatch => {
+        let field = flatData[flatKey];
+        const empty = value === '';
+        const newValue = !empty && field.transform ? field.transform(value) : value;
+        let update = true;
+        if (strict && (field.test || field.testInput)) {
+            const testFunc = field.testInput || field.test;
+            update = empty || testFunc(newValue);
+        }
+
+        if (update) {
+            const [ newFlatData, newRawData ] = updateData(
+                flatKey, flatData, rawData, field, newValue
+            );
+            const valid = getValidationError(flatData);
+            dispatch({
+                type: actionTypes.SET_TRANSACTION_FORM,
+                flatData: newFlatData,
+                rawData: newRawData,
+                valid,
+            });
+            dispatch({
+                type: actionTypes.SET_STEP_RESULT,
+                result: valid
+            });
+
+        }
+    }
+};
+
 export {
-    fillForm
+    fillForm,
+    setForm
 }

@@ -72,7 +72,8 @@ class TransactionForm extends React.Component {
         const { fullView } = this.state;
         const { valid, errors } = trx;
         const result = getStepResult(define.steps.choiceTransactionSource);
-        if (trx.fill && (online || result)) {
+        const manual = result && result.method === define.methods.c;
+        if ((trx.fill && (online || result)) || manual) {
             const receiver = trx.rawData.receiver;
             const isTransfer = receiver && receiver.name;
             return (
@@ -80,11 +81,11 @@ class TransactionForm extends React.Component {
                     <h3 className={isTransfer ? 'text-primary' : ''}
                         style={{textAlign: 'center'}}>
                         <strong>
-                            {coinToName[trx.coin]}
+                            {coinToName[trx.coin || result.data]}
                             {isTransfer ? <T>transfer</T> : <T>transaction</T>}
                         </strong>
                     </h3>
-                    {renderError(valid, errors.ALL)}
+                    {!manual && renderError(valid, errors.ALL)}
                     <div className="TransactionViewControl">
                         <div className={fullView ? '' : 'active'}
                              onClick={() => this.setState({fullView: false})}>
@@ -101,7 +102,7 @@ class TransactionForm extends React.Component {
                     <div style={{display: fullView ? 'block' : 'none'}}>
                         {online || result.method === define.methods.f
                             ? <FilledTransactionForm {...this.props}/>
-                            : <ManualTransactionForm {...this.props}/>
+                            : <ManualTransactionForm {...this.props} coin={result.data}/>
                         }
                     </div>
                 </React.Fragment>
