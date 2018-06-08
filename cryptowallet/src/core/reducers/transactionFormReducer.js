@@ -5,7 +5,7 @@ const getInitialState = () => {
         data: {},
         errors: null,
         valid: false,
-        validation: [],
+        validation: {},
         fieldsValues: {},
         coin: null,
         fill: false
@@ -13,16 +13,23 @@ const getInitialState = () => {
 };
 
 export default (state=getInitialState(), action) => {
-    const { validation, fieldsValues } = state;
     switch (action.type) {
         case actionTypes.FILL_TRANSACTION_FORM:
             const { data, errors, valid, coin } = action;
-            return { data, errors, valid, validation, coin, fieldsValues, fill: true };
+            return {
+                data,
+                errors,
+                valid,
+                coin,
+                validation: action.validation,
+                fieldsValues: action.fieldsValues,
+                fill: true
+            };
         case actionTypes.SET_TRANSACTION_FORM:
+            const { validation, fieldsValues } = state;
             const { flatKey } = action;
             validation[flatKey] = action.valid;
             fieldsValues[flatKey] = action.value;
-            console.log('fieldsValues', fieldsValues)
             return {
                 ...state,
                 validation: {...validation},

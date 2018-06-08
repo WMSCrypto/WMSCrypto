@@ -42,6 +42,7 @@ const handledData = (obj, coin) => {
 const fillForm = (data) => {
     return dispatch => {
         const fillResult = handledData(data);
+        console.log(fillResult)
         const errors = coinTo[data.coin].errors(data);
         dispatch({
             type: actionTypes.FILL_TRANSACTION_FORM,
@@ -60,7 +61,6 @@ const fillForm = (data) => {
 const setForm = ({ value, coinField, flatKey }) => {
     return dispatch => {
         const transformed = coinField.transform.input(value);
-        console.log('Transformed', transformed)
         const valid = coinField.test.field(transformed);
         dispatch({
             type: actionTypes.SET_TRANSACTION_FORM,

@@ -115,7 +115,7 @@ export default {
     }),
     'inputs:value': fieldCreator({
         name: 'Value',
-        def: 0,
+        def: '0.00000000',
         fTest: fieldTests.integer,
         iTest: valueInputTest,
         fView: fieldViews.valueView,

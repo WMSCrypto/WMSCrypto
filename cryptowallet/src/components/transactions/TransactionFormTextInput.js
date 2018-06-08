@@ -38,6 +38,7 @@ const _onChange = (changeFunc, e, coinField, flatKey, strict) => {
 
 const TransactionFormTextInput = (props) => {
     const { coin, field, index, validation, fieldsValues, strict } = props;
+    console.log(validation)
     const coinField = coinTo[coin].fields[field];
     const flatKey = index !== null ? `${field}:#${index}`: field;
     const value = fieldsValues[flatKey];
