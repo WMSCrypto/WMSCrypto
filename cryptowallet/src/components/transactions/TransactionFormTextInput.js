@@ -25,7 +25,6 @@ const mapStateToDispatch = dispatch => {
 const _onChange = (changeFunc, e, coinField, flatKey, strict) => {
     let value = e.target.value;
     let update = true;
-    console.log('onChange value', value);
     if (value === undefined) {
         value = '';
     }
@@ -33,7 +32,6 @@ const _onChange = (changeFunc, e, coinField, flatKey, strict) => {
         update = coinField.test.input(value);
     }
     if (update) {
-        console.log('Update', value)
         changeFunc({ value, coinField, flatKey })
     }
 };
@@ -43,9 +41,7 @@ const TransactionFormTextInput = (props) => {
     const coinField = coinTo[coin].fields[field];
     const flatKey = index !== null ? `${field}:#${index}`: field;
     const value = fieldsValues[flatKey];
-    console.log('Input value', value)
     const view = value !== undefined ? coinField.view.input(value) : coinField.def;
-    console.log('Input view', view)
     const onChange = (e) => { _onChange(props.onChange, e, coinField, flatKey, strict) };
     return (
         <div className="form-group">

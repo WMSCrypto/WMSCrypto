@@ -15,8 +15,8 @@ const complexWalletChange = {
     'test': fieldTests.walletTest
 };
 
-const valueTransform = (v) => v !== '' ? parseFloat(v) * Math.pow(10, 8) : '';
-const valueInputTest = (v) => /^\d+\.?\d{0,8}$/.test(v);
+const valueTransform = (v) => v !== '' ? Math.round(parseFloat(v) * Math.pow(10, 8)) : '';
+const valueInputTest = (v) => /^\d*\.?\d{0,8}$/.test(v);
 
 // export default {
 //     'inputs:prevout_n': {
