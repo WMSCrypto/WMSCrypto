@@ -1,14 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import coinTo from "./coinTo";
 import { inputClasses } from "../../utils";
+import { setForm } from "../../core/actions/transactionFormActions";
 import T from "../T";
-import {setForm} from "../../core/actions/transactionFormActions";
 
 const mapStateToProps = (state) => {
-    const { flatData, rawData, coin } = state.trx;
+    const { validation, fieldsValues, data, coin } = state.trx;
     return {
-        flatData,
-        rawData,
+        fieldsValues,
+        validation,
+        data,
         coin
     }
 };
@@ -19,20 +22,51 @@ const mapStateToDispatch = dispatch => {
     }
 };
 
+const _onChange = (changeFunc, e, coinField, flatKey, strict) => {
+    let value = e.target.value;
+    let update = true;
+    console.log('onChange value', value);
+    if (value === undefined) {
+        value = '';
+    }
+    if (value !== '' && strict) {
+        update = coinField.test.input(value);
+    }
+    if (update) {
+        console.log('Update', value)
+        changeFunc({ value, coinField, flatKey })
+    }
+};
+
 const TransactionFormTextInput = (props) => {
-    const { flatData, rawData, flatKey, strict, coin } = props;
-    const value = flatData[flatKey];
-    const onChange = (e) => { props.onChange({
-        value: e.target.value, coin, flatKey, rawData, flatData, strict
-    })};
+    const { coin, field, index, validation, fieldsValues, strict } = props;
+    const coinField = coinTo[coin].fields[field];
+    const flatKey = index !== null ? `${field}:#${index}`: field;
+    const value = fieldsValues[flatKey];
+    console.log('Input value', value)
+    const view = value !== undefined ? coinField.view.input(value) : coinField.def;
+    console.log('Input view', view)
+    const onChange = (e) => { _onChange(props.onChange, e, coinField, flatKey, strict) };
     return (
         <div className="form-group">
-            <label><T>{value.name}</T></label>
-            <input className={inputClasses(value.valid)}
-                   value={value.view}
-                   onChange={onChange}/>
+            <label><T>{coinField.name}</T></label>
+            <input className={inputClasses(validation[flatKey])} value={view} onChange={onChange}/>
         </div>
     )
+};
+
+TransactionFormTextInput.defaultProps = {
+    strict: true,
+    index: null
+};
+
+TransactionFormTextInput.propTypes = {
+    coin: PropTypes.number,
+    field: PropTypes.string,
+    index: PropTypes.number,
+    validation: PropTypes.object,
+    fieldsValues: PropTypes.object,
+    strict: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapStateToDispatch)(TransactionFormTextInput)

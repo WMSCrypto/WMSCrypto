@@ -15,13 +15,8 @@ const getDefaultInput = () => {
 const getDefaultForm = () => {
     return {
         coin: 0,
-        inputs: [
-            getDefaultInput()
-        ],
-        receiver: {
-            address: '',
-            value: 0
-        },
+        inputs: [getDefaultInput()],
+        receiver: {address: '', value: 0},
         locktime: 0,
         useRBF: false
     }
@@ -34,20 +29,16 @@ class BitcoinForm extends React.Component {
     }
 
     render() {
-        const { flatData, rawData, fill } = this.props;
+        const { data, fill } = this.props;
         if (!fill) {
             return null
+        } else {
+            return (
+                <div className="BitcoinFormContainer">
+                    {data.inputs.map((e, i) => <BitcoinInput key={`inputs:#{i}`} n={i}/>)}
+                </div>
+            )
         }
-        console.log(flatData)
-        return (
-            <div className="BitcoinFormContainer">
-                {rawData.inputs.map((e, i) => <BitcoinInput key={`#{i}:inputs`}
-                                                            n={i}
-                                                            flatData={flatData}/>)
-
-                }
-            </div>
-        )
     }
 }
 

@@ -2,11 +2,10 @@ import React from 'react'
 import BitcoinSummary from "./bitcoin/BitcoinSummary";
 
 export default (props) => {
-    const { flatData, rawData, coin } = props.trx;
-    const componentProps = { flatData, rawData };
+    const { data, coin } = props.trx;
     switch (coin) {
         case 0:
-            return <BitcoinSummary {...componentProps}/>;
+            return <BitcoinSummary data={data}/>;
         default:
             return null
     }

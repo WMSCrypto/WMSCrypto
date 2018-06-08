@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import stepWrapper from "../../core/stepWrapper";
-import define from "../../core/define";
-import { fillForm } from "../../core/actions/transactionFormActions";
+import coinTo from "./coinTo";
 import ManualTransactionForm from "./ManualTransactionForm";
 import FilledTransactionForm from "./FilledTransactionForm";
 import TransactionSummary from "./TransactionSummary";
+import stepWrapper from "../../core/stepWrapper";
+import define from "../../core/define";
+import { fillForm } from "../../core/actions/transactionFormActions";
 import T from "../T";
 import './styles/TransactionForm.css';
 
@@ -39,11 +40,6 @@ const renderError = (valid, all) => {
     )
 };
 
-const coinToName = {
-    0: 'Bitcoin ',
-    60: 'Ethereum '
-};
-
 class TransactionForm extends React.Component {
 
     constructor(props) {
@@ -74,14 +70,14 @@ class TransactionForm extends React.Component {
         const result = getStepResult(define.steps.choiceTransactionSource);
         const manual = result && result.method === define.methods.c;
         if ((trx.fill && (online || result)) || manual) {
-            const receiver = trx.rawData.receiver;
+            const receiver = trx.data.receiver;
             const isTransfer = receiver && receiver.name;
             return (
                 <React.Fragment>
                     <h3 className={isTransfer ? 'text-primary' : ''}
                         style={{textAlign: 'center'}}>
                         <strong>
-                            {coinToName[trx.coin || result.data]}
+                            {coinTo[trx.coin || result.data].name}
                             {isTransfer ? <T>transfer</T> : <T>transaction</T>}
                         </strong>
                     </h3>
