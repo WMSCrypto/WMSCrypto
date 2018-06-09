@@ -1,5 +1,6 @@
 import React from 'react';
 import BitcoinInput from "./BitcoinInput";
+import T from "../../T";
 
 const getDefaultInput = () => {
     return {
@@ -24,8 +25,31 @@ const getDefaultForm = () => {
 
 class BitcoinForm extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.addInput = this.addInput.bind(this);
+    }
+
     componentWillMount() {
         this.props.fillForm(getDefaultForm())
+    }
+
+    addInput() {
+        const { data } = this.props;
+        data.inputs.push(getDefaultInput());
+        this.props.fillForm(data)
+    }
+
+    deleteInput(index) {
+
+    }
+
+    addChange() {
+
+    }
+
+    deleteChange() {
+
     }
 
     render() {
@@ -36,7 +60,13 @@ class BitcoinForm extends React.Component {
             return (
                 <div className="BitcoinFormContainer">
                     {data.inputs.map((e, i) => <BitcoinInput key={`inputs:#{i}`} n={i}/>)}
+                    <div>
+                        <button className="btn btn-primary btn-sm" onClick={this.addInput}>
+                            <T>Add input</T>
+                        </button>
+                    </div>
                 </div>
+
             )
         }
     }

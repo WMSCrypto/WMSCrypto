@@ -120,5 +120,23 @@ export default {
         iTest: valueInputTest,
         fView: fieldViews.valueView,
         iTransform: valueTransform
-    })
+    }),
+    'inputs:account': fieldCreator({
+        name: 'Account',
+        def: 0,
+        fTest: fieldTests.integer,
+        iTest: fieldTests.integer,
+    }),
+    'inputs:change': fieldCreator({
+        name: 'Change',
+        def: 0,
+        fTest: fieldTests.integer,
+        iTest: fieldTests.integer,
+    }),
+    'inputs:address': fieldCreator({
+        name: 'Address',
+        def: 0,
+        fTest: fieldTests.integer,
+        iTest: fieldTests.integer,
+    }),
 }

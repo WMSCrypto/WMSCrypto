@@ -1,7 +1,7 @@
 import actionTypes from "../actionTypes";
 import coinTo from "../../components/transactions/coinTo";
 
-const handledData = (obj, coin) => {
+const handledData = (obj) => {
     const fields = coinTo[obj.coin].fields;
     const keys = Object.keys(obj);
     const validation = {};
@@ -42,7 +42,6 @@ const handledData = (obj, coin) => {
 const fillForm = (data) => {
     return dispatch => {
         const fillResult = handledData(data);
-        console.log(fillResult)
         const errors = coinTo[data.coin].errors(data);
         dispatch({
             type: actionTypes.FILL_TRANSACTION_FORM,

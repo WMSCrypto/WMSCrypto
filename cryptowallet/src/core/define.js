@@ -41,6 +41,10 @@ export default {
         },
         checkTransaction: {
             name: 'checkTransaction',
+        },
+        unlockKey: {
+            name: 'unlockKey',
+            display: 'Unlock key'
         }
     },
     methods: {
