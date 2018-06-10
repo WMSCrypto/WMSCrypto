@@ -2,13 +2,15 @@ import React from 'react';
 import T from "../../T";
 import TransactionFormTextInput from "../TransactionFormTextInput";
 import TransactionFormSelectInput from "../TransactionFormSelectInput";
+import TransactionDeleteInputGroup from "../TransactionDeleteInputGroup";
 
 const BitcoinInput = (props) => {
-    const { n } = props;
+    const { n, viewN, onDelete } = props;
     return (
         <div className="BitcoinInput">
-            <div>
-                <h5><strong><T>Input</T> {props.n}</strong></h5>
+            <div className="TransactionInputGroupHeader">
+                <h5><strong><T>Input</T> {viewN}</strong></h5>
+                {n !== 0 ? <TransactionDeleteInputGroup onDelete={onDelete}/> : null}
             </div>
             <TransactionFormTextInput field='inputs:prevout_n' index={n}/>
             <TransactionFormTextInput field='inputs:prevout_hash' index={n}/>

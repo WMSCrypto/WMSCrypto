@@ -1,4 +1,5 @@
 const translates = {
+    "Delete": "Удалить",
     "Receiver name": "Имя получателя",
     "transaction": "транзакция",
     "transfer": "перевод",

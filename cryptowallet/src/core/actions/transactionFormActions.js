@@ -17,10 +17,12 @@ const handledData = (obj) => {
         const current = obj[k];
         if (Array.isArray(current)) {
             current.forEach((v, i) => {
-                // If we have array key is parentName:#elementIndex:fieldName
-                Object.keys(v).forEach((ck) => {
-                    update(`${k}:${ck}`, `${k}:${ck}:#${i}`, current[i][ck]);
-                })
+                // If we have array key is parentName:fieldName:#elementIndex
+                if (v !== null) {
+                    Object.keys(v).forEach((ck) => {
+                        update(`${k}:${ck}`, `${k}:${ck}:#${i}`, current[i][ck]);
+                    })
+                }
             })
         } else if (typeof current === 'object' && current !== null) {
             // Key is "parentName:fieldName"
@@ -74,7 +76,17 @@ const setForm = ({ value, coinField, flatKey }) => {
     }
 };
 
+const deleteFormGroup = ({ groupName, index=null }) => {
+    return {
+        type: actionTypes.DEL_TRANSACTION_FORM_GROUP,
+        groupName,
+        index
+    }
+};
+
+
 export {
     fillForm,
-    setForm
+    setForm,
+    deleteFormGroup
 }

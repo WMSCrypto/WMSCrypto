@@ -6,7 +6,7 @@ import FilledTransactionForm from "./FilledTransactionForm";
 import TransactionSummary from "./TransactionSummary";
 import stepWrapper from "../../core/stepWrapper";
 import define from "../../core/define";
-import { fillForm } from "../../core/actions/transactionFormActions";
+import { fillForm, deleteFormGroup } from "../../core/actions/transactionFormActions";
 import T from "../T";
 import './styles/TransactionForm.css';
 
@@ -21,6 +21,9 @@ const mapPropsToDispatch = dispatch => {
         fillForm: (data) => {
             dispatch(fillForm(data))
         },
+        deleteFormGroup: (data) => {
+            dispatch(deleteFormGroup(data))
+        }
     }
 };
 
@@ -93,7 +96,7 @@ class TransactionForm extends React.Component {
                         </div>
                     </div>
                     <div style={{display: !fullView ? 'block' : 'none'}}>
-                        <TransactionSummary {...this.props}/>
+                        {/*<TransactionSummary {...this.props}/>*/}
                     </div>
                     <div style={{display: fullView ? 'block' : 'none'}}>
                         {online || result.method === define.methods.f

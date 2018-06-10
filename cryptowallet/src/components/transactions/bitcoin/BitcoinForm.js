@@ -2,6 +2,7 @@ import React from 'react';
 import BitcoinInput from "./BitcoinInput";
 import T from "../../T";
 
+
 const getDefaultInput = () => {
     return {
         prevout_n: '',
@@ -41,7 +42,7 @@ class BitcoinForm extends React.Component {
     }
 
     deleteInput(index) {
-
+        this.props.deleteFormGroup({groupName: 'inputs', index})
     }
 
     addChange() {
@@ -52,6 +53,21 @@ class BitcoinForm extends React.Component {
 
     }
 
+    renderInputs({ inputs })  {
+        let viewIndex = -1;
+        return inputs.map((e, i) => {
+            if (e !== null) {
+                viewIndex++;
+                return (
+                    <BitcoinInput key={`inputs:#${i}`} n={i} viewN={viewIndex}
+                                  onDelete={() => this.deleteInput(i)}/>
+                )
+            } else {
+                return e
+            }
+        })
+    }
+
     render() {
         const { data, fill } = this.props;
         if (!fill) {
@@ -59,7 +75,7 @@ class BitcoinForm extends React.Component {
         } else {
             return (
                 <div className="BitcoinFormContainer">
-                    {data.inputs.map((e, i) => <BitcoinInput key={`inputs:#{i}`} n={i}/>)}
+                    {this.renderInputs(data)}
                     <div>
                         <button className="btn btn-primary btn-sm" onClick={this.addInput}>
                             <T>Add input</T>

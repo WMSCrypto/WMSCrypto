@@ -2,6 +2,9 @@ import React from 'react'
 import T from "../../T";
 
 const checkAllPresent = (data, required) => {
+    if (data === null) {
+        return null
+    }
     const error = required.reduce((p, c) => (p || data[c] === undefined), false);
     if (error) {
         return <span><T>All fields must be present</T> ({required.join(', ')})</span>

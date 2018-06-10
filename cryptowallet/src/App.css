@@ -169,6 +169,10 @@
     background-size: 8px 10px;
 }
 
+.pointerHover:hover {
+    cursor: pointer;
+}
+
 @media (max-width: 500px) {
     .App h1 {
         font-size: 24px;

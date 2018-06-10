@@ -3,8 +3,8 @@ import BitcoinForm from './bitcoin/BitcoinForm';
 
 const ManualTransactionForm = (props) => {
     const { data, fill } = props.trx;
-    const { coin, fillForm } = props;
-    const componentProps = { data, fillForm, fill, coin };
+    const { coin, fillForm, deleteFormGroup } = props;
+    const componentProps = { data, fillForm, deleteFormGroup, fill, coin };
     switch (coin) {
         case 0:
             return <BitcoinForm {...componentProps}/>;
