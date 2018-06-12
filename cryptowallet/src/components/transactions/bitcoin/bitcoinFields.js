@@ -183,7 +183,6 @@ export default {
         name: 'Use RBF',
         def: false,
         fTest: fieldTests.bool,
-        iTest: (v) => ['yes', 'no'].indexOf(v) !== -1,
-        iView: fieldViews.yesNoView
+        iTest: fieldTests.bool,
     })
 }
