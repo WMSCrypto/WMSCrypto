@@ -1,7 +1,10 @@
 import React from 'react';
 import BitcoinInput from "./BitcoinInput";
+import BitcoinOutput from "./BitcoinOutput";
 import T from "../../T";
-
+import '../styles/BitconForm.css';
+import BitcoinChange from "./BitcoinChange";
+import BitcoinOther from "./BitcoinOther";
 
 const getDefaultInput = () => {
     return {
@@ -29,6 +32,8 @@ class BitcoinForm extends React.Component {
     constructor(props) {
         super(props);
         this.addInput = this.addInput.bind(this);
+        this.addChange = this.addChange.bind(this);
+        this.deleteChange = this.deleteChange.bind(this);
     }
 
     componentWillMount() {
@@ -46,11 +51,19 @@ class BitcoinForm extends React.Component {
     }
 
     addChange() {
-
+        const { data } = this.props;
+        this.props.fillForm({
+            ...data,
+            change: {
+                value: 0,
+                account: 0,
+                address: 0
+            }
+        })
     }
 
     deleteChange() {
-
+        this.props.deleteFormGroup({groupName: 'change'})
     }
 
     renderInputs({ inputs })  {
@@ -68,6 +81,20 @@ class BitcoinForm extends React.Component {
         })
     }
 
+    renderChange() {
+        if (!this.props.data.change) {
+            return (
+                <div className="BitcoinAddBtn">
+                    <button className="btn btn-primary btn-sm" onClick={this.addChange}>
+                        <T>Add change</T>
+                    </button>
+                </div>
+            )
+        } else {
+            return <BitcoinChange onDelete={this.deleteChange}/>
+        }
+    }
+
     render() {
         const { data, fill } = this.props;
         if (!fill) {
@@ -76,11 +103,14 @@ class BitcoinForm extends React.Component {
             return (
                 <div className="BitcoinFormContainer">
                     {this.renderInputs(data)}
-                    <div>
+                    <div className="BitcoinAddBtn">
                         <button className="btn btn-primary btn-sm" onClick={this.addInput}>
                             <T>Add input</T>
                         </button>
                     </div>
+                    <BitcoinOutput/>
+                    {this.renderChange()}
+                    <BitcoinOther/>
                 </div>
 
             )

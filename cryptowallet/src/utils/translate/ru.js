@@ -1,4 +1,8 @@
 const translates = {
+    "Add input": "Добавить вход",
+    "Add change": "Добавить сдачу",
+    "Show": "Показать",
+    "Hide": "Скрыть",
     "Delete": "Удалить",
     "Receiver name": "Имя получателя",
     "transaction": "транзакция",

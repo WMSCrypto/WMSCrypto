@@ -139,4 +139,51 @@ export default {
         fTest: fieldTests.integer,
         iTest: fieldTests.integer,
     }),
+    'receiver:address': fieldCreator({
+        name: 'Receiver',
+        def: '',
+        fTest: fieldTests.base58,
+        iTest: (v) =>  /^[1-9a-km-zA-HJ-NP-Z]*$/.test(v)
+    }),
+    'receiver:value': fieldCreator({
+        name: 'Value',
+        def: '0.00000000',
+        fTest: fieldTests.integer,
+        iTest: valueInputTest,
+        fView: fieldViews.valueView,
+        iTransform: valueTransform
+    }),
+    'change:value': fieldCreator({
+        name: 'Value',
+        def: '0.00000000',
+        fTest: fieldTests.integer,
+        iTest: valueInputTest,
+        fView: fieldViews.valueView,
+        iTransform: valueTransform
+    }),
+    'change:account': fieldCreator({
+        name: 'Account',
+        def: 0,
+        fTest: fieldTests.integer,
+        iTest: fieldTests.integer,
+    }),
+    'change:address': fieldCreator({
+        name: 'Address',
+        def: 0,
+        fTest: fieldTests.integer,
+        iTest: fieldTests.integer,
+    }),
+    'locktime': fieldCreator({
+        name: 'Locktime',
+        def: 0,
+        fTest: (v) => fieldTests.integer(v) && v >= 0 && v <= 4294967295,
+        iTest: (v) => fieldTests.integer(v) && v >= 0 && v <= 4294967295
+    }),
+    'useRBF': fieldCreator({
+        name: 'Use RBF',
+        def: false,
+        fTest: fieldTests.bool,
+        iTest: (v) => ['yes', 'no'].indexOf(v) !== -1,
+        iView: fieldViews.yesNoView
+    })
 }

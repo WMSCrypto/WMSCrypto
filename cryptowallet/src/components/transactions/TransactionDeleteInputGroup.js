@@ -1,14 +1,13 @@
 import React from 'react';
 import T from "../T";
 
-const TransactionDeleteInputGroup = (props) => {
+const TransactionDeleteInputGroup = ({ onDelete }) => {
     return (
-        <div>
-            <button className="btn btn-outline-danger btn-sm" onClick={props.onDelete}>
+        <div className="TransactionDeleteInputGroup">
+            <button className="btn btn-outline-danger btn-sm" onClick={onDelete}>
                 <T>Delete</T>
             </button>
         </div>
-
     )
 };
 

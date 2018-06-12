@@ -33,7 +33,9 @@ const handledData = (obj) => {
             update(k, k, current);
         }
     });
-
+    console.log('---FILL START---')
+    console.log(validation, fieldsValues)
+    console.log('---FILL END---')
     return {
         valid: Object.values(validation).reduce((p, c) => p && c, true),
         validation,

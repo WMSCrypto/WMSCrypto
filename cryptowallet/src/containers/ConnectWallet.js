@@ -24,7 +24,7 @@ class ConnectWallet extends Component {
 
     _toggleVisible() {
         const { visible } = this.state;
-        this.setState({ visible: !visible })
+        this.setState({ collapse: !visible })
     }
 
     _changeMnemonic({ target }) {
