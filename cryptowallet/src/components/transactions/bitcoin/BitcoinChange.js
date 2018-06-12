@@ -2,13 +2,13 @@ import React from 'react';
 import T from "../../T";
 import TransactionFormTextInput from "../TransactionFormTextInput";
 import TransactionInputGroupHeader from "../TransactionInputGroupHeader";
-import TransactionDeleteInputGroup from "../TransactionDeleteInputGroup";
+import TransactionInputGroupDelete from "../TransactionInputGroupDelete";
 
 const BitcoinChange = ({ onDelete }) => {
     return (
         <TransactionInputGroupHeader title={<T>Change</T>}>
             <div className="BitcoinChange">
-                <TransactionDeleteInputGroup onDelete={onDelete}/>
+                <TransactionInputGroupDelete onDelete={onDelete}/>
                 <TransactionFormTextInput field='change:value'/>
                 <div className="row">
                     <div className="col-sm-4">

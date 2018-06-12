@@ -3,14 +3,14 @@ import T from "../../T";
 import TransactionFormTextInput from "../TransactionFormTextInput";
 import TransactionFormSelectInput from "../TransactionFormSelectInput";
 import TransactionInputGroupHeader from "../TransactionInputGroupHeader";
-import TransactionDeleteInputGroup from "../TransactionDeleteInputGroup";
+import TransactionInputGroupDelete from "../TransactionInputGroupDelete";
 
 const BitcoinInput = (props) => {
     const { n, viewN, onDelete } = props;
     return (
         <TransactionInputGroupHeader title={<span><T>Input</T> {viewN}</span>}>
             <div className="BitcoinInput">
-                    {n !== 0 ? <TransactionDeleteInputGroup onDelete={onDelete}/> : null}
+                    {n !== 0 ? <TransactionInputGroupDelete onDelete={onDelete}/> : null}
                     <TransactionFormTextInput field='inputs:prevout_n' index={n}/>
                     <TransactionFormTextInput field='inputs:prevout_hash' index={n}/>
                     <div className="row">

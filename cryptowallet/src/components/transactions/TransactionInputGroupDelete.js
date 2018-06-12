@@ -1,7 +1,7 @@
 import React from 'react';
 import T from "../T";
 
-const TransactionDeleteInputGroup = ({ onDelete }) => {
+const TransactionInputGroupDelete = ({ onDelete }) => {
     return (
         <div className="TransactionDeleteInputGroup">
             <button className="btn btn-outline-danger btn-sm" onClick={onDelete}>
@@ -11,4 +11,4 @@ const TransactionDeleteInputGroup = ({ onDelete }) => {
     )
 };
 
-export default TransactionDeleteInputGroup
+export default TransactionInputGroupDelete
