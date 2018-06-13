@@ -30,7 +30,7 @@ class WalletImageLocker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            unlock: false,
+            unlock: !!props.seed || false ,
             error: false,
             password: '',
         };
@@ -76,7 +76,7 @@ class WalletImageLocker extends Component {
 
     render() {
         const { encryptedString, seed } = this.props;
-        if (!encryptedString) {
+        if (!encryptedString && !seed) {
             return null
         }
 

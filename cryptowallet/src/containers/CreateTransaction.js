@@ -3,6 +3,7 @@ import StepCounter from "../components/steps/StepCounter";
 import ChoiceTransactionSource from '../components/transactions/ChoiceTransactionSource';
 import define from "../core/define";
 import TransactionForm from "../components/transactions/TransactionForm";
+import WalletImageReader from "../components/WalletImage/WalletImageReader";
 
 
 class CreateTransaction extends React.Component {
@@ -12,7 +13,8 @@ class CreateTransaction extends React.Component {
         return (
             <StepCounter>
                 <ChoiceTransactionSource first={!uuid} next={define.steps.checkTransaction}/>
-                <TransactionForm first={!!uuid} next={null}/>
+                <TransactionForm first={!!uuid} next={define.steps.unlockKey}/>
+                <WalletImageReader next={null}/>
             </StepCounter>
 
         )
