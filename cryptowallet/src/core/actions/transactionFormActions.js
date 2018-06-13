@@ -1,6 +1,12 @@
 import actionTypes from "../actionTypes";
 import coinTo from "../../components/transactions/coinTo";
 
+const checkTrueValues = (obj) => Object.values(obj).reduce((p, c) => p && c, true);
+
+const flatToData = (obj, coin) => {
+    let data = {};
+};
+
 const handledData = (obj) => {
     const fields = coinTo[obj.coin].fields;
     const keys = Object.keys(obj);
@@ -33,11 +39,8 @@ const handledData = (obj) => {
             update(k, k, current);
         }
     });
-    console.log('---FILL START---')
-    console.log(validation, fieldsValues)
-    console.log('---FILL END---')
     return {
-        valid: Object.values(validation).reduce((p, c) => p && c, true),
+        valid: checkTrueValues(validation),
         validation,
         fieldsValues
     }
@@ -61,10 +64,11 @@ const fillForm = (data) => {
     };
 };
 
-const setForm = ({ value, coinField, flatKey }) => {
+const setForm = ({ value, coinField, flatKey, validation, fieldsValues  }) => {
     return dispatch => {
         const transformed = coinField.transform.input(value);
         const valid = coinField.test.field(transformed);
+        validation[flatKey] = valid;
         dispatch({
             type: actionTypes.SET_TRANSACTION_FORM,
             flatKey,
@@ -73,16 +77,18 @@ const setForm = ({ value, coinField, flatKey }) => {
         });
         dispatch({
             type: actionTypes.SET_STEP_RESULT,
-            result: valid
+            result: checkTrueValues(validation) ? fieldsValues : false
         });
     }
 };
 
 const deleteFormGroup = ({ groupName, index=null }) => {
-    return {
-        type: actionTypes.DEL_TRANSACTION_FORM_GROUP,
-        groupName,
-        index
+    return dispatch => {
+        dispatch({
+            type: actionTypes.DEL_TRANSACTION_FORM_GROUP,
+            groupName,
+            index
+        })
     }
 };
 

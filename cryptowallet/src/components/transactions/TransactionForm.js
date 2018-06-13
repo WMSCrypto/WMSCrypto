@@ -96,7 +96,7 @@ class TransactionForm extends React.Component {
                         </div>
                     </div>
                     <div style={{display: !fullView ? 'block' : 'none'}}>
-                        {/*<TransactionSummary {...this.props}/>*/}
+                        <TransactionSummary {...this.props}/>
                     </div>
                     <div style={{display: fullView ? 'block' : 'none'}}>
                         {online || result.method === define.methods.f

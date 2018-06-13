@@ -18,7 +18,7 @@ const deleteFormGroup = ({ validation, fieldsValues, data, groupName, index}) =>
     if (index !== null) {
         // If field is array we don't want delete this field, because this is huge logic,
         // we just mark it's as null and not render and not using.
-        allKeys = allKeys.filter(i => parseInt(i.split('#')[1]) === index);
+        allKeys = allKeys.filter(i => parseInt(i.split('#')[1], 10) === index);
         data[groupName][index] = null
     } else {
         delete data[groupName]

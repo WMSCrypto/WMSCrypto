@@ -37,7 +37,9 @@ class BitcoinForm extends React.Component {
     }
 
     componentWillMount() {
-        this.props.fillForm(getDefaultForm())
+        if (!this.props.fill) {
+            this.props.fillForm(getDefaultForm())
+        }
     }
 
     addInput() {
@@ -55,9 +57,9 @@ class BitcoinForm extends React.Component {
         this.props.fillForm({
             ...data,
             change: {
-                value: 0,
-                account: 0,
-                address: 0
+                value: '',
+                account: '',
+                address: ''
             }
         })
     }

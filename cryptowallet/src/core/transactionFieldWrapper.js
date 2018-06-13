@@ -19,7 +19,7 @@ const mapStateToDispatch = dispatch => {
     }
 };
 
-const _onChange = (changeFunc, e, coinField, flatKey, strict) => {
+const _onChange = (changeFunc, e, coinField, flatKey, strict, validation, fieldsValues) => {
     let value = e.target.value;
     let update = true;
     if (value === undefined) {
@@ -29,7 +29,7 @@ const _onChange = (changeFunc, e, coinField, flatKey, strict) => {
         update = coinField.test.input(value);
     }
     if (update) {
-        changeFunc({ value, coinField, flatKey })
+        changeFunc({ value, coinField, flatKey, validation, fieldsValues })
     }
 };
 
@@ -47,7 +47,9 @@ const transactionFormWrapper = (WrappedComponent) => {
             <WrappedComponent label={coinField.name}
                               valid={validation[flatKey]}
                               value={view}
-                              onChange={(e) => {_onChange(props.onChange, e, coinField, flatKey, strict)}}
+                              onChange={(e) => {_onChange(
+                                  props.onChange, e, coinField, flatKey, strict, validation, fieldsValues
+                              )}}
                               items={items}
                               prefix={prefix}>
                 {props.children}

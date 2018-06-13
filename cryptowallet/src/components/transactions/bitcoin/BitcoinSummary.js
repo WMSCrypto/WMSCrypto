@@ -1,31 +1,36 @@
 import React from 'react';
 import TransactionField from "../TransactionField";
 import fieldViews from "../../../core/fields/fieldsViews";
+import { valueTransform } from "./bitcoinFields";
 
-export default ({ data }) => {
-    const { inputs, receiver, change } = data;
-    const changeValue = (change && change.value !== undefined) ? change.value : 0;
-    const receiverValue = (receiver && receiver.value !== undefined) ? receiver.value : 0;
-    const amount = inputs ? inputs.reduce((p, i) => p + (i.value || 0), 0) : 0;
+const getValue = (fieldsValues, flatKey) => fieldsValues[flatKey] !== undefined
+    ? valueTransform(fieldsValues[flatKey])
+    : 0;
+
+export default ({ fieldsValues }) => {
+    const changeValue = getValue(fieldsValues, 'change:value');
+    const receiverValue = getValue(fieldsValues, 'receiver:value');
+    const inputsKeys = Object.keys(fieldsValues).filter(i => i.slice(0, 12) === 'inputs:value');
+    const amount = inputsKeys.reduce((p, i) => p + (getValue(fieldsValues, i) || 0), 0);
     const fee = amount - (receiverValue + changeValue);
     return (
         <React.Fragment>
             <TransactionField valid={true}
                               name="Receiver"
-                              value={receiver ? receiver.address : '???'}/>
-            {receiver && receiver.name
+                              value={fieldsValues['receiver:address'] || '???'}/>
+            {fieldsValues['receiver:name']
                 ? <span style={{color: '#007bff'}}>
                     <TransactionField valid={true}
                                       name="Receiver name"
-                                      value={<strong>{receiver.name}</strong>}/>
+                                      value={<strong>{fieldsValues['receiver:name']}</strong>}/>
                   </span>
 
                 : null
             }
-            <TransactionField valid={true}
+            <TransactionField valid={receiverValue >= 0}
                               name="Value"
                               value={`${fieldViews.valueView(receiverValue)} BTC`}/>
-            <TransactionField valid={true}
+            <TransactionField valid={fee >= 0}
                               name="Fee"
                               value={`${fieldViews.valueView(fee)} BTC`}/>
         </React.Fragment>

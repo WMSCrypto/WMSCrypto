@@ -1,7 +1,7 @@
 import React from 'react';
 import T from "../../components/T";
 
-const valueView = (v) => v !== '' ? (Math.pow(10, -8) * v) : '';
+const valueView = (v) => v !== '' ? (Math.pow(10, -8) * v).toFixed(8) : '';
 
 const walletView = ({ purpose=44, coin, account, change, address }) => `m/${purpose}'/${coin}'/${account}'/${change}/${address}`;
 

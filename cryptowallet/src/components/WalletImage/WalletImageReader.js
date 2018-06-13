@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Card from "../Cards/Card";
 import QrReader from 'react-qr-reader';
 import WalletImageLocker from "./WalletImageLocker";
 import define from '../../core/define';
