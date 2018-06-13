@@ -29,8 +29,7 @@ class ChangeWalletPassword extends Component {
         return (
             <div>
                 <p className="text-light">{t("Change wallet password")}</p>
-                <WalletImageReader seed={seed}
-                                   onUnlock={(seed) => this.setState({seed})}/>
+                <WalletImageReader seed={seed} first={true}/>
                 {seed && !newEncryptedSeed
                     ? <CreatePassword setPassword={(p) => {this.setState({newPassword: p})}}/>
                     : null}

@@ -55,7 +55,7 @@ class WalletImageLocker extends Component {
         }
     }
 
-    _renderPassworInput() {
+    _renderPasswordInput() {
         const { error, password } = this.state;
         return (
             <div className="form-group">
@@ -93,7 +93,7 @@ class WalletImageLocker extends Component {
                     </div>
                     <p className={`text-${unlock ? 'primary' : 'danger'}`}>{t(unlock ? 'Unlocked' : 'Locked')}</p>
                 </div>
-                {!unlock ? this._renderPassworInput() : null}
+                {!unlock ? this._renderPasswordInput() : null}
             </div>
         )
     }

@@ -1,4 +1,5 @@
 const translates = {
+    "Unlock key": "Разблокировать ключ",
     "Add input": "Добавить вход",
     "Add change": "Добавить сдачу",
     "Show": "Показать",
