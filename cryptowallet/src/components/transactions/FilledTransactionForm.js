@@ -2,8 +2,8 @@ import React from 'react'
 import BitcoinDetail from "./bitcoin/BitcoinDetail";
 
 const FilledTransactionForm = (props) => {
-    const { flatData, rawData, errors, coin } = props.trx;
-    const componentProps = { flatData, rawData, errors };
+    const { data, fieldsValues, validation, errors, coin } = props.trx;
+    const componentProps = { data, fieldsValues, validation, errors };
     switch (coin) {
         case 0:
             return <BitcoinDetail {...componentProps}/>;

@@ -1,4 +1,6 @@
+import React from 'react';
 import { fieldTests, fieldViews, fieldCreator } from "../../../core/fields";
+import T from "../../T";
 
 const valueTransform = (v) => v !== '' ? Math.round(parseFloat(v) * Math.pow(10, 8)) : '';
 const valueInputTest = (v) => /^\d*\.?\d{0,8}$/.test(v);
@@ -88,6 +90,7 @@ export default {
         def: false,
         fTest: fieldTests.bool,
         iTest: fieldTests.bool,
+        fView: (v) => v === true ? <T>Yes</T> : <T>No</T>
     })
 }
 

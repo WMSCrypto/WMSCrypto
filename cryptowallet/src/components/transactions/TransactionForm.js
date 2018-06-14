@@ -75,12 +75,13 @@ class TransactionForm extends React.Component {
         if ((trx.fill && (online || result)) || manual) {
             const receiver = trx.data.receiver;
             const isTransfer = receiver && receiver.name;
+            const coinId = trx.coin !== null ? trx.coin : result.data;
             return (
                 <React.Fragment>
                     <h3 className={isTransfer ? 'text-primary' : ''}
                         style={{textAlign: 'center'}}>
                         <strong>
-                            {coinTo[trx.coin || result.data].name}
+                            {coinTo[coinId].name}
                             {isTransfer ? <T>transfer</T> : <T>transaction</T>}
                         </strong>
                     </h3>

@@ -12,10 +12,11 @@ export default stepWrapper(define.steps.signTransaction)(
     (props) => {
         const { getStepResult } = props;
         const seed = getStepResult(define.steps.unlockKey);
+        const trxData = getStepResult(define.steps.checkTransaction);
         const source = getStepResult(define.steps.choiceTransactionSource);
-        const coin = source.method === define.methods.c ? source.data : source.data.coin;
-        const flatData = getStepResult(define.steps.checkTransaction);
-        const data = flatToData(flatData, coin);
+        const isManual = source && source.method === define.methods.c;
+        const coin = isManual ? source.data : trxData.coin;
+        const data = isManual ? flatToData(trxData, coin) : trxData;
         return <p>{signers[coin](seed, data)}</p>
     }
 )

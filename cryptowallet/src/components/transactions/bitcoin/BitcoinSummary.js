@@ -7,7 +7,7 @@ const getValue = (fieldsValues, flatKey) => fieldsValues[flatKey] !== undefined
     ? valueTransform(fieldsValues[flatKey])
     : 0;
 
-export default ({ fieldsValues }) => {
+export default ({ fieldsValues, data }) => {
     const changeValue = getValue(fieldsValues, 'change:value');
     const receiverValue = getValue(fieldsValues, 'receiver:value');
     const inputsKeys = Object.keys(fieldsValues).filter(i => i.slice(0, 12) === 'inputs:value');
@@ -18,11 +18,11 @@ export default ({ fieldsValues }) => {
             <TransactionField valid={true}
                               name="Receiver"
                               value={fieldsValues['receiver:address'] || '???'}/>
-            {fieldsValues['receiver:name']
+            {data.receiver && data.receiver.name
                 ? <span style={{color: '#007bff'}}>
                     <TransactionField valid={true}
                                       name="Receiver name"
-                                      value={<strong>{fieldsValues['receiver:name']}</strong>}/>
+                                      value={<strong>{data.receiver.name}</strong>}/>
                   </span>
 
                 : null
