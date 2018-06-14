@@ -45,6 +45,10 @@ export default {
         unlockKey: {
             name: 'unlockKey',
             display: 'Unlock key'
+        },
+        signTransaction: {
+            name: 'signTrx',
+            display: 'Transaction sign'
         }
     },
     methods: {

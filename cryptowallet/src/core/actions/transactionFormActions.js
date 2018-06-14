@@ -5,6 +5,37 @@ const checkTrueValues = (obj) => Object.values(obj).reduce((p, c) => p && c, tru
 
 const flatToData = (obj, coin) => {
     let data = {};
+    const fields = coinTo[coin].fields;
+    Object.keys(obj).forEach(k => {
+        const keys = k.split(':');
+        const value = obj[k];
+        let parent, child, index;
+        switch (keys.length) {
+            case 1:
+                data[k] =fields[k].transform.input(value);
+                break;
+            case 2:
+                [parent, child] = keys;
+                if (data[parent] === undefined) {
+                    data[parent] = {}
+                }
+                data[parent][child] = fields[k].transform.input(value);
+                break;
+            case 3:
+                [parent, child, index] = keys;
+                index = parseInt(index.slice(1));
+                if (data[parent] === undefined) {
+                    data[parent] = []
+                }
+
+                if (data[parent].length <= index) {
+                    data[parent].push({})
+                }
+                data[parent][index][child] = fields[`${parent}:${child}`].transform.input(value);
+                break;
+        }
+    });
+    return data;
 };
 
 const handledData = (obj) => {
@@ -96,5 +127,6 @@ const deleteFormGroup = ({ groupName, index=null }) => {
 export {
     fillForm,
     setForm,
-    deleteFormGroup
+    deleteFormGroup,
+    flatToData
 }

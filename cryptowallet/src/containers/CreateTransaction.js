@@ -4,6 +4,7 @@ import ChoiceTransactionSource from '../components/transactions/ChoiceTransactio
 import define from "../core/define";
 import TransactionForm from "../components/transactions/TransactionForm";
 import WalletImageReader from "../components/WalletImage/WalletImageReader";
+import TransactionSigner from "../components/transactions/TransactionSigner";
 
 
 class CreateTransaction extends React.Component {
@@ -14,7 +15,8 @@ class CreateTransaction extends React.Component {
             <StepCounter>
                 <ChoiceTransactionSource first={!uuid} next={define.steps.checkTransaction}/>
                 <TransactionForm first={!!uuid} next={define.steps.unlockKey}/>
-                <WalletImageReader next={null}/>
+                <WalletImageReader next={define.steps.signTransaction}/>
+                <TransactionSigner next={null}/>
             </StepCounter>
 
         )
