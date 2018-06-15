@@ -3,15 +3,17 @@ import TransactionField from "../TransactionField";
 import fieldViews from "../../../core/fields/fieldsViews";
 import { valueTransform } from "./bitcoinFields";
 
-const getValue = (fieldsValues, flatKey) => fieldsValues[flatKey] !== undefined
-    ? valueTransform(fieldsValues[flatKey])
+const getValue = (fieldsValues, flatKey, needTransform) => fieldsValues[flatKey] !== undefined
+    ? (needTransform ? valueTransform(fieldsValues[flatKey]) : fieldsValues[flatKey])
     : 0;
 
-export default ({ fieldsValues, data }) => {
-    const changeValue = getValue(fieldsValues, 'change:value');
-    const receiverValue = getValue(fieldsValues, 'receiver:value');
+export default ({ fieldsValues, data, manual }) => {
+
+    const getter = (fk) => getValue(fieldsValues, fk, manual);
+    const changeValue = getter('change:value');
+    const receiverValue = getter('receiver:value');
     const inputsKeys = Object.keys(fieldsValues).filter(i => i.slice(0, 12) === 'inputs:value');
-    const amount = inputsKeys.reduce((p, i) => p + (getValue(fieldsValues, i) || 0), 0);
+    const amount = inputsKeys.reduce((p, i) => p + (getter(i) || 0), 0);
     const fee = amount - (receiverValue + changeValue);
     return (
         <React.Fragment>
