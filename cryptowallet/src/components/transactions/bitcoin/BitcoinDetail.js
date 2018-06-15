@@ -3,39 +3,39 @@ import TransactionField from "../TransactionField";
 import TransactionSection from "../TransactionSection";
 import fieldViews from "../../../core/fields/fieldsViews";
 import bitcoinFields from "./bitcoinFields";
+import { getField } from "../../../core/fields";
 
 const INPUT_FIELDS = ['prevout_n', 'prevout_hash', 'account', 'change', 'address', 'value'];
 
-const BitcoinInput = ({ n, sectionError, fieldsValues, validation }) => {
-    const [ prevout_n, prevout_hash, account, change, address, value ] = INPUT_FIELDS.map(k => `inputs:${k}:#${n}`);
+const BitcoinInput = ({ n, sectionError, getter }) => {
+    const [ prevout_n, prevout_hash, account, change, address, value ] = INPUT_FIELDS.map(k => getter(`inputs:${k}`, n));
+    const wallet = fieldViews.walletView({
+        coin: 0, account: account.value, address: address.value, change: change.value
+    });
+    const walletValid = account.valid && address.valid && change.valid;
     return (
         <React.Fragment>
             <TransactionSection name='Input' postfix={n} error={sectionError}/>
-            <TransactionField value={fieldsValues[prevout_n]} valid={validation[prevout_n]} name='Output ID'/>
-            <TransactionField value={fieldsValues[prevout_hash]} valid={validation[prevout_hash]} name='Previous transaction hash'/>
-            <TransactionField value={fieldViews.walletView({
-                                  coin: 0, account: fieldsValues[account], address: fieldsValues[address], change: fieldsValues[change]
-                              })}
-                              valid={validation[account] && validation[address] && validation[change]}
-                              name='Account'/>
-            <TransactionField value={bitcoinFields['inputs:value'].view.field(fieldsValues[value])}
-                              valid={validation[value]} name='Value'/>
+            <TransactionField value={prevout_n.value} valid={prevout_n.valid} name='Output ID'/>
+            <TransactionField value={prevout_hash.value} valid={prevout_hash.valid} name='Previous transaction hash'/>
+            <TransactionField value={wallet} valid={walletValid} name='Account'/>
+            <TransactionField value={value.view.field(value.value)} valid={value.valid} name='Value'/>
         </React.Fragment>
     )
 };
 
-const BitcoinOutput = ({ fieldsValues, validation, sectionError }) => {
+const BitcoinOutput = ({ getter, sectionError }) => {
     return (
         <React.Fragment>
             <TransactionSection name='Receiver' error={sectionError}/>
             {['Address', 'Value'].map(k => {
                 const key = `receiver:${k.toLowerCase()}`;
-                const data = fieldsValues[key];
-                if (data) {
+                const data = getter(key);
+                if (data.exists) {
                     return (
                         <TransactionField key={key}
-                                          value={bitcoinFields[key].view.field(data)}
-                                          valid={validation[key]}
+                                          value={data.view.field(data.value)}
+                                          valid={data.valid}
                                           name={k}/>
                     )
                 } else {
@@ -46,17 +46,22 @@ const BitcoinOutput = ({ fieldsValues, validation, sectionError }) => {
     );
 };
 
-const BitcoinChange = ({ fieldsValues, validation, sectionError }) => {
+const BitcoinChange = ({ getter, sectionError }) => {
     const [ value, address, account ] = ['value', 'address', 'account'].map(
-        i => `change:${i}`
+        i => getter(`change:${i}`)
     );
+    const showWallet = account.exists || address.exists;
+    const show = value.exists || showWallet;
+    if (!show) {
+        return null
+    }
     return (
         <React.Fragment>
             <TransactionSection name='Change' error={sectionError}/>
-            <TransactionField value={bitcoinFields[value].view.field(fieldsValues[value])} valid={validation[value]} name='Value'/>
-            {fieldsValues[account] !== undefined || fieldsValues[address] !== undefined
-                ? <TransactionField value={fieldViews.walletView({ coin: 0, account: fieldsValues[account], address: fieldsValues[address], change: 1})}
-                                    valid={validation[account] && validation[address]}
+            <TransactionField value={value.view.field(value.value)} valid={value.valid} name='Value'/>
+            {showWallet
+                ? <TransactionField value={fieldViews.walletView({ coin: 0, account: account.value, address: address.value, change: 1})}
+                                    valid={account.valid && address.valid}
                                     name='Account for change'/>
                 : null
             }
@@ -65,23 +70,16 @@ const BitcoinChange = ({ fieldsValues, validation, sectionError }) => {
 };
 
 const BitcoinDetail = ({ data, fieldsValues, validation, errors }) => {
+    const getter = (name, index=null) => getField({
+        fields: bitcoinFields, fieldsValues, validation, name, index
+    });
     return (
         <React.Fragment>
-            {null}
-            {
-                data.inputs && data.inputs.map((e, i) => <BitcoinInput {...e} n={i}
-                                                        fieldsValues={fieldsValues}
-                                                        validation={validation}
-                                                        key={`#${i}-input`}
-                                                        sectionError={errors.inputs[i]}/>
-                )
-            }
-            <BitcoinOutput fieldsValues={fieldsValues}
-                           validation={validation}
-                           sectionError={errors.receiver}/>
-            <BitcoinChange  fieldsValues={fieldsValues}
-                           validation={validation}
-                            sectionError={errors.change}/>
+            {data.inputs && data.inputs.map(
+                (e, i) => <BitcoinInput {...e} n={i} getter={getter}  key={`#${i}-input`} sectionError={errors.inputs[i]}/>
+            )}
+            <BitcoinOutput getter={getter} sectionError={errors.receiver}/>
+            <BitcoinChange getter={getter} sectionError={errors.change}/>
             <TransactionSection name='Other' error={false}/>
             <TransactionField value={fieldsValues['locktime']} valid={validation['locktime']} name='Locktime'/>
             <TransactionField value={bitcoinFields['useRBF'].view.field(fieldsValues['useRBF'])} valid={validation['useRBF']} name='Use RBF'/>
