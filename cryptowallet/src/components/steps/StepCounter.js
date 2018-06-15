@@ -27,13 +27,22 @@ class StepCounter extends React.Component {
             children = [children];
         }
         let index = 0;
+        let offset = 0;
         let next = children[index].props.next;
-        // TODO: check first
+        let first = false;
+        while (!first) {
+            if (children[index].props.first) {
+                first = true
+            } else {
+                index++;
+                offset++;
+            }
+        }
         while (next) {
             index++;
             next = children[index].props.next
         }
-        this.props.setStepsCount(index + 1)
+        this.props.setStepsCount((index - offset)+ 1)
     }
 
     render() {
