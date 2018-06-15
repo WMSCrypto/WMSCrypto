@@ -150,6 +150,25 @@ const bitcoinTransactionWithoutInputOutput = {
     description: 'Create transaction with out any input and output'
 };
 
+const ethereumTransactionWithoutErrors = {
+    request: {
+        action: 'MT',
+        data: {
+            coin : 60,
+            account: 0,
+            change: 0,
+            address: 0,
+            nonce : 15,
+            gasPrice : 0,
+            gasLimit : 21000,
+            to : "0x0038a3882823e533ab3ea28759050b5446b58583",
+            value : 10,
+            data : ""
+        },
+    },
+    description: 'Ethereum transaction without error'
+};
+
 module.exports = {
     '0': normalCreateWalletRu,
     '1': normalCreateWalletEn,
@@ -157,5 +176,6 @@ module.exports = {
     '3': createWalletAndPutError,
     '4': bitcoinTransactionWithChange,
     '5': bitcoinTransactionWithOutChangeAndWithError,
-    '6': bitcoinTransactionWithoutInputOutput
+    '6': bitcoinTransactionWithoutInputOutput,
+    '7': ethereumTransactionWithoutErrors
 };
