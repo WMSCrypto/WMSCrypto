@@ -9,7 +9,7 @@ export default {
         name: 'Bitcoin '
     },
     60: {
-        errors: () => ({ALL: []}),
+        errors: () => ({ALL: [], valid: true}),
         fields: ethereumFields,
         name: 'Ethereum '
     }

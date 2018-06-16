@@ -32,8 +32,7 @@ class EthereumForm extends React.Component {
     }
 
     render() {
-        const { data, fill } = this.props;
-        if (!fill) {
+        if (!this.props.fill) {
             return null
         } else {
             return (

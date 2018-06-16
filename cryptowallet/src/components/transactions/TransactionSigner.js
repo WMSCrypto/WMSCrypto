@@ -3,9 +3,11 @@ import define from '../../core/define';
 import stepWrapper from "../../core/stepWrapper";
 import { flatToData } from "../../core/actions/transactionFormActions";
 import bitcoinSigner from "./bitcoin/bitcoinSigner";
+import ethereumSigner from "./ethereum/ethereumSigner";
 
 const signers = {
-    0: bitcoinSigner
+    0: bitcoinSigner,
+    60: ethereumSigner
 };
 
 export default stepWrapper(define.steps.signTransaction)(

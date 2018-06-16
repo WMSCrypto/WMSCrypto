@@ -1,5 +1,5 @@
 import React from 'react';
-import { fieldTests, fieldViews, fieldCreator } from "../../../core/fields";
+import { fieldTests, fieldCreator } from "../../../core/fields";
 
 export default {
     'account': fieldCreator({
