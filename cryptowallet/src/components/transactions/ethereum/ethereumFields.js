@@ -41,8 +41,8 @@ export default {
     'to': fieldCreator({
         name: 'To',
         def: '',
-        fTest: fieldTests.base58,
-        iTest: (v) =>  /^[1-9a-km-zA-HJ-NP-Z]*$/.test(v)
+        fTest: (v) => v ? /^0x[\da-fA-F]{40}$/.test(v) : false,
+        iTest: (v) =>  v ? v === '0' || v === '0x' || /^0x[\da-fA-F]{0,40}$/.test(v) : false
     }),
     'value': fieldCreator({
         name: 'Value',
@@ -53,5 +53,7 @@ export default {
     'data': fieldCreator({
         name: 'Data',
         def: '',
+        fTest: (v) => v === '' || (v ? /^0x[\da-fA-F]+$/.test(v) : false),
+        iTest: (v) =>  v ? v === '0' || v === '0x' || /^0x[\da-fA-F]*$/.test(v) : false
     }),
 }

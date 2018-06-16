@@ -155,9 +155,9 @@ const ethereumTransactionWithoutErrors = {
         action: 'MT',
         data: {
             coin : 60,
-            account: 0,
+            account: 2,
             change: 0,
-            address: 0,
+            address: 3,
             nonce : 15,
             gasPrice : 0,
             gasLimit : 21000,

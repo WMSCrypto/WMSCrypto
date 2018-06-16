@@ -1,24 +1,21 @@
 import React from 'react';
 import '../styles/BitconForm.css';
-
-const getDefaultInput = () => {
-    return {
-        prevout_n: '',
-        prevout_hash: '',
-        account: 0,
-        change: 0,
-        address: 0,
-        value: 0
-    }
-};
+import TransactionFormTextInput from "../TransactionFormTextInput";
+import TransactionFormSelectInput from "../TransactionFormSelectInput";
+import TransactionFormTextAreaInput from "../TransactionFormTextAreaInput";
 
 const getDefaultForm = () => {
     return {
-        coin: 0,
-        inputs: [getDefaultInput()],
-        receiver: {address: '', value: 0},
-        locktime: 0,
-        useRBF: false
+        nonce: 0,
+        gasPrice: 0,
+        gasLimit: 0,
+        account: 0,
+        change: 0,
+        address: 0,
+        value: 0,
+        coin: 60,
+        to: '',
+        data: ''
     }
 };
 
@@ -26,41 +23,12 @@ class EthereumForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.addInput = this.addInput.bind(this);
-        this.addChange = this.addChange.bind(this);
-        this.deleteChange = this.deleteChange.bind(this);
     }
 
     componentWillMount() {
         if (!this.props.fill) {
             this.props.fillForm(getDefaultForm())
         }
-    }
-
-    addInput() {
-        const { data } = this.props;
-        data.inputs.push(getDefaultInput());
-        this.props.fillForm(data)
-    }
-
-    deleteInput(index) {
-        this.props.deleteFormGroup({groupName: 'inputs', index})
-    }
-
-    addChange() {
-        const { data } = this.props;
-        this.props.fillForm({
-            ...data,
-            change: {
-                value: '',
-                account: '',
-                address: ''
-            }
-        })
-    }
-
-    deleteChange() {
-        this.props.deleteFormGroup({groupName: 'change'})
     }
 
     render() {
@@ -70,7 +38,25 @@ class EthereumForm extends React.Component {
         } else {
             return (
                 <div className="EthereumFormContainer">
-                    {null}
+                    <div className="row">
+                        <div className="col-sm-4">
+                            <TransactionFormTextInput field='account'/>
+                        </div>
+                        <div className="col-sm-4">
+                            <TransactionFormSelectInput field='change'
+                                                        items={[0, 1]}
+                                                        prefix={`inputs-change`}/>
+                        </div>
+                        <div className="col-sm-4">
+                            <TransactionFormTextInput field='address'/>
+                        </div>
+                    </div>
+                    <TransactionFormTextInput field='nonce'/>
+                    <TransactionFormTextInput field='gasPrice'/>
+                    <TransactionFormTextInput field='gasLimit'/>
+                    <TransactionFormTextInput field='to'/>
+                    <TransactionFormTextInput field='value'/>
+                    <TransactionFormTextAreaInput field='data'/>
                 </div>
 
             )
