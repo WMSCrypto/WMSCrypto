@@ -1,11 +1,11 @@
 import assert from 'assert';
 import bip39 from 'bip39';
 import {
-    getPrivKey,
+    getPrivateKey,
     hexView,
     signEthereumTransaction,
     getETXTxData,
-} from './utils';
+} from './components/transactions/ethereum/ethereumSigner';
 
 const TEST_MNEMONICS = (
     'truck unfair vote open sting airport speak ' +
@@ -37,13 +37,13 @@ describe('CryptoWallet', function () {
 
     it('can get private key from seed', function () {
         const seed = bip39.mnemonicToSeed(TEST_MNEMONICS);
-        const privKey = getPrivKey(seed, "m/44'/60'/0'/0/1");
+        const privKey = getPrivateKey(seed, "m/44'/60'/0'/0/1");
         assert.equal( privKey, '78bd734be30ddcf45b14d07684743fdb391ec5efbe24e83996f2cc46aad9a17e');
     });
 
     it('sign transaction', function () {
         const seed = bip39.mnemonicToSeed(TEST_MNEMONICS);
-        const privKey = getPrivKey(seed, "m/44'/60'/0'/0/1");
+        const privKey = getPrivateKey(seed, "m/44'/60'/0'/0/1");
         const txData = {
             nonce: '0x00',
             value: '0x0de0b6b3a7640000',

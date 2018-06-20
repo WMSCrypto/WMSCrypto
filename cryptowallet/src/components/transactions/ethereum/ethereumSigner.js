@@ -1,7 +1,7 @@
 import EthereumTx from "ethereumjs-tx";
 import { HDNode } from "bitcoinjs-lib";
 
-const getPrivKey = (seed, address) => {
+const getPrivateKey = (seed, address) => {
     const node = HDNode.fromSeedHex(seed);
     const addressNode = node.derivePath(address);
     return addressNode.keyPair.d.toBuffer(32).toString('hex');
@@ -37,7 +37,7 @@ const getETXTxData = (nonce, value, gasPrice, gasLimit, to, data, chainId=1) => 
 
 const ethereumSigner = (seed, transaction) => {
     const { account, change, address } = transaction;
-    const privKey = getPrivKey(seed, `m/44'/60'/${account}'/${change}/${address}`);
+    const privKey = getPrivateKey(seed, `m/44'/60'/${account}'/${change}/${address}`);
     const { nonce, value, gasPrice, gasLimit, to, data } = transaction;
     const txData = getETXTxData(nonce, value, gasPrice, gasLimit, to, data);
     const tx = signEthereumTransaction(privKey, txData);
@@ -45,3 +45,10 @@ const ethereumSigner = (seed, transaction) => {
 };
 
 export default ethereumSigner;
+
+export {
+    hexView,
+    getPrivateKey,
+    getETXTxData,
+    signEthereumTransaction
+}

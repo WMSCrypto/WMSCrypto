@@ -1,10 +1,9 @@
 import React from 'react';
 import TransactionField from "../TransactionField";
-import TransactionSection from "../TransactionSection";
 import fieldViews from "../../../core/fields/fieldsViews";
 import ethereumFields from "./ethereumFields";
 import { getField } from "../../../core/fields";
-import { hexView } from "../../../utils";
+import { hexView } from "./ethereumSigner";
 
 const ALL_FIELDS = Object.keys(ethereumFields);
 
