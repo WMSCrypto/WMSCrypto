@@ -1,6 +1,7 @@
 import bip39 from 'bip39';
 import { getAnchor } from '../../utils/index'
 import CryptoJS from "crypto-js";
+import legacy from './legacy';
 import {
     ENCRYPTED_BY_ANCHOR,
     ENCRYPTED_WITHOUT_ANCHOR
@@ -14,7 +15,21 @@ const FLAG_SLICE = -2;
 const ANCHOR = getAnchor();
 const IV_LENGTH = 32;
 const WORD_ARRAY_LENGTH = 16;
+const INVALID_PASSWORD_ERROR = 'Invalid password';
 
+const tryDecrypt = (func) => {
+    try {
+        const bytes = func();
+        const string = CryptoJS.enc.Utf8.stringify(bytes);
+        return [
+            string !== '' ? null : INVALID_PASSWORD_ERROR,
+            string !== '' ? string : null
+        ]
+    } catch (e) {
+        return [INVALID_PASSWORD_ERROR, null]
+    }
+
+};
 
 const encryptSeed = (seedHex, password, anchor) => {
     let passwordHash = CryptoJS.SHA256(password).toString();
@@ -30,6 +45,11 @@ const encryptSeed = (seedHex, password, anchor) => {
 
 const decryptSeed = (text, password, anchor) => {
     const flag = text.slice(FLAG_SLICE);
+    // Old version capability
+    if (legacy[flag] !== undefined) {
+        return legacy[flag](text, flag, password, anchor)
+    }
+
     text = text.slice(0, FLAG_SLICE);
     if (!anchor && flag === WITH_ANCHOR_FLAG) {
         return [ENCRYPTED_BY_ANCHOR, null]
@@ -43,17 +63,13 @@ const decryptSeed = (text, password, anchor) => {
     if (anchor) {
         passwordHash = CryptoJS.HmacSHA256(password, anchor);
     }
-
-    try {
+    return tryDecrypt(() => {
         const ivHex = text.slice(-1 * IV_LENGTH);
         const iv = CryptoJS.enc.Hex.parse(ivHex);
         const encryptedSeedHex = text.slice(0, text.length - IV_LENGTH);
-        const bytes = CryptoJS.AES.decrypt(encryptedSeedHex, passwordHash, {iv: iv});
-        return [null, CryptoJS.enc.Utf8.stringify(bytes)]
+        return CryptoJS.AES.decrypt(encryptedSeedHex, passwordHash, {iv: iv});
 
-    } catch (e) {
-        return ["Invalid password", null]
-    }
+    })
 };
 
 const generateSeedObj = ({ password, mnemonics=null, salt=null, anchor=ANCHOR }) => {
@@ -81,4 +97,6 @@ export {
     decryptSeed,
     generateSeedObj,
     generateMnemonics,
+    tryDecrypt,
+    FLAG_SLICE
 }
