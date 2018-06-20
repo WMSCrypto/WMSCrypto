@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { methods } from './core/crypto';
+import { encryptSeed, decryptSeed } from './core/crypto';
 
 const TEST_PASSWORD = 'password';
 const TEST_ANCHOR = 'anchor';
@@ -13,10 +13,9 @@ const TEST_SEED = '50b714e8180491d8f4adba64fb217baa3a568478be719f8d810b39eafea02
 
 describe('CryptoWallet', function () {
 
-    it('Successful encrypt/decrypt method 03', function () {
-        const method = methods['03'];
-        const encrypted = method.encrypt(TEST_SEED, TEST_PASSWORD);
-        const decrypted = method.decrypt(encrypted, TEST_PASSWORD);
+    it('Successful encrypt/decrypt', function () {
+        const encrypted = encryptSeed(TEST_SEED, TEST_PASSWORD);
+        const [_, decrypted ]= decryptSeed(encrypted, TEST_PASSWORD);
         assert.equal(decrypted, TEST_SEED)
     });
 

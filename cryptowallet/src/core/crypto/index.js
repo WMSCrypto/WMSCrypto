@@ -1,26 +1,59 @@
 import bip39 from 'bip39';
 import { getAnchor } from '../../utils/index'
-import sha256 from "crypto-js/sha256";
-import aes from "crypto-js/aes";
-import method03 from './method03';
+import CryptoJS from "crypto-js";
+import {
+    ENCRYPTED_BY_ANCHOR,
+    ENCRYPTED_WITHOUT_ANCHOR
+} from "../../assets/messages";
 
 
 const MNEMONICS_BITS = 256;
-const WITH_ANCHOR_FLAG = '00';
-const WITHOUT_ANCHOR_FLAG = '01';
-const ANCHOR_SLICE = -8;
+const WITH_ANCHOR_FLAG = '03';
+const WITHOUT_ANCHOR_FLAG = '04';
+const FLAG_SLICE = -2;
 const ANCHOR = getAnchor();
+const IV_LENGTH = 32;
+const WORD_ARRAY_LENGTH = 16;
+
 
 const encryptSeed = (seedHex, password, anchor) => {
-    let encrypted;
+    let passwordHash = CryptoJS.SHA256(password).toString();
+    let flag = WITHOUT_ANCHOR_FLAG;
     if (anchor) {
-        password = password + anchor;
-        encrypted = aes.encrypt(seedHex, password) + sha256(anchor).toString().slice(ANCHOR_SLICE) + WITH_ANCHOR_FLAG;
-    } else {
-        encrypted = aes.encrypt(seedHex, password) + WITHOUT_ANCHOR_FLAG
+        passwordHash = CryptoJS.HmacSHA256(password, anchor);
+        flag = WITH_ANCHOR_FLAG;
+    }
+    const iv = CryptoJS.lib.WordArray.random(WORD_ARRAY_LENGTH);
+    const encryptedSeedHex = CryptoJS.AES.encrypt(seedHex, passwordHash, {iv: iv}).toString();
+    return encryptedSeedHex + iv.toString() + flag;
+};
+
+const decryptSeed = (text, password, anchor) => {
+    const flag = text.slice(FLAG_SLICE);
+    text = text.slice(0, FLAG_SLICE);
+    if (!anchor && flag === WITH_ANCHOR_FLAG) {
+        return [ENCRYPTED_BY_ANCHOR, null]
     }
 
-    return encrypted
+    if (anchor && flag === WITHOUT_ANCHOR_FLAG) {
+        return [ENCRYPTED_WITHOUT_ANCHOR, null]
+    }
+
+    let passwordHash = CryptoJS.SHA256(password).toString();
+    if (anchor) {
+        passwordHash = CryptoJS.HmacSHA256(password, anchor);
+    }
+
+    try {
+        const ivHex = text.slice(-1 * IV_LENGTH);
+        const iv = CryptoJS.enc.Hex.parse(ivHex);
+        const encryptedSeedHex = text.slice(0, text.length - IV_LENGTH);
+        const bytes = CryptoJS.AES.decrypt(encryptedSeedHex, passwordHash, {iv: iv});
+        return [null, CryptoJS.enc.Utf8.stringify(bytes)]
+
+    } catch (e) {
+        return ["Invalid password", null]
+    }
 };
 
 const generateSeedObj = ({ password, mnemonics=null, salt=null, anchor=ANCHOR }) => {
@@ -43,15 +76,9 @@ const generateMnemonics = () => {
     return bip39.generateMnemonic(MNEMONICS_BITS)
 };
 
-const methods = {};
-
-methods[method03.FLAG] = {
-    ...method03
-};
-
 export {
-    ANCHOR,
+    encryptSeed,
+    decryptSeed,
     generateSeedObj,
     generateMnemonics,
-    methods
 }
