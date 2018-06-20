@@ -1,7 +1,9 @@
 import bip39 from 'bip39';
-import { getAnchor } from '../utils'
+import { getAnchor } from '../../utils/index'
 import sha256 from "crypto-js/sha256";
 import aes from "crypto-js/aes";
+import method03 from './method03';
+
 
 const MNEMONICS_BITS = 256;
 const WITH_ANCHOR_FLAG = '00';
@@ -41,8 +43,15 @@ const generateMnemonics = () => {
     return bip39.generateMnemonic(MNEMONICS_BITS)
 };
 
+const methods = {};
+
+methods[method03.FLAG] = {
+    ...method03
+};
+
 export {
     ANCHOR,
     generateSeedObj,
-    generateMnemonics
+    generateMnemonics,
+    methods
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import define from "../../core/define";
-import { generateMnemonics } from '../../core/crypto';
+import { generateMnemonics } from '../../core/crypto/index';
 import stepWrapper from '../../core/stepWrapper';
 import T from "../T";
 import './styles/MnemonicsList.css';
