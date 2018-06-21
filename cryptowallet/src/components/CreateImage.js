@@ -13,6 +13,7 @@ class CreateImage extends Component {
             setResult(generateSeedObj({
                 password: getStepResult(define.steps.createPassword),
                 mnemonics: getStepResult(define.steps.generateMnemonics),
+                seed: getStepResult(define.steps.unlockKey),
                 anchor
             }))
         }

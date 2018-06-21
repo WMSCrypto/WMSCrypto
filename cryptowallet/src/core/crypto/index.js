@@ -72,20 +72,11 @@ const decryptSeed = (text, password, anchor) => {
     })
 };
 
-const generateSeedObj = ({ password, mnemonics=null, salt=null, anchor }) => {
-    if (!mnemonics) {
-        mnemonics = bip39.generateMnemonic(MNEMONICS_BITS);
-    }
-    let seedHex;
-    seedHex = bip39.mnemonicToSeedHex(mnemonics, salt);
-
-    const encrypted = encryptSeed(seedHex, password, anchor);
-
-    return {
-        mnemonics: mnemonics,
-        hex: seedHex,
-        encrypted,
-    }
+const generateSeedObj = ({ password, mnemonics=null, salt=null, seed=null, anchor }) => {
+    mnemonics = mnemonics ? mnemonics : bip39.generateMnemonic(MNEMONICS_BITS);
+    const hex = seed ? seed : bip39.mnemonicToSeedHex(mnemonics, salt);
+    const encrypted = encryptSeed(hex, password, anchor);
+    return { mnemonics, hex, encrypted }
 };
 
 const generateMnemonics = () => {

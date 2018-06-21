@@ -11,7 +11,6 @@ import RequestResult from "./components/results/RequestResult";
 
 const mapStateToProps = (state) => {
     const { check, uuid, application, error, result } = state.common;
-    console.log(state.common)
     return {
         check,
         uuid,

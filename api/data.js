@@ -179,6 +179,19 @@ const ethereumTransactionWithoutErrors = {
     description: 'Ethereum transaction without error'
 };
 
+const changeWalletPassword = {
+    request: {
+        action: 'CWP',
+        data: {
+            lang: 'ru',
+            anchor_password: ANCHOR_PASSWORD,
+            anchor_iv: IV,
+            anchor_hash: '4067df0761eb238bdba8efcdd1c50669ade57919d435a98c8c33a4535d10bd15'
+        },
+    },
+    description: 'Change wallet password'
+};
+
 module.exports = {
     '0': normalCreateWalletRu,
     '1': normalCreateWalletEn,
@@ -187,5 +200,6 @@ module.exports = {
     '4': bitcoinTransactionWithChange,
     '5': bitcoinTransactionWithOutChangeAndWithError,
     '6': bitcoinTransactionWithoutInputOutput,
-    '7': ethereumTransactionWithoutErrors
+    '7': ethereumTransactionWithoutErrors,
+    '8': changeWalletPassword
 };
