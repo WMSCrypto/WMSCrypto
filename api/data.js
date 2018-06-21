@@ -7,14 +7,21 @@ CWP - Change wallet password
 MT - Make transaction
 
 Available languages ru, en
+
+For using anchor add #U2FsdGVkX19cjAafziDHhfpOx8R74Qg0y58Kr4/lkdc= in path.
 */
 
+const IV = 'a0c01968a1da2b4a51cd94936b833de0';
+const ANCHOR_PASSWORD = 'anchor';
 
 const normalCreateWalletRu = {
     request: {
         action: 'CW',
         data: {
-            lang: 'ru'
+            lang: 'ru',
+            anchor_password: ANCHOR_PASSWORD,
+            anchor_iv: IV,
+            anchor_hash: '4067df0761eb238bdba8efcdd1c50669ade57919d435a98c8c33a4535d10bd15'
         },
     },
     response: {

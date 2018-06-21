@@ -9,7 +9,7 @@ const initialState = {
     uuid: getUUID(),
     check: cryptoCheck(),
     error: null,
-    anchor: getAnchor(),
+    anchor: null,
     seed: null,
     globalLock: false,
     result: null
@@ -22,10 +22,11 @@ export default (state=initialState, action) => {
             setLang(lang);
             return {...state, lang};
         case actionTypes.SET_DATA:
-            const { data, application } = action;
+            const { data, application, anchor } = action;
             return {
                 ...state,
                 data,
+                anchor,
                 application
             };
         case actionTypes.SET_ERROR:

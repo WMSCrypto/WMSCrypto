@@ -7,6 +7,8 @@ const getErrorMessage = (error) => {
     switch (error) {
         case 404:
             return "INVALID_UUID";
+        case 400:
+            return "INVALID_REQUEST";
         default:
             return "SORRY"
     }
