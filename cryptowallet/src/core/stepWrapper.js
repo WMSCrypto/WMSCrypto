@@ -67,8 +67,9 @@ export default (step) => (WrappedComponent) => {
             const { name, display } = step;
             const { current, components, count, stepNumber } = this.props.steps;
             const { controls=true, next, nextStep, previousStep, last=false } = this.props;
+            const requestSend = this.props.common.error || this.props.common.result;
             const component = components[name];
-            if (current === name && component && !(last && component.result)) {
+            if (current === name && component && !requestSend) {
                 const { result, previous } = component;
                 return (
                     <Card title={<StepIndicator display={display} count={count} stepNumber={stepNumber}/>}
