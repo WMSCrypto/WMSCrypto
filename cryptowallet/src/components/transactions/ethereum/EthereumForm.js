@@ -21,10 +21,6 @@ const getDefaultForm = () => {
 
 class EthereumForm extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     componentWillMount() {
         if (!this.props.fill) {
             this.props.fillForm(getDefaultForm())

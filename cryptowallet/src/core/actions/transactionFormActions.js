@@ -23,7 +23,7 @@ const flatToData = (obj, coin) => {
                 break;
             case 3:
                 [parent, child, index] = keys;
-                index = parseInt(index.slice(1));
+                index = parseInt(index.slice(1), 10);
                 if (data[parent] === undefined) {
                     data[parent] = []
                 }
@@ -32,6 +32,8 @@ const flatToData = (obj, coin) => {
                     data[parent].push({})
                 }
                 data[parent][index][child] = fields[`${parent}:${child}`].transform.input(value);
+                break;
+            default:
                 break;
         }
     });

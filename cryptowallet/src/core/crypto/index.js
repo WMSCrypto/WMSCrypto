@@ -1,5 +1,4 @@
 import bip39 from 'bip39';
-import { getAnchor } from '../../utils/index'
 import CryptoJS from "crypto-js";
 import legacy from './legacy';
 import {
@@ -12,7 +11,6 @@ const MNEMONICS_BITS = 256;
 const WITH_ANCHOR_FLAG = '03';
 const WITHOUT_ANCHOR_FLAG = '04';
 const FLAG_SLICE = -2;
-const ANCHOR = getAnchor();
 const IV_LENGTH = 32;
 const WORD_ARRAY_LENGTH = 16;
 const INVALID_PASSWORD_ERROR = 'Invalid password';

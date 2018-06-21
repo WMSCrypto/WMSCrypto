@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './styles/WalletImageLocker.css';
-import { getAnchor} from "../../utils";
 import { getIdenticonSVG } from "../../utils/jdenticon";
 import { ENCRYPTED_BY_ANCHOR, ENCRYPTED_WITHOUT_ANCHOR} from "../../assets/messages";
 import { decryptSeed } from "../../core/crypto";

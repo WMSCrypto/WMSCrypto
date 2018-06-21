@@ -1,5 +1,5 @@
 import actionTypes from '../actionTypes';
-import { getUUID, cryptoCheck, getAnchor } from "../../utils";
+import { getUUID, cryptoCheck } from "../../utils";
 import { setLang } from "../../utils/translate";
 
 const initialState = {

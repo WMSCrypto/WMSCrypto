@@ -8,14 +8,14 @@ import { tryDecrypt } from "../crypto";
 const decryptAnchor = ({ anchor_hash, anchor_password, anchor_iv, encAnchor }) => {
     const anchorHash = CryptoJS.SHA256(encAnchor).toString();
     if (anchorHash !== anchor_hash) {
-        throw 400;
+        throw {code: 400};
     } else {
         const [error, decrypted] = tryDecrypt(() => {
             const iv = CryptoJS.enc.Hex.parse(anchor_iv);
             return CryptoJS.AES.decrypt(encAnchor, anchor_password, {iv})
         });
         if (error !== null) {
-            throw 400;
+            throw {code: 400};
         } else {
             return decrypted
         }

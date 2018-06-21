@@ -4,7 +4,7 @@ import {dropLocation} from "../../utils";
 import Card from "../Cards/Card";
 
 const getErrorMessage = (error) => {
-    switch (error) {
+    switch (error.code) {
         case 404:
             return "INVALID_UUID";
         case 400:

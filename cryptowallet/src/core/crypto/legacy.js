@@ -3,18 +3,7 @@ import {
     ENCRYPTED_BY_ANCHOR, ENCRYPTED_WITHOUT_ANCHOR
 } from "../../assets/messages";
 import aes from "crypto-js/aes";
-import UTF8 from "crypto-js/enc-utf8";
 import { FLAG_SLICE, tryDecrypt } from "./index";
-
-
-// const tryDecrypt = (text, password) => {
-//     try {
-//         const bytes = aes.decrypt(text, password);
-//         return UTF8.stringify(bytes);
-//     } catch (err) {
-//         return null
-//     }
-// };
 
 const decryptSeed1 = (text, flag, password, anchor) => {
     const withAnchorFlag = '00';
@@ -40,7 +29,8 @@ const decryptSeed1 = (text, flag, password, anchor) => {
     if (anchor && flag === withoutAnchor) {
         return [ENCRYPTED_WITHOUT_ANCHOR, null]
     }
-    return tryDecrypt(() => aes.decrypt(text, password))
+    // TODO: check for old anchor type
+    return tryDecrypt(() => aes.decrypt(encrypted, password))
 };
 
 let legacy = {};

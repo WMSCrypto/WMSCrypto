@@ -13,7 +13,7 @@ const fetchOperation = (uuid, onSuccess, onError) => {
         .then(_prepareResult)
         .then(result => {
             if (typeof result === 'number') {
-                onError(result)
+                onError({code: result})
             } else {
                 onSuccess(result)
             }
@@ -34,7 +34,7 @@ const updateOperation = (uuid, data, onSuccess, onError) => {
         .then(_prepareResult)
         .then(result => {
             if (typeof result === 'number') {
-                onError(result)
+                onError({code: result})
             } else {
                 onSuccess(result)
             }

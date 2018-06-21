@@ -1,4 +1,3 @@
-import React from 'react';
 import { fieldTests, fieldCreator } from "../../../core/fields";
 
 export default {
