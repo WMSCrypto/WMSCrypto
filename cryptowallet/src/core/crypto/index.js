@@ -72,7 +72,7 @@ const decryptSeed = (text, password, anchor) => {
     })
 };
 
-const generateSeedObj = ({ password, mnemonics=null, salt=null, anchor=ANCHOR }) => {
+const generateSeedObj = ({ password, mnemonics=null, salt=null, anchor }) => {
     if (!mnemonics) {
         mnemonics = bip39.generateMnemonic(MNEMONICS_BITS);
     }

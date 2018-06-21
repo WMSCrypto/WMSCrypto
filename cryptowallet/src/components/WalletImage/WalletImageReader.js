@@ -38,10 +38,12 @@ class WalletImageReader extends Component {
     render() {
         const { encryptedString, error } = this.state;
         const { setResult, getStepResult } = this.props;
+        const { anchor } = this.props.common;
         const seed = getStepResult(define.steps.unlockKey);
         return (
             <React.Fragment>
                 <WalletImageLocker seed={seed}
+                                   anchor={anchor}
                                    encryptedString={encryptedString}
                                    onUnlock={setResult}/>
                 <QrReader ref={REF_QR}

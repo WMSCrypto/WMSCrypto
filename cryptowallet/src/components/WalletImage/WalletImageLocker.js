@@ -52,7 +52,8 @@ class WalletImageLocker extends Component {
 
     _unlock() {
         const { password } = this.state;
-        const [error, seed] = decryptSeed(this.props.encryptedString, password, getAnchor());
+        const { anchor } = this.props;
+        const [error, seed] = decryptSeed(this.props.encryptedString, password, anchor);
         if (!error) {
             this.setState({unlock: true, seed: seed}, this.props.onUnlock(seed))
         } else {
@@ -108,7 +109,8 @@ class WalletImageLocker extends Component {
 WalletImageLocker.propTypes = {
     onUnlock: PropTypes.func.isRequired,
     encryptedString: PropTypes.string,
-    seed: PropTypes.string
+    seed: PropTypes.string,
+    anchor: PropTypes.string
 };
 
 export default WalletImageLocker;

@@ -8,10 +8,12 @@ class CreateImage extends Component {
 
     componentWillMount() {
         const { name, getStepResult, setResult } = this.props;
+        const { anchor } = this.props.common;
         if (!getStepResult(name)) {
             setResult(generateSeedObj({
                 password: getStepResult(define.steps.createPassword),
-                mnemonics: getStepResult(define.steps.generateMnemonics)
+                mnemonics: getStepResult(define.steps.generateMnemonics),
+                anchor
             }))
         }
     }

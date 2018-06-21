@@ -97,7 +97,10 @@ const bitcoinTransactionWithChange = {
                 value: 10,
                 account: 10,
                 address: 0
-            }
+            },
+            anchor_password: ANCHOR_PASSWORD,
+            anchor_iv: IV,
+            anchor_hash: '4067df0761eb238bdba8efcdd1c50669ade57919d435a98c8c33a4535d10bd15'
         },
     },
     description: 'Create transaction with change'
