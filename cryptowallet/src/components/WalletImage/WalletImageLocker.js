@@ -12,16 +12,16 @@ const Error = ({ error }) => {
         case ENCRYPTED_BY_ANCHOR:
             return (
                 <small className="text-danger">
-                    <T>{`${ENCRYPTED_BY_ANCHOR}_1`}</T>
-                    <a href="tg://resolve?domain=WMSCryptoBot">@WMSCrypto</a>
+                    <T>{`${ENCRYPTED_BY_ANCHOR}_1`}</T>{' '}
+                    <a href="tg://resolve?domain=WMSCryptoBot">@WMSCrypto</a>{' '}
                     <T>{`${ENCRYPTED_BY_ANCHOR}_2`}</T>
                 </small>
             );
         case ENCRYPTED_WITHOUT_ANCHOR:
             return (
                 <small className="text-danger">
-                    <T>{`${ENCRYPTED_WITHOUT_ANCHOR}_1`}</T>
-                    <a href="tg://resolve?domain=WMSCryptoBot">@WMSCrypto</a>
+                    <T>{`${ENCRYPTED_WITHOUT_ANCHOR}_1`}</T>{' '}
+                    <a href="tg://resolve?domain=WMSCryptoBot">@WMSCrypto</a>{' '}
                     <T>{`${ENCRYPTED_WITHOUT_ANCHOR}_2`}</T>
                 </small>
             );
