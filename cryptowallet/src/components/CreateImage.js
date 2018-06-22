@@ -11,10 +11,10 @@ class CreateImage extends Component {
         let salt = null;
         const { name, getStepResult, setResult, steps } = this.props;
         const { anchor } = this.props.common;
-        if (steps.components[define.steps.setMnemonics]) {
+        if (steps.components[define.steps.setMnemonics.name]) {
             const r = getStepResult(define.steps.setMnemonics);
-            mnemonics = r.mnemonic;
-            salt = salt !== '' ? salt : null
+            mnemonics = r.mnemonics;
+            salt = r.salt !== '' ? r.salt : null
         } else {
             mnemonics = getStepResult(define.steps.generateMnemonics);
         }
