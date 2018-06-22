@@ -191,6 +191,8 @@ const changeWalletPassword = {
             anchor_hash: '4067df0761eb238bdba8efcdd1c50669ade57919d435a98c8c33a4535d10bd15'
         },
     },
+    response: {
+    },
     description: 'Change wallet password'
 };
 
@@ -203,6 +205,8 @@ const attachWalletByMnemonics = {
             anchor_iv: IV,
             anchor_hash: '4067df0761eb238bdba8efcdd1c50669ade57919d435a98c8c33a4535d10bd15'
         },
+    },
+    response: {
     },
     description: 'Attach wallet using mnemonics'
 };
