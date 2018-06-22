@@ -5,14 +5,14 @@ import { getAnchor } from "../../utils";
 import { changeLanguage } from "./commonActions";
 import { tryDecrypt } from "../crypto";
 
-const decryptAnchor = ({ anchor_hash, anchor_password, anchor_iv, encAnchor }) => {
-    const anchorHash = CryptoJS.SHA256(encAnchor).toString();
+const decryptAnchor = ({ anchor_hash, anchor_password, anchor_iv, anchor }) => {
+    const anchorHash = CryptoJS.SHA256(anchor).toString();
     if (anchorHash !== anchor_hash) {
         throw {code: 400};
     } else {
         const [error, decrypted] = tryDecrypt(() => {
             const iv = CryptoJS.enc.Hex.parse(anchor_iv);
-            return CryptoJS.AES.decrypt(encAnchor, anchor_password, {iv})
+            return CryptoJS.AES.decrypt(anchor, anchor_password, {iv})
         });
         if (error !== null) {
             throw {code: 400};
@@ -24,10 +24,9 @@ const decryptAnchor = ({ anchor_hash, anchor_password, anchor_iv, encAnchor }) =
 
 const _getOperationActions = (dispatch) => {
     const onSuccess = (result) => {
-        const encAnchor = getAnchor();
-        let anchor = null;
-        if (encAnchor) {
-            anchor = decryptAnchor({...result.data, encAnchor})
+        let anchor = getAnchor();
+        if (anchor && result.data.anchor_hash) {
+            anchor = decryptAnchor({...result.data, anchor})
         }
         dispatch({
             type: actionTypes.SET_DATA,

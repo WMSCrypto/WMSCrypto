@@ -29,7 +29,6 @@ const decryptSeed1 = (text, flag, password, anchor) => {
     if (anchor && flag === withoutAnchor) {
         return [ENCRYPTED_WITHOUT_ANCHOR, null]
     }
-    // TODO: check for old anchor type
     return tryDecrypt(() => aes.decrypt(encrypted, password))
 };
 
