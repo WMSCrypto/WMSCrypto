@@ -9,6 +9,8 @@ MT - Make transaction
 Available languages ru, en
 
 For using anchor add #U2FsdGVkX19cjAafziDHhfpOx8R74Qg0y58Kr4/lkdc= in path.
+Mnemonics for test:
+define tell fiction rebel crisp pulse modify length swing build holiday wet vague change dirt present witness fix aware inch brick fancy math pig
 */
 
 const IV = 'a0c01968a1da2b4a51cd94936b833de0';
@@ -192,6 +194,19 @@ const changeWalletPassword = {
     description: 'Change wallet password'
 };
 
+const attachWalletByMnemonics = {
+    request: {
+        action: 'AW',
+        data: {
+            lang: 'en',
+            anchor_password: ANCHOR_PASSWORD,
+            anchor_iv: IV,
+            anchor_hash: '4067df0761eb238bdba8efcdd1c50669ade57919d435a98c8c33a4535d10bd15'
+        },
+    },
+    description: 'Attach wallet using mnemonics'
+};
+
 module.exports = {
     '0': normalCreateWalletRu,
     '1': normalCreateWalletEn,
@@ -201,5 +216,6 @@ module.exports = {
     '5': bitcoinTransactionWithOutChangeAndWithError,
     '6': bitcoinTransactionWithoutInputOutput,
     '7': ethereumTransactionWithoutErrors,
-    '8': changeWalletPassword
+    '8': changeWalletPassword,
+    '9': attachWalletByMnemonics,
 };

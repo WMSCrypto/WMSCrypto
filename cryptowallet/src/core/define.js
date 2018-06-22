@@ -49,6 +49,9 @@ export default {
         signTransaction: {
             name: 'signTrx',
             display: 'Transaction sign'
+        },
+        setMnemonics: {
+            name: 'setMnemonics',
         }
     },
     methods: {

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { HDNode } from "bitcoinjs-lib";
 import { coins } from "../assets";
-import bip39 from "bip39";
-import { t } from '../utils/translate';
 import stepWrapper from "../core/stepWrapper";
 import define from "../core/define";
 import T from "./T";
@@ -32,21 +30,14 @@ class AccountsGenerator extends Component {
     }
 
     generateAccounts(index, accounts) {
-        let node = null;
-        const { hex, getStepResult } = this.props;
-        const mnemonics = getStepResult(define.steps.generateMnemonics);
-        if (mnemonics) {
-            const seed = bip39.mnemonicToSeed(mnemonics);
-            node = HDNode.fromSeedBuffer(seed);
-        }
-
-        if (hex) {
-            node = HDNode.fromSeedHex(hex)
-        }
+        const { getStepResult } = this.props;
+        const { hex }= getStepResult(define.steps.generateImage);
+        console.log(hex)
+        const node = HDNode.fromSeedHex(hex);
 
         const e = coins[index];
         if (index < coins.length) {
-            setProgress(accounts.length, coins.length, `${t("Generated pubkey for") } ${e.name}`, true);
+            setProgress(accounts.length, coins.length, `${<T>Generated pubkey for</T>} ${e.name}`, true);
             const accountNode = node.derivePath(`m/${e.purpose || '44'}'/${e.id}'/0'`);
             console.log(`Generated pub key for ${e.name}: ${accountNode.neutered().toBase58()}`);
             accounts.push({
