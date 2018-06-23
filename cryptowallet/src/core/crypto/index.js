@@ -30,14 +30,14 @@ const tryDecrypt = (func) => {
 };
 
 const encryptSeed = (seedHex, password, anchor) => {
-    let passwordHash = CryptoJS.SHA256(password).toString();
+    let passwordWordArray = CryptoJS.SHA256(password);
     let flag = WITHOUT_ANCHOR_FLAG;
     if (anchor) {
-        passwordHash = CryptoJS.HmacSHA256(password, anchor);
+        passwordWordArray = CryptoJS.HmacSHA256(password, anchor);
         flag = WITH_ANCHOR_FLAG;
     }
     const iv = CryptoJS.lib.WordArray.random(WORD_ARRAY_LENGTH);
-    const encryptedSeedHex = CryptoJS.AES.encrypt(seedHex, passwordHash, {iv: iv}).toString();
+    const encryptedSeedHex = CryptoJS.AES.encrypt(seedHex, passwordWordArray, {iv: iv}).toString();
     return encryptedSeedHex + iv.toString() + flag;
 };
 
@@ -57,7 +57,7 @@ const decryptSeed = (text, password, anchor) => {
         return [ENCRYPTED_WITHOUT_ANCHOR, null]
     }
 
-    let passwordHash = CryptoJS.SHA256(password).toString();
+    let passwordHash = CryptoJS.SHA256(password);
     if (anchor) {
         passwordHash = CryptoJS.HmacSHA256(password, anchor);
     }

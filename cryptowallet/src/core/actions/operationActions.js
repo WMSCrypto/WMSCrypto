@@ -12,7 +12,8 @@ const decryptAnchor = ({ anchor_hash, anchor_password, anchor_iv, anchor }) => {
     } else {
         const [error, decrypted] = tryDecrypt(() => {
             const iv = CryptoJS.enc.Hex.parse(anchor_iv);
-            return CryptoJS.AES.decrypt(anchor, anchor_password, {iv})
+            const passwordWA = CryptoJS.enc.Hex.parse(anchor_password);
+            return CryptoJS.AES.decrypt(anchor, passwordWA, {iv})
         });
         if (error !== null) {
             throw {code: 400};

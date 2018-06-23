@@ -8,13 +8,14 @@ MT - Make transaction
 
 Available languages ru, en
 
-For using anchor add #U2FsdGVkX19cjAafziDHhfpOx8R74Qg0y58Kr4/lkdc= in path.
+For using anchor add #U2FsdGVkX19cjAafziDHhfpOx8R74Qg0y58Kr4/lkdc= in path //wjkdbUXAhe+tUS7EqtTuTw==.
 Mnemonics for test:
 define tell fiction rebel crisp pulse modify length swing build holiday wet vague change dirt present witness fix aware inch brick fancy math pig
 */
 
 const IV = 'a0c01968a1da2b4a51cd94936b833de0';
-const ANCHOR_PASSWORD = 'anchor';
+const ANCHOR_PASSWORD = '79bfb0e2ba76b9d447606ddbcc494834f05a4c11deb052e74b49ea307a3c5bcd'; //sha256(anchor)
+const ANCHOR_HASH = 'e9650ff8b44779729134d7c60a90beadb3ec4e55cd29e3d06d7e72d59b686a00';
 
 const normalCreateWalletRu = {
     request: {
@@ -23,7 +24,7 @@ const normalCreateWalletRu = {
             lang: 'ru',
             anchor_password: ANCHOR_PASSWORD,
             anchor_iv: IV,
-            anchor_hash: '4067df0761eb238bdba8efcdd1c50669ade57919d435a98c8c33a4535d10bd15'
+            anchor_hash: ANCHOR_HASH
         },
     },
     response: {
@@ -102,7 +103,7 @@ const bitcoinTransactionWithChange = {
             },
             anchor_password: ANCHOR_PASSWORD,
             anchor_iv: IV,
-            anchor_hash: '4067df0761eb238bdba8efcdd1c50669ade57919d435a98c8c33a4535d10bd15'
+            anchor_hash: ANCHOR_HASH
         },
     },
     description: 'Create transaction with change'
@@ -188,7 +189,7 @@ const changeWalletPassword = {
             lang: 'ru',
             anchor_password: ANCHOR_PASSWORD,
             anchor_iv: IV,
-            anchor_hash: '4067df0761eb238bdba8efcdd1c50669ade57919d435a98c8c33a4535d10bd15'
+            anchor_hash: ANCHOR_HASH
         },
     },
     response: {
@@ -203,7 +204,7 @@ const attachWalletByMnemonics = {
             lang: 'en',
             anchor_password: ANCHOR_PASSWORD,
             anchor_iv: IV,
-            anchor_hash: '4067df0761eb238bdba8efcdd1c50669ade57919d435a98c8c33a4535d10bd15'
+            anchor_hash: ANCHOR_HASH
         },
     },
     response: {
