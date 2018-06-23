@@ -13,7 +13,6 @@ class SaveWallets extends React.Component {
             check: false
         };
         this._onSave = this._onSave.bind(this);
-        console.log(props)
     }
 
     _onSave() {

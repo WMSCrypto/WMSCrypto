@@ -16,7 +16,7 @@ class CreateTransaction extends React.Component {
                 <ChoiceTransactionSource first={!uuid} next={define.steps.checkTransaction}/>
                 <TransactionForm first={!!uuid} next={define.steps.unlockKey}/>
                 <WalletImageReader next={define.steps.signTransaction}/>
-                <TransactionSigner next={null} last={!uuid}/>
+                <TransactionSigner controls={false} last={true}/>
             </StepCounter>
 
         )

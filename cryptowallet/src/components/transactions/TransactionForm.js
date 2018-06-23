@@ -68,7 +68,6 @@ class TransactionForm extends React.Component {
 
     render() {
         const { getStepResult, trx, online } = this.props;
-        console.log(trx)
         const { fullView } = this.state;
         const { valid, errors } = trx;
         const result = getStepResult(define.steps.choiceTransactionSource);

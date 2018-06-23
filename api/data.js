@@ -106,6 +106,8 @@ const bitcoinTransactionWithChange = {
             anchor_hash: ANCHOR_HASH
         },
     },
+    response: {
+    },
     description: 'Create transaction with change'
 };
 
