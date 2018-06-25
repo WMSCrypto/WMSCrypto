@@ -3,19 +3,17 @@ import CryptoJS from 'crypto-js';
 import { fetchOperation, updateOperation } from "../requests";
 import { getAnchor } from "../../utils";
 import { changeLanguage } from "./commonActions";
-import { tryDecrypt } from "../crypto";
 
 const decryptAnchor = ({ anchor_hash, anchor_password, anchor_iv, anchor }) => {
-    const anchorHash = CryptoJS.SHA256(CryptoJS.enc.Base64.parse(anchor)).toString();
+    const anchorB64 = CryptoJS.enc.Base64.parse(anchor);
+    const anchorHash = CryptoJS.SHA256(anchorB64).toString();
     if (anchorHash !== anchor_hash) {
         throw {code: 400};
     } else {
-        const [error, decrypted] = tryDecrypt(() => {
-            const iv = CryptoJS.enc.Hex.parse(anchor_iv);
-            const passwordWA = CryptoJS.enc.Hex.parse(anchor_password);
-            return CryptoJS.AES.decrypt(anchor, passwordWA, {iv})
-        });
-        if (error !== null) {
+        const iv = CryptoJS.enc.Hex.parse(anchor_iv);
+        const passwordWA = CryptoJS.enc.Hex.parse(anchor_password);
+        const decrypted = CryptoJS.AES.decrypt({ciphertext: anchorB64}, passwordWA, {iv});
+        if (decrypted === '') {
             throw {code: 400};
         } else {
             return decrypted
