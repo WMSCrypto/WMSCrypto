@@ -65,7 +65,7 @@ const decryptSeed = (text, password, anchor) => {
         const ivHex = text.slice(-1 * IV_LENGTH);
         const iv = CryptoJS.enc.Hex.parse(ivHex);
         const encryptedSeedHex = text.slice(0, text.length - IV_LENGTH);
-        return CryptoJS.AES.decrypt(encryptedSeedHex, passwordHash, {iv: iv});
+        return CryptoJS.AES.decrypt({ciphertext: CryptoJS.enc.Base64.parse(encryptedSeedHex)}, passwordHash, {iv: iv});
 
     })
 };
