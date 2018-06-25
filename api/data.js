@@ -8,14 +8,14 @@ MT - Make transaction
 
 Available languages ru, en
 
-For using anchor add #U2FsdGVkX19cjAafziDHhfpOx8R74Qg0y58Kr4/lkdc= in path //wjkdbUXAhe+tUS7EqtTuTw==.
+For using anchor add #wjkdbUXAhe+tUS7EqtTuTw== in path.
 Mnemonics for test:
 define tell fiction rebel crisp pulse modify length swing build holiday wet vague change dirt present witness fix aware inch brick fancy math pig
 */
 
 const IV = 'a0c01968a1da2b4a51cd94936b833de0';
 const ANCHOR_PASSWORD = '79bfb0e2ba76b9d447606ddbcc494834f05a4c11deb052e74b49ea307a3c5bcd'; //sha256(anchor)
-const ANCHOR_HASH = 'e9650ff8b44779729134d7c60a90beadb3ec4e55cd29e3d06d7e72d59b686a00';
+const ANCHOR_HASH = 'c65292f59cd174fbf1ee2d47b865fd6ffff01798d85bec6fa5b72e7c63090168';
 
 const normalCreateWalletRu = {
     request: {
