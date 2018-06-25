@@ -6,7 +6,7 @@ import { changeLanguage } from "./commonActions";
 import { tryDecrypt } from "../crypto";
 
 const decryptAnchor = ({ anchor_hash, anchor_password, anchor_iv, anchor }) => {
-    const anchorHash = CryptoJS.SHA256(CryptoJS.Base64.parse(anchor)).toString();
+    const anchorHash = CryptoJS.SHA256(CryptoJS.enc.Base64.parse(anchor)).toString();
     if (anchorHash !== anchor_hash) {
         throw {code: 400};
     } else {
