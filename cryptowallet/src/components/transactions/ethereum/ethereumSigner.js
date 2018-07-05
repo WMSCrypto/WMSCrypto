@@ -19,7 +19,8 @@ const hexView = (v) => {
         return '0x'
     } else {
         const intValue = Number.isInteger(v) ? v : parseInt(v, 10);
-        return `0x${intValue.toString(16)}`
+        const str = intValue.toString(16);
+        return `0x${str.length % 2 === 1 ? '0' : ''}${str}`
     }
 };
 

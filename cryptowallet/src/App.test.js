@@ -21,9 +21,9 @@ describe('CryptoWallet', function () {
 
     it('transaction for ETH data', function () {
         const requiredTx = {
-            nonce: '0x0',
-            value: '0xde0b6b3a7640000',
-            gasPrice: '0x0',
+            nonce: '0x00',
+            value: '0x0de0b6b3a7640000',
+            gasPrice: '0x00',
             gasLimit: '0x5208',
             to: '0xAB1182654936eaf254915bC6aF2C1460b26A658a',
             data: '',
