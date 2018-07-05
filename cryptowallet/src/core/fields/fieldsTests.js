@@ -26,6 +26,7 @@ const hex = (v) => {
 };
 
 const satoshi = (v) => /^\d+\.{0,1}\d{0,8}$/.test(v);
+const eth = (v) => /^\d+\.{0,1}\d{0,18}$/.test(v);
 
 const oneOrTwo = (v) => {
     const parsed = parseInt(v, 10);
@@ -47,5 +48,6 @@ export default {
     satoshi,
     oneOrTwo,
     bool,
-    walletTest
+    walletTest,
+    eth
 }

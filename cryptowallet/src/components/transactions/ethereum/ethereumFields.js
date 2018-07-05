@@ -46,8 +46,8 @@ export default {
     'value': fieldCreator({
         name: 'Value',
         def: 0,
-        fTest: fieldTests.integer,
-        iTest: fieldTests.integer,
+        fTest: fieldTests.eth,
+        iTest: fieldTests.eth,
     }),
     'data': fieldCreator({
         name: 'Data',
