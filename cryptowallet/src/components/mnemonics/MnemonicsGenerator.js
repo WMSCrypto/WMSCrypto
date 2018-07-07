@@ -21,7 +21,12 @@ class MnemonicsGenerator extends Component {
     render() {
         const { result } = this.props;
         return (
-            <div className="Mnemonics_list">{ result ? generateList(result) : <T>Generation ...</T> }</div>
+            <div>
+            <p><T>Make sure to write down the recovery phrase and keep it in a safe place without online access. The phrase is a master key from your wallet. It was generated on your device and you are the only person who has access to it.</T></p>
+            <div className="Mnemonics_list">
+                { result ? generateList(result) : <T>Generation ...</T> }
+            </div>
+            </div>
         )
     }
 }

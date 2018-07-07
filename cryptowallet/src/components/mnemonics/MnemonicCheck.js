@@ -22,11 +22,12 @@ class MnemonicCheck extends React.Component {
     constructor(props) {
         super(props);
         const { getStepResult } = props;
+        const mnemonicsList = getStepResult(define.steps.generateMnemonics).split(' ');
         const index = getRandomMnemonicIndex();
         this.state = {
             mnemonic: props.result || '',
             index,
-            validMnemonic: getStepResult(define.steps.generateMnemonics).split(' ')[index]
+            validMnemonic: mnemonicsList[index]
         };
         this._onChange = this._onChange.bind(this);
     }

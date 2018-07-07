@@ -32,12 +32,12 @@ class AccountsGenerator extends Component {
     generateAccounts(index, accounts) {
         const { getStepResult } = this.props;
         const { hex }= getStepResult(define.steps.generateImage);
-        console.log(hex)
         const node = HDNode.fromSeedHex(hex);
 
         const e = coins[index];
         if (index < coins.length) {
-            setProgress(accounts.length, coins.length, `${<T>Generated pubkey for</T>} ${e.name}`, true);
+            const message = `${e.name}`;
+            setProgress(accounts.length, coins.length, message, true);
             const accountNode = node.derivePath(`m/${e.purpose || '44'}'/${e.id}'/0'`);
             console.log(`Generated pub key for ${e.name}: ${accountNode.neutered().toBase58()}`);
             accounts.push({
@@ -55,6 +55,7 @@ class AccountsGenerator extends Component {
         const { result } = this.props;
         return(
             <div className="AccountGenerator">
+                <p><T>Public keys allow to get the balance of the wallet and compose unsigned transactions but do not have enough rights to move cryptoassets from the wallet. Only public keys will be shared with WMSCrypto servers.</T></p>
                 <small id="generatedCoin">{result ? <T>All pubkeys was generated successful</T> : null}</small>
                 <div className="progress">
                     <div id="generateProgress" className="progress-bar" style={{width: result ? '100%' : '0%'}}/>

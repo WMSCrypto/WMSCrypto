@@ -1,4 +1,28 @@
 const translates = {
+    "Password match. Score of strength password is 4 or 4": "Пароли совпадают и получили оценку сложности 4 из 4",
+    "Password match. Score of strength password is 3 or 4": "Пароли совпадают и получили оценку сложности 3 из 4",
+    "Password match. Score of strength password is 2 or 4": "Пароли совпадают и получили оценку сложности 2 из 4",
+    "Password match. Score of strength password is 1 or 4": "Пароли совпадают и получили оценку сложности 1 из 4",
+    "Password match. Score of strength password is 0 or 4": "Пароли совпадают и получили оценку сложности 0 из 4",
+    "Password match. Score of strength password not available, because using not english chars, not digits or not !\"#$%&'()*+,-./:;<=>?@[]^_`{|}~":
+        "Пароли совпадают. Оценка сложности пароля не доступна, так как использовались символы, отличные от букв латинского алфавита, цифр и символов !\"#$%&'()*+,-./:;<=>?@[]^_`{|}~",
+    "P == NP (optional)":
+        "P == NP (необязательно)",
+    "I saved the QR Key": "Картинка с QR-ключом сохранена",
+    "I wrote down the recovery phrase": "Фраза для восстановления записана",
+    "I understand that loss of the recovery phrase is equivalent to the loss of access to the wallet":
+        "Я понимаю, что потеря фразы для восстановления равнозначна потере доступа к кошельку",
+    "I understand that it is unsafe to keep the recovery phrase on devices with Internet access since the recovery phrase is the master key from my wallet":
+        "Я понимаю, что фразу для восстановления небезопасно хранить на устройствах с доступом в интернет, так как она является мастер-ключом от моего кошелька",
+    "One day cryptoassets inside your wallet may cost a fortune, so we ask you to confirm that you agree with the following statements:":
+        "Однажды криптоактивы на счету Вашего кошелька могут стоить целое состояние, поэтому просим Вас подтвердить, что Вы согласны со следующими высказываниями:",
+    "Public keys allow to get the balance of the wallet and compose unsigned transactions but do not have enough rights to move cryptoassets from the wallet. Only public keys will be shared with WMSCrypto servers.":
+        "Публичные ключи позволяют просматривать баланс кошелька и составлять неподписанные транзакции, но не дают доступ к управлению криптоактивами. Только публичные ключи будут отправлены на серверы WMSCrypto",
+    "*QR Key is protected by your password and password of WMSCrypto, thus it may be safely kept on the devices with Internet access":
+        "*QR-ключ защищен Вашим паролем и паролем WMSCrypto, поэтому его можно без опасений хранить на устройствах с выходом в интернет.",
+    "QR Key is required for day-to-day use of your wallet. Take a screenshot or save it as a photo.":
+        "QR-ключ нужен для повседневного использования Вашего кошелька. Сохраните его как фотографию или сделайте снимок экрана.",
+    "Make sure to write down the recovery phrase and keep it in a safe place without online access. The phrase is a master key from your wallet. It was generated on your device and you are the only person who has access to it.": "Обязательно запишите фразу для восстановления и храните в надежном месте без выхода в интернет. Фраза сгенерирована на вашем устройстве, и является мастер-ключом от вашего кошелька.",
     "Send": "Отправить",
     "Unlock key": "Разблокировать ключ",
     "Add input": "Добавить вход",
@@ -52,7 +76,7 @@ const translates = {
     "New password": "Придумайте пароль",
     "Repeat new password": "Повторите пароль",
     "Passwords match and have strong security.": "Пароли совпадают и не входят в топ-100 популярных паролей",
-    'Password length must be 8 or more.': "Пароль не может быть короче 8 символов",
+    'Password length must be more 8 symbols.': "Длина пароля должна быть больше 8 символов",
     "SAVE_MNEMONICS": "После нажатия кнопки \"Создать кошелек\" Вы увидите QR-ключ, необходимый для проведения операций с кошельком, полученным из фразы для восстановления. Обязательно сохраните его!",
     "Generate mnemonics": "Фраза для восстановления",
     "Generated mnemonics to 256-bits entropy": "Фраза для восстановления",

@@ -10,7 +10,11 @@ class SaveWallets extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            check: false
+            checkPNP: false,
+            checkQr: false,
+            checkPhrase: false,
+            checkAccess: false,
+            checkLost: false,
         };
         this._onSave = this._onSave.bind(this);
     }
@@ -30,19 +34,48 @@ class SaveWallets extends React.Component {
 
     render() {
         const { previousStep } = this.props;
-        const { check } = this.state;
+        const { checkQr, checkPhrase, checkAccess, checkLost, checkPNP } = this.state;
+        const check = checkQr && checkPhrase && checkAccess && checkLost;
         return (
             <React.Fragment>
                 <div>
                     <h3 className="text-danger"><T>IMPORTANT!</T></h3>
-                    <p className="text-muted"><T>{messages.SAVE_WALLETS}</T></p>
+                    <p className="text-muted"><T>One day cryptoassets inside your wallet may cost a fortune, so we ask you to confirm that you agree with the following statements:</T></p>
                 </div>
                 <div className="form-check">
                     <input className="form-check-input"
                            type="checkbox"
-                           checked={check}
-                           onChange={() => this.setState({check: !check})}/>
-                    <label className="form-check-label" htmlFor="checkImportant"><small><T>I understand</T></small></label>
+                           checked={checkQr}
+                           onChange={() => this.setState({checkQr: !checkQr})}/>
+                    <label className="form-check-label" htmlFor="checkImportant"><small><T>I saved the QR Key</T></small></label>
+                </div>
+                <div className="form-check">
+                    <input className="form-check-input"
+                           type="checkbox"
+                           checked={checkPhrase}
+                           onChange={() => this.setState({checkPhrase: !checkPhrase})}/>
+                    <label className="form-check-label" htmlFor="checkImportant"><small><T>I wrote down the recovery phrase</T></small></label>
+                </div>
+                <div className="form-check">
+                    <input className="form-check-input"
+                           type="checkbox"
+                           checked={checkAccess}
+                           onChange={() => this.setState({checkAccess: !checkAccess})}/>
+                    <label className="form-check-label" htmlFor="checkImportant"><small><T>I understand that loss of the recovery phrase is equivalent to the loss of access to the wallet</T></small></label>
+                </div>
+                <div className="form-check">
+                    <input className="form-check-input"
+                           type="checkbox"
+                           checked={checkLost}
+                           onChange={() => this.setState({checkLost: !checkLost})}/>
+                    <label className="form-check-label" htmlFor="checkImportant"><small><T>I understand that it is unsafe to keep the recovery phrase on devices with Internet access since the recovery phrase is the master key from my wallet</T></small></label>
+                </div>
+                <div className="form-check">
+                    <input className="form-check-input"
+                           type="checkbox"
+                           checked={checkPNP}
+                           onChange={() => this.setState({checkPNP: !checkPNP})}/>
+                    <label className="form-check-label" htmlFor="checkImportant"><small><T>P == NP (optional)</T></small></label>
                 </div>
                 <br/>
                 <div className="Step_controls">

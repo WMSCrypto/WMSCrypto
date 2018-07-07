@@ -6,13 +6,24 @@ import stepWrapper from '../core/stepWrapper';
 
 const PASSWORD_LENGTH = 8;
 
-const validatePassword = (password) => {
-    const { warning, suggestions } = zxcvbn(password).feedback;
-    return [
-        warning,
-        ...suggestions,
-        ...[password.length <= PASSWORD_LENGTH ? 'Password length must be 8 or more.' : '']
-    ];
+const validatePassword = (password, isEN) => {
+
+    const passwordLength = password.length <= PASSWORD_LENGTH ? 'Password length must be more 8 symbols.' : '';
+    let messages, score;
+    if (isEN) {
+        const check = zxcvbn(password);
+        const { warning, suggestions } = check.feedback;
+        messages = [
+            warning,
+            ...suggestions,
+            ...[passwordLength]
+        ];
+        score = check.score;
+    } else {
+        messages = [passwordLength];
+        score = null;
+    }
+    return {messages, score}
 };
 
 const getInitialState = ({ result }) => {
@@ -51,7 +62,14 @@ class CreatePassword extends Component {
     render() {
         const { password, passwordRepeat } = this.state;
         const { children, result } = this.props;
-        const validateMessages = password && validatePassword(password);
+        const isEN = /^[0-9a-zA-Z!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]*$/.test(password);
+        const { messages: validateMessages, score } = password && validatePassword(password, isEN);
+        let messageIfValid;
+        if (score !== null) {
+            messageIfValid = `Password match. Score of strength password is ${score} or 4`;
+        } else {
+            messageIfValid = "Password match. Score of strength password not available, because using not english chars, not digits or not !\"#$%&'()*+,-./:;<=>?@[]^_`{|}~'"
+        }
         const notMatch = passwordRepeat && password !== passwordRepeat;
         return (
             <React.Fragment>
@@ -69,7 +87,7 @@ class CreatePassword extends Component {
                                messages={notMatch && ['Passwords not matched']}
                                invalid={notMatch}
                                valid={result}
-                               validMessage={'Passwords match and have strong security.'}
+                               validMessage={messageIfValid}
                                id="repeatPasswordInput"/>
                 {children || null}
             </React.Fragment>
