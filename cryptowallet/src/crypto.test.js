@@ -1,5 +1,6 @@
 import assert from 'assert';
 import { encryptSeed, decryptSeed, generateSeedObj } from './core/crypto';
+import erc20 from './components/transactions/ethereum/erc20';
 
 
 const TEST_SALT = 'salt';
@@ -118,6 +119,59 @@ describe('CryptoWallet', function () {
 
         const [error, _] = decryptSeed(seed.encrypted, TEST_PASSWORD, TEST_ANCHOR);
         assert.equal(!!error, true);
+    });
+    
+    it('Check erc20 transfer to send', function () {
+        const [ error, result ] = erc20({
+            data: 'a9059cbb00000000000000000000000050333a327bad0ee064a17a78f47468c02d026bae0000000000000000000000000000000000000000000000000019c7fb954e8a3c',
+            symbol: 'WMSToken',
+            decimals: 8
+        });
+        assert.equal(error, null);
+        assert.equal(result['erc20_value'], 7256757773437500);
+        assert.equal(result['erc20_receiver'], '0x50333a327bad0ee064a17a78f47468c02d026bae');
+        assert.equal(result['erc20_symbol'], 'WMSToken');
+        assert.equal(result['erc20_decimals'], 8);
+    });
+
+    it('Check erc20 transfer without symbol and decimal', function () {
+        const [ error, result ] = erc20({
+            data: 'a9059cbb00000000000000000000000050333a327bad0ee064a17a78f47468c02d026bae0000000000000000000000000000000000000000000000000019c7fb954e8a3c',
+            symbol: null,
+            decimals: null
+        });
+        assert.equal(error, null);
+        assert.equal(result['erc20_data'], 'transfer(0x50333a327bad0ee064a17a78f47468c02d026bae, 19c7fb954e8a3c)')
+    });
+
+    it('Check erc20 transfer with symbol and decimal', function () {
+        const [ error, result ] = erc20({
+            data: '0x70a08231000000000000000000000000a0323a327bad0ff064a17a78f474t8c02d026788',
+            symbol: 'WMSToken',
+            decimals: 8
+        });
+        assert.equal(error, null);
+        assert.equal(result['erc20_data'], 'balanceOf(0xa0323a327bad0ff064a17a78f474t8c02d026788)')
+    });
+
+    it('Check erc20 transfer with symbol, decimal no data', function () {
+        const [ error, result ] = erc20({
+            data: '0x',
+            symbol: 'WMSToken',
+            decimals: 8
+        });
+        assert.equal(error, 'Not data');
+        assert.equal(result['erc20_data'], null)
+    });
+
+    it('Cannot parsed erc20 token', function () {
+        const [ error, result ] = erc20({
+            data: '0xsome-thing-unexpected',
+            symbol: 'WMSToken',
+            decimals: 8
+        });
+        assert.equal(error, 'Not erc20 interface');
+        assert.equal(result['erc20_data'], null)
     })
 
 });
