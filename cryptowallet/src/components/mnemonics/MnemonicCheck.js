@@ -16,6 +16,7 @@ const _renderAsk = (index) => {
 };
 
 const _renderSuccess = () => <p><T>Check passed</T></p>;
+let lastMnemonicIndex = null
 
 class MnemonicCheck extends React.Component {
 
@@ -23,7 +24,11 @@ class MnemonicCheck extends React.Component {
         super(props);
         const { getStepResult } = props;
         const mnemonicsList = getStepResult(define.steps.generateMnemonics).split(' ');
-        const index = getRandomMnemonicIndex();
+        let index = getRandomMnemonicIndex();
+        while (lastMnemonicIndex === index) {
+            index = getRandomMnemonicIndex();
+        }
+        lastMnemonicIndex = index;
         this.state = {
             mnemonic: props.result || '',
             index,
