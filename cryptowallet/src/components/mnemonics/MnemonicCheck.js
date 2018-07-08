@@ -3,6 +3,7 @@ import stepWrapper from "../../core/stepWrapper";
 import define from "../../core/define";
 import { getRandomMnemonicIndex } from "../../utils/index";
 import T from "../T";
+import TextInput from "../inputs/TextInput";
 
 const _renderAsk = (index) => {
     return (
@@ -16,7 +17,7 @@ const _renderAsk = (index) => {
 };
 
 const _renderSuccess = () => <p><T>Check passed</T></p>;
-let lastMnemonicIndex = null
+let lastMnemonicIndex = null;
 
 class MnemonicCheck extends React.Component {
 
@@ -58,7 +59,7 @@ class MnemonicCheck extends React.Component {
             <React.Fragment>
                 { result ? _renderSuccess() : _renderAsk(index)}
                 <div style={{marginBottom: 24}}>
-                    <input className="form-control" value={mnemonic} onChange={this._onChange} disabled={!!result}/>
+                    <TextInput className="form-control" value={mnemonic} onChange={this._onChange} disabled={!!result}/>
                 </div>
             </React.Fragment>
         )

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import zxcvbn from 'zxcvbn';
-import PasswordInput from "./PasswordInput";
+import PasswordInput from "./inputs/PasswordInput";
 import define from "../core/define";
 import stepWrapper from '../core/stepWrapper';
 

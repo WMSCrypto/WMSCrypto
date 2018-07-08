@@ -5,6 +5,7 @@ import { getIdenticonSVG } from "../../utils/jdenticon";
 import { ENCRYPTED_BY_ANCHOR, ENCRYPTED_WITHOUT_ANCHOR} from "../../assets/messages";
 import { decryptSeed } from "../../core/crypto";
 import T from "../T";
+import TextInput from "../inputs/TextInput";
 
 const Error = ({ error }) => {
     switch (error) {
@@ -64,10 +65,10 @@ class WalletImageLocker extends Component {
         const { error, password } = this.state;
         return (
             <div className="form-group">
-                <input type="password"
-                       className="form-control"
-                       value={password}
-                       onChange={(e) => this.setState({password: e.target.value})}/>
+                <TextInput type="password"
+                           className="form-control"
+                           value={password}
+                           onChange={(e) => this.setState({password: e.target.value})}/>
                 <p>{error ? <Error error={error}/> : ' '}</p>
                 <div>
                     <button className="btn btn-primary" onClick={this._unlock} disabled={!password}>

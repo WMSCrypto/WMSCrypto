@@ -1,5 +1,6 @@
 import React from 'react';
-import T from "./T";
+import T from "../T";
+import TextInput from "./TextInput";
 
 const PasswordInput = (props) => {
     const {
@@ -14,13 +15,13 @@ const PasswordInput = (props) => {
                 <label htmlFor={id}>
                     <T>{label}</T>
                 </label>
-                <input className={classNames}
-                       id={id}
-                       type="password"
-                       placeholder={placeholder || ''}
-                       onChange={onChange}
-                       value={value}
-                       {...attrs}/>
+                <TextInput className={classNames}
+                           id={id}
+                           type="password"
+                           placeholder={placeholder || ''}
+                           onChange={onChange}
+                           value={value}
+                           {...attrs}/>
                 { messages && messages.map(
                     (e, i) =>
                         <small key={`key-${id}-${i}`} className="form-text text-danger"><T>{e}</T></small>

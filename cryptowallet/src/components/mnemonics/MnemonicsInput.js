@@ -4,6 +4,7 @@ import VisibilityIcon from "../VisibilityIcon";
 import T from "../T";
 import stepWrapper from "../../core/stepWrapper";
 import define from "../../core/define";
+import TextInput from "../inputs/TextInput";
 
 
 class MnemonicsInput extends Component {
@@ -37,12 +38,13 @@ class MnemonicsInput extends Component {
 
     _changeMnemonic({ target }) {
         const { result, setResult } = this.props;
-        const indexDot = target.value.lastIndexOf('\u2022');
+        const filteredString = target.value.split('\n').join('');
+        const indexDot = filteredString.lastIndexOf('\u2022');
         let { mnemonics } = result;
         if (indexDot > -1) {
-            mnemonics = mnemonics.slice(0, indexDot + 1) + target.value.slice(indexDot + 1)
+            mnemonics = mnemonics.slice(0, indexDot + 1) + filteredString.slice(indexDot + 1)
         } else {
-            mnemonics = target.value
+            mnemonics = filteredString
         }
         const validMnemonics = bip39.validateMnemonic(mnemonics);
         this.setState({ validMnemonics }, setResult({
@@ -71,10 +73,12 @@ class MnemonicsInput extends Component {
                         <label><T>Mnemonics</T></label>
                         <VisibilityIcon size={24} onClick={this._toggleVisible} visible={visible}/>
                     </div>
-                    <textarea className="form-control"
+                    <textarea ref="textAreaRef"
+                              className="form-control"
                               id="mnemonicsInput"
                               value={visible ? result.mnemonics : Array(result.mnemonics.length).fill('\u2022').join('')}
                               onChange={this._changeMnemonic}
+                              onKeyPress={(e) => {if (e.key === 'Enter') {this.refs.textAreaRef.blur()}}}
                               rows="4"/>
                     {result.mnemonics && !validMnemonics
                         ? <small className="text-danger"><T>Invalid mnemonics</T></small>
@@ -83,10 +87,10 @@ class MnemonicsInput extends Component {
                 </div>
                 <div className="form-group">
                     <label><T>Passphrase</T></label>
-                    <input className="form-control"
-                           type="password"
-                           value={result.salt}
-                           onChange={this._changeSalt}/>
+                    <TextInput className="form-control"
+                               type="password"
+                               value={result.salt}
+                               onChange={this._changeSalt}/>
                 </div>
             </React.Fragment>
         )
