@@ -8,15 +8,23 @@ MT - Make transaction
 
 Available languages ru, en
 
-For using anchor add #wjkdbUXAhe+tUS7EqtTuTw== in path.
+For using anchor add #wjkdbUXAhe+tUS7EqtTuTw== or #OgXMJ1F6hAN1Qq0IujUSlg== in path.
+For using change password with method 8 #wjkdbUXAhe+tUS7EqtTuTw==&OgXMJ1F6hAN1Qq0IujUSlg== in path
 Mnemonics for test:
 define tell fiction rebel crisp pulse modify length swing build holiday wet vague change dirt present witness fix aware inch brick fancy math pig
 */
 
+// wjkdbUXAhe+tUS7EqtTuTw==
 const IV = 'a0c01968a1da2b4a51cd94936b833de0';
 const ANCHOR_PASSWORD = '79bfb0e2ba76b9d447606ddbcc494834f05a4c11deb052e74b49ea307a3c5bcd'; //sha256(anchor)
 const ANCHOR_HASH = 'c65292f59cd174fbf1ee2d47b865fd6ffff01798d85bec6fa5b72e7c63090168';
 
+// OgXMJ1F6hAN1Qq0IujUSlg==
+const NEW_IV = '9e1a5e47950562c045fb20c9a949c724';
+const NEW_ANCHOR_PASSWORD = '42f6e0ce671eef6252ef18a23e38bfee47f8325df818908100389eceb09607f9'; //sha256(new_anchor)
+const NEW_ANCHOR_HASH = '5c1f29ae22966dfb337f4edf02fd4a3ffb985080363f29fbb617bd8517946d9f';
+
+// 0
 const normalCreateWalletRu = {
     request: {
         action: 'CW',
@@ -32,6 +40,7 @@ const normalCreateWalletRu = {
     description: 'Normal request for create wallet for russian lang'
 };
 
+// 1
 const normalCreateWalletEn = {
     request: {
         action: 'CW',
@@ -44,6 +53,7 @@ const normalCreateWalletEn = {
     description: 'Normal request for create wallet for ENGLISH lang'
 };
 
+// 2
 const totalNotExistsError = {
     error: {
         'GET': 404,
@@ -52,6 +62,7 @@ const totalNotExistsError = {
     description: 'Return on GET and PUT 404 errors'
 };
 
+// 3
 const createWalletAndPutError = {
     request: {
         action: 'CW',
@@ -65,6 +76,7 @@ const createWalletAndPutError = {
     description: 'Create wallet and onSave return error'
 };
 
+// 4
 const bitcoinTransactionWithChange = {
     request: {
         action: 'MT',
@@ -111,6 +123,7 @@ const bitcoinTransactionWithChange = {
     description: 'Create transaction with change'
 };
 
+// 5
 const bitcoinTransactionWithOutChangeAndWithError = {
     request: {
         action: 'MT',
@@ -152,6 +165,7 @@ const bitcoinTransactionWithOutChangeAndWithError = {
     description: 'Create transaction with out change and with error'
 };
 
+// 6
 const bitcoinTransactionWithoutInputOutput = {
     request: {
         action: 'MT',
@@ -165,6 +179,7 @@ const bitcoinTransactionWithoutInputOutput = {
     description: 'Create transaction with out any input and output'
 };
 
+// 7
 const ethereumTransactionWithoutErrors = {
     request: {
         action: 'MT',
@@ -184,6 +199,7 @@ const ethereumTransactionWithoutErrors = {
     description: 'Ethereum transaction without error'
 };
 
+// 8
 const changeWalletPassword = {
     request: {
         action: 'CWP',
@@ -191,7 +207,10 @@ const changeWalletPassword = {
             lang: 'ru',
             anchor_password: ANCHOR_PASSWORD,
             anchor_iv: IV,
-            anchor_hash: ANCHOR_HASH
+            anchor_hash: ANCHOR_HASH,
+            new_anchor_password: NEW_ANCHOR_PASSWORD,
+            new_anchor_iv: NEW_IV,
+            new_anchor_hash: NEW_ANCHOR_HASH,
         },
     },
     response: {
@@ -199,6 +218,7 @@ const changeWalletPassword = {
     description: 'Change wallet password'
 };
 
+// 9
 const attachWalletByMnemonics = {
     request: {
         action: 'AW',
@@ -214,6 +234,7 @@ const attachWalletByMnemonics = {
     description: 'Attach wallet using mnemonics'
 };
 
+// 10
 const normalCreateWalletRuWithCoinsList = {
     request: {
         action: 'CW',
@@ -235,7 +256,26 @@ const normalCreateWalletRuWithCoinsList = {
     },
     response: {
     },
-    description: 'Normal request for create wallet for russian lang'
+    description: 'Normal request for create wallet for russian lang and send coins list'
+};
+
+// 11
+const changeWalletPasswordReverse = {
+    request: {
+        action: 'CWP',
+        data: {
+            lang: 'ru',
+            new_anchor_password: ANCHOR_PASSWORD,
+            new_anchor_iv: IV,
+            new_anchor_hash: ANCHOR_HASH,
+            anchor_password: NEW_ANCHOR_PASSWORD,
+            anchor_iv: NEW_IV,
+            anchor_hash: NEW_ANCHOR_HASH,
+        },
+    },
+    response: {
+    },
+    description: 'Change wallet password with reverse action 8'
 };
 
 module.exports = {
@@ -249,5 +289,6 @@ module.exports = {
     '7': ethereumTransactionWithoutErrors,
     '8': changeWalletPassword,
     '9': attachWalletByMnemonics,
-    '10': normalCreateWalletRuWithCoinsList
+    '10': normalCreateWalletRuWithCoinsList,
+    '11': changeWalletPasswordReverse
 };

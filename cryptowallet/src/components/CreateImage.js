@@ -11,7 +11,7 @@ class CreateImage extends Component {
         let mnemonics;
         let salt = null;
         const { name, getStepResult, setResult, steps } = this.props;
-        const { anchor } = this.props.common;
+        const { anchor, newAnchor } = this.props.common;
         if (steps.components[define.steps.setMnemonics.name]) {
             const r = getStepResult(define.steps.setMnemonics);
             mnemonics = r.mnemonics;
@@ -23,9 +23,9 @@ class CreateImage extends Component {
             setResult(generateSeedObj({
                 password: getStepResult(define.steps.createPassword),
                 seed: getStepResult(define.steps.unlockKey),
+                anchor: newAnchor || anchor,
                 mnemonics,
                 salt,
-                anchor
             }))
         }
     }

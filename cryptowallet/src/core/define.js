@@ -52,6 +52,9 @@ export default {
         },
         setMnemonics: {
             name: 'setMnemonics',
+        },
+        saveNewPassword: {
+            name: 'saveNewPassword',
         }
     },
     methods: {

@@ -1,4 +1,6 @@
 const translates = {
+    "Save new password": "Сохранить новый пароль",
+    "This action save new server password and old key set invalid.": "Это действие сохранит на сервере новый сервернй пароль и старый ключ станет недействителен",
     "Use a few words, avoid common phrases": "Используйте несколько слов, избегайте общих фраз",
     "No need for symbols, digits, or uppercase letters": "Нет необходимости в символах, цифрах или заглавных буквах",
     "Add another word or two. Uncommon words are better.": "Добавьте еще одно слово или два. Необычные слова лучше.",

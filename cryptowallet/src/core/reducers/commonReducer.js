@@ -22,11 +22,12 @@ export default (state=initialState, action) => {
             setLang(lang);
             return {...state, lang};
         case actionTypes.SET_DATA:
-            const { data, application, anchor } = action;
+            const { data, application, anchor, newAnchor } = action;
             return {
                 ...state,
                 data,
                 anchor,
+                newAnchor,
                 application
             };
         case actionTypes.SET_ERROR:

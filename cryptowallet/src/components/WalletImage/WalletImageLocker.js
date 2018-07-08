@@ -110,7 +110,7 @@ WalletImageLocker.propTypes = {
     onUnlock: PropTypes.func.isRequired,
     encryptedString: PropTypes.string,
     seed: PropTypes.string,
-    anchor: PropTypes.string
+    anchor: PropTypes.object
 };
 
 export default WalletImageLocker;

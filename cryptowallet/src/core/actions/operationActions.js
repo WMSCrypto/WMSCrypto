@@ -7,31 +7,52 @@ import { changeLanguage } from "./commonActions";
 const decryptAnchor = ({ anchor_hash, anchor_password, anchor_iv, anchor }) => {
     const anchorB64 = CryptoJS.enc.Base64.parse(anchor);
     const anchorHash = CryptoJS.SHA256(anchorB64).toString();
+    console.log(anchorHash, anchor)
     if (anchorHash !== anchor_hash) {
-        throw {code: 400};
+        throw {code: 400, message: 'Hash incorrect'};
     } else {
         const iv = CryptoJS.enc.Hex.parse(anchor_iv);
         const passwordWA = CryptoJS.enc.Hex.parse(anchor_password);
         const decrypted = CryptoJS.AES.decrypt({ciphertext: anchorB64}, passwordWA, {iv});
         if (decrypted === '') {
-            throw {code: 400};
+            throw {code: 400, message: 'Password or iv incorrect'};
         } else {
             return decrypted
         }
     }
 };
 
+const decryptAnchorsList = (arr, data) => {
+    let anchor = null;
+    let newAnchor = null;
+    if (data.anchor_hash) {
+        anchor = decryptAnchor({...data, anchor: arr[0]});
+    }
+    if (arr.length === 2 && data.new_anchor_hash) {
+        newAnchor = decryptAnchor({
+            anchor_hash: data.new_anchor_hash,
+            anchor_password: data.new_anchor_password,
+            anchor_iv: data.new_anchor_iv,
+            anchor: arr[1]
+        });
+    }
+    return [anchor, newAnchor];
+};
+
 const _getOperationActions = (dispatch) => {
     const onSuccess = (result) => {
         let anchor = getAnchor();
-        if (anchor && result.data.anchor_hash) {
-            anchor = decryptAnchor({...result.data, anchor})
+        let newAnchor = null;
+        const anchorsList = anchor && anchor.split('&');
+        if (anchorsList) {
+            [anchor, newAnchor] = decryptAnchorsList(anchorsList, result.data)
         }
         dispatch({
             type: actionTypes.SET_DATA,
             data: result.data,
             application: result.action,
             anchor,
+            newAnchor,
         });
         if (result.data.lang) {
             dispatch(changeLanguage(result.data.lang))
