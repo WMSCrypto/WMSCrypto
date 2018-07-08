@@ -8,7 +8,8 @@ const translates = {
     "ENCRYPTED_BY_ANCHOR_2": "or create new from mnemonic using form Connect wallet",
     "ENCRYPTED_WITHOUT_ANCHOR_1": "Your QR-key not encrypted password",
     "ENCRYPTED_WITHOUT_ANCHOR_2": "and cannot using in online form",
-    "Invalid anchor": "Invalid QR-key"
+    "Invalid anchor": "Invalid QR-key",
+    "CANNOT_SCORE_PASSWORD": "Password match. Score of strength password not available, because using not english chars, not digits or not !\"#$%&'()*+,-./:;<=>?@[]^_`{|}~'"
 };
 
 export default translates;

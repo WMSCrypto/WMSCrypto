@@ -1,4 +1,5 @@
 const translates = {
+    "CANNOT_SCORE_PASSWORD": "Пароли совпадают. Оценка сложности пароля не доступна, так как использовались символы, отличные от букв латинского алфавита, цифр и символов !\"#$%&'()*+,-./:;<=>?@[]^_`{|}~",
     "Password match. Score of strength password is 4 or 4": "Пароли совпадают и получили оценку сложности 4 из 4",
     "Password match. Score of strength password is 3 or 4": "Пароли совпадают и получили оценку сложности 3 из 4",
     "Password match. Score of strength password is 2 or 4": "Пароли совпадают и получили оценку сложности 2 из 4",

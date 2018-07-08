@@ -68,7 +68,7 @@ class CreatePassword extends Component {
         if (score !== null) {
             messageIfValid = `Password match. Score of strength password is ${score} or 4`;
         } else {
-            messageIfValid = "Password match. Score of strength password not available, because using not english chars, not digits or not !\"#$%&'()*+,-./:;<=>?@[]^_`{|}~'"
+            messageIfValid = "CANNOT_SCORE_PASSWORD"
         }
         const notMatch = passwordRepeat && password !== passwordRepeat;
         return (
