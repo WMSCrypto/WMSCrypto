@@ -18,8 +18,11 @@ class AccountsGenerator extends Component {
 
     constructor(props) {
         super(props);
+        const { common } = this.props;
+        const coinsFromData = common && common.data && common.data.coins_list;
+        this.coinsList = coinsFromData || coins;
         this.state = {
-            accounts: props.result
+            accounts: props.result,
         }
     }
 
@@ -33,7 +36,7 @@ class AccountsGenerator extends Component {
         const { getStepResult } = this.props;
         const { hex }= getStepResult(define.steps.generateImage);
         const node = HDNode.fromSeedHex(hex);
-
+        const coins = this.coinsList;
         const e = coins[index];
         if (index < coins.length) {
             const message = `${e.name}`;

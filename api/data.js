@@ -214,6 +214,30 @@ const attachWalletByMnemonics = {
     description: 'Attach wallet using mnemonics'
 };
 
+const normalCreateWalletRuWithCoinsList = {
+    request: {
+        action: 'CW',
+        data: {
+            lang: 'ru',
+            anchor_password: ANCHOR_PASSWORD,
+            anchor_iv: IV,
+            anchor_hash: ANCHOR_HASH,
+            coins_list: [
+                {name: 'Bitcoin', id : 0},
+                {name: 'Ethereum', id : 60},
+                {name: 'Litecoin', id : 2},
+                {name: 'Bitcoin Cash', id : 145},
+                {name: 'Bitcoin Gold', id : 156},
+                {name: 'ZCash', id : 113},
+                {name: 'Expanse', id : 40},
+            ]
+        },
+    },
+    response: {
+    },
+    description: 'Normal request for create wallet for russian lang'
+};
+
 module.exports = {
     '0': normalCreateWalletRu,
     '1': normalCreateWalletEn,
@@ -225,4 +249,5 @@ module.exports = {
     '7': ethereumTransactionWithoutErrors,
     '8': changeWalletPassword,
     '9': attachWalletByMnemonics,
+    '10': normalCreateWalletRuWithCoinsList
 };
