@@ -77,7 +77,7 @@ const createWalletAndPutError = {
 };
 
 // 4
-const bitcoinTransactionWithChange = {
+const bitcoinTransactionWithExchange = {
     request: {
         action: 'MT',
         data: {
@@ -104,7 +104,11 @@ const bitcoinTransactionWithChange = {
             receiver: {
                 address: "19prTTzaBQuLEBTuwYvp4iuYnKg1FL55XG",
                 value: 270,
-                name: "Ivan Ivanov"
+            },
+            exchange_info: {
+                symbol: 'WMSToken',
+                decimal: 5,
+                value: 0.3454354334
             },
             locktime: 0,
             useRBF: true,
@@ -120,7 +124,7 @@ const bitcoinTransactionWithChange = {
     },
     response: {
     },
-    description: 'Create transaction with change'
+    description: 'Create transaction with exchange'
 };
 
 // 5
@@ -278,17 +282,43 @@ const changeWalletPasswordReverse = {
     description: 'Change wallet password with reverse action 8'
 };
 
+// 12
+const ethereumTransactionWithExchangeInfoAndData = {
+    request: {
+        action: 'MT',
+        data: {
+            coin : 60,
+            account: 2,
+            change: 0,
+            address: 3,
+            nonce : 15,
+            gasPrice : 10,
+            gasLimit : 21000,
+            to : "0x0038a3882823e533ab3ea28759050b5446b58583",
+            value : 10.13,
+            data : "0xa9059cbb00000000000000000000000050333a327bad0ee064a17a78f47468c02d026bae0000000000000000000000000000000000000000000000000019c7fb954e8a3c",
+            exchange_info: {
+                symbol: 'WMSToken',
+                decimal: 5,
+                value: 0.3454354334
+            },
+        },
+    },
+    description: 'Ethereum transaction wit exchange info and data'
+};
+
 module.exports = {
     '0': normalCreateWalletRu,
     '1': normalCreateWalletEn,
     '2': totalNotExistsError,
     '3': createWalletAndPutError,
-    '4': bitcoinTransactionWithChange,
+    '4': bitcoinTransactionWithExchange,
     '5': bitcoinTransactionWithOutChangeAndWithError,
     '6': bitcoinTransactionWithoutInputOutput,
     '7': ethereumTransactionWithoutErrors,
     '8': changeWalletPassword,
     '9': attachWalletByMnemonics,
     '10': normalCreateWalletRuWithCoinsList,
-    '11': changeWalletPasswordReverse
+    '11': changeWalletPasswordReverse,
+    '12': ethereumTransactionWithExchangeInfoAndData,
 };

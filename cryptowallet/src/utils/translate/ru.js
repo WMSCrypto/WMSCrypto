@@ -1,4 +1,6 @@
 const translates = {
+    "Exchange": "Обмен",
+    "You receive": "Вы получите",
     "Save new password": "Сохранить новый пароль",
     "This action save new server password and old key set invalid.": "Это действие сохранит на сервере новый сервернй пароль и старый ключ станет недействителен",
     "Use a few words, avoid common phrases": "Используйте несколько слов, избегайте общих фраз",

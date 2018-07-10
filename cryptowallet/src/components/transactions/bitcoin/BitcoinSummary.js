@@ -20,15 +20,6 @@ export default ({ fieldsValues, data, manual }) => {
             <TransactionField valid={true}
                               name="Receiver"
                               value={fieldsValues['receiver:address'] || '???'}/>
-            {data.receiver && data.receiver.name
-                ? <span style={{color: '#007bff'}}>
-                    <TransactionField valid={true}
-                                      name="Receiver name"
-                                      value={<strong>{data.receiver.name}</strong>}/>
-                  </span>
-
-                : null
-            }
             <TransactionField valid={receiverValue >= 0}
                               name="Value"
                               value={`${fieldViews.valueView(receiverValue)} BTC`}/>

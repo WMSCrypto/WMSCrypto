@@ -9,6 +9,12 @@ import define from "../../core/define";
 import { fillForm, deleteFormGroup } from "../../core/actions/transactionFormActions";
 import T from "../T";
 import './styles/TransactionForm.css';
+import TransactionReceive from "./TransactionReceive";
+
+const COIN_ID_TO_SYMBOL = {
+    0: 'BTC',
+    60: 'ETH'
+};
 
 const mapStateToProps = (state) => {
     return {
@@ -73,16 +79,17 @@ class TransactionForm extends React.Component {
         const result = getStepResult(define.steps.choiceTransactionSource);
         const manual = result && result.method === define.methods.c;
         if ((trx.fill && (online || result)) || manual) {
-            const receiver = trx.data.receiver;
-            const isTransfer = receiver && receiver.name;
+            const exchange_info = trx.data.exchange_info;
             const coinId = trx.coin !== null ? trx.coin : result.data;
             return (
                 <React.Fragment>
-                    <h3 className={isTransfer ? 'text-primary' : ''}
+                    <h3 className={exchange_info ? 'text-primary' : ''}
                         style={{textAlign: 'center'}}>
                         <strong>
-                            {coinTo[coinId].name}
-                            {isTransfer ? <T>transfer</T> : <T>transaction</T>}
+                            {exchange_info
+                                ? <span><T>Exchange</T> {COIN_ID_TO_SYMBOL[coinId]} > {exchange_info['symbol']}</span>
+                                : <span>{coinTo[coinId].name} <T>transaction</T></span>
+                            }
                         </strong>
                     </h3>
                     {!manual && renderError(valid, errors.ALL)}
@@ -98,6 +105,10 @@ class TransactionForm extends React.Component {
                     </div>
                     <div style={{display: !fullView ? 'block' : 'none'}}>
                         <TransactionSummary {...this.props} manual={manual}/>
+                        {exchange_info
+                            ? <TransactionReceive exchangeInfo={exchange_info}/>
+                            : null
+                        }
                     </div>
                     <div style={{display: fullView ? 'block' : 'none'}}>
                         {online || result.method === define.methods.f

@@ -60,7 +60,7 @@ const parse = (tx) => {
     }
 };
 
-export default ({ data, symbol, decimals}) => {
+export default ({ data, symbol, decimals }) => {
     const [ error, command, values ] = parse(data);
     const parsedCommand = command && command(values);
     let result;
