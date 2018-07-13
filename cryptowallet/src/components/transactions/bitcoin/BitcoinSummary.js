@@ -17,9 +17,12 @@ export default ({ fieldsValues, data, manual }) => {
     const fee = amount - (receiverValue + changeValue);
     return (
         <React.Fragment>
-            <TransactionField valid={true}
-                              name="Receiver"
-                              value={fieldsValues['receiver:address'] || '???'}/>
+            {!data.exchange_info
+                ? <TransactionField valid={true}
+                                    name="Receiver"
+                                    value={fieldsValues['receiver:address'] || '???'}/>
+                : null
+            }
             <TransactionField valid={receiverValue >= 0}
                               name="Value"
                               value={`${fieldViews.valueView(receiverValue)} BTC`}/>

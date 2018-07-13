@@ -307,6 +307,58 @@ const ethereumTransactionWithExchangeInfoAndData = {
     description: 'Ethereum transaction wit exchange info and data'
 };
 
+const issue16notOpen = {
+    request: {
+        action: 'MT',
+        data: {
+            coin : 60,
+            account: 0,
+            change: 0,
+            address: 0,
+            nonce : 18,
+            gasPrice : 9000000000,
+            gasLimit : 21000,
+            to : "0x764c96ed8df6715631c3d6c909b2a8700caeaf24",
+            value : 0.02506679200000003,
+            data : "",
+            exchange_info: {
+                symbol: 'WMSToken',
+                decimal: 5,
+                value: 0.3454354334
+            },
+        },
+    },
+    description: 'Ethereum transaction wit exchange info and data'
+};
+
+const issue16erc20 = {
+    request: {
+        action: 'MT',
+        data: {
+            coin : 60,
+            account: 0,
+            change: 0,
+            address: 0,
+            nonce : 18,
+            gasPrice : 9000000000,
+            gasLimit : 93915,
+            to : "0x9992ec3cf6a55b00978cddf2b27bc6882d88d1ec",
+            value : 0,
+            data : "0xa9059cbb00000000000000000000000089d949c297940bf3193f97eb442cb432a06d917b0000000000000000000000000000000000000000000000127c738d0dc0798800",
+            token_info: {
+                decimals: 18,
+                symbol: 'POLY'
+            },
+            exchange_info: {
+                symbol: 'BTC',
+                decimal: 8,
+                value: 1764049
+            },
+        },
+    },
+    description: 'Ethereum transaction wit exchange info and data'
+};
+
 module.exports = {
     '0': normalCreateWalletRu,
     '1': normalCreateWalletEn,
@@ -321,4 +373,6 @@ module.exports = {
     '10': normalCreateWalletRuWithCoinsList,
     '11': changeWalletPasswordReverse,
     '12': ethereumTransactionWithExchangeInfoAndData,
+    '13': issue16notOpen,
+    '14': issue16erc20
 };

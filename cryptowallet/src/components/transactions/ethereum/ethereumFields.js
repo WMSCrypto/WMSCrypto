@@ -26,7 +26,7 @@ export default {
         iTest: fieldTests.integer,
     }),
     'gasPrice': fieldCreator({
-        name: 'Gas price',
+        name: 'Gas price (wei)',
         def: 0,
         fTest: fieldTests.integer,
         iTest: fieldTests.integer,
@@ -44,10 +44,11 @@ export default {
         iTest: (v) =>  v ? v === '0' || v === '0x' || /^0x[\da-fA-F]{0,40}$/.test(v) : false
     }),
     'value': fieldCreator({
-        name: 'Value',
+        name: 'Value (wei)',
         def: 0,
         fTest: fieldTests.eth,
-        iTest: fieldTests.eth,
+        iTest: fieldTests.integer,
+        iTransform: (v) => v !== '' ? (parseInt(v) * Math.pow(10, -18)).toFixed(18).toString() : ''
     }),
     'data': fieldCreator({
         name: 'Data',

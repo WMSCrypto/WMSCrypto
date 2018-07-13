@@ -80,14 +80,15 @@ class TransactionForm extends React.Component {
         const manual = result && result.method === define.methods.c;
         if ((trx.fill && (online || result)) || manual) {
             const exchange_info = trx.data.exchange_info;
+            const token_info = trx.data.token_info;
             const coinId = trx.coin !== null ? trx.coin : result.data;
             return (
                 <React.Fragment>
                     <h3 className={exchange_info ? 'text-primary' : ''}
                         style={{textAlign: 'center'}}>
                         <strong>
-                            {exchange_info
-                                ? <span><T>Exchange</T> {COIN_ID_TO_SYMBOL[coinId]} > {exchange_info['symbol']}</span>
+                            {exchange_info && token_info
+                                ? <span><T>Exchange</T> {token_info['symbol']} > {exchange_info['symbol']}</span>
                                 : <span>{coinTo[coinId].name} <T>transaction</T></span>
                             }
                         </strong>
