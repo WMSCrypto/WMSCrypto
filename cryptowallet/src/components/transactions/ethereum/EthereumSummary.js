@@ -3,15 +3,7 @@ import TransactionField from "../TransactionField";
 import erc20 from './erc20';
 
 const weiToETH = (v) => {
-    let numbers = false;
-    return  v.toFixed(18).toString().split('').map(i => {
-        if (!numbers) {
-            numbers = i !== '.' && i !== '0';
-            return i
-        } else {
-            return i !== '0' ? i : ''
-        }
-    }).join('')
+    return  v.toFixed(18).toString()
 };
 
 const calcFee = ({ gasPrice, gasLimit }) => {

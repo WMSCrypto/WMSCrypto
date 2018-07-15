@@ -196,7 +196,7 @@ const ethereumTransactionWithoutErrors = {
             gasPrice : 0,
             gasLimit : 21000,
             to : "0x0038a3882823e533ab3ea28759050b5446b58583",
-            value : 10,
+            value : 1032,
             data : ""
         },
     },
