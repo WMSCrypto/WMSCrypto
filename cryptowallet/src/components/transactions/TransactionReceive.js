@@ -5,9 +5,9 @@ export default ({ exchangeInfo }) => {
     if (!exchangeInfo) {
         return null
     } else {
-        const { value, decimal, symbol } = exchangeInfo;
+        const { value, decimals, symbol } = exchangeInfo;
         return <span className="text-primary"><TransactionField valid={true}
                                  name="You receive"
-                                 value={`${Math.pow(10, -1 * parseInt(decimal)) * parseInt(value)} ${symbol}`}/></span>
+                                 value={`${Math.pow(10, -1 * parseInt(decimals)) * parseInt(value)} ${symbol}`}/></span>
     }
 }

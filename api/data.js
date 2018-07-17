@@ -299,7 +299,7 @@ const ethereumTransactionWithExchangeInfoAndData = {
             data : "0xa9059cbb00000000000000000000000050333a327bad0ee064a17a78f47468c02d026bae0000000000000000000000000000000000000000000000000019c7fb954e8a3c",
             exchange_info: {
                 symbol: 'WMSToken',
-                decimal: 5,
+                decimals: 5,
                 value: 0.3454354334
             },
         },
@@ -323,7 +323,7 @@ const issue16notOpen = {
             data : "",
             exchange_info: {
                 symbol: 'WMSToken',
-                decimal: 5,
+                decimals: 5,
                 value: 0.3454354334
             },
         },
@@ -351,7 +351,7 @@ const issue16erc20 = {
             },
             exchange_info: {
                 symbol: 'BTC',
-                decimal: 8,
+                decimals: 8,
                 value: 1764049
             },
         },
@@ -379,7 +379,7 @@ const issue17erc20exchange = {
             },
             exchange_info: {
                 symbol: 'OMG',
-                decimal: 18,
+                decimals: 18,
                 value: 9254000000000000000
             },
         },
@@ -403,7 +403,7 @@ const issue16ETHexchange = {
             data : "",
             exchange_info: {
                 symbol: 'BTC',
-                decimal: 8,
+                decimals: 8,
                 value: 142646
             },
         },
