@@ -46,36 +46,41 @@ class SaveWallets extends React.Component {
                     <input className="form-check-input"
                            type="checkbox"
                            checked={checkQr}
-                           onChange={() => this.setState({checkQr: !checkQr})}/>
-                    <label className="form-check-label" htmlFor="checkImportant"><small><T>I saved the QR Key</T></small></label>
+                           onChange={() => this.setState({checkQr: !checkQr})}
+                           id="saveWalletCheckQr"/>
+                    <label className="form-check-label" htmlFor="saveWalletCheckQr"><small><T>I saved the QR Key</T></small></label>
                 </div>
                 <div className="form-check">
                     <input className="form-check-input"
                            type="checkbox"
                            checked={checkPhrase}
-                           onChange={() => this.setState({checkPhrase: !checkPhrase})}/>
-                    <label className="form-check-label" htmlFor="checkImportant"><small><T>I wrote down the recovery phrase</T></small></label>
+                           onChange={() => this.setState({checkPhrase: !checkPhrase})}
+                           id="saveWalletCheckPhrase"/>
+                    <label className="form-check-label" htmlFor="saveWalletCheckPhrase"><small><T>I wrote down the recovery phrase</T></small></label>
                 </div>
                 <div className="form-check">
                     <input className="form-check-input"
                            type="checkbox"
                            checked={checkAccess}
-                           onChange={() => this.setState({checkAccess: !checkAccess})}/>
-                    <label className="form-check-label" htmlFor="checkImportant"><small><T>I understand that loss of the recovery phrase is equivalent to the loss of access to the wallet</T></small></label>
+                           onChange={() => this.setState({checkAccess: !checkAccess})}
+                           id="saveWalletCheckAccess"/>
+                    <label className="form-check-label" htmlFor="saveWalletCheckAccess"><small><T>I understand that loss of the recovery phrase is equivalent to the loss of access to the wallet</T></small></label>
                 </div>
                 <div className="form-check">
                     <input className="form-check-input"
                            type="checkbox"
                            checked={checkLost}
-                           onChange={() => this.setState({checkLost: !checkLost})}/>
-                    <label className="form-check-label" htmlFor="checkImportant"><small><T>I understand that it is unsafe to keep the recovery phrase on devices with Internet access since the recovery phrase is the master key from my wallet</T></small></label>
+                           onChange={() => this.setState({checkLost: !checkLost})}
+                           id="saveWalletCheckLost"/>
+                    <label className="form-check-label" htmlFor="saveWalletCheckLost"><small><T>I understand that it is unsafe to keep the recovery phrase on devices with Internet access since the recovery phrase is the master key from my wallet</T></small></label>
                 </div>
                 <div className="form-check">
                     <input className="form-check-input"
                            type="checkbox"
                            checked={checkPNP}
-                           onChange={() => this.setState({checkPNP: !checkPNP})}/>
-                    <label className="form-check-label" htmlFor="checkImportant"><small><T>P == NP (optional)</T></small></label>
+                           onChange={() => this.setState({checkPNP: !checkPNP})}
+                           id="saveWalletCheckPNP"/>
+                    <label className="form-check-label" htmlFor="saveWalletCheckPNP"><small><T>P == NP (optional)</T></small></label>
                 </div>
                 <br/>
                 <div className="Step_controls">

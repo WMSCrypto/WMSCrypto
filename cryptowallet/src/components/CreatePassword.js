@@ -48,7 +48,7 @@ class CreatePassword extends Component {
             if (define.debug) {
                 strong = true;
             } else {
-                strong = password.length > PASSWORD_LENGTH && !validatePassword(password).join("").length;
+                strong = password.length > PASSWORD_LENGTH && !validatePassword(password).messages[0].length;
             }
             const bothPasswordsExists = password && passwordRepeat;
             if (bothPasswordsExists && password === passwordRepeat && strong) {
@@ -62,7 +62,7 @@ class CreatePassword extends Component {
     render() {
         const { password, passwordRepeat } = this.state;
         const { children, result } = this.props;
-        const isEN = /^[0-9a-zA-Z!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]*$/.test(password);
+        const isEN = /^[0-9a-zA-Z!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ ]*$/.test(password);
         const { messages: validateMessages, score } = password && validatePassword(password, isEN);
         let messageIfValid;
         if (score !== null) {
