@@ -20,6 +20,7 @@ const ANCHOR_PASSWORD = '79bfb0e2ba76b9d447606ddbcc494834f05a4c11deb052e74b49ea3
 const ANCHOR_HASH = 'c65292f59cd174fbf1ee2d47b865fd6ffff01798d85bec6fa5b72e7c63090168';
 
 // OgXMJ1F6hAN1Qq0IujUSlg==
+// DEPRECATED, need encrypt string same password and iv
 const NEW_IV = '9e1a5e47950562c045fb20c9a949c724';
 const NEW_ANCHOR_PASSWORD = '42f6e0ce671eef6252ef18a23e38bfee47f8325df818908100389eceb09607f9'; //sha256(new_anchor)
 const NEW_ANCHOR_HASH = '5c1f29ae22966dfb337f4edf02fd4a3ffb985080363f29fbb617bd8517946d9f';
@@ -204,6 +205,7 @@ const ethereumTransactionWithoutErrors = {
 };
 
 // 8
+// DEPRECATED, now new anchor and old anchor using same password and iv
 const changeWalletPassword = {
     request: {
         action: 'CWP',
@@ -264,6 +266,7 @@ const normalCreateWalletRuWithCoinsList = {
 };
 
 // 11
+// DEPRECATED, now new anchor and old anchor using same password and iv
 const changeWalletPasswordReverse = {
     request: {
         action: 'CWP',

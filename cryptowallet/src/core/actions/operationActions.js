@@ -7,7 +7,6 @@ import { changeLanguage } from "./commonActions";
 const decryptAnchor = ({ anchor_hash, anchor_password, anchor_iv, anchor }) => {
     const anchorB64 = CryptoJS.enc.Base64.parse(anchor);
     const anchorHash = CryptoJS.SHA256(anchorB64).toString();
-    console.log(anchorHash, anchor)
     if (anchorHash !== anchor_hash) {
         throw {code: 400, message: 'Hash incorrect'};
     } else {
@@ -31,8 +30,8 @@ const decryptAnchorsList = (arr, data) => {
     if (arr.length === 2 && data.new_anchor_hash) {
         newAnchor = decryptAnchor({
             anchor_hash: data.new_anchor_hash,
-            anchor_password: data.new_anchor_password,
-            anchor_iv: data.new_anchor_iv,
+            anchor_password: data.anchor_password,
+            anchor_iv: data.anchor_iv,
             anchor: arr[1]
         });
     }
