@@ -29,14 +29,16 @@ const parse = (exchange_info, token_info, data, value, receiver, manual ) => {
         result.receiver = null;
         result.value = parsed && !parsed['erc20_data']
             ? `${parsed['erc20_value'] / Math.pow(10, parsed['erc20_decimals'])} ${parsed['erc20_symbol']}`
-            : null
+            : null;
+        result.data = parsed && parsed['erc20_data'] ? parsed['erc20_data'] : null;
     } else if (value > 0 && !exchange_info) {
         result.receiver = receiver
     } else if (value === 0 && !exchange_info) {
         result.receiver = parsed ? parsed['erc20_receiver'] : null;
         result.value = parsed && !parsed['erc20_data']
             ? `${parsed['erc20_value'] / Math.pow(10, parsed['erc20_decimals'])} ${parsed['erc20_symbol']}`
-            : null
+            : null;
+        result.data = parsed && parsed['erc20_data'] ? parsed['erc20_data'] : null;
     }
     return result;
 };
