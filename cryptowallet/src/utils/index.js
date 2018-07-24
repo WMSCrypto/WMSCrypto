@@ -9,6 +9,11 @@ const WITH_ANCHOR_FLAG = '00';
 const WITHOUT_ANCHOR_FLAG = '01';
 const ANCHOR_SLICE = -8;
 
+const TG_LINK =
+    window.location.host === 'beta.wms.cr'
+        ? 'tg://resolve?domain=WMSCryptoTestBot для beta.wms.cr'
+        : 'tg://resolve?domain=WMSCryptoBot';
+
 const encryptSeed = (seedHex, password, anchor) => {
     let encrypted;
     if (anchor) {
@@ -133,5 +138,6 @@ export {
     getUUID,
     getAnchor,
     getRandomMnemonicIndex,
-    inputClasses
+    inputClasses,
+    TG_LINK
 }

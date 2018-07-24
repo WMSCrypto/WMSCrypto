@@ -414,6 +414,25 @@ const issue16ETHexchange = {
     description: 'Ethereum transaction wit exchange info and data'
 };
 
+// 17 !INVALID, because all times change for catch bugs
+// anchor oCR-Ccx8qWk8t0_NesYFASe980c-oHy1kbjNJNLfg5c=
+// lhS2NNe8RORV63y5ERS11wVJB10AqxMf4Z+Jqc6C2lNJ+oT3ZpyeeU7Vu2YZSBpD
+const legacyPassword = {
+    request: {
+        action: 'CWP',
+        data: {
+            lang: 'ru',
+            anchor_password: '880c9109b223dd0793abfd9bcfa34c1e4734f772fe3b46e376dfbd33846e12c0',
+            anchor_iv: '1a372331bb45a27d6ca63a5767151196',
+            anchor_hash: '973f5b22c3fc1ec23a64b8cb69337b21371f97c914178aef98b998ee03ee8bea',
+            new_anchor_hash: 'a8cf9bba53dc41e7330b4fae5d004988d80627a81a6cec56051b24921b0469c6'
+        },
+    },
+    response: {
+    },
+    description: 'Change wallet password legacy'
+};
+
 module.exports = {
     '0': normalCreateWalletRu,
     '1': normalCreateWalletEn,
@@ -432,4 +451,5 @@ module.exports = {
     '14': issue16erc20,
     '15': issue17erc20exchange,
     '16': issue16ETHexchange,
+    '17': legacyPassword,
 };

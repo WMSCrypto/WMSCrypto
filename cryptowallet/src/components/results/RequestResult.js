@@ -1,6 +1,6 @@
 import React from 'react';
 import T from "../T";
-import {dropLocation} from "../../utils";
+import {dropLocation, TG_LINK} from "../../utils";
 import Card from "../Cards/Card";
 
 const getErrorMessage = (error) => {
@@ -23,7 +23,7 @@ const RequestResult = ({ error, result }) => {
                 <div style={{textAlign: 'center'}}>
                     {error ? <span className="text-danger text"><T>ERROR</T></span> : null}
                     <p><T>{message}</T></p>
-                    <a href="tg://resolve?domain=WMSCryptoBot">
+                    <a href={TG_LINK}>
                         <button className={`btn btn-${prefixClass}`} onClick={dropLocation}>
                             <T>Go to telegram</T>
                         </button>

@@ -34,8 +34,9 @@ class SaveNewPassword extends React.Component {
                     <input className="form-check-input"
                            type="checkbox"
                            checked={check}
-                           onChange={() => this.setState({check: !check})}/>
-                    <label className="form-check-label" htmlFor="checkImportant"><small><T>I saved the QR Key</T></small></label>
+                           onChange={() => this.setState({check: !check})}
+                           id="saveWalletCheckQr"/>
+                    <label className="form-check-label" htmlFor="saveWalletCheckQr"><small><T>I saved the QR Key</T></small></label>
                 </div>
                 <br/>
                 <div className="Step_controls">

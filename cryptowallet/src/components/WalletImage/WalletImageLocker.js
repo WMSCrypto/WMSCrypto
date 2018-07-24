@@ -6,6 +6,7 @@ import { ENCRYPTED_BY_ANCHOR, ENCRYPTED_WITHOUT_ANCHOR} from "../../assets/messa
 import { decryptSeed } from "../../core/crypto";
 import T from "../T";
 import TextInput from "../inputs/TextInput";
+import {TG_LINK} from "../../utils";
 
 const Error = ({ error }) => {
     switch (error) {
@@ -13,7 +14,7 @@ const Error = ({ error }) => {
             return (
                 <small className="text-danger">
                     <T>{`${ENCRYPTED_BY_ANCHOR}_1`}</T>{' '}
-                    <a href="tg://resolve?domain=WMSCryptoBot">@WMSCrypto</a>{' '}
+                    <a href={TG_LINK}>@WMSCrypto</a>{' '}
                     <T>{`${ENCRYPTED_BY_ANCHOR}_2`}</T>
                 </small>
             );
@@ -21,7 +22,7 @@ const Error = ({ error }) => {
             return (
                 <small className="text-danger">
                     <T>{`${ENCRYPTED_WITHOUT_ANCHOR}_1`}</T>{' '}
-                    <a href="tg://resolve?domain=WMSCryptoBot">@WMSCrypto</a>{' '}
+                    <a href={TG_LINK}>@WMSCrypto</a>{' '}
                     <T>{`${ENCRYPTED_WITHOUT_ANCHOR}_2`}</T>
                 </small>
             );

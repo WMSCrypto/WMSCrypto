@@ -5,6 +5,7 @@ import { changeApp } from "../../core/actions/commonActions";
 import define from '../../core/define'
 import { t } from '../../utils/translate/index';
 import T from "../T";
+import { TG_LINK } from "../../utils";
 
 const OFFLINE_MODE = !window.location.hostname;
 const { CW, AW, CWP, MT } = define.apps;
@@ -52,7 +53,7 @@ const OnlineMenu = () => {
     return (
         <Menu>
             <div className="OnlineMenuItem">
-                <a href='tg://resolve?domain=WMSCryptoBot' className="btn btn-primary btn-lg">
+                <a href={TG_LINK} className="btn btn-primary btn-lg">
                     {t('Go to telegram')}
                 </a>
             </div>
