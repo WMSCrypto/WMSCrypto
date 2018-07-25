@@ -11,7 +11,7 @@ const ANCHOR_SLICE = -8;
 
 const TG_LINK =
     window.location.host === 'beta.wms.cr'
-        ? 'tg://resolve?domain=WMSCryptoTestBot для beta.wms.cr'
+        ? 'tg://resolve?domain=WMSCryptoTestBot'
         : 'tg://resolve?domain=WMSCryptoBot';
 
 const encryptSeed = (seedHex, password, anchor) => {
