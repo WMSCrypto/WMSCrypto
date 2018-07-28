@@ -14,6 +14,9 @@ const FLAG_SLICE = -2;
 const IV_LENGTH = 32;
 const WORD_ARRAY_LENGTH = 16;
 const INVALID_PASSWORD_ERROR = 'Invalid password';
+const ANCHOR_SLICE = -8;
+const ANCHOR_FLAG_SLICE = ANCHOR_SLICE + FLAG_SLICE;
+
 
 const tryDecrypt = (func) => {
     try {
@@ -32,13 +35,15 @@ const tryDecrypt = (func) => {
 const encryptSeed = (seedHex, password, anchor) => {
     let passwordWordArray = CryptoJS.SHA256(password);
     let flag = WITHOUT_ANCHOR_FLAG;
+    let anchorHash = '';
     if (anchor) {
         passwordWordArray = CryptoJS.HmacSHA256(password, anchor);
         flag = WITH_ANCHOR_FLAG;
+        anchorHash = CryptoJS.SHA256(anchor.toString()).toString().slice(ANCHOR_SLICE)
     }
     const iv = CryptoJS.lib.WordArray.random(WORD_ARRAY_LENGTH);
     const encryptedSeedHex = CryptoJS.AES.encrypt(seedHex, passwordWordArray, {iv: iv}).toString();
-    return encryptedSeedHex + iv.toString() + flag;
+    return encryptedSeedHex + iv.toString() + anchorHash + flag;
 };
 
 const decryptSeed = (text, password, anchor) => {
@@ -48,7 +53,14 @@ const decryptSeed = (text, password, anchor) => {
         return legacy[flag](text, flag, password, anchor)
     }
 
-    text = text.slice(0, FLAG_SLICE);
+    if (anchor && flag === WITH_ANCHOR_FLAG) {
+        const anchorHashSlice = CryptoJS.SHA256(anchor.toString()).toString().slice(ANCHOR_SLICE);
+        if (anchorHashSlice !== text.slice(ANCHOR_FLAG_SLICE, FLAG_SLICE)) {
+            return ["Invalid anchor", null]
+        }
+    }
+
+    text = text.slice(0, anchor ? ANCHOR_FLAG_SLICE : FLAG_SLICE);
     if (!anchor && flag === WITH_ANCHOR_FLAG) {
         return [ENCRYPTED_BY_ANCHOR, null]
     }

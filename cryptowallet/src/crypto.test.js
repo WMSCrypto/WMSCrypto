@@ -121,6 +121,15 @@ describe('CryptoWallet', function () {
         assert.equal(!!error, true);
     });
     
+    it('decrypt seed encrypted with invalid anchor', function () {
+        const seed = generateSeedObj({password: TEST_PASSWORD, mnemonics: TEST_MNEMONICS, anchor: TEST_ANCHOR});
+
+        assert.equal(seed.hex, TEST_SEED);
+
+        const [error, _] = decryptSeed(seed.encrypted, TEST_PASSWORD, 'InvalidAnchor');
+        assert.equal(error, "Invalid anchor");
+    });
+
     it('Check erc20 transfer to send', function () {
         const [ error, result ] = erc20({
             data: 'a9059cbb00000000000000000000000050333a327bad0ee064a17a78f47468c02d026bae0000000000000000000000000000000000000000000000000019c7fb954e8a3c',
