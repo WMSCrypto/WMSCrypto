@@ -310,6 +310,7 @@ const ethereumTransactionWithExchangeInfoAndData = {
     description: 'Ethereum transaction wit exchange info and data'
 };
 
+// 13
 const issue16notOpen = {
     request: {
         action: 'MT',
@@ -334,6 +335,7 @@ const issue16notOpen = {
     description: 'Ethereum transaction wit exchange info and data'
 };
 
+// 14
 const issue16erc20 = {
     request: {
         action: 'MT',
@@ -362,6 +364,7 @@ const issue16erc20 = {
     description: 'Ethereum transaction wit exchange info and data'
 };
 
+// 15
 const issue17erc20exchange = {
     request: {
         action: 'MT',
@@ -390,6 +393,7 @@ const issue17erc20exchange = {
     description: 'Ethereum transaction wit exchange info and data'
 };
 
+// 16
 const issue16ETHexchange = {
     request: {
         action: 'MT',
