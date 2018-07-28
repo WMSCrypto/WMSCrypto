@@ -108,7 +108,7 @@ const bitcoinTransactionWithExchange = {
             },
             exchange_info: {
                 symbol: 'WMSToken',
-                decimal: 5,
+                decimals: 5,
                 value: 0.3454354334
             },
             locktime: 0,
