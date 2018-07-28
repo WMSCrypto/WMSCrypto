@@ -79,7 +79,7 @@ class WalletImageLocker extends Component {
     }
 
     render() {
-        const { encryptedString, seed } = this.props;
+        const { encryptedString, seed, warningUpdate } = this.props;
         if (!encryptedString && !seed) {
             return null
         }
@@ -98,6 +98,7 @@ class WalletImageLocker extends Component {
                     <p className={`text-${unlock ? 'primary' : 'danger'}`}>
                         <T>{unlock ? 'Unlocked' : 'Locked'}</T>
                     </p>
+                    {unlock && (warningUpdate && parseInt(encryptedString.slice(-2)) < 3) ? <T>__UPDATE_QR</T> : null}
                 </div>
                 {!unlock ? this._renderPasswordInput() : null}
             </div>
@@ -109,7 +110,8 @@ WalletImageLocker.propTypes = {
     onUnlock: PropTypes.func.isRequired,
     encryptedString: PropTypes.string,
     seed: PropTypes.string,
-    anchor: PropTypes.object
+    anchor: PropTypes.object,
+    warningUpdate: PropTypes.bool
 };
 
 export default WalletImageLocker;

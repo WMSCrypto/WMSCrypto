@@ -68,6 +68,7 @@ const translates = {
     "ENCRYPTED_BY_ANCHOR_1": "This QR Key is not suitable for offline mode",
     "ENCRYPTED_WITHOUT_ANCHOR_1": "This QR Key is not encrypted",
     "ENCRYPTED_WITHOUT_ANCHOR_2": "and not suitable for online mode",
+    "__UPDATE_QR": "Your QR key is obsolete. To maintain high-level security of your cryptoassets, we recommend updating the QR Key in \"Settings\"",
     "Invalid mnemonics": "Recovery phrase is invalid",
     "CANNOT_SCORE_PASSWORD": "Passwords match. Password complexity score is unavailable since characters other than the letters of the Latin alphabet, digits and !\"#$%&'()*+,-./:;<=>?@[]^_`{|}~' were used"
 };

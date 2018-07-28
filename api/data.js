@@ -82,7 +82,7 @@ const bitcoinTransactionWithExchange = {
     request: {
         action: 'MT',
         data: {
-            lang: 'ru',
+            lang: 'en',
             inputs: [
                 {
                   "prevout_n": 6,

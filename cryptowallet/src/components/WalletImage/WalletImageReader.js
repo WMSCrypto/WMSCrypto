@@ -37,7 +37,8 @@ class WalletImageReader extends Component {
 
     render() {
         const { encryptedString, error } = this.state;
-        const { setResult, getStepResult } = this.props;
+        const { setResult, getStepResult, next } = this.props;
+        const warningUpdate = next.name === define.steps.signTransaction.name;
         const { anchor } = this.props.common;
         const seed = getStepResult(define.steps.unlockKey);
         return (
@@ -45,7 +46,8 @@ class WalletImageReader extends Component {
                 <WalletImageLocker seed={seed}
                                    anchor={anchor}
                                    encryptedString={encryptedString}
-                                   onUnlock={setResult}/>
+                                   onUnlock={setResult}
+                                   warningUpdate={warningUpdate}/>
                 <QrReader ref={REF_QR}
                           legacyMode={true}
                           onScan={this.handleScan}
