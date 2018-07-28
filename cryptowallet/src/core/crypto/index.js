@@ -52,7 +52,6 @@ const decryptSeed = (text, password, anchor) => {
     if (!anchor && flag === WITH_ANCHOR_FLAG) {
         return [ENCRYPTED_BY_ANCHOR, null]
     }
-
     if (anchor && flag === WITHOUT_ANCHOR_FLAG) {
         return [ENCRYPTED_WITHOUT_ANCHOR, null]
     }

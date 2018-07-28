@@ -14,8 +14,6 @@ const Error = ({ error }) => {
             return (
                 <small className="text-danger">
                     <T>{`${ENCRYPTED_BY_ANCHOR}_1`}</T>{' '}
-                    <a href={TG_LINK}>@WMSCrypto</a>{' '}
-                    <T>{`${ENCRYPTED_BY_ANCHOR}_2`}</T>
                 </small>
             );
         case ENCRYPTED_WITHOUT_ANCHOR:
