@@ -43,8 +43,9 @@ class WalletImageLocker extends Component {
 
     componentWillReceiveProps(newProps) {
         if (newProps.encryptedString !== this.props.encryptedString) {
+            const [error, _] = decryptSeed(newProps.encryptedString, '', newProps.anchor)
             this.setState({
-                error: false
+                error: error === 'Invalid anchor' ? error : false
             })
         }
     }
@@ -62,6 +63,7 @@ class WalletImageLocker extends Component {
 
     _renderPasswordInput() {
         const { error, password } = this.state;
+        console.log(error)
         return (
             <div className="form-group">
                 <TextInput type="password"
