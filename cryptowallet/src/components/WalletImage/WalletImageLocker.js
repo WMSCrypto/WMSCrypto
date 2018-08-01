@@ -98,7 +98,7 @@ class WalletImageLocker extends Component {
                     <p className={`text-${unlock ? 'primary' : 'danger'}`}>
                         <T>{unlock ? 'Unlocked' : 'Locked'}</T>
                     </p>
-                    {unlock && (warningUpdate && parseInt(encryptedString.slice(-2)) < 3) ? <T>__UPDATE_QR</T> : null}
+                    {unlock && (warningUpdate && encryptedString && parseInt(encryptedString.slice(-2)) < 3) ? <T>__UPDATE_QR</T> : null}
                 </div>
                 {!unlock ? this._renderPasswordInput() : null}
             </div>
