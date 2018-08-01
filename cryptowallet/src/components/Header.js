@@ -7,7 +7,7 @@ import define from '../core/define';
 import { t } from '../utils/translate';
 import AppVersion from "./information/AppVersion";
 
-const SHOW_LANG_MENU = false;
+const SHOW_LANG_MENU = true;
 const { EN, RU } = define.languages;
 
 const mapStateToProps = (state) => {
@@ -35,7 +35,7 @@ const mapPropsToDispatch = (dispatch) => {
     }
 };
 
-const Header = ({ application, uuid, lang, goToMainMenu, reloadApplication, changeLang, result, error }) => {
+const Header = ({ application, uuid, lang, goToMainMenu, reloadApplication, changeLanguage, result, error }) => {
     const newLang = lang === EN ? RU : EN;
     const showRestart = !(result || error) && application;
     return (
@@ -48,7 +48,7 @@ const Header = ({ application, uuid, lang, goToMainMenu, reloadApplication, chan
                 {SHOW_LANG_MENU
                     ?   <button type="button"
                                 className="btn btn-secondary btn-sm"
-                                onClick={() => changeLang(newLang)}>
+                                onClick={() => changeLanguage(newLang)}>
                                 {lang === EN ? 'RUS' : 'ENG'}
                         </button>
                     : null}

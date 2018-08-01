@@ -28,22 +28,22 @@ const OfflineMenu = connect(mapStateToProps, mapPropsToDispatch)(({ changeApp })
             <button type="button"
                     className="btn btn-primary btn-lg"
                     onClick={() => changeApp(CW)}>
-                {t('Create wallet')}
+                <T>Create wallet</T>
             </button>
             <button type="button"
                     className="btn btn-light btn-lg"
                     onClick={() => changeApp(CWP)}>
-                {t('Change wallet password')}
+                <T>Change wallet password</T>
             </button>
             <button type="button"
                     className="btn btn-light btn-lg"
                     onClick={() => changeApp(AW)}>
-                {t('Connect wallet')}
+                <T>Connect wallet</T>
             </button>
             <button type="button"
                     className="btn btn-light btn-lg"
                     onClick={() => changeApp(MT)}>
-                {t('Make transaction')}
+                <T>Make transaction</T>
             </button>
         </Menu>
     )
@@ -54,12 +54,12 @@ const OnlineMenu = () => {
         <Menu>
             <div className="OnlineMenuItem">
                 <a href={TG_LINK} className="btn btn-primary btn-lg">
-                    {t('Go to telegram')}
+                    <T>Go to telegram</T>
                 </a>
             </div>
             <div className="OnlineMenuItem">
                 <a href="https://github.com/vasinkd/WMSCrypto/releases/latest" className="btn btn-light btn-lg">
-                    {t('Download offline version')}
+                    <T>Download offline version</T>
                 </a>
             </div>
             <small className="text-white"><T>Offline version only for PC</T></small>
