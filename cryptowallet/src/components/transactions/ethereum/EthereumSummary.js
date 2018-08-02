@@ -1,19 +1,16 @@
 import React from 'react';
 import TransactionField from "../TransactionField";
 import erc20 from './erc20';
-
-const weiToETH = (v) => {
-    return  v.toFixed(18).toString()
-};
+import fieldViews from '../../../core/fields/fieldsViews';
 
 const calcFee = ({ gasPrice, gasLimit }) => {
-    const fee = (gasPrice * gasLimit / Math.pow(10, 18));
-    return weiToETH(fee)
+    const fee = fieldViews.bigView(gasPrice * gasLimit, 18);
+    return fee.toString()
 };
 
 const parse = (exchange_info, token_info, data, value, receiver, manual ) => {
     let result = {
-        value: value && `${weiToETH(parseInt(value) * Math.pow(10, -18))} ETH`,
+        value: value && `${fieldViews.bigView(value, 18)} ETH`,
         receiver: receiver,
         data: data
     };
@@ -23,12 +20,12 @@ const parse = (exchange_info, token_info, data, value, receiver, manual ) => {
     const [ err, parsed ] = data ? erc20({data, ...token_info}) : [null, null];
     if (value > 0 && exchange_info) {
         result.receiver = null;
-        result.value = `${value} ETH`;
+        result.value = `${fieldViews.bigView(value, 18)} ETH`;
         result.data = parsed ? parsed['erc20_data'] : err;
     } else if (value === 0 && exchange_info) {
         result.receiver = null;
         result.value = parsed && !parsed['erc20_data']
-            ? `${parsed['erc20_value'] / Math.pow(10, parsed['erc20_decimals'])} ${parsed['erc20_symbol']}`
+            ? `${fieldViews.bigView(parsed['erc20_value'], parsed['erc20_decimals'])} ${parsed['erc20_symbol']}`
             : null;
         result.data = parsed && parsed['erc20_data'] ? parsed['erc20_data'] : null;
     } else if (value > 0 && !exchange_info) {
@@ -36,7 +33,7 @@ const parse = (exchange_info, token_info, data, value, receiver, manual ) => {
     } else if (value === 0 && !exchange_info) {
         result.receiver = parsed ? parsed['erc20_receiver'] : null;
         result.value = parsed && !parsed['erc20_data']
-            ? `${parsed['erc20_value'] / Math.pow(10, parsed['erc20_decimals'])} ${parsed['erc20_symbol']}`
+            ? `${fieldViews.bigView(parsed['erc20_value'], parsed['erc20_decimals'])} ${parsed['erc20_symbol']}`
             : null;
         result.data = parsed && parsed['erc20_data'] ? parsed['erc20_data'] : null;
     }

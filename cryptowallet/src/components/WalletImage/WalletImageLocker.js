@@ -63,7 +63,6 @@ class WalletImageLocker extends Component {
 
     _renderPasswordInput() {
         const { error, password } = this.state;
-        console.log(error)
         return (
             <div className="form-group">
                 <TextInput type="password"

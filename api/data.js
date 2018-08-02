@@ -320,10 +320,10 @@ const issue16notOpen = {
             change: 0,
             address: 0,
             nonce : 18,
-            gasPrice : 9000000000,
-            gasLimit : 21000,
+            gasPrice : "9000000000",
+            gasLimit : "21000",
             to : "0x764c96ed8df6715631c3d6c909b2a8700caeaf24",
-            value : 0.02506679200000003,
+            value : 88259496234518,
             data : "",
             exchange_info: {
                 symbol: 'WMSToken',

@@ -46,9 +46,8 @@ export default {
     'value': fieldCreator({
         name: 'Value (wei)',
         def: 0,
-        fTest: fieldTests.eth,
+        fTest: fieldTests.integer,
         iTest: fieldTests.integer,
-        iTransform: (v) => v !== '' ? (parseInt(v) * Math.pow(10, -18)).toFixed(18).toString() : ''
     }),
     'data': fieldCreator({
         name: 'Data',
