@@ -205,7 +205,6 @@ const ethereumTransactionWithoutErrors = {
 };
 
 // 8
-// DEPRECATED, now new anchor and old anchor using same password and iv
 const changeWalletPassword = {
     request: {
         action: 'CWP',
@@ -214,9 +213,7 @@ const changeWalletPassword = {
             anchor_password: ANCHOR_PASSWORD,
             anchor_iv: IV,
             anchor_hash: ANCHOR_HASH,
-            new_anchor_password: NEW_ANCHOR_PASSWORD,
-            new_anchor_iv: NEW_IV,
-            new_anchor_hash: NEW_ANCHOR_HASH,
+            new_anchor_password: ANCHOR_PASSWORD,
         },
     },
     response: {

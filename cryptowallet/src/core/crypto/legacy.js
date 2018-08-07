@@ -3,7 +3,7 @@ import {
     ENCRYPTED_BY_ANCHOR, ENCRYPTED_WITHOUT_ANCHOR
 } from "../../assets/messages";
 import aes from "crypto-js/aes";
-import base64 from "crypto-js/enc-base64";
+import utf8 from "crypto-js/enc-utf8";
 import { FLAG_SLICE, tryDecrypt } from "./index";
 
 const decryptSeed1 = (text, flag, password, anchor) => {
@@ -13,7 +13,7 @@ const decryptSeed1 = (text, flag, password, anchor) => {
     const withAnchorLength = FLAG_SLICE + anchorSlice;
     let encrypted;
     if (anchor) {
-        anchor = anchor.toString(base64).replace(/\+/g, '-').replace(/\//g, '_');
+        anchor = utf8.stringify(anchor).replace(/\+/g, '-').replace(/\//g, '_');
         encrypted = text.slice(0, withAnchorLength);
         password = password + anchor;
         if (sha256(anchor).toString().slice(anchorSlice) !== text.slice(withAnchorLength, FLAG_SLICE)) {
