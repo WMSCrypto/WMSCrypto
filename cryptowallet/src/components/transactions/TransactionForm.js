@@ -87,8 +87,8 @@ class TransactionForm extends React.Component {
                     <h3 className={exchange_info ? 'text-primary' : ''}
                         style={{textAlign: 'center'}}>
                         <strong>
-                            {exchange_info && token_info
-                                ? <span><T>Exchange</T> {token_info['symbol']} > {exchange_info['symbol']}</span>
+                            {exchange_info
+                                ? <span><T>Exchange</T> {token_info ? token_info['symbol'] : COIN_ID_TO_SYMBOL[coinId] } > {exchange_info['symbol']}</span>
                                 : <span>{coinTo[coinId].name} <T>transaction</T></span>
                             }
                         </strong>

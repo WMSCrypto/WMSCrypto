@@ -44,7 +44,7 @@ const EthereumDetail = ({ data, fieldsValues, validation }) => {
             <TransactionField value={to.value} valid={to.valid} name='To'/>
             <TransactionField value={intWithHexView(value.value)} valid={value.valid} name='Value'/>
             { fields.data.value
-                ? <TransactionField value={intWithHexView(fields.data.value)} valid={fields.data.valid} name='Data'/>
+                ? <TransactionField value={fields.data.value} valid={fields.data.valid} name='Data'/>
                 : null
             }
         </React.Fragment>

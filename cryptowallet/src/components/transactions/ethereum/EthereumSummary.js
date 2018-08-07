@@ -17,20 +17,21 @@ const parse = (exchange_info, token_info, data, value, receiver, manual ) => {
     if (manual) {
         return result
     }
+    const vInt = value ? parseInt(value) : 0;
     const [ err, parsed ] = data ? erc20({data, ...token_info}) : [null, null];
-    if (value > 0 && exchange_info) {
+    if (vInt > 0 && exchange_info) {
         result.receiver = null;
         result.value = `${fieldViews.bigView(value, 18)} ETH`;
         result.data = parsed ? parsed['erc20_data'] : err;
-    } else if (value === 0 && exchange_info) {
+    } else if (vInt === 0 && exchange_info) {
         result.receiver = null;
         result.value = parsed && !parsed['erc20_data']
             ? `${fieldViews.bigView(parsed['erc20_value'], parsed['erc20_decimals'])} ${parsed['erc20_symbol']}`
             : null;
         result.data = parsed && parsed['erc20_data'] ? parsed['erc20_data'] : null;
-    } else if (value > 0 && !exchange_info) {
+    } else if (vInt > 0 && !exchange_info) {
         result.receiver = receiver
-    } else if (value === 0 && !exchange_info) {
+    } else if (vInt === 0 && !exchange_info) {
         result.receiver = parsed ? parsed['erc20_receiver'] : null;
         result.value = parsed && !parsed['erc20_data']
             ? `${fieldViews.bigView(parsed['erc20_value'], parsed['erc20_decimals'])} ${parsed['erc20_symbol']}`
