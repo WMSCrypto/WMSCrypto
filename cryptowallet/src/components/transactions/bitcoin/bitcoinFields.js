@@ -20,7 +20,7 @@ export default {
         iTest: (v) => fieldTests.hex(v) && v.length <= 64
     }),
     'inputs:value': fieldCreator({
-        name: 'Value',
+        name: 'Input value',
         def: '0.00000000',
         fTest: fieldTests.integer,
         iTest: valueInputTest,

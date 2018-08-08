@@ -19,7 +19,7 @@ const BitcoinInput = ({ n, sectionError, getter }) => {
             <TransactionField value={prevout_n.value} valid={prevout_n.valid} name='Output ID'/>
             <TransactionField value={prevout_hash.value} valid={prevout_hash.valid} name='Previous transaction hash'/>
             <TransactionField value={wallet} valid={walletValid} name='Account'/>
-            <TransactionField value={value.view.field(value.value)} valid={value.valid} name='Value'/>
+            <TransactionField value={value.view.field(value.value)} valid={value.valid} name='Input value'/>
         </React.Fragment>
     )
 };
