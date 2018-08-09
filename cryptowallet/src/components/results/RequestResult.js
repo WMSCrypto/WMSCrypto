@@ -4,7 +4,8 @@ import {dropLocation, TG_LINK} from "../../utils";
 import Card from "../Cards/Card";
 
 const getErrorMessage = (error) => {
-    switch (error.code) {
+    const code = error.message ? parseInt(error.message.slice(0, 3), 10): error.code;
+    switch (code) {
         case 404:
             return "INVALID_UUID";
         case 400:

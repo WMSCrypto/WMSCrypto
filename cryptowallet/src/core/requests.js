@@ -19,7 +19,7 @@ const fetchOperation = (uuid, onSuccess, onError) => {
             }
         })
         .catch(err => {
-            console.log(err);
+            console.log(err.toString());
             onError(err);
         })
 };

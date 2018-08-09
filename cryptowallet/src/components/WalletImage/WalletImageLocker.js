@@ -43,9 +43,9 @@ class WalletImageLocker extends Component {
 
     componentWillReceiveProps(newProps) {
         if (newProps.encryptedString !== this.props.encryptedString) {
-            const [error, _] = decryptSeed(newProps.encryptedString, '', newProps.anchor);
+            const decrypted = decryptSeed(newProps.encryptedString, '', newProps.anchor);
             this.setState({
-                error: error === 'Invalid anchor' ? error : false
+                error: decrypted[0] === 'Invalid anchor' ? decrypted[0] : false
             })
         }
     }

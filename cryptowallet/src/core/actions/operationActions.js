@@ -8,13 +8,13 @@ const decryptAnchor = ({ anchor_hash, anchor_password, anchor_iv, anchor }) => {
     const anchorB64 = CryptoJS.enc.Base64.parse(anchor);
     const anchorHash = CryptoJS.SHA256(anchorB64).toString();
     if (anchorHash !== anchor_hash) {
-        throw {code: 400, message: 'Hash incorrect'};
+        throw Error('400 Hash incorrect');
     } else {
         const iv = CryptoJS.enc.Hex.parse(anchor_iv);
         const passwordWA = CryptoJS.enc.Hex.parse(anchor_password);
         const decrypted = CryptoJS.AES.decrypt({ciphertext: anchorB64}, passwordWA, {iv});
         if (decrypted === '') {
-            throw {code: 400, message: 'Password or iv incorrect'};
+            throw Error('400 Password or iv incorrect');
         } else {
             return decrypted
         }
