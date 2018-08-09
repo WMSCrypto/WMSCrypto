@@ -1,0 +1,26 @@
+{
+  "name": "cryptowallet-fake-api",
+  "version": "1.0.0",
+  "description": "Fake for test cryptowallet frontend",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WMSCrypto/WMSCrypto.git"
+  },
+  "keywords": [
+    "crypto"
+  ],
+  "author": "Sergey Emelyanov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WMSCrypto/WMSCrypto/issues"
+  },
+  "homepage": "https://github.com/WMSCrypto/WMSCrypto#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}

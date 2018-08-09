@@ -1,0 +1,19 @@
+.TransactionInputGroupHeader {
+    align-items: center;
+    display: flex;
+    background: #eeeeee;
+    border-radius: 4px;
+    justify-content: space-between;
+    margin: 0 0 8px 0;
+    padding: 8px 8px;
+}
+
+.TransactionInputGroupHeader * {
+    margin: 0;
+}
+
+.TransactionInputGroupHeader.controls {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}

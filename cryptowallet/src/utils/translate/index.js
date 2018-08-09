@@ -2,7 +2,7 @@ import ru from './ru';
 import en from './en'
 
 const { t, setLang }= (() => {
-    let current = 'en';
+    let current = 'ru';
     const langs = {en, ru};
     return {
         setLang: (lang) => { current = lang },
@@ -14,5 +14,7 @@ const { t, setLang }= (() => {
 
 export {
     t,
-    setLang
+    setLang,
+    en,
+    ru
 }

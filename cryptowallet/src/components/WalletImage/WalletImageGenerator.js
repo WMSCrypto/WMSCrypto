@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from "../Cards/Card";
 import QRCode from 'qrcode-svg';
 import backgroudCanvas from "../../assets/backgroudCanvas";
 import { getIdenticonSVG } from "../../utils/jdenticon";
-import MnemonicsView from "../MnemonicsView";
 import './styles/WalletImageGenerator.css';
 import {t} from "../../utils/translate";
 
@@ -56,8 +54,7 @@ class WalletImageGenerator extends React.Component {
         const qrcode = new QRCode({content: seed.encrypted, width: 400, height: 400, padding: 4}).svg();
         const { image } = this.state;
         return(
-            <Card>
-                { seed.mnemonics ? <MnemonicsView mnemonics={seed.mnemonics}/> : null }
+            <React.Fragment>
                 <canvas ref="canvas" width={850} height={600} style={{width: '100%', display: 'none'}}/>
                 <img alt="Something wrong" ref="imageBack" src={backgroudCanvas} style={{display: 'none'}} />
                 <img alt="Something wrong" ref="imageIdenticon" src={`data:image/svg+xml;base64,${identicon}`} style={{display: 'none'}} />
@@ -66,7 +63,7 @@ class WalletImageGenerator extends React.Component {
                     ? <img alt={t("Generate QR code")} className="WalletImage" src={image}/>
                     : null
                 }
-            </Card>
+            </React.Fragment>
         )
     }
 }

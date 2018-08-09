@@ -1,79 +1,30 @@
 import aes from 'crypto-js/aes';
+import sha256 from 'crypto-js/sha256';
 import bip39 from 'bip39';
 import EthereumTx from 'ethereumjs-tx';
 import { HDNode } from "bitcoinjs-lib";
-import UTF8 from "crypto-js/enc-utf8";
-import { ENCRYPTED_BY_ANCHOR, ENCRYPTED_WITHOUT_ANCHOR} from "../assets/messages";
 
 const MNEMONICS_BITS = 256;
-const FLAG_SLICE = -2;
 const WITH_ANCHOR_FLAG = '00';
 const WITHOUT_ANCHOR_FLAG = '01';
+const ANCHOR_SLICE = -8;
 
-const tryDecrypt = (text, password) => {
-    try {
-        const bytes = aes.decrypt(text, password);
-        return UTF8.stringify(bytes);
-    } catch (err) {
-        console.log("Cannot decrypt text");
-        return null
-    }
-};
+const TG_LINK =
+    window.location.host === 'beta.wms.cr'
+        ? 'tg://resolve?domain=WMSCryptoTestBot'
+        : 'tg://resolve?domain=WMSCryptoBot';
 
 const encryptSeed = (seedHex, password, anchor) => {
-    let encrypted = aes.encrypt(seedHex, password);
+    let encrypted;
     if (anchor) {
-        encrypted = aes.encrypt(encrypted.toString(), anchor) + WITH_ANCHOR_FLAG;
+        password = password + anchor;
+        encrypted = aes.encrypt(seedHex, password) + sha256(anchor).toString().slice(ANCHOR_SLICE) + WITH_ANCHOR_FLAG;
     } else {
-        encrypted = encrypted + WITHOUT_ANCHOR_FLAG
+        encrypted = aes.encrypt(seedHex, password) + WITHOUT_ANCHOR_FLAG
     }
 
     return encrypted
 };
-
-const decryptSeed = (text, password, anchor) => {
-    const flag = text.slice(FLAG_SLICE);
-    let encrypted = text.slice(0, FLAG_SLICE);
-    if (!anchor && flag === WITH_ANCHOR_FLAG) {
-        return [ENCRYPTED_BY_ANCHOR, null]
-    }
-
-    if (anchor && flag === WITHOUT_ANCHOR_FLAG) {
-        return [ENCRYPTED_WITHOUT_ANCHOR, null]
-    }
-
-    if (anchor) {
-        encrypted = tryDecrypt(encrypted, anchor);
-        if (!encrypted) {
-            return ["Invalid anchor", null]
-        }
-    }
-
-    const decrypted = tryDecrypt(encrypted, password);
-    if (decrypted) {
-        return [null, decrypted]
-    } else {
-        return ["Invalid password", null]
-    }
-};
-
-const generateSeed = ({ password, mnemonics=null, salt=null, anchor=null }) => {
-    if (!mnemonics) {
-        mnemonics = bip39.generateMnemonic(MNEMONICS_BITS);
-    }
-    let seedHex;
-
-    seedHex = bip39.mnemonicToSeedHex(mnemonics, salt);
-
-    const encrypted = encryptSeed(seedHex, password, anchor);
-
-    return {
-        mnemonics: mnemonics,
-        hex: seedHex,
-        encrypted,
-    }
-};
-
 
 const cryptoCheck = () => {
     try {
@@ -90,16 +41,8 @@ const getAnchor = () => {
     return anchor.length ? anchor : null
 };
 
-const generateSeedWithCheckAnchor = (password) => {
-    return generateSeed({ password, anchor: getAnchor() })
-};
-
 const enctryptSeedWithCheckAnchor = (text, password) => {
     return encryptSeed(text, password, getAnchor())
-};
-
-const decryptSeedWithCheckAnchor = (text, password) => {
-    return decryptSeed(text, password, getAnchor())
 };
 
 const getPrivKey = (seed, address) => {
@@ -166,6 +109,19 @@ const setState = (instance, name, value, callback) => {
     instance.setState(obj, callback);
 };
 
+const getUUID = () => {
+    const pathArray = window.location.pathname.split('/');
+    return pathArray.length === 2 && pathArray[1].length ? pathArray[1] : null;
+};
+
+const getRandomMnemonicIndex = () => {
+  return Math.floor(Math.random() * Math.floor(24));
+};
+
+const inputClasses = (valid) => {
+    return ["form-control", !valid ? 'is-invalid' : ''].join(' ')
+};
+
 export {
     getPrivKey,
     hexView,
@@ -175,12 +131,13 @@ export {
     dropLocation,
     getFullAdrress,
     setState,
-    generateSeed,
     encryptSeed,
-    decryptSeed,
     cryptoCheck,
-    decryptSeedWithCheckAnchor,
     enctryptSeedWithCheckAnchor,
-    generateSeedWithCheckAnchor,
     MNEMONICS_BITS,
+    getUUID,
+    getAnchor,
+    getRandomMnemonicIndex,
+    inputClasses,
+    TG_LINK
 }

@@ -1,0 +1,12 @@
+.Mnemonics_list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 160px;
+}
+
+@media (max-width: 500px) {
+    .Mnemonics_list {
+        height: 280px;
+    }
+}

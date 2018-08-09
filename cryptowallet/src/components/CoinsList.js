@@ -1,13 +1,12 @@
 import React from 'react';
 import { coins } from '../assets';
-import { t } from '../utils/translate';
 
 const CoinsList = (props) => {
-    const { onChange, onSave, value, filterKey, disabled } = props;
+    const { onChange, value, filterKey, disabled } = props;
     return (
         <div className="form-group">
             <div className="input-group">
-                <select className="form-control"
+                <select className="Select"
                         id="coinsList"
                         onChange={(e) => {
                             onChange({coin: parseInt(e.target.value, 10)})
@@ -18,11 +17,6 @@ const CoinsList = (props) => {
                         <option value={e.id} key={`coin-name-${e.name}`}>{e.name}</option>
                     ))}
                 </select>
-                <div className="input-group-append">
-                    <button className="btn btn-primary" onClick={onSave}>
-                        {t('Manual creation')}
-                    </button>
-                </div>
             </div>
         </div>
     )

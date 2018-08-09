@@ -1,0 +1,102 @@
+import bip39 from 'bip39';
+import CryptoJS from "crypto-js";
+import legacy from './legacy';
+import {
+    ENCRYPTED_BY_ANCHOR,
+    ENCRYPTED_WITHOUT_ANCHOR
+} from "../../assets/messages";
+
+
+const MNEMONICS_BITS = 256;
+const WITH_ANCHOR_FLAG = '03';
+const WITHOUT_ANCHOR_FLAG = '04';
+const FLAG_SLICE = -2;
+const IV_LENGTH = 32;
+const WORD_ARRAY_LENGTH = 16;
+const INVALID_PASSWORD_ERROR = 'Invalid password';
+const ANCHOR_SLICE = -8;
+const ANCHOR_FLAG_SLICE = ANCHOR_SLICE + FLAG_SLICE;
+
+
+const tryDecrypt = (func) => {
+    try {
+        const bytes = func();
+        const string = CryptoJS.enc.Utf8.stringify(bytes);
+        return [
+            string !== '' ? null : INVALID_PASSWORD_ERROR,
+            string !== '' ? string : null
+        ]
+    } catch (e) {
+        return [INVALID_PASSWORD_ERROR, null]
+    }
+
+};
+
+const encryptSeed = (seedHex, password, anchor) => {
+    let passwordWordArray = CryptoJS.SHA256(password);
+    let flag = WITHOUT_ANCHOR_FLAG;
+    let anchorHash = '';
+    if (anchor) {
+        passwordWordArray = CryptoJS.HmacSHA256(password, anchor);
+        flag = WITH_ANCHOR_FLAG;
+        anchorHash = CryptoJS.SHA256(anchor.toString()).toString().slice(ANCHOR_SLICE)
+    }
+    const iv = CryptoJS.lib.WordArray.random(WORD_ARRAY_LENGTH);
+    const encryptedSeedHex = CryptoJS.AES.encrypt(seedHex, passwordWordArray, {iv: iv}).toString();
+    return encryptedSeedHex + iv.toString() + anchorHash + flag;
+};
+
+const decryptSeed = (text, password, anchor) => {
+    const flag = text.slice(FLAG_SLICE);
+    // Old version capability
+    if (legacy[flag] !== undefined) {
+        return legacy[flag](text, flag, password, anchor)
+    }
+
+    if (anchor && flag === WITH_ANCHOR_FLAG) {
+        const anchorHashSlice = CryptoJS.SHA256(anchor.toString()).toString().slice(ANCHOR_SLICE);
+        if (anchorHashSlice !== text.slice(ANCHOR_FLAG_SLICE, FLAG_SLICE)) {
+            return ["Invalid anchor", null]
+        }
+    }
+
+    text = text.slice(0, anchor ? ANCHOR_FLAG_SLICE : FLAG_SLICE);
+    if (!anchor && flag === WITH_ANCHOR_FLAG) {
+        return [ENCRYPTED_BY_ANCHOR, null]
+    }
+    if (anchor && flag === WITHOUT_ANCHOR_FLAG) {
+        return [ENCRYPTED_WITHOUT_ANCHOR, null]
+    }
+
+    let passwordHash = CryptoJS.SHA256(password);
+    if (anchor) {
+        passwordHash = CryptoJS.HmacSHA256(password, anchor);
+    }
+    return tryDecrypt(() => {
+        const ivHex = text.slice(-1 * IV_LENGTH);
+        const iv = CryptoJS.enc.Hex.parse(ivHex);
+        const encryptedSeedHex = text.slice(0, text.length - IV_LENGTH);
+        return CryptoJS.AES.decrypt({ciphertext: CryptoJS.enc.Base64.parse(encryptedSeedHex)}, passwordHash, {iv: iv});
+
+    })
+};
+
+const generateSeedObj = ({ password, mnemonics=null, salt=null, seed=null, anchor }) => {
+    mnemonics = mnemonics ? mnemonics : bip39.generateMnemonic(MNEMONICS_BITS);
+    const hex = seed ? seed : bip39.mnemonicToSeedHex(mnemonics, salt);
+    const encrypted = encryptSeed(hex, password, anchor);
+    return { mnemonics, hex, encrypted }
+};
+
+const generateMnemonics = () => {
+    return bip39.generateMnemonic(MNEMONICS_BITS)
+};
+
+export {
+    encryptSeed,
+    decryptSeed,
+    generateSeedObj,
+    generateMnemonics,
+    tryDecrypt,
+    FLAG_SLICE
+}
