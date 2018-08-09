@@ -53,7 +53,7 @@ const translates = {
     "File is not json or invalid": "Invalid file format",
     "Download offline version": "Download the offline version",
     "INVALID_REQUEST": "Invalid request",
-    "INVALID_UUID": "This link does not exist or expired. Get a new link from Telegram bot",
+    "INVALID_UUID": "This link does not exist or expired. Get a new link from Telegram bot with \"Refresh link\" button",
     "SORRY": "Try again later",
     "CRYPTO_FALSE": "Your browser does not support crypto-libraries. Install the latest version of Chrome, Firefox or Safari.",
     "Passwords not matched": "Passwords do not match",
@@ -72,6 +72,7 @@ const translates = {
     "Invalid mnemonics": "Recovery phrase is invalid",
     "CANNOT_SCORE_PASSWORD": "Passwords match. Password complexity score is unavailable since characters other than the letters of the Latin alphabet, digits and !\"#$%&'()*+,-./:;<=>?@[]^_`{|}~' were used",
     "QR-key": "QR key",
+    "Transaction sign": "Signed transaction"
 };
 
 export default translates;

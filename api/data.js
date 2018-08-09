@@ -434,6 +434,35 @@ const legacyPassword = {
     description: 'Change wallet password legacy'
 };
 
+// 18
+// issue https://github.com/WMSCrypto/WMSCrypto/issues/23
+// #lF0BGL8vuRpiGtHuSEYrcxyvZSUEBqrpyWGykGyNS7iPSg0iw0S0kzAEwYzm2Hvo&DWTBSdg7bO6vXZHy8zDh5vT8kcVK8k3PRTgnqrP/4dE=
+const issue_23 = {
+    request: {
+        action: 'CWP',
+        data: {
+            coin : 60,
+            account: 0,
+            change: 0,
+            address: 0,
+            nonce : 19,
+            gasPrice : 141000000000,
+            gasLimit : 93800,
+            to : "0x9992ec3cf6a55b00978cddf2b27bc6882d88d1ec",
+            value : '0',
+            data : "0xa9059cbb0000000000000000000000007c86777104c0f985b090df30d835d873d955e4a200000000000000000000000000000000000000000000000ad78ebc5ac6200000",
+            lang: 'ru',
+            anchor_password: 'f7aeaae350257f9dec10cd90de10bf3ae1b4294020bc768adbcc20bbfba0b32d',
+            new_anchor_hash: '93be53bcd080f1c9741c33dfd933cd616ebb8461d5b4a10bbf50e594471e378a',
+            anchor_iv: 'e09ad0f43d03a22f2e65a604f00df929',
+            anchor_hash: 'c09c32ff560cd2cd78b270312325af8f11fdaec7e6758e9705ae34a66a39fe64',
+        },
+    },
+    response: {
+    },
+    description: 'Change wallet password legacy'
+};
+
 module.exports = {
     '0': normalCreateWalletRu,
     '1': normalCreateWalletEn,
@@ -453,4 +482,5 @@ module.exports = {
     '15': issue17erc20exchange,
     '16': issue16ETHexchange,
     '17': legacyPassword,
+    '18': issue_23,
 };
