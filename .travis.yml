@@ -16,7 +16,7 @@ script:
   - yarn test
 
 before_deploy:
-  - yarn build
+  - WMS_VERSION=$(git tag | tail -1) yarn build
   - cd offline && node build.js && cd ../..
   - mkdir release
   - tar -zcf release/wms_online_$(git tag | tail -1).tar.gz cryptowallet/build
