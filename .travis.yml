@@ -31,7 +31,3 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
-
-  - provider: script
-    on:
-      branch: develop
