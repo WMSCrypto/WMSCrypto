@@ -1,0 +1,30 @@
+.TransactionViewControl {
+    align-items: center;
+    display: flex;
+    justify-content: space-around;
+    margin: 0 0 16px 0;
+    width: 100%;
+}
+.TransactionViewControl > div {
+    align-items: center;
+    color: #6c757d;
+    padding: 0 0 8px 0;
+    text-align: center;
+    width: 50%;
+}
+
+.TransactionViewControl > div:hover {
+    cursor: pointer;
+}
+
+.TransactionViewControl > div.active {
+    align-items: center;
+    color: #000000;
+    font-weight: 600;
+    border-bottom: 2px solid black;
+    width: 50%;
+}
+
+.TransactionDeleteInputGroup {
+    text-align: right;
+}

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Card from "../Cards/Card";
 import QrReader from 'react-qr-reader';
 import WalletImageLocker from "./WalletImageLocker";
-import { t } from "../../utils/translate";
+import define from '../../core/define';
+import stepWrapper from "../../core/stepWrapper";
+import T from "../T";
 
 const REF_QR = 'qrReader';
 
@@ -36,33 +37,35 @@ class WalletImageReader extends Component {
 
     render() {
         const { encryptedString, error } = this.state;
-        const { onUnlock, seed } = this.props;
+        const { setResult, getStepResult, next } = this.props;
+        const warningUpdate = next.name === define.steps.signTransaction.name;
+        const { anchor } = this.props.common;
+        const seed = getStepResult(define.steps.unlockKey);
         return (
             <React.Fragment>
-                <Card>
-                    <WalletImageLocker seed={seed}
-                                       encryptedString={encryptedString}
-                                       onUnlock={onUnlock}/>
-                    <QrReader ref={REF_QR}
-                              legacyMode={true}
-                              onScan={this.handleScan}
-                              onError={(error) => {}}
-                              style={{ display: 'none', width: '100%' }}/>
-                    {!seed
-                        ? <button className="btn btn-outline-primary"
-                                  onClick={this.openImageDialog}>{t("Upload QR-key")}</button>
-                        : null
-                    }
-                    {error ? <span className="text-danger"> {t("QR code cannot be readied")}</span> : null}
-                </Card>
+                <WalletImageLocker seed={seed}
+                                   anchor={anchor}
+                                   encryptedString={encryptedString}
+                                   onUnlock={setResult}
+                                   warningUpdate={warningUpdate}/>
+                <QrReader ref={REF_QR}
+                          legacyMode={true}
+                          onScan={this.handleScan}
+                          onError={(error) => {}}
+                          style={{ display: 'none', width: '100%' }}/>
+                {!seed
+                    ? <button className="btn btn-outline-primary"
+                              onClick={this.openImageDialog}><T>Upload QR-key</T></button>
+                    : null
+                }
+                {error ? <span className="text-danger"> <T>QR code cannot be readied</T></span> : null}
             </React.Fragment>
         )
     }
 }
 
 WalletImageReader.propTypes = {
-    onUnlock: PropTypes.func.isRequired,
     seed: PropTypes.string
 };
 
-export default WalletImageReader
+export default stepWrapper(define.steps.unlockKey)(WalletImageReader);

@@ -1,5 +1,3 @@
-import { getOperationDataHandlers } from "./handlers";
-
 const API_ENDPOINT = process.env.API_ENDPOINT || '';
 
 const _prepareResult = response => {
@@ -10,28 +8,44 @@ const _prepareResult = response => {
     }
 };
 
-const getOperation = (uuid, component) => {
-    const [onSuccess, onError] = getOperationDataHandlers(component);
+const fetchOperation = (uuid, onSuccess, onError) => {
     fetch(`${API_ENDPOINT}/api/operations/${uuid}`)
-    .then(_prepareResult)
-    .then(result => {
-        if (typeof result === 'number') {
-            onError(result)
-        } else {
-            onSuccess(result)
-        }
-    })
-    .catch(err => {
-        console.log(err);
-        onError(err);
-    })
+        .then(_prepareResult)
+        .then(result => {
+            if (typeof result === 'number') {
+                onError({code: result})
+            } else {
+                onSuccess(result)
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            onError(err);
+        })
 };
 
-const updateOperation = (uuid, data) => {
-
+const updateOperation = (uuid, data, onSuccess, onError) => {
+    fetch(`${API_ENDPOINT}/api/operations/${uuid}`,
+        {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({data})
+        })
+        .then(_prepareResult)
+        .then(result => {
+            if (typeof result === 'number') {
+                onError({code: result})
+            } else {
+                onSuccess(result)
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            onError(err);
+        })
 };
 
 export {
-    getOperation,
+    fetchOperation,
     updateOperation
 }

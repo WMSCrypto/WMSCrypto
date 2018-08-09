@@ -1,79 +1,98 @@
 import React, { Component } from 'react';
 import zxcvbn from 'zxcvbn';
-import Card from "./Cards/Card";
-import PasswordInput from "./PasswordInput";
-
-import { t } from '../utils/translate';
+import PasswordInput from "./inputs/PasswordInput";
+import define from "../core/define";
+import stepWrapper from '../core/stepWrapper';
 
 const PASSWORD_LENGTH = 8;
 
-const validatePassword = (password) => {
-    const { warning, suggestions } = zxcvbn(password).feedback;
-    return [
-        warning,
-        ...suggestions,
-        ...[password.length <= PASSWORD_LENGTH ? t('Password length must be 8 or more.') : '']
-    ];
+const validatePassword = (password, isEN) => {
+
+    const passwordLength = password.length <= PASSWORD_LENGTH ? 'Password length must be more 8 symbols.' : '';
+    let messages, score;
+    if (isEN) {
+        const check = zxcvbn(password);
+        const { warning, suggestions } = check.feedback;
+        messages = [
+            warning,
+            ...suggestions,
+            ...[passwordLength]
+        ];
+        score = check.score;
+    } else {
+        messages = [passwordLength];
+        score = null;
+    }
+    return {messages, score}
+};
+
+const getInitialState = ({ result }) => {
+    return {
+        password: result || '',
+        passwordRepeat: result || '',
+    }
 };
 
 class CreatePassword extends Component {
 
     constructor(props) {
         super(props);
-        this.state ={
-            password: '',
-            passwordRepeat: '',
-        }
+        this.state = getInitialState(props)
     }
 
     onChange(obj) {
-        const { setPassword } = this.props;
+        const { setResult } = this.props;
         this.setState(obj, () => {
             const { password, passwordRepeat } = this.state;
-            const strong = password.length > PASSWORD_LENGTH && !validatePassword(password).join("").length;
-            // Comment up and uncomment down string for faster develop
-            // const strong = true;
-            if (password === passwordRepeat) {
-                setPassword(strong ? password : null);
+            let strong;
+            if (define.debug) {
+                strong = true;
+            } else {
+                strong = password.length > PASSWORD_LENGTH && !validatePassword(password).messages[0].length;
             }
-            if (password && passwordRepeat && password !== passwordRepeat) {
-                setPassword(null);
+            const bothPasswordsExists = password && passwordRepeat;
+            if (bothPasswordsExists && password === passwordRepeat && strong) {
+                setResult(password);
+            } else {
+                setResult(null)
             }
         })
-
     }
 
     render() {
         const { password, passwordRepeat } = this.state;
-        const { children, disabled } = this.props;
-        const validateMessages = password && validatePassword(password);
+        const { children, result } = this.props;
+        const isEN = /^[0-9a-zA-Z!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ ]*$/.test(password);
+        const { messages: validateMessages, score } = password && validatePassword(password, isEN);
+        let messageIfValid;
+        if (score !== null) {
+            messageIfValid = `Password match. Score of strength password is ${score} or 4`;
+        } else {
+            messageIfValid = "CANNOT_SCORE_PASSWORD"
+        }
         const notMatch = passwordRepeat && password !== passwordRepeat;
-        const passwordStepApprove = password && passwordRepeat && password === passwordRepeat;
-        const inputAttrs = disabled ? {disabled: true} : {};
         return (
-            <Card>
-                <PasswordInput label={t("New password")}
+            <React.Fragment>
+                <PasswordInput label="New password"
                                placeholder=""
                                onChange={(e) => this.onChange({password: e.target.value})}
                                value={password}
                                messages={validateMessages}
-                               valid={passwordStepApprove}
-                               id="inputPassword"
-                               inputAttrs={inputAttrs}/>
-                <PasswordInput label={t("Repeat new password")}
+                               valid={result}
+                               id="inputPassword"/>
+                <PasswordInput label="Repeat new password"
                                placeholder=""
                                value={passwordRepeat}
                                onChange={(e) => this.onChange({passwordRepeat: e.target.value})}
-                               messages={notMatch && [t('Passwords not matched')]}
+                               messages={notMatch && ['Passwords not matched']}
                                invalid={notMatch}
-                               valid={passwordStepApprove}
-                               validMessage={t('Passwords match and have strong security.')}
-                               id="repeatPasswordInput"
-                               inputAttrs={inputAttrs}/>
+                               valid={result}
+                               validMessage={messageIfValid}
+                               id="repeatPasswordInput"/>
                 {children || null}
-            </Card>
+            </React.Fragment>
         )
     }
 }
 
-export default CreatePassword;
+export default stepWrapper(define.steps.createPassword)(CreatePassword);

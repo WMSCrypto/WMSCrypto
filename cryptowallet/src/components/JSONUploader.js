@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import T from "./T";
 
 
 class JSONUploader extends Component {
@@ -7,7 +8,8 @@ class JSONUploader extends Component {
         super(props);
         this.state = {
             invalidMessage: null
-        }
+        };
+        this.onChange = this.onChange.bind(this);
     }
 
     onChange(e) {
@@ -23,26 +25,25 @@ class JSONUploader extends Component {
                     }
                 });
                 this.setState({invalidMessage: null}, onValid(data))
-
             } catch (e) {
-                this.setState({invalidMessage: 'File is not json or invalid'})
+                this.setState({invalidMessage: 'File is not json or invalid'}, onValid(null))
             }
         };
         reader.readAsText(file)
     }
 
     render() {
-        const { title, disabled=false } = this.props;
+        const { disabled=false } = this.props;
         const { invalidMessage } = this.state;
         return (
             <div className="form-group" style={{overflow: 'hidden'}}>
-                <label htmlFor="mnemonicsInput">{title}</label>
                 <input type="file"
                        className="form-control-file"
-                       id="mnemonicsInput" onChange={(e) => {this.onChange(e)}}
-                       disabled={disabled}/>
+                       onChange={this.onChange}
+                       disabled={disabled}
+                       accept="application/json"/>
                 {invalidMessage
-                    ? <small className="text-danger">{invalidMessage}</small>
+                    ? <small className="text-danger"><T>{invalidMessage}</T></small>
                     : null
                 }
             </div>

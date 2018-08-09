@@ -1,7 +1,9 @@
-export default [
-    {name: 'Bitcoin', id : 0, txEnable: true},
+/*
+    Coins names and ids:
+
+    {name: 'Bitcoin', id : 0},
     {name: 'Litecoin', id : 2},
-    {name: 'Ethereum', id : 60, txEnable: true},
+    {name: 'Ethereum', id : 60},
     {name: 'Dash', id : 5},
     {name: 'Ethereum Classic', id : 61},
     {name: 'Bitcoin Cash', id : 145},
@@ -12,4 +14,8 @@ export default [
     {name: 'Monero', id : 128},
     {name: 'Ripple', id : 144},
     {name: 'Bitcoin SegWit', id: 0, purpose: 49}
+*/
+export default [
+    {name: 'Bitcoin', id : 0, txEnable: true},
+    {name: 'Ethereum', id : 60, txEnable: true},
 ]
