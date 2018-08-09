@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Menu from "./Menu";
 import { changeApp } from "../../core/actions/commonActions";
 import define from '../../core/define'
-import { t } from '../../utils/translate/index';
 import T from "../T";
 import { TG_LINK } from "../../utils";
 

@@ -43,7 +43,7 @@ class WalletImageLocker extends Component {
 
     componentWillReceiveProps(newProps) {
         if (newProps.encryptedString !== this.props.encryptedString) {
-            const [error, _] = decryptSeed(newProps.encryptedString, '', newProps.anchor)
+            const [error, _] = decryptSeed(newProps.encryptedString, '', newProps.anchor);
             this.setState({
                 error: error === 'Invalid anchor' ? error : false
             })
@@ -99,7 +99,7 @@ class WalletImageLocker extends Component {
                     <p className={`text-${unlock ? 'primary' : 'danger'}`}>
                         <T>{unlock ? 'Unlocked' : 'Locked'}</T>
                     </p>
-                    {unlock && (warningUpdate && encryptedString && parseInt(encryptedString.slice(-2)) < 3) ? <T>__UPDATE_QR</T> : null}
+                    {unlock && (warningUpdate && encryptedString && parseInt(encryptedString.slice(-2), 10) < 3) ? <T>__UPDATE_QR</T> : null}
                 </div>
                 {!unlock ? this._renderPasswordInput() : null}
             </div>

@@ -17,7 +17,7 @@ const parse = (exchange_info, token_info, data, value, receiver, manual ) => {
     if (manual) {
         return result
     }
-    const vInt = value ? parseInt(value) : 0;
+    const vInt = value ? parseInt(value, 10) : 0;
     const [ err, parsed ] = data ? erc20({data, ...token_info}) : [null, null];
     if (vInt > 0 && exchange_info) {
         result.receiver = null;

@@ -1,6 +1,6 @@
 const erc20 = {
     "0x18160ddd" : [
-        ([]) => "totalSupply()",
+        () => "totalSupply()",
         []
     ],
     "0x70a08231" : [

@@ -2,7 +2,6 @@ import React from 'react';
 import stepWrapper from "../../core/stepWrapper";
 import define from "../../core/define";
 import T from "../T";
-import { messages } from "../../assets";
 import PreviousButton from "../buttons/PreviousButton";
 
 class SaveNewPassword extends React.Component {
