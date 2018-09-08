@@ -4,6 +4,9 @@ import { coins } from "../assets";
 import stepWrapper from "../core/stepWrapper";
 import define from "../core/define";
 import T from "./T";
+import PreviousButton from "./buttons/PreviousButton";
+import NextButton from "./buttons/NextButton";
+import DownloadButton from "./buttons/DownloadButton";
 
 const setProgress = (l1, l2, message, visible=false) => {
     const percents = ((l1 / (l2 - 1)) * 100).toFixed(2);
@@ -55,15 +58,28 @@ class AccountsGenerator extends Component {
     }
 
     render() {
-        const { result } = this.props;
+        const { result, nextStep, previousStep, uuid, next } = this.props;
         return(
-            <div className="AccountGenerator">
-                <p><T>Public keys allow to get the balance of the wallet and compose unsigned transactions but do not have enough rights to move cryptoassets from the wallet. Only public keys will be shared with WMSCrypto servers.</T></p>
-                <small id="generatedCoin">{result ? <T>All pubkeys was generated successful</T> : null}</small>
-                <div className="progress">
-                    <div id="generateProgress" className="progress-bar" style={{width: result ? '100%' : '0%'}}/>
+            <React.Fragment>
+                <div className="AccountGenerator">
+                    <p><T>Public keys allow to get the balance of the wallet and compose unsigned transactions but do not have enough rights to move cryptoassets from the wallet. Only public keys will be shared with WMSCrypto servers.</T></p>
+                    <small id="generatedCoin">{result ? <T>All pubkeys was generated successful</T> : null}</small>
+                    <div className="progress">
+                        <div id="generateProgress" className="progress-bar" style={{width: result ? '100%' : '0%'}}/>
+                    </div>
                 </div>
-            </div>
+                <div className="Step_controls">
+                    <PreviousButton onClick={() => previousStep()}/>
+                    {uuid
+                        ? <NextButton onClick={() => nextStep(next.name)}/>
+                        : <DownloadButton disabled={!result}
+                                          id="saveWalletsOffline"
+                                          obj={{accounts: result ? result.map(e => [e.coin.id, e.node.neutered().toBase58()]) : []}}>
+                            <T>Download</T>
+                          </DownloadButton>
+                    }
+                </div>
+            </React.Fragment>
         )
     }
 }

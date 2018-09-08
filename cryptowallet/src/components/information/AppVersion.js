@@ -9,6 +9,9 @@ const AppVersion = () => {
                     ? <small>{`version ${process.env.WMS_VERSION}`}</small>
                     :null
             }
+            {
+                define.debug ? <small>DEBUG</small> : null
+            }
         </div>
     )
 };

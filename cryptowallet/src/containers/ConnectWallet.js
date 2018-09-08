@@ -16,8 +16,8 @@ class ConnectWallet extends Component {
             <StepCounter>
                 <MnemonicsInput first={true} next={define.steps.createPassword}/>
                 <CreatePassword next={define.steps.generateImage}/>
-                <CreateImage next={!!uuid && define.steps.generateXpub}/>
-                <AccountsGenerator next={define.steps.saveWallets} onlyOnline={true}/>
+                <CreateImage next={define.steps.generateXpub}/>
+                <AccountsGenerator next={uuid && define.steps.saveWallets} last={!uuid} controls={false}/>
                 <SaveWallets onlyOnline={true} controls={false} last={true}/>
             </StepCounter>
         )

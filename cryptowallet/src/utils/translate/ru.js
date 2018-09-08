@@ -1,4 +1,6 @@
 const translates = {
+    "Download": "Скачать",
+    "You should never store this QR Key on the devices with Internet access.": "Данный QR-ключ должен храниться только на устройстве без выхода в интернет.",
     "Exchange": "Обмен",
     "You receive": "Вы получите",
     "Save new password": "Сохранить новый пароль",

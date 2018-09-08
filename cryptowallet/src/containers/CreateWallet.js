@@ -17,8 +17,8 @@ const CreateWallet  = ({ common }) => {
             <CreatePassword first={true} next={define.steps.generateMnemonics}/>
             <MnemonicsList next={define.steps.askMnemonic}/>
             <MnemonicCheck next={define.steps.generateImage}/>
-            <CreateImage next={!!uuid && define.steps.generateXpub}/>
-            <AccountsGenerator next={define.steps.saveWallets} onlyOnline={true}/>
+            <CreateImage next={define.steps.generateXpub}/>
+            <AccountsGenerator next={uuid && define.steps.saveWallets} last={!uuid} controls={false}/>
             <SaveWallets onlyOnline={true} controls={false} last={true}/>
         </StepCounter>
     )

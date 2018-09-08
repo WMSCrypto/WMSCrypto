@@ -31,12 +31,16 @@ class CreateImage extends Component {
     }
 
     render() {
-        const { result } = this.props;
+        const { result, uuid } = this.props;
+        const messageTop = uuid
+            ? "QR Key is required for day-to-day use of your wallet. Take a screenshot or save it as a photo."
+            : "You should never store this QR Key on the devices with Internet access.";
+        const messageBottom = '*QR Key is protected by your password and password of WMSCrypto, thus it may be safely kept on the devices with Internet access';
         return result
             ? <div>
-                <p><T>QR Key is required for day-to-day use of your wallet. Take a screenshot or save it as a photo.</T></p>
+                <p><T>{messageTop}</T></p>
                 <WalletImageGenerator seed={result}/>
-                <p><small><T>*QR Key is protected by your password and password of WMSCrypto, thus it may be safely kept on the devices with Internet access</T></small></p>
+                {uuid ? <p><small><T>{messageBottom}</T></small></p> : null}
               </div>
             : null
     }
