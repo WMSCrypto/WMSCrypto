@@ -10,14 +10,14 @@ const save = (obj, id) => {
 };
 
 const DownloadButton = (props) => {
-    const { title, obj, id } = props;
+    const { children, obj, id } = props;
     return (
         <div>
             <a id={id}>
             <button type="button"
-                    className="btn btn-outline-secondary btn-sm"
+                    className="btn btn-primary"
                     onClick={() => {save(obj, id)}}>
-                {title}
+                {children}
             </button>
             </a>
         </div>

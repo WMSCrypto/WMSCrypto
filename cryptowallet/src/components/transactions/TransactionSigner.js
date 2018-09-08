@@ -6,6 +6,7 @@ import bitcoinSigner from "./bitcoin/bitcoinSigner";
 import ethereumSigner from "./ethereum/ethereumSigner";
 import PreviousButton from "../buttons/PreviousButton";
 import T from "../T";
+import DownloadButton from "../buttons/DownloadButton";
 
 const signers = {
     0: bitcoinSigner,
@@ -38,7 +39,9 @@ export default stepWrapper(define.steps.signTransaction)(
                                   onClick={() => _onSave({...props, transaction})}>
                             <T>Send</T>
                           </button>
-                        : null
+                        : <DownloadButton id="downloadTransaction" obj={transaction}>
+                            <T>Download</T>
+                          </DownloadButton>
                     }
                 </div>
 
