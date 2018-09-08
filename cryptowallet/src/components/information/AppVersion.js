@@ -1,11 +1,14 @@
 import React from 'react';
+import define from '../../core/define'
 
 const AppVersion = () => {
     return (
         <div className="version">
-            <small>
-                {process.env.WMS_VERSION ? `version ${process.env.WMS_VERSION}` : 'development mode'}
-            </small>
+            {
+                define.wms_version && define.offline
+                    ? <small>{`version ${process.env.WMS_VERSION}`}</small>
+                    :null
+            }
         </div>
     )
 };

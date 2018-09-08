@@ -3,7 +3,7 @@ import { getUUID, cryptoCheck } from "../../utils";
 import { setLang } from "../../utils/translate";
 
 const initialState = {
-    lang: 'ru',
+    lang: 'en',
     application: null,
     data: null,
     uuid: getUUID(),

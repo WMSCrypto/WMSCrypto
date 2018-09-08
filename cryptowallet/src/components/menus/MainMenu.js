@@ -6,7 +6,6 @@ import define from '../../core/define'
 import T from "../T";
 import { TG_LINK } from "../../utils";
 
-const OFFLINE_MODE = !window.location.hostname;
 const { CW, AW, CWP, MT } = define.apps;
 
 const mapStateToProps = (state) => {
@@ -68,7 +67,7 @@ const OnlineMenu = () => {
 
 
 const MainMenu = (props) => {
-    return OFFLINE_MODE || !process.env.WMS_VERSION ? <OfflineMenu {...props}/> : <OnlineMenu {...props}/>
+    return define.offline || define.debug ? <OfflineMenu {...props}/> : <OnlineMenu {...props}/>
 };
 
 export default MainMenu;
