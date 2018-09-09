@@ -41,7 +41,7 @@ const Header = ({ application, uuid, lang, goToMainMenu, reloadApplication, chan
     return (
         <div className="AppHeader">
             <div>
-                <h1>wmscrypto</h1>
+                <h1>WMSCrypto</h1>
                 <AppVersion/>
             </div>
             <div className="HeaderMenu">
