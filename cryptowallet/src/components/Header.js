@@ -6,6 +6,7 @@ import { reloadApplication } from "../core/actions/stepsActions";
 import define from '../core/define';
 import { t } from '../utils/translate';
 import AppVersion from "./information/AppVersion";
+import T from "./T";
 
 const SHOW_LANG_MENU = true;
 const { EN, RU } = define.languages;
@@ -56,14 +57,14 @@ const Header = ({ application, uuid, lang, goToMainMenu, reloadApplication, chan
                     ?   <button type="button"
                                 className="btn btn-danger btn-sm"
                                 onClick={reloadApplication}>
-                        {t("Restart")}
+                        <T>Restart</T>
                         </button>
                     : null}
                 {application && !uuid
                     ?   <button type="button"
                                 className="btn btn-outline-secondary btn-sm"
                                 onClick={goToMainMenu}>
-                        {t("Menu")}
+                        <T>Menu</T>
                         </button>
                     : null}
             </div>
