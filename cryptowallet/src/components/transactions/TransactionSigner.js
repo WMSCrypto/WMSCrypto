@@ -39,7 +39,7 @@ export default stepWrapper(define.steps.signTransaction)(
                                   onClick={() => _onSave({...props, transaction})}>
                             <T>Send</T>
                           </button>
-                        : <DownloadButton id="downloadTransaction" obj={transaction}>
+                        : <DownloadButton id="downloadTransaction" obj={transaction} name="signed_tx">
                             <T>Download</T>
                           </DownloadButton>
                     }

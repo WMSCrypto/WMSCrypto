@@ -4,7 +4,6 @@ import Card from './Cards/Card';
 import LastStepButton from './buttons/LastStepButton';
 import CreatePassword from "./CreatePassword";
 import AccountsGenerator from "./AccountsGenerator";
-import TxSigner from "./TxSigner";
 import JSONUploader from "./JSONUploader";
 
 export {
@@ -14,6 +13,5 @@ export {
     LastStepButton,
     CreatePassword,
     AccountsGenerator,
-    TxSigner,
     JSONUploader,
 }

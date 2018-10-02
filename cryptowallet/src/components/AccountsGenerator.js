@@ -74,6 +74,7 @@ class AccountsGenerator extends Component {
                         ? <NextButton onClick={() => nextStep(next.name)}/>
                         : <DownloadButton disabled={!result}
                                           id="saveWalletsOffline"
+                                          name="pubkeys"
                                           obj={{accounts: result ? result.map(e => [e.coin.id, e.node.neutered().toBase58()]) : []}}>
                             <T>Download</T>
                           </DownloadButton>
