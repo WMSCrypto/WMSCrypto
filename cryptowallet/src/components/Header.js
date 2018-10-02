@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { changeLanguage, changeApp } from "../core/actions/commonActions";
 import { reloadApplication } from "../core/actions/stepsActions";
 import define from '../core/define';
-import { t } from '../utils/translate';
 import AppVersion from "./information/AppVersion";
 import T from "./T";
 
