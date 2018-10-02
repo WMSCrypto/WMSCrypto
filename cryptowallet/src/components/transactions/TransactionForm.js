@@ -53,8 +53,9 @@ class TransactionForm extends React.Component {
 
     constructor(props) {
         super(props);
+        const result = props.getStepResult(define.steps.choiceTransactionSource);
         this.state = {
-            fullView: !props.online
+            fullView: result && result.method === define.methods.c
         }
     }
 
