@@ -1,5 +1,7 @@
 import EthereumTx from "ethereumjs-tx";
 import { HDNode } from "bitcoinjs-lib";
+import { BigNumber } from 'bignumber.js';
+
 
 const getPrivateKey = (seed, address) => {
     const node = HDNode.fromSeedHex(seed);
@@ -18,7 +20,7 @@ const hexView = (v) => {
     if (v === '') {
         return '0x'
     } else {
-        const intValue = Number.isInteger(v) ? v : parseInt(v, 10);
+        const intValue = new BigNumber(v);
         const str = intValue.toString(16);
         return `0x${str.length % 2 === 1 ? '0' : ''}${str}`
     }
@@ -27,7 +29,7 @@ const hexView = (v) => {
 const getETXTxData = (nonce, value, gasPrice, gasLimit, to, data, chainId=1) => {
     return {
         nonce: hexView(nonce),
-        value: hexView(Math.pow(10, 18) * parseFloat(value)),
+        value: hexView(value),
         gasPrice: hexView(gasPrice),
         gasLimit: hexView(gasLimit),
         to: to,

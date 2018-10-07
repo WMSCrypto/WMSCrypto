@@ -66,7 +66,7 @@ export default (step) => (WrappedComponent) => {
             }
             const { name, display } = step;
             const { current, components, count, stepNumber } = this.props.steps;
-            const { controls=true, next, nextStep, previousStep, last=false } = this.props;
+            const { controls=true, next, nextStep, previousStep, last=false, canToPrevious=true } = this.props;
             const requestSend = this.props.common.error || this.props.common.result;
             const component = components[name];
             if (current === name && component && !requestSend) {
@@ -81,8 +81,10 @@ export default (step) => (WrappedComponent) => {
                                           name={name}
                                           uuid={online}/>
                         <div className="Step_controls">
-                            {controls && previous ? <PreviousButton onClick={() => previousStep()}
-                                                                    disabled={!previous}/> : null}
+                            {(controls && previous && canToPrevious)
+                                ? <PreviousButton onClick={() => previousStep()} disabled={!previous}/>
+                                : null
+                            }
                             {controls && next && !last ? <NextButton onClick={() => nextStep(next.name)}
                                                                      disabled={!result}/> : null}
                         </div>

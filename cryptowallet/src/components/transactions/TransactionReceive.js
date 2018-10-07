@@ -9,6 +9,6 @@ export default ({ exchangeInfo }) => {
         const { value, decimals, symbol } = exchangeInfo;
         return <span className="text-primary"><TransactionField valid={true}
                                  name="You receive"
-                                 value={`${fieldViews.bigView(value, decimals).toString()} ${symbol}`}/></span>
+                                 value={`~ ${fieldViews.bigView(value, decimals).toString()} ${symbol}`}/></span>
     }
 }

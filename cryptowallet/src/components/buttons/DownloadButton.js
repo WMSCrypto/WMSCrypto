@@ -1,23 +1,22 @@
 import React from 'react';
-import sha256 from "crypto-js/sha256";
 
-const save = (obj, id) => {
+const save = (obj, id, name) => {
     const str = JSON.stringify(obj);
     const chatBlob = new Blob([str], {type : 'text/plain;charset=utf-8'});
     const downloadBtn = document.getElementById(id);
     downloadBtn.href = URL.createObjectURL(chatBlob);
-    downloadBtn.download = `${sha256(str).toString()}.json`;
+    downloadBtn.download = `${name}.json`;
 };
 
 const DownloadButton = (props) => {
-    const { children, obj, id, disabled } = props;
+    const { children, obj, id, disabled, name } = props;
     return (
         <div>
             <a id={id}>
             <button type="button"
                     className="btn btn-primary"
                     disabled={!!disabled}
-                    onClick={() => {save(obj, id)}}>
+                    onClick={() => {save(obj, id, name)}}>
                 {children}
             </button>
             </a>

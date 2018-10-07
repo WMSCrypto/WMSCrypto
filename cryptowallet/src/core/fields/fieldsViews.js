@@ -19,9 +19,11 @@ const yesNoView = (v) => {
     return v
 };
 
-const bigView = (value, decimals) => (new BigNumber(value)).multipliedBy(
-    bigTen.pow(new BigNumber(decimals).multipliedBy(-1))
-);
+const bigView = (value, decimals) => {
+    return (new BigNumber(value)).multipliedBy(
+        bigTen.pow(new BigNumber(decimals).multipliedBy(-1))
+    );
+}
 
 export default {
     valueView,
