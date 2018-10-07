@@ -10,6 +10,7 @@ import { fillForm, deleteFormGroup } from "../../core/actions/transactionFormAct
 import T from "../T";
 import './styles/TransactionForm.css';
 import TransactionReceive from "./TransactionReceive";
+import NextButton from "../buttons/NextButton";
 
 const COIN_ID_TO_SYMBOL = {
     0: 'BTC',

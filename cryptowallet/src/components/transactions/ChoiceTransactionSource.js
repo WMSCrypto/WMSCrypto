@@ -12,14 +12,19 @@ class ChoiceTransactionSource extends React.Component {
         super(props);
         const { result={} } = props;
         const results = {};
-        results[define.methods.f] = result ? result.data : null;
-        results[define.methods.c] = result ? result.data : 0;
+        results[define.methods.f] = (result && result.method === define.methods.f)
+            ? result.data
+            : null;
+        results[define.methods.c] = (result && result.method === define.methods.c)
+            ? result.data
+            : 0;
         this.state = {
             method: result ? result.method : define.methods.f,
             results
         };
 
     }
+
     _setResult(data, name) {
         const { setResult } = this.props;
         const { results } = this.state;
