@@ -2,9 +2,10 @@ import React from 'react';
 import TransactionField from "../TransactionField";
 import erc20 from './erc20';
 import fieldViews from '../../../core/fields/fieldsViews';
+import {BigNumber} from "bignumber.js";
 
 const calcFee = ({ gasPrice, gasLimit }) => {
-    const fee = fieldViews.bigView(gasPrice * gasLimit, 18);
+    const fee = fieldViews.bigView(new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)), 18);
     return fee.toString()
 };
 

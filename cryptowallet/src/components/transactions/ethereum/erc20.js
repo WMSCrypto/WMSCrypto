@@ -1,3 +1,5 @@
+import {BigNumber} from "bignumber.js";
+
 const erc20 = {
     "0x18160ddd" : [
         () => "totalSupply()",
@@ -46,7 +48,7 @@ const parse = (tx) => {
             if (arg === 'address') {
                 values.push(`0x${val.slice(24)}`)
             } else if (arg === 'uint256') {
-                values.push(parseInt(val, 16).toString(16))
+                values.push(new BigNumber(val, 16).toString(16))
             } else {
                 throw Error();
             }
@@ -66,7 +68,7 @@ export default ({ data, symbol, decimals }) => {
     let result;
     if (symbol && decimals && parsedCommand && parsedCommand.startsWith('transfer(')) {
         result = {
-            erc20_value: parseInt(values[1], 16),
+            erc20_value: new BigNumber(values[1], 16),
             erc20_receiver: values[0],
             erc20_symbol: symbol,
             erc20_decimals: decimals
